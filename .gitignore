@@ -12,3 +12,6 @@ bin/
 .project
 .settings/
 .classpath
+
+# Ignore Visual Studio Code settings
+settings.json
