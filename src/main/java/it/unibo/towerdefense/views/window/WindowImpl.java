@@ -6,8 +6,11 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.Color;
 
 /**
  * Implementation of BaseView.
@@ -18,15 +21,20 @@ public class WindowImpl implements Window {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final JFrame frame;
+    private final JPanel panel;
     private final int screenWidth;
     private final int screenHeight;
 
     /**
-     * Zero-argument constructorwidth.
+     * Zero-argument constructor.
      */
     public WindowImpl() {
         // create base frame
         this.frame = new JFrame(WindowImpl.WINDOW_TITLE);
+        // create main panel
+        this.panel = new JPanel();
+        this.panel.setBackground(Color.BLACK);
+        this.frame.add(panel);
         // calc and save window dimension
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         this.screenWidth = (int) screen.getWidth() / WindowImpl.PROPORTION;
@@ -79,5 +87,17 @@ public class WindowImpl implements Window {
         // push frame on screen
         this.frame.setVisible(true);
         this.logger.info("Window displayed");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @SuppressFBWarnings(
+        value = { "EI_EXPOSE_REP" },
+        justification = "Only way to access the panel from outside."
+    )
+    public JPanel getPanel() {
+        return this.panel;
     }
 }

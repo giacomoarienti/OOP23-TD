@@ -55,7 +55,7 @@ public class MenuViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public JPanel getContentPane() {
-        return this.pane;
+    public void display(final JPanel container) {
+        container.add(this.pane);
     }
 }

@@ -8,8 +8,9 @@ import javax.swing.JPanel;
 public interface View {
 
     /**
-     * ContentPane getter.
-     * @return the content pane of the View.
+     * Adds itself to the given container.
+     * @param container panel on which the
+     * view will be added
      */
-    JPanel getContentPane();
+    void display(JPanel container);
 }

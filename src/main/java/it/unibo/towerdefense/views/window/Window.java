@@ -12,18 +12,27 @@ public interface Window {
      * @param panel to be set as content
      */
     void setBody(JPanel panel);
+
     /**
      * Width getter.
      * @return Frame width
      */
     int getWidth();
+
     /**
      * Height getter.
      * @return Frame height
      */
     int getHeight();
+
     /**
      * Push content to screen.
      */
     void display();
+
+    /**
+     * Return main container.
+     * @return the main JPanel
+     */
+    JPanel getPanel();
 }

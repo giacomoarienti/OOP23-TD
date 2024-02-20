@@ -35,8 +35,8 @@ public final class TowerDefense {
         final GameController gameController = new GameControllerImpl();
         // create menu view and bind game controller
         final View menuView = new MenuViewImpl(gameController);
-        // set current view to menu and display
-        window.setBody(menuView.getContentPane());
+        menuView.display(window.getPanel());
+        // display window
         window.display();
     }
 }
