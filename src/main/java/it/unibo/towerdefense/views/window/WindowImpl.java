@@ -14,7 +14,7 @@ import java.awt.Toolkit;
  */
 public class WindowImpl implements Window {
     private static final String WINDOW_TITLE = "Tower Defense";
-    private static final int PROPORTION = 5;
+    private static final int PROPORTION = 2;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final JFrame frame;
@@ -76,8 +76,6 @@ public class WindowImpl implements Window {
          * on screen. Results may vary, but it is generally the best choice.
          */
         this.frame.setLocationByPlatform(true);
-        // resize the frame to the minimum size prior to displaying
-        this.frame.pack();
         // push frame on screen
         this.frame.setVisible(true);
         this.logger.info("Window displayed");
