@@ -24,13 +24,13 @@ public interface Game {
     int getMoney();
 
     /**
-     * Increases the amount of money by @param amount .
+     * Increases the amount of money by amount .
      * @param amount quantity of money to be increased
      */
     void addMoney(int amount);
 
     /**
-     * Decrease the player's money by @param amount .
+     * Decrease the player's money by amount .
      * @param amount quantity of money to be decreased
      * @return true if the operation was successful
      */
@@ -54,7 +54,7 @@ public interface Game {
     int getScore();
 
     /**
-     * Increase the score by @param points .
+     * Increase the score by points .
      * @param points amount of points to be added to the score
      */
     void addScore(int points);
