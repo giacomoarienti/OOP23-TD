@@ -13,7 +13,7 @@ public interface Game {
 
     /**
      * Decrease by 1 the number of lives of the player.
-     * @return true if number of lives is greather then 0
+     * @return true if number of lives is greater then 0
      */
     boolean decreaseLives();
 
@@ -32,7 +32,7 @@ public interface Game {
     /**
      * Decrease the player's money by @param amount .
      * @param amount quantity of money to be decreased
-     * @return true if the operation was successfull
+     * @return true if the operation was successful
      */
     boolean purchase(int amount);
 
@@ -61,7 +61,7 @@ public interface Game {
 
     /**
      * GameState getter.
-     * @return the steate of the game
+     * @return the state of the game
      */
     GameState getGameState();
 
