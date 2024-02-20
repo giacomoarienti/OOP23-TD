@@ -5,14 +5,14 @@ import it.unibo.towerdefense.models.game.GameImpl;
 import it.unibo.towerdefense.models.game.GameState;
 
 /**
- * Game controller
+ * Game controller implementation.
  */
 public class GameControllerImpl  implements GameController {
 
     private final Game game;
 
     /**
-     * Zero-argument constructor
+     * Zero-argument constructor.
      */
     public GameControllerImpl() {
         this.game = new GameImpl();
