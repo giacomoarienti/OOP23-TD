@@ -1,8 +1,12 @@
 package it.unibo.towerdefense.views.menu;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import java.awt.FlowLayout;
+import java.awt.Color;
+
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.BoxLayout;
 
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.views.View;
@@ -19,7 +23,7 @@ public class MenuViewImpl implements View {
     private final JPanel pane;
 
     /**
-     * MenuView constructor passing reference to @param controller
+     * MenuView constructor passing reference to controller.
      * @param controller the GameController
      */
     public MenuViewImpl(final GameController controller) {
