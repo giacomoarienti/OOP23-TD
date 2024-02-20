@@ -70,4 +70,11 @@ public interface Game {
      * @param state the new game state
      */
     void setGameState(GameState state);
+
+    /**
+     * Getter game speed.
+     * @return current game speed
+     */
+    double getGameSpeed();
+
 }

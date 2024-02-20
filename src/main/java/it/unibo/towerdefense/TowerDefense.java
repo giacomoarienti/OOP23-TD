@@ -1,14 +1,7 @@
 package it.unibo.towerdefense;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.game.GameControllerImpl;
-import it.unibo.towerdefense.views.View;
-import it.unibo.towerdefense.views.menu.MenuViewImpl;
-import it.unibo.towerdefense.views.window.Window;
-import it.unibo.towerdefense.views.window.WindowImpl;
+import it.unibo.towerdefense.models.game.GameLoop;
 
 /**
  * The main class for the Tower Defense game.
@@ -27,16 +20,6 @@ public final class TowerDefense {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        final Logger logger = LoggerFactory.getLogger(TowerDefense.class);
-        logger.info("app started");
-        // create window
-        final Window window = new WindowImpl();
-        // create gameController
-        final GameController gameController = new GameControllerImpl();
-        // create menu view and bind game controller
-        final View menuView = new MenuViewImpl(gameController);
-        menuView.display(window.getPanel());
-        // display window
-        window.display();
+        new Thread(new GameLoop(new GameControllerImpl())).start();
     }
 }

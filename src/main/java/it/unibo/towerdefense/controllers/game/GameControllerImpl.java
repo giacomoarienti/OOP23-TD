@@ -1,5 +1,8 @@
 package it.unibo.towerdefense.controllers.game;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameImpl;
 import it.unibo.towerdefense.models.game.GameState;
@@ -9,12 +12,14 @@ import it.unibo.towerdefense.models.game.GameState;
  */
 public class GameControllerImpl  implements GameController {
 
+    private final Logger logger;
     private final Game game;
 
     /**
      * Zero-argument constructor.
      */
     public GameControllerImpl() {
+        this.logger = LoggerFactory.getLogger(this.getClass());
         this.game = new GameImpl();
     }
 
@@ -39,7 +44,25 @@ public class GameControllerImpl  implements GameController {
      */
     @Override
     public void exit() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exit'");
+        // TODO: exit
+        logger.info("exit()");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getGameSpeed() {
+        return game.getGameSpeed();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isRunning() {
+        final GameState gameState = this.game.getGameState();
+        return gameState.equals(GameState.PLAYING)
+            || gameState.equals(GameState.FAST_FORWARDING);
     }
 }

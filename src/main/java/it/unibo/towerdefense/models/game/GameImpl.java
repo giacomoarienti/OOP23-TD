@@ -141,4 +141,17 @@ public class GameImpl implements Game {
         this.gameState = state;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getGameSpeed() {
+        return switch (this.gameState) {
+            case PLAYING -> 1;
+            case FAST_FORWARDING -> 2;
+            case PAUSE -> 0;
+            default -> throw new IllegalStateException("invalid gameState " + gameState.name());
+        };
+    }
+
 }

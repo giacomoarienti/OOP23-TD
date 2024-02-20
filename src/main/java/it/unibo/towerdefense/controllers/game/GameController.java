@@ -18,6 +18,18 @@ public interface GameController extends Controller {
     void pauseGame();
 
     /**
+     * Get current game speed.
+     * @return game speed
+     */
+    double getGameSpeed();
+
+    /**
+     * Check if game is running.
+     * @return true if game is running
+     */
+    boolean isRunning();
+
+    /**
      * Quits the game.
      */
     void exit();
