@@ -8,11 +8,6 @@ import javax.swing.JPanel;
 public interface View {
 
     /**
-     * Push the view to screen.
-     */
-    void display();
-
-    /**
      * ContentPane getter.
      * @return the content pane of the View.
      */
