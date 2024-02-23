@@ -13,6 +13,7 @@ public class GameLoop implements Runnable {
     private static final int UPDATES_PER_SECOND = 60;
     private static final double UPDATE_RATE = 1.0d / UPDATES_PER_SECOND;
     private static final double MILLISECONDS_IN_SECOND = 1000d;
+    private static final int ROUNDING_DELTA = 0;
 
     private final Logger logger;
     private final GameController controller;
@@ -42,8 +43,11 @@ public class GameLoop implements Runnable {
             final double lastRenderTime = (currentTime - lastUpdate) / MILLISECONDS_IN_SECOND;
             accumulator += lastRenderTime * this.controller.getGameSpeed();
             lastUpdate = currentTime;
-            // render only if we do not exceed the UPDATE_RATE
-           while (accumulator >= UPDATE_RATE) {
+            /*
+             * render only if we do not exceed the UPDATE_RATE,
+             * prevent rounding problems using int comparison
+             */
+            while (accumulator - UPDATE_RATE > ROUNDING_DELTA) {
                 this.update();
                 this.render();
                 accumulator -= UPDATE_RATE;

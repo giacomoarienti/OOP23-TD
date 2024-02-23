@@ -61,7 +61,7 @@ public class GameControllerImpl  implements GameController {
      */
     @Override
     public void gameSelection() {
-        // TODO Auto-generated method stub
+        // TODO: implement game selection
         throw new UnsupportedOperationException("Unimplemented method 'gameSelection'");
     }
 
