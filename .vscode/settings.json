@@ -1,0 +1,9 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "cSpell.words": [
+        "towerdefense",
+        "unibo"
+    ],
+    "files.eol": "\n"
+}
