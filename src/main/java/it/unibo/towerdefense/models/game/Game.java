@@ -72,6 +72,12 @@ public interface Game {
     void setGameState(GameState state);
 
     /**
+     * Checks if game is running.
+     * @return true if game is running
+     */
+    boolean isRunning();
+
+    /**
      * Getter game speed.
      * @return current game speed
      */

@@ -60,9 +60,16 @@ public class GameControllerImpl  implements GameController {
      * {@inheritDoc}
      */
     @Override
+    public void gameSelection() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'gameSelection'");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean isRunning() {
-        final GameState gameState = this.game.getGameState();
-        return gameState.equals(GameState.PLAYING)
-            || gameState.equals(GameState.FAST_FORWARDING);
+        return this.game.isRunning();
     }
 }
