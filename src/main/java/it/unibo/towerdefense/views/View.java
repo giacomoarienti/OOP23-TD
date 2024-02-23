@@ -8,9 +8,8 @@ import javax.swing.JPanel;
 public interface View {
 
     /**
-     * Adds itself to the given container.
-     * @param container panel on which the
-     * view will be added
+     * Builds the View and returns its JPanel.
+     * @return the JPanel with the views' content.
      */
-    void display(JPanel container);
+    JPanel build();
 }
