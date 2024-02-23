@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
 
-import it.unibo.towerdefense.controllers.game.GameController;
+import it.unibo.towerdefense.controllers.menu.MenuController;
 import it.unibo.towerdefense.views.View;
 
 /**
@@ -20,13 +20,13 @@ public class PauseMenuViewImpl implements View {
     private static final String RESUME_LABEL = "Resume";
     private static final String QUIT_LABEL = "Quit";
 
-    private final GameController controller;
+    private final MenuController controller;
 
     /**
-     * MenuView constructor passing reference to controller.
-     * @param controller the GameController
+     * MenuView constructor passing reference to its controller.
+     * @param controller the MenuController
      */
-    public PauseMenuViewImpl(final GameController controller) {
+    public PauseMenuViewImpl(final MenuController controller) {
         this.controller = controller;
     }
 

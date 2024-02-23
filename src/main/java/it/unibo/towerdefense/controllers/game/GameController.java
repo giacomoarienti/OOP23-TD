@@ -30,11 +30,6 @@ public interface GameController extends Controller {
     boolean isRunning();
 
     /**
-     * Displays the game selection view.
-     */
-    void gameSelection();
-
-    /**
      * Quits the game.
      */
     void exit();

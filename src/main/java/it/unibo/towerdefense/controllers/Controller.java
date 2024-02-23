@@ -5,4 +5,14 @@ package it.unibo.towerdefense.controllers;
  */
 public interface Controller {
 
+    /**
+     * Updates the state of the relative model.
+     */
+    void update();
+
+    /**
+     * Renders on the screen based on current state.
+     */
+    void render();
+
 }

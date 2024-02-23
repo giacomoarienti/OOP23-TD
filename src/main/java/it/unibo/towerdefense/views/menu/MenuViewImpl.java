@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.BoxLayout;
 
 import it.unibo.towerdefense.commons.Constants;
-import it.unibo.towerdefense.controllers.game.GameController;
+import it.unibo.towerdefense.controllers.menu.MenuController;
 import it.unibo.towerdefense.views.View;
 
 /**
@@ -22,13 +22,13 @@ public class MenuViewImpl implements View {
     private static final String LOAD_GAME_LABEL = "Load game";
     private static final String QUIT_LABEL = "Quit";
 
-    private final GameController controller;
+    private final MenuController controller;
 
     /**
-     * MenuView constructor passing reference to controller.
-     * @param controller the GameController
+     * MenuView constructor passing reference to its controller.
+     * @param controller the MenuController
      */
-    public MenuViewImpl(final GameController controller) {
+    public MenuViewImpl(final MenuController controller) {
         this.controller = controller;
     }
 

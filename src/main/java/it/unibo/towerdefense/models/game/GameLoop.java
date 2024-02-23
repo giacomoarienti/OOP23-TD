@@ -67,12 +67,12 @@ public class GameLoop implements Runnable {
     }
 
     private void update() {
-        // TODO: update
         this.ups++;
+        this.controller.update();
     }
 
     private void render() {
-        // TODO: render
         this.fps++;
+        this.controller.update();
     }
 }

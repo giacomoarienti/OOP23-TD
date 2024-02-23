@@ -1,8 +1,12 @@
 package it.unibo.towerdefense.controllers.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameImpl;
 import it.unibo.towerdefense.models.game.GameState;
@@ -14,6 +18,7 @@ public class GameControllerImpl  implements GameController {
 
     private final Logger logger;
     private final Game game;
+    private final List<Controller> controllers;
 
     /**
      * Zero-argument constructor.
@@ -21,6 +26,9 @@ public class GameControllerImpl  implements GameController {
     public GameControllerImpl() {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.game = new GameImpl();
+        // instantiate controllers
+        this.controllers = new ArrayList<>();
+        // TODO: add controllers
     }
 
     /**
@@ -60,16 +68,31 @@ public class GameControllerImpl  implements GameController {
      * {@inheritDoc}
      */
     @Override
-    public void gameSelection() {
-        // TODO: implement game selection
-        throw new UnsupportedOperationException("Unimplemented method 'gameSelection'");
+    public boolean isRunning() {
+        return this.game.isRunning();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isRunning() {
-        return this.game.isRunning();
+    public void update() {
+        // calls update on each controller
+        this.controllers.stream()
+        .forEach(
+            controller -> controller.update()
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void render() {
+        // calls render on each controller
+        this.controllers.stream()
+        .forEach(
+            controller -> controller.update()
+        );
     }
 }
