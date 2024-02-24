@@ -25,6 +25,7 @@ dependencies {
 
     // Maven dependencies are composed by a group name, a name and a version, separated by colons
     implementation("org.jooq:jool:0.9.15")
+    implementation("org.json:json:20240205")
 
     /*
      * Simple Logging Facade for Java (SLF4J) with Apache Log4j

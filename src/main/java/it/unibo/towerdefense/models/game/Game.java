@@ -1,9 +1,11 @@
 package it.unibo.towerdefense.models.game;
 
+import it.unibo.towerdefense.models.JsonSerializable;
+
 /**
  * Model containing base game's statistics and info.
  */
-public interface Game {
+public interface Game extends JsonSerializable<Game> {
 
     /**
      * Lives getter.
@@ -48,18 +50,6 @@ public interface Game {
     void advanceWave();
 
     /**
-     * Score getter.
-     * @return the score of the player
-     */
-    int getScore();
-
-    /**
-     * Increase the score by points .
-     * @param points amount of points to be added to the score
-     */
-    void addScore(int points);
-
-    /**
      * GameState getter.
      * @return the state of the game
      */
@@ -83,4 +73,12 @@ public interface Game {
      */
     double getGameSpeed();
 
+    /**
+     * Returns the game object from JSON string.
+     * @param json the JSON representation of the game
+     * @return the game object
+     */
+    static Game fromJson(final String json) {
+        return new GameImpl().fromJSON(json);
+    }
 }

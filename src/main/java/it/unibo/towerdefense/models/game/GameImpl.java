@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.game;
 
+import org.json.JSONObject;
+
 /**
  * Base implementation of the Game interface.
  */
@@ -8,7 +10,6 @@ public class GameImpl implements Game {
     private static final int START_LIVES = 100;
     private static final int START_MONEY = 500;
     private static final int START_WAVE = 1;
-    private static final int START_SCORE = 0;
     private static final int PLAYING_GAME_SPEED = 1;
     private static final int FAST_FORWARD_GAME_SPEED = 2;
     private static final int PAUSE_GAME_SPEED = 0;
@@ -16,7 +17,6 @@ public class GameImpl implements Game {
     private int lives;
     private int money;
     private int wave;
-    private int score;
     private GameState gameState;
 
     /**
@@ -26,7 +26,6 @@ public class GameImpl implements Game {
         this.lives = START_LIVES;
         this.money = START_MONEY;
         this.wave = START_WAVE;
-        this.score = START_SCORE;
         this.gameState = GameState.PLAYING;
     }
 
@@ -112,26 +111,6 @@ public class GameImpl implements Game {
      * {@inheritDoc}
      */
     @Override
-    public int getScore() {
-        return this.score;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addScore(final int points) {
-        // check if points its positive
-        if (points <= 0) {
-            throw new IllegalArgumentException("points must be positive");
-        }
-        this.score += points;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public GameState getGameState() {
         return this.gameState;
     }
@@ -165,6 +144,28 @@ public class GameImpl implements Game {
             case PAUSE -> PAUSE_GAME_SPEED;
             default -> throw new IllegalStateException("invalid gameState " + gameState.name());
         };
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toJSON() {
+        // convert the Game object to a JSON string
+       return new JSONObject()
+                  .put("wave", this.getWave())
+                  .put("lives", this.getLives())
+                  .put("money", this.getMoney())
+                  .toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Game fromJSON(final String jsonData) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'fromJson'");
     }
 
 }
