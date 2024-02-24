@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.views.window;
 
 import javax.swing.JPanel;
+import java.awt.Canvas;
 
 /**
  * Interface that defines the Window methods.
@@ -8,31 +9,31 @@ import javax.swing.JPanel;
 public interface Window {
 
     /**
-     * Sets the content pane of the Window.
-     * @param panel to be set as content
-     */
-    void setBody(JPanel panel);
-
-    /**
-     * Width getter.
-     * @return Frame width
-     */
-    int getWidth();
-
-    /**
-     * Height getter.
-     * @return Frame height
-     */
-    int getHeight();
-
-    /**
      * Push content to screen.
      */
     void display();
 
     /**
-     * Return main container.
-     * @return the main JPanel
+     * Return the Canvas  where game is displayed.
+     * @return the Canvas
      */
-    JPanel getPanel();
+    Canvas getCanvas();
+
+    /**
+     * Return the side Buy menu's container.
+     * @return the JPanel menu container.
+     */
+    JPanel getBuyMenuContainer();
+
+    /**
+     * Return the side Upgrade menu's container.
+     * @return the JPanel menu container.
+     */
+    JPanel getUpgradeMenuContainer();
+
+    /**
+     * Return the top info container.
+     * @return JPanel info container.
+     */
+    JPanel getInfoContainer();
 }
