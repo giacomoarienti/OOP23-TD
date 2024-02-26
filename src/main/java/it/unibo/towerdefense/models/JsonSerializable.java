@@ -16,5 +16,5 @@ public interface JsonSerializable<T> {
      * @param jsonData the JSON representation of the object
      * @return the object
      */
-    T fromJSON(final String jsonData);
+    T fromJSON(String jsonData);
 }

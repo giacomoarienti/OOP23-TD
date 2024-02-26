@@ -30,6 +30,19 @@ public class GameImpl implements Game {
     }
 
     /**
+     * Constructors a GameImpl with the given lives, money and wave.
+     * @param lives the amount of lives
+     * @param money the amount of money
+     * @param wave the wave number
+     */
+    public GameImpl(final int lives, final int money, final int wave) {
+        this.lives = lives;
+        this.money = money;
+        this.wave = wave;
+        this.gameState = GameState.PAUSE;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -164,8 +177,13 @@ public class GameImpl implements Game {
      */
     @Override
     public Game fromJSON(final String jsonData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fromJson'");
+        // convert the JSON string to a Game object
+        final JSONObject jsonObject = new JSONObject(jsonData);
+        final int money = jsonObject.getInt("money");
+        final int lives = jsonObject.getInt("lives");
+        final int wave = jsonObject.getInt("wave");
+        final Game game = new GameImpl(lives, money, wave);
+        return game;
     }
 
 }

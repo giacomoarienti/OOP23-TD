@@ -86,6 +86,7 @@ public class SavingLoaderImpl implements SavingLoader {
         final Path path = Paths.get(SAVED_GAMES_FOLDER + File.separator + gameName);
         try {
             Files.writeString(path, jsonData, StandardCharsets.UTF_8);
+            logger.info("Game saved to file " + path.getFileName().toString() + " successfully.");
             return true;
         } catch (final IOException e) {
             logger.error("Error saving game to file " + path.getFileName().toString(), e);

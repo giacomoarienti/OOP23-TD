@@ -82,7 +82,12 @@ public class SavingImpl implements Saving {
      */
     @Override
     public Saving fromJSON(final String jsonData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fromJson'");
+        // TODO: implement map and defenses deserialization
+        final JSONObject jsonObject = new JSONObject(jsonData);
+        return new SavingImpl(
+            Game.fromJson(jsonObject.getString("game")),
+            null, //Map.fromJson(jsonObject.getString("map")),
+            null //List.of(...);
+        );
     }
 }
