@@ -1,9 +1,10 @@
-package it.unibo.towerdefense.models.game;
+package it.unibo.towerdefense;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.controllers.game.GameController;
+import it.unibo.towerdefense.controllers.game.GameControllerImpl;
 
 /**
  * GameLoop implementation.
@@ -57,12 +58,19 @@ public class GameLoop implements Runnable {
         }
     }
 
+    /**
+     * Start the game loop.
+     */
+    public void start() {
+        new Thread(this, "GameLoop").start();
+    }
+
     private void printStats() {
         if (System.currentTimeMillis() > this.nextStatTime) {
             logger.debug(String.format("FPS: %d, UPS: %d", this.fps, this.ups));
             this.fps = 0;
             this.ups = 0;
-            this.nextStatTime = System.currentTimeMillis() + 1000;
+            this.nextStatTime = System.currentTimeMillis() + (int) MILLISECONDS_IN_SECOND;
         }
     }
 
@@ -74,5 +82,25 @@ public class GameLoop implements Runnable {
     private void render() {
         this.fps++;
         this.controller.update();
+    }
+
+    /**
+     * GameLoop builder.
+     */
+    public static class Builder {
+
+        private boolean consumed = false;
+
+        /**
+         * Build the GameLoop.
+         * @return
+         */
+        public final GameLoop build() {
+            if (this.consumed) {
+                throw new IllegalStateException("The builder can only be used once");
+            }
+            this.consumed = true;
+            return new GameLoop(new GameControllerImpl());
+        }
     }
 }
