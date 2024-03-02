@@ -14,9 +14,15 @@ public interface MapController {
     void update();
 
     /**
+     * Spawn Cell getter.
+     * @return the first cell of path.
+     */
+    PathCell getSpawnCell();
+
+    /**
      *Return the next path cell from current.
      * @param current the current cell
-     * @return the next cell
+     * @return Optional of the next cell, Optional.empty if @current is the last of path
      */
     Optional<PathCell> getNext(PathCell current);
 
@@ -25,6 +31,11 @@ public interface MapController {
      * @param position the position clicked by user
      */
     void select(Position position);
+
+    /**
+     *Return an optional of the current selected cell.
+     * @return Optional of the cell if a cell is currently selected and is a BuildableCell, else Optional.empty.
+     */
     Optional<BuildableCell> getSelected();
 
 }

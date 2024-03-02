@@ -1,6 +1,8 @@
 package it.unibo.towerdefense.models.map;
 
-import it.unibo.towerdefense.models.engine.CollisionBox;
+import org.apache.commons.lang3.tuple.Pair;
+
+import it.unibo.towerdefense.models.engine.Position;
 
 public interface Cell {
 
@@ -16,7 +18,15 @@ public interface Cell {
      */
     int getJ();
 
-    CollisionBox getBox();
+    /**
+     *Return the position of 2 opposite vertex of the rectangular cell.
+     * @return Pair<up-left, down-right>
+     */
+    Pair<Position, Position> getOppositeVertex();
 
-    boolean isBuildable();
+    /**
+     *Cell size getter.
+     * @return Size of square Cell.
+     */
+    int getSize();
 }
