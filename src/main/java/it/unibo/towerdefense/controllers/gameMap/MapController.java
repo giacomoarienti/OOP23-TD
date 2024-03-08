@@ -14,7 +14,7 @@ public interface MapController {
     void update();
 
     /**
-     * Spawn Cell getter.
+     * Enemies spawn Cell getter.
      * @return the first cell of path.
      */
     PathCell getSpawnCell();
@@ -27,7 +27,7 @@ public interface MapController {
     Optional<PathCell> getNext(PathCell current);
 
     /**
-     *Select the cell which contains the position clicked by the user.
+     *Select the cell which contains the position clicked by the user, if cell is already selected it is deselected.
      * @param position the position clicked by user
      */
     void select(Position position);
