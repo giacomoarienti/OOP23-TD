@@ -38,5 +38,5 @@ public interface Cell {
      * @param position whose presence in this cell is to be tested
      * @return true if this cell contains the specified position
      */
-    boolean contains(Position position);
+    boolean contains(final Position position);
 }
