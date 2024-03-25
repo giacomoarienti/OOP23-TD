@@ -6,6 +6,9 @@ import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.map.BuildableCell;
 import it.unibo.towerdefense.models.map.PathCell;
 
+/**
+ *Interface that models controller of map.
+ */
 public interface MapController {
 
     /**

@@ -4,6 +4,9 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.models.engine.Position;
 
+/**
+ * Interface that model a Cell, the square spatial unit of game.
+ */
 public interface Cell {
 
     /**
@@ -29,4 +32,11 @@ public interface Cell {
      * @return Size of square Cell.
      */
     int getSize();
+
+    /**
+     * Returns true if this cell contains the specified position.
+     * @param position whose presence in this cell is to be tested
+     * @return true if this cell contains the specified position
+     */
+    boolean contains(Position position);
 }

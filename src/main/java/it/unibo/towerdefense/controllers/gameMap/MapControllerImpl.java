@@ -10,11 +10,19 @@ import it.unibo.towerdefense.models.map.GameMap;
 import it.unibo.towerdefense.models.map.GameMapImpl;
 import it.unibo.towerdefense.models.map.PathCell;
 
+/**
+ * Class to interact with map methods.
+ */
 public class MapControllerImpl implements MapController {
 
     private final GameMap map;
     private BuildableCell selected = null;
 
+    /**
+     *Constructor from size of map in two unit of measure.
+     * @param sizeInPixel pixel sizes of part of screen occupied by map.
+     * @param sizeInCell size of map in terms of game
+     */
     public MapControllerImpl(final Size sizeInPixel, final Size sizeInCell) {
         this.map = new GameMapImpl(sizeInPixel, sizeInCell);
     }
@@ -33,8 +41,7 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public PathCell getSpawnCell() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSpawnCell'");
+        return map.getSpawnCell();
     }
 
     /**
@@ -59,7 +66,7 @@ public class MapControllerImpl implements MapController {
         } else {
             var c = map.getCellAt(position);
                 if (c instanceof BuildableCell) {
-                    selected = (BuildableCell)c;
+                    selected = (BuildableCell) c;
             }
         }
     }
