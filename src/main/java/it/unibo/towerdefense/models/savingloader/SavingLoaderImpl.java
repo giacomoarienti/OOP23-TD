@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.InvalidPathException;
 import java.nio.charset.StandardCharsets;
 
 import it.unibo.towerdefense.commons.Constants;
@@ -55,7 +56,7 @@ public class SavingLoaderImpl implements SavingLoader {
         try {
             return Files.readString(path, StandardCharsets.UTF_8);
         } catch (final IOException e) {
-            logger.error("Error reading file " + path.getFileName().toString(), e);
+            logger.error("Error reading file " + path.getFileName(), e);
             return "";
         }
     }
@@ -92,14 +93,21 @@ public class SavingLoaderImpl implements SavingLoader {
         final String jsonData = saving.toJSON();
         // create game name from current timestamp
         final String gameName = "game_" + System.currentTimeMillis() + ".json";
-        // save the JSON string to a file in the SAVED_GAMES_FOLDER
-        final Path path = Paths.get(SAVED_GAMES_FOLDER + File.separator + gameName);
+        // convert file path's string to Path
+        Path path;
+        try {
+            path = Paths.get(SAVED_GAMES_FOLDER + File.separator + gameName);
+        } catch(final InvalidPathException e) {
+            logger.error("Error saving game to file " + gameName, e);
+            return false;
+        }
+        // save the JSON string to file
         try {
             Files.writeString(path, jsonData, StandardCharsets.UTF_8);
-            logger.info("Game saved to file " + path.getFileName().toString() + " successfully.");
+            logger.info("Game saved to file " + path.getFileName() + " successfully.");
             return true;
         } catch (final IOException e) {
-            logger.error("Error saving game to file " + path.getFileName().toString(), e);
+            logger.error("Error saving game to file " + path.getFileName(), e);
         }
         return false;
     }
