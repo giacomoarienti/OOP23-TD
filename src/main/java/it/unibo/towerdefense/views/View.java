@@ -9,7 +9,7 @@ public interface View {
 
     /**
      * Builds the View and returns its JPanel.
-     * @return the JPanel with the views' content.
+     * @return the JPanel with the view's content.
      */
     JPanel build();
 }

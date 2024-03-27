@@ -34,7 +34,7 @@ public interface Saving extends JsonSerializable<Saving> {
 
     /**
      * Returns the saving object from JSON string.
-     * @param json the JSON representation of the saving
+     * @param jsonData the JSON representation of the saving
      * @return the saving object
      */
     static Saving fromJson(final String jsonData) {

@@ -9,7 +9,7 @@ public interface ScoreboardItem extends JsonSerializable<ScoreboardItem> {
 
     /**
      * Returns the sccoreboard object from JSON string.
-     * @param json the JSON representation of the scoreboard
+     * @param jsonData the JSON representation of the scoreboard
      * @return the sccoreboard object
      */
     static ScoreboardItem fromJson(final String jsonData) {

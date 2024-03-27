@@ -18,6 +18,9 @@ public class SavingImpl implements Saving {
 
     /**
      * SavingImpl constructor from a game, a map and a list of defenses.
+     * @param game the game instance
+     * @param map the map instance
+     * @param defenses the list of defenses
      */
     public SavingImpl(final Game game, final Object map, final List<Object> defenses) {
         this.game = game;
@@ -37,7 +40,7 @@ public class SavingImpl implements Saving {
      */
     @Override
     public Game getGame() {
-        if(Objects.isNull(this.game)) {
+        if (Objects.isNull(this.game)) {
             throw new IllegalStateException("Game is null");
         }
         return game;
@@ -48,7 +51,7 @@ public class SavingImpl implements Saving {
      */
     @Override
     public Object getMap() {
-        if(Objects.isNull(this.map)) {
+        if (Objects.isNull(this.map)) {
             throw new IllegalStateException("Map is null");
         }
         return map;
@@ -59,8 +62,8 @@ public class SavingImpl implements Saving {
      */
     @Override
     public List<Object> getDefenses() {
-        if(Objects.isNull(this.defenses)) {
-            throw new IllegalStateException("Map is null");
+        if (Objects.isNull(this.defenses)) {
+            throw new IllegalStateException("Defenses is null");
         }
         return defenses;
     }
@@ -82,7 +85,7 @@ public class SavingImpl implements Saving {
      */
     @Override
     public Saving fromJSON(final String jsonData) {
-        // TODO: implement map and defenses deserialization
+        // TODO implement map and defenses deserialization
         final JSONObject jsonObject = new JSONObject(jsonData);
         return new SavingImpl(
             Game.fromJson(jsonObject.getString("game")),

@@ -31,7 +31,7 @@ public class MenuControllerImpl implements MenuController {
      */
     @Override
     public void resumeGame() {
-        // TODO: remove PauseMenuView
+        // TODO remove PauseMenuView
         this.gameController.resumeGame();
     }
 
@@ -40,7 +40,7 @@ public class MenuControllerImpl implements MenuController {
      */
     @Override
     public void pauseGame() {
-        // TODO: pause the game and display the PauseMenuView
+        // TODO pause the game and display the PauseMenuView
         this.gameController.pauseGame();
     }
 

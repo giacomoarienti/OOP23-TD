@@ -22,20 +22,30 @@ import it.unibo.towerdefense.models.saving.Saving;
  */
 public class SavingLoaderImpl implements SavingLoader {
 
-    private static final String SAVED_GAMES_FOLDER = Constants.GAME_FOLDER +
-            File.separator +
-            "savings";
+    private static final String SAVED_GAMES_FOLDER = Constants.GAME_FOLDER
+            + File.separator
+            + "savings";
 
     private Logger logger;
 
     /**
      * Zero-argument constructor.
+     * @throws IOExceptions if the SAVED_GAMES_FOLDER cannot be created
      */
-    public SavingLoaderImpl() {
+    public SavingLoaderImpl() throws IOException {
         // create the SAVED_GAMES_FOLDER if it does not exist
         final File folder = new File(SAVED_GAMES_FOLDER);
         if (!folder.exists()) {
-            folder.mkdirs();
+            try {
+                final boolean folderCreated = folder.mkdirs();
+
+                // if dir wasn't created this time, and doesn't exist
+                if (!folderCreated && !folder.exists()) {
+                    throw new IOException("Unable to create Saved Games folder");
+                }
+            } catch (final SecurityException e) {
+                throw new IOException("Unable to create Saved Games folder");
+            }
         }
         // create the logger
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -56,7 +66,7 @@ public class SavingLoaderImpl implements SavingLoader {
     @Override
     public Optional<List<Saving>> loadSavings() {
         // read all files from the SAVED_GAMES_FOLDER
-        try (final Stream<Path> paths = Files.walk(Paths.get(SAVED_GAMES_FOLDER))) {
+        try (Stream<Path> paths = Files.walk(Paths.get(SAVED_GAMES_FOLDER))) {
             // for each file, read the content and convert it to a Game object
             final List<Saving> games = paths
                 .filter(Files::isRegularFile)

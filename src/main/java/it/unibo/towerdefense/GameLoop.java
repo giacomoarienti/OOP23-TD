@@ -44,10 +44,8 @@ public class GameLoop implements Runnable {
             final double lastRenderTime = (currentTime - lastUpdate) / MILLISECONDS_IN_SECOND;
             accumulator += lastRenderTime * this.controller.getGameSpeed();
             lastUpdate = currentTime;
-            /*
-             * render only if we do not exceed the UPDATE_RATE,
-             * prevent rounding problems using int comparison
-             */
+            /* render only if we do not exceed the UPDATE_RATE,
+            prevent rounding problems using int comparison */
             while (accumulator - UPDATE_RATE > ROUNDING_DELTA) {
                 this.update();
                 this.render();
@@ -93,7 +91,7 @@ public class GameLoop implements Runnable {
 
         /**
          * Build the GameLoop.
-         * @return
+         * @return the GameLoop instance.
          */
         public final GameLoop build() {
             if (this.consumed) {
