@@ -11,13 +11,21 @@ import it.unibo.towerdefense.models.scoreboard.score.Score;
 public interface Scoreboard {
 
     /**
-     * Returns an ordered set of the loaded Scores.
+     * Returns a unmodifiable ordered set of the loaded Scores.
      * @return the ordered set
      */
     Set<Score> getScoreboard();
 
     /**
-     * Loads the past scores from the local storage.
+     * Reads and loads the score from the local storage.
      */
     void loadScores();
+
+    /**
+     * Saves the current score to the local storage.
+     * @param name the name of the player
+     * @param wave the wave reached by the player
+     * @return true if score was saved
+     */
+    boolean saveScore(String name, int wave);
 }

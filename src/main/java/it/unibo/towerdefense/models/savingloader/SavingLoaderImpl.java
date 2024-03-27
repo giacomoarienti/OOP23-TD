@@ -12,11 +12,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.InvalidPathException;
-import java.nio.charset.StandardCharsets;
 
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.models.savingloader.saving.Saving;
+import it.unibo.towerdefense.utils.file.FileUtils;
 
 /**
  * Class implementing the SavingLoader interface.
@@ -27,7 +26,7 @@ public class SavingLoaderImpl implements SavingLoader {
             + File.separator
             + "savings";
 
-    private Logger logger;
+    private final Logger logger;
 
     /**
      * Zero-argument constructor.
@@ -35,53 +34,32 @@ public class SavingLoaderImpl implements SavingLoader {
      */
     public SavingLoaderImpl() throws IOException {
         // create the SAVED_GAMES_FOLDER if it does not exist
-        final File folder = new File(SAVED_GAMES_FOLDER);
-        if (!folder.exists()) {
-            try {
-                final boolean folderCreated = folder.mkdirs();
-
-                // if dir wasn't created this time, and doesn't exist
-                if (!folderCreated && !folder.exists()) {
-                    throw new IOException("Unable to create Saved Games folder");
-                }
-            } catch (final SecurityException e) {
-                throw new IOException("Unable to create Saved Games folder");
-            }
-        }
+        FileUtils.createFolder(SAVED_GAMES_FOLDER);
         // create the logger
         this.logger = LoggerFactory.getLogger(this.getClass());
-    }
-
-    private String readPathContents(final Path path) {
-        try {
-            return Files.readString(path, StandardCharsets.UTF_8);
-        } catch (final IOException e) {
-            logger.error("Error reading file " + path.getFileName(), e);
-            return "";
-        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<List<Saving>> loadSavings() {
+    public List<Saving> loadSavings() {
         // read all files from the SAVED_GAMES_FOLDER
         try (Stream<Path> paths = Files.walk(Paths.get(SAVED_GAMES_FOLDER))) {
             // for each file, read the content and convert it to a Game object
-            final List<Saving> games = paths
+            return paths
                 .filter(Files::isRegularFile)
-                .map(this::readPathContents)
+                .map(FileUtils::readFileOptional)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .filter((jsonData) -> !jsonData.isEmpty())
                 .map(Saving::fromJson)
                 .toList();
-            // return the list of Game objects
-            System.out.println(games);
-            return Optional.of(games);
         } catch (final IOException e) {
             logger.error("Error loading saved games", e);
         }
-        return Optional.empty();
+        // return empty list
+        return List.of();
     }
 
     /**
@@ -93,22 +71,14 @@ public class SavingLoaderImpl implements SavingLoader {
         final String jsonData = saving.toJSON();
         // create game name from current timestamp
         final String gameName = "game_" + System.currentTimeMillis() + ".json";
-        // convert file path's string to Path
-        Path path;
-        try {
-            path = Paths.get(SAVED_GAMES_FOLDER + File.separator + gameName);
-        } catch(final InvalidPathException e) {
-            logger.error("Error saving game to file " + gameName, e);
-            return false;
-        }
+        final String filePath = SAVED_GAMES_FOLDER + File.separator + gameName;
         // save the JSON string to file
         try {
-            Files.writeString(path, jsonData, StandardCharsets.UTF_8);
-            logger.info("Game saved to file " + path.getFileName() + " successfully.");
-            return true;
+            FileUtils.writeFile(filePath, jsonData);
         } catch (final IOException e) {
-            logger.error("Error saving game to file " + path.getFileName(), e);
+            logger.error("Error writing saving", e);
+            return false;
         }
-        return false;
+        return true;
     }
 }

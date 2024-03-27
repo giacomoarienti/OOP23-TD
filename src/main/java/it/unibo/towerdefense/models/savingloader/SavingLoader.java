@@ -1,7 +1,6 @@
 package it.unibo.towerdefense.models.savingloader;
 
 import java.util.List;
-import java.util.Optional;
 
 import it.unibo.towerdefense.models.savingloader.saving.Saving;
 
@@ -13,7 +12,7 @@ public interface SavingLoader {
      * Loads all saved games from user's local folder.
      * @return a list of saved games
      */
-    Optional<List<Saving>> loadSavings();
+    List<Saving> loadSavings();
 
     /**
      * Writes the game's saving to the user's local folder.
