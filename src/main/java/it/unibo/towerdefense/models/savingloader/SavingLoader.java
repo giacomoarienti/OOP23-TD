@@ -1,8 +1,9 @@
-package it.unibo.towerdefense.utils.savingloader;
+package it.unibo.towerdefense.models.savingloader;
 
 import java.util.List;
 import java.util.Optional;
-import it.unibo.towerdefense.models.saving.Saving;
+
+import it.unibo.towerdefense.models.savingloader.saving.Saving;
 
 /**
  * Interface that defines the methods to load and save the game's saving.
