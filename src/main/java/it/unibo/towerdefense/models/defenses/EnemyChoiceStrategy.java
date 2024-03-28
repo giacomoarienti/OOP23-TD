@@ -5,5 +5,7 @@ import java.util.Set;
 import it.unibo.towerdefense.models.enemies.Enemy;
 
 public interface EnemyChoiceStrategy {
-    Enemy chooseEnemy(Set<Enemy> set);
+    Set<Enemy> chooseEnemies(Set<Enemy> set);
+
+    void execute(Set<Enemy> availableTargets);
 }
