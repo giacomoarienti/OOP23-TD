@@ -2,6 +2,7 @@ package it.unibo.towerdefense.models.savingloader.saving;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Collections;
 
 import org.json.JSONObject;
 
@@ -25,7 +26,7 @@ public class SavingImpl implements Saving {
     public SavingImpl(final Game game, final Object map, final List<Object> defenses) {
         this.game = game.copy();
         this.map = map;
-        this.defenses = defenses;
+        this.defenses = Collections.unmodifiableList(defenses);
     }
 
     /**
