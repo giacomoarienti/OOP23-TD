@@ -23,7 +23,7 @@ public class SavingImpl implements Saving {
      * @param defenses the list of defenses
      */
     public SavingImpl(final Game game, final Object map, final List<Object> defenses) {
-        this.game = game;
+        this.game = game.copy();
         this.map = map;
         this.defenses = defenses;
     }

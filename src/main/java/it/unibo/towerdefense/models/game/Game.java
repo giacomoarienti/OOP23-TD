@@ -1,11 +1,12 @@
 package it.unibo.towerdefense.models.game;
 
 import it.unibo.towerdefense.models.JsonSerializable;
+import it.unibo.towerdefense.models.Copyable;
 
 /**
  * Model containing base game's statistics and info.
  */
-public interface Game extends JsonSerializable<Game> {
+public interface Game extends JsonSerializable<Game>, Copyable<Game> {
 
     /**
      * Lives getter.
