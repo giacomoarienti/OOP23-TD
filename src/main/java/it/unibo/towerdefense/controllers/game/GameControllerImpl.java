@@ -28,7 +28,7 @@ public class GameControllerImpl  implements GameController {
         this.game = new GameImpl();
         // instantiate controllers
         this.controllers = new ArrayList<>();
-        // TODO: add controllers
+        // TODO add controllers
     }
 
     /**
@@ -52,7 +52,7 @@ public class GameControllerImpl  implements GameController {
      */
     @Override
     public void exit() {
-        // TODO: exit
+        // TODO exit
         logger.info("exit()");
     }
 

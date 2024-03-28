@@ -2,6 +2,7 @@ package it.unibo.towerdefense.models;
 
 /**
  * Interface that models a JSON serializable object.
+ * @param <T> the type of the object
  */
 public interface JsonSerializable<T> {
 

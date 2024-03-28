@@ -14,9 +14,9 @@ public final class Constants {
     /**
      * The default game folder.
      */
-    public static final String GAME_FOLDER = System.getProperty("user.home") +
-            File.separator +
-            ".towerdefense";
+    public static final String GAME_FOLDER = System.getProperty("user.home")
+            + File.separator
+            + ".towerdefense";
 
     /**
      * Private constructor.

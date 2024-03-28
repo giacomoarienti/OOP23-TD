@@ -186,4 +186,11 @@ public class GameImpl implements Game {
         return game;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Game copy() {
+        return new GameImpl(this.lives, this.money, this.wave);
+    }
 }

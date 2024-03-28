@@ -99,8 +99,8 @@ public class WindowImpl implements Window {
      */
     @SuppressFBWarnings(
         value = { "EI_EXPOSE_REP" },
-        justification = "Intended behavior. Other views should be" +
-            "able to edit its contents."
+        justification = "Intended behavior. Other views should be"
+            + "able to edit its contents."
     )
     @Override
     public Canvas getCanvas() {
@@ -112,8 +112,8 @@ public class WindowImpl implements Window {
      */
     @SuppressFBWarnings(
         value = { "EI_EXPOSE_REP" },
-        justification = "Intended behavior. Other views should be" +
-            "able to edit its contents."
+        justification = "Intended behavior. Other views should be"
+            + "able to edit its contents."
     )
     @Override
     public JPanel getBuyMenuContainer() {
@@ -125,8 +125,8 @@ public class WindowImpl implements Window {
      */
     @SuppressFBWarnings(
         value = { "EI_EXPOSE_REP" },
-        justification = "Intended behavior. Other views should be" +
-            "able to edit its contents."
+        justification = "Intended behavior. Other views should be"
+            + "able to edit its contents."
     )
     @Override
     public JPanel getUpgradeMenuContainer() {
@@ -138,8 +138,8 @@ public class WindowImpl implements Window {
      */
     @SuppressFBWarnings(
         value = { "EI_EXPOSE_REP" },
-        justification = "Intended behavior. Other views should be" +
-            "able to edit its contents."
+        justification = "Intended behavior. Other views should be"
+            + "able to edit its contents."
     )
     @Override
     public JPanel getInfoContainer() {
