@@ -3,7 +3,7 @@ package it.unibo.towerdefense.models.savingloader.saving;
 import java.util.List;
 
 import it.unibo.towerdefense.models.JsonSerializable;
-import it.unibo.towerdefense.models.game.Game;
+import it.unibo.towerdefense.models.game.GameDTO;
 
 /**
  * Interface that models a game saving.
@@ -15,10 +15,10 @@ import it.unibo.towerdefense.models.game.Game;
 public interface Saving extends JsonSerializable<Saving> {
 
     /**
-     * Returns the game state.
-     * @return the game state
+     * Returns the game dto.
+     * @return the game dto
      */
-    Game getGame();
+    GameDTO getGame();
 
     /**
      * Returns the game map.

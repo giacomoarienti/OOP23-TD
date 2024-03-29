@@ -6,14 +6,14 @@ import java.util.Collections;
 
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.models.game.Game;
+import it.unibo.towerdefense.models.game.GameDTO;
 
 /**
  * Class implementing the Saving interface.
  */
 public class SavingImpl implements Saving {
 
-    private Game game;
+    private GameDTO game;
     private Object map;
     private List<Object> defenses;
 
@@ -23,8 +23,8 @@ public class SavingImpl implements Saving {
      * @param map the map instance
      * @param defenses the list of defenses
      */
-    public SavingImpl(final Game game, final Object map, final List<Object> defenses) {
-        this.game = game.copy();
+    public SavingImpl(final GameDTO game, final Object map, final List<Object> defenses) {
+        this.game = game;
         this.map = map;
         this.defenses = Collections.unmodifiableList(defenses);
     }
@@ -40,7 +40,7 @@ public class SavingImpl implements Saving {
      * {@inheritDoc}
      */
     @Override
-    public Game getGame() {
+    public GameDTO getGame() {
         if (Objects.isNull(this.game)) {
             throw new IllegalStateException("Game is null");
         }
@@ -89,7 +89,7 @@ public class SavingImpl implements Saving {
         // TODO implement map and defenses deserialization
         final JSONObject jsonObject = new JSONObject(jsonData);
         return new SavingImpl(
-            Game.fromJson(jsonObject.getString("game")),
+            GameDTO.fromJson(jsonObject.getString("game")),
             null, //Map.fromJson(jsonObject.getString("map")),
             null //List.of(...);
         );

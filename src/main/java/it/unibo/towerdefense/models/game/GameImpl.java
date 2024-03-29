@@ -1,7 +1,5 @@
 package it.unibo.towerdefense.models.game;
 
-import org.json.JSONObject;
-
 /**
  * Base implementation of the Game interface.
  */
@@ -157,40 +155,5 @@ public class GameImpl implements Game {
             case PAUSE -> PAUSE_GAME_SPEED;
             default -> throw new IllegalStateException("invalid gameState " + gameState.name());
         };
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toJSON() {
-        // convert the Game object to a JSON string
-       return new JSONObject()
-                  .put("wave", this.getWave())
-                  .put("lives", this.getLives())
-                  .put("money", this.getMoney())
-                  .toString();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Game fromJSON(final String jsonData) {
-        // convert the JSON string to a Game object
-        final JSONObject jsonObject = new JSONObject(jsonData);
-        final int money = jsonObject.getInt("money");
-        final int lives = jsonObject.getInt("lives");
-        final int wave = jsonObject.getInt("wave");
-        final Game game = new GameImpl(lives, money, wave);
-        return game;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Game copy() {
-        return new GameImpl(this.lives, this.money, this.wave);
     }
 }

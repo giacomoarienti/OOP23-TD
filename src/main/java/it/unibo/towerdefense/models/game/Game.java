@@ -1,12 +1,9 @@
 package it.unibo.towerdefense.models.game;
 
-import it.unibo.towerdefense.models.JsonSerializable;
-import it.unibo.towerdefense.models.Copyable;
-
 /**
  * Model containing base game's statistics and info.
  */
-public interface Game extends JsonSerializable<Game>, Copyable<Game> {
+public interface Game {
 
     /**
      * Lives getter.
@@ -73,13 +70,4 @@ public interface Game extends JsonSerializable<Game>, Copyable<Game> {
      * @return current game speed
      */
     double getGameSpeed();
-
-    /**
-     * Returns the game object from JSON string.
-     * @param json the JSON representation of the game
-     * @return the game object
-     */
-    static Game fromJson(final String json) {
-        return new GameImpl().fromJSON(json);
-    }
 }
