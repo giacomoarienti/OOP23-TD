@@ -5,7 +5,7 @@ import it.unibo.towerdefense.views.Renderer;
 /**
  * Renders enemies on the screen.
  */
-public interface EnemiesRenderer extends Renderer{
+public interface EnemiesRenderer extends Renderer {
     /**
      * Renders enemies on the screen.
      */
