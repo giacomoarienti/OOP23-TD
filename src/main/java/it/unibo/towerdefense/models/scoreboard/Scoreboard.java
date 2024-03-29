@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.models.scoreboard;
 
+import java.io.IOException;
 import java.util.Set;
 
 import it.unibo.towerdefense.models.scoreboard.score.Score;
@@ -18,14 +19,16 @@ public interface Scoreboard {
 
     /**
      * Reads and loads the score from the local storage.
+     * @throws IOException if the file cannot be read
      */
-    void loadScores();
+    void loadScores() throws IOException;
 
     /**
      * Saves the current score to the local storage.
      * @param name the name of the player
      * @param wave the wave reached by the player
      * @return true if score was saved
+     * @throws IOException if the file cannot be read
      */
-    boolean saveScore(String name, int wave);
+    boolean saveScore(String name, int wave) throws IOException;
 }

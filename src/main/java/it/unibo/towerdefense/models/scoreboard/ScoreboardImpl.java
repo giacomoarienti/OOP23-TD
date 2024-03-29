@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +28,26 @@ public class ScoreboardImpl implements Scoreboard {
 
     private final Set<Score> scores = new TreeSet<>();
     private final Logger logger;
+    private final String filePath;
+
+    /**
+     * Constructor with file path.
+     * @param path the path of the scoreboard file
+     * @throws IOException if the scoreboard file cannot be created
+     */
+    public ScoreboardImpl(final String path) throws IOException {
+        this.logger = LoggerFactory.getLogger(this.getClass());
+        this.filePath = path;
+        // create the file in case it does not exist
+        FileUtils.createFile(filePath);
+    }
 
     /**
      * Zero-argument constructor.
      * @throws IOException if the scoreboard file cannot be created
      */
     public ScoreboardImpl() throws IOException {
-        // create the file and load scores
-        FileUtils.createFile(SCOREBOARD_PATH);
-        // create the logger
-        this.logger = LoggerFactory.getLogger(this.getClass());
+        this(SCOREBOARD_PATH);
     }
 
     /**
@@ -51,19 +62,24 @@ public class ScoreboardImpl implements Scoreboard {
      * {@inheritDoc}
      */
     @Override
-    public void loadScores() {
+    public void loadScores() throws IOException {
         try {
-            final String jsonData = FileUtils.readFile(SCOREBOARD_PATH);
+            // read the JSON string from file
+            final String jsonData = FileUtils.readFile(filePath);
             this.scores.clear();
+            // if the file is empty return
+            if (jsonData.isEmpty()) {
+                return;
+            }
             // convert the JSON string to a set of Score objects
             final JSONArray jsonArray = new JSONArray(jsonData);
             for (final Object object : jsonArray) {
                 final JSONObject jsonObject = (JSONObject) object;
                 this.scores.add(Score.fromJson(jsonObject.toString()));
             }
-        } catch (final IOException e) {
+        } catch (final JSONException e) {
             this.scores.clear();
-            logger.error("Failed to load scores", e);
+            throw new IOException("Scoreboard file is corrupted!", e);
         }
     }
 
@@ -71,19 +87,18 @@ public class ScoreboardImpl implements Scoreboard {
      * {@inheritDoc}
      */
     @Override
-    public boolean saveScore(final String name, final int wave) {
+    public boolean saveScore(final String name, final int wave) throws IOException {
         // create the score object
         final Score score = new ScoreImpl(name, wave);
         try {
-            final String jsonData = FileUtils.readFile(SCOREBOARD_PATH);
+            final String jsonData = FileUtils.readFile(filePath);
             // convert the JSON string to a set of Score objects
-            final JSONArray jsonArray = new JSONArray(jsonData);
+            final JSONArray jsonArray =  jsonData.isEmpty() ? new JSONArray() : new JSONArray(jsonData);
             jsonArray.put(new JSONObject(score.toJSON()));
             // save the json string to file
-            FileUtils.writeFile(SCOREBOARD_PATH, jsonArray.toString());
-        } catch (final IOException e) {
-            logger.error("Failed to save score", e);
-            return false;
+            FileUtils.writeFile(filePath, jsonArray.toString());
+        } catch (final JSONException e) {
+            throw new IOException("Scoreboard file is corrupted!", e);
         }
         // score saved
         return true;

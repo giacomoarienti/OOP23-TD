@@ -27,16 +27,26 @@ public class SavingLoaderImpl implements SavingLoader {
             + "savings";
 
     private final Logger logger;
+    private final String folderPath;
+
+    /**
+     * Constructor with file path.
+     * @param path the path of the folder containing the saved games
+     * @throws IOException if the path cannot be created
+     */
+    public SavingLoaderImpl(final String path) throws IOException {
+        this.logger = LoggerFactory.getLogger(this.getClass());
+        this.folderPath = path;
+        // create the SAVED_GAMES_FOLDER if it does not exist
+        FileUtils.createFolder(this.folderPath);
+    }
 
     /**
      * Zero-argument constructor.
      * @throws IOExceptions if the SAVED_GAMES_FOLDER cannot be created
      */
     public SavingLoaderImpl() throws IOException {
-        // create the SAVED_GAMES_FOLDER if it does not exist
-        FileUtils.createFolder(SAVED_GAMES_FOLDER);
-        // create the logger
-        this.logger = LoggerFactory.getLogger(this.getClass());
+        this(SAVED_GAMES_FOLDER);
     }
 
     /**
@@ -44,8 +54,8 @@ public class SavingLoaderImpl implements SavingLoader {
      */
     @Override
     public List<Saving> loadSavings() {
-        // read all files from the SAVED_GAMES_FOLDER
-        try (Stream<Path> paths = Files.walk(Paths.get(SAVED_GAMES_FOLDER))) {
+        // read all files from the folderPath
+        try (Stream<Path> paths = Files.walk(Paths.get(folderPath))) {
             // for each file, read the content and convert it to a Game object
             return paths
                 .filter(Files::isRegularFile)
@@ -71,7 +81,7 @@ public class SavingLoaderImpl implements SavingLoader {
         final String jsonData = saving.toJSON();
         // create game name from current timestamp
         final String gameName = "game_" + System.currentTimeMillis() + ".json";
-        final String filePath = SAVED_GAMES_FOLDER + File.separator + gameName;
+        final String filePath = folderPath + File.separator + gameName;
         // save the JSON string to file
         try {
             FileUtils.writeFile(filePath, jsonData);
