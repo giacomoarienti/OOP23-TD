@@ -1,4 +1,4 @@
-package it.unibo.towerdense.models.scoreboard;
+package it.unibo.towerdefense.models.scoreboard;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +9,6 @@ import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 
 import it.unibo.towerdefense.utils.file.FileUtils;
-import it.unibo.towerdefense.models.scoreboard.Scoreboard;
-import it.unibo.towerdefense.models.scoreboard.ScoreboardImpl;
-
 /**
  * Test class for the ScoreboardImpl class.
  */
@@ -40,7 +37,7 @@ public class TestScoreboardImpl {
     }
 
     /**
-     * Check that the loadScores() behaviur with empty file.
+     * Check that the loadScores() behavior with empty file.
      * @throws IOException if the file cannot be read
      */
     @Test
@@ -82,7 +79,7 @@ public class TestScoreboardImpl {
 
     /**
      * Check that the loadScores() method works with invalid JSON.
-     * @throws IOException the scoreboard file is not readble or corrupted
+     * @throws IOException the scoreboard file is not readable or corrupted
      */
     @Test
     public void testInvalidJson() throws IOException {
