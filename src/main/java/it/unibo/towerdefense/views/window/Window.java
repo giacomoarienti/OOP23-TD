@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.views.window;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Canvas;
 
@@ -12,6 +13,12 @@ public interface Window {
      * Push content to screen.
      */
     void display();
+
+    /**
+     * Return the JFrame where game is displayed.
+     * @return the JFrame
+     */
+    JFrame getFrame();
 
     /**
      * Return the Canvas  where game is displayed.
