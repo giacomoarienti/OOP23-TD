@@ -9,6 +9,8 @@ import java.util.TreeSet;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.models.scoreboard.score.Score;
@@ -26,6 +28,7 @@ public class ScoreboardImpl implements Scoreboard {
 
     private final Set<Score> scores = new TreeSet<>();
     private final String filePath;
+    private final Logger logger;
 
     /**
      * Constructor with file path.
@@ -33,6 +36,7 @@ public class ScoreboardImpl implements Scoreboard {
      * @throws IOException if the scoreboard file cannot be created
      */
     public ScoreboardImpl(final String path) throws IOException {
+        this.logger = LoggerFactory.getLogger(this.getClass());
         this.filePath = path;
         // create the file in case it does not exist
         FileUtils.createFile(filePath);
