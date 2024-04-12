@@ -75,6 +75,7 @@ public class ScoreboardImpl implements Scoreboard {
             }
         } catch (final JSONException e) {
             this.scores.clear();
+            logger.error("Scoreboard file is corrupted!");
             throw new IOException("Scoreboard file is corrupted!", e);
         }
     }
@@ -97,6 +98,7 @@ public class ScoreboardImpl implements Scoreboard {
             // save the json string to file
             FileUtils.writeFile(filePath, jsonArray.toString());
         } catch (final JSONException e) {
+            logger.error("Scoreboard file is corrupted!");
             throw new IOException("Scoreboard file is corrupted!", e);
         }
         // score saved
