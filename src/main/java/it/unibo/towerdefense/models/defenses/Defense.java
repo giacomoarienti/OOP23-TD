@@ -27,11 +27,6 @@ public interface Defense {
      */
     int getSellingValue();
 
-    /**
-    * @return the value used to calculate wich enemies to target in the strategy.
-    */
-    int getRange();
-
     /** 
      * @return the strategy used for selecting and damaging enemies
      */
