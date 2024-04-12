@@ -92,7 +92,7 @@ public class GameControllerImpl  implements GameController {
         // calls render on each controller
         this.controllers.stream()
         .forEach(
-            controller -> controller.update()
+            controller -> controller.render()
         );
     }
 }

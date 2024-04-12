@@ -79,7 +79,7 @@ public class GameLoop implements Runnable {
 
     private void render() {
         this.fps++;
-        this.controller.update();
+        this.controller.render();
     }
 
     /**
