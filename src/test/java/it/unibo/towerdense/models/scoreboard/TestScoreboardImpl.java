@@ -15,7 +15,7 @@ import it.unibo.towerdefense.models.scoreboard.ScoreboardImpl;
 /**
  * Test class for the ScoreboardImpl class.
  */
-public class TestScoreboardImpl {
+class TestScoreboardImpl {
 
     private static final String NAME_1 = "test";
     private static final int WAVE_1 = 100;
@@ -33,7 +33,7 @@ public class TestScoreboardImpl {
      * @throws IOException if the file cannot be created
      */
     @BeforeEach
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         // create a temporary file for the scoreboard
         this.filePath = File.createTempFile("scoreboard", ".json").getAbsolutePath();
         this.scoreboard = new ScoreboardImpl(this.filePath);
@@ -44,7 +44,7 @@ public class TestScoreboardImpl {
      * @throws IOException if the file cannot be read
      */
     @Test
-    public void testLoadScores() throws IOException {
+    void testLoadScores() throws IOException {
         this.scoreboard = new ScoreboardImpl(this.filePath);
         this.scoreboard.loadScores();
         Assertions.assertTrue(this.scoreboard.getScoreboard().isEmpty());
@@ -55,7 +55,7 @@ public class TestScoreboardImpl {
      * @throws IOException if the file cannot be read
      */
     @Test
-    public void testSaveScore() throws IOException {
+    void testSaveScore() throws IOException {
         Assertions.assertTrue(this.scoreboard.saveScore(NAME_1, WAVE_1));
     }
 
@@ -65,7 +65,7 @@ public class TestScoreboardImpl {
      * @throws IOException if the file cannot be read
      */
     @Test
-    public void testLoadScoresWithData() throws IOException {
+    void testLoadScoresWithData() throws IOException {
         Assertions.assertTrue(this.scoreboard.saveScore(NAME_1, WAVE_1));
         Assertions.assertTrue(this.scoreboard.saveScore(NAME_2, WAVE_2));
         Assertions.assertTrue(this.scoreboard.saveScore(NAME_3, WAVE_3));
@@ -85,7 +85,7 @@ public class TestScoreboardImpl {
      * @throws IOException the scoreboard file is not readble or corrupted
      */
     @Test
-    public void testInvalidJson() throws IOException {
+    void testInvalidJson() throws IOException {
         // write an invalid JSON string
         final var invalidJson = INVALID_JSON;
         // write the invalid JSON string to the file
