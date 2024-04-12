@@ -14,7 +14,7 @@ public class ScoreboardDTO {
 
     /**
      * Constructor for ScoreboardDTO.
-     * @param scores the scores to be displayed
+     * @param scoreboard the scoreboard
      */
     public ScoreboardDTO(final Scoreboard scoreboard) {
         this.scores = scoreboard.getScoreboard();
