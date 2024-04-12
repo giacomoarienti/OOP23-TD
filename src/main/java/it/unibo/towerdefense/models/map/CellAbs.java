@@ -3,6 +3,9 @@ package it.unibo.towerdefense.models.map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.models.engine.Position;
+import it.unibo.towerdefense.models.engine.PositionImpl;
+import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.models.engine.SizeImpl;
 
 /**
  * An abstract class that implements methods of a generic Cell.
@@ -11,15 +14,20 @@ public abstract class CellAbs implements Cell {
 
     private final int i;
     private final int j;
+    private final Position topLeft;
+    private final Position downRight;
 
     /**
-     * Construct from i, j indexes.
-     * @param i orizontal index
-     * @param j vertical index
+     * Constructor from coordinates and 2 opposite vertex positions.
+     * @param coords coordinates i j to identify the cell in the map.
+     * @param topLeft position of top left vertex of the cell.
+     * @param downRight position of down right vertex of the cell.
      */
-    public CellAbs(final int i, final int j) {
-        this.i = i;
-        this.j = j;
+    public CellAbs(final Coords coords, final Position topLeft, final Position downRight) {
+        this.i = coords.x();
+        this.j = coords.y();
+        this.topLeft = new PositionImpl(topLeft);
+        this.downRight = new PositionImpl(downRight);
     }
 
     /**
@@ -43,17 +51,15 @@ public abstract class CellAbs implements Cell {
      */
     @Override
     public Pair<Position, Position> getOppositeVertex() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getOppositeVertex'");
+        return Pair.of(topLeft, downRight);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getSize() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSize'");
+    public Size getSize() {
+        return new SizeImpl((int) (downRight.getX() - topLeft.getX()), (int) (downRight.getY() - topLeft.getY()));
     }
 
     /**
@@ -61,8 +67,8 @@ public abstract class CellAbs implements Cell {
      */
     @Override
     public boolean contains(final Position position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'contains'");
+        return position.intX() >= topLeft.intX() && position.getX() <= downRight.intX()
+            && position.intY() >= topLeft.intY() && position.getY() <= downRight.intY();
     }
 
     /**
@@ -78,7 +84,7 @@ public abstract class CellAbs implements Cell {
      */
     @Override
     public int hashCode() {
-        return ((Integer) this.getJ()).hashCode() + ((Integer) this.getI()).hashCode();
+        return (Integer.valueOf(this.getJ())).hashCode() + (Integer.valueOf(this.getI())).hashCode();
     }
 
 }
