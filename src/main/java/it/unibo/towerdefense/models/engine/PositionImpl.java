@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.engine;
 
+import com.google.common.base.Objects;
+
 /**
  * Class that models the concept of Position in a 2D space.
  */
@@ -101,5 +103,26 @@ public class PositionImpl implements Position {
         final double deltaX = this.getX() - other.getX();
         final double deltaY = this.getY() - other.getY();
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+
+    /**Integer
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object o) {
+        if (o instanceof PositionImpl) {
+            final PositionImpl positionObject = (PositionImpl) o;
+            return this.getX() == positionObject.getX()
+                && this.getY() == positionObject.getY();
+        }
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.getX(), this.getY());
     }
 }
