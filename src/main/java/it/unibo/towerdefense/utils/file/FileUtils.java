@@ -73,7 +73,7 @@ public final class FileUtils {
      */
     public static Optional<String> readFileOptional(final Path path) {
         try {
-            return Optional.of(Files.readString(path, StandardCharsets.UTF_8));
+            return Optional.of(readFile(path));
         } catch (final IOException e) {
             return Optional.empty();
         }
