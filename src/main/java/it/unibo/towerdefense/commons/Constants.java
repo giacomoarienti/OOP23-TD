@@ -18,9 +18,6 @@ public final class Constants {
             + File.separator
             + ".towerdefense";
 
-    /**
-     * Private constructor.
-     */
     private Constants() {
     }
 }

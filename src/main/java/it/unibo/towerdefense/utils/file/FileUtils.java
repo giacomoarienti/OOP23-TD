@@ -14,17 +14,6 @@ import java.util.Optional;
  */
 public final class FileUtils {
 
-    private FileUtils() {
-    }
-
-    private static Path stringToPath(final String filePath) throws IOException {
-        try {
-            return Paths.get(filePath);
-        } catch (final InvalidPathException e) {
-            throw new IOException("Error converting file to Path " + filePath);
-        }
-    }
-
     /**
      * Create a folder at the specified path.
      * @param folderPath the path of the folder to create
@@ -105,6 +94,17 @@ public final class FileUtils {
         final Path path = stringToPath(filePath);
         if (!Files.exists(path)) {
             Files.createFile(path);
+        }
+    }
+
+    private FileUtils() {
+    }
+
+    private static Path stringToPath(final String filePath) throws IOException {
+        try {
+            return Paths.get(filePath);
+        } catch (final InvalidPathException e) {
+            throw new IOException("Error converting file to Path " + filePath);
         }
     }
 }
