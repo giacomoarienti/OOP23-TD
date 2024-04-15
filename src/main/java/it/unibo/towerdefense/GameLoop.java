@@ -79,7 +79,7 @@ public class GameLoop implements Runnable {
 
     private void render() {
         this.fps++;
-        this.controller.update();
+        this.controller.render();
     }
 
     /**
@@ -87,7 +87,7 @@ public class GameLoop implements Runnable {
      */
     public static class Builder {
 
-        private boolean consumed = false;
+        private boolean consumed;
 
         /**
          * Build the GameLoop.

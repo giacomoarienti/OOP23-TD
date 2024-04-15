@@ -3,6 +3,7 @@ package it.unibo.towerdefense.models.map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.models.engine.Position;
+import it.unibo.towerdefense.models.engine.Size;
 
 /**
  * Interface that model a Cell, the square spatial unit of game.
@@ -29,14 +30,14 @@ public interface Cell {
 
     /**
      *Cell size getter.
-     * @return Size of square Cell.
+     * @return Size of Cell.
      */
-    int getSize();
+    Size getSize();
 
     /**
      * Returns true if this cell contains the specified position.
      * @param position whose presence in this cell is to be tested
      * @return true if this cell contains the specified position
      */
-    boolean contains(final Position position);
+    boolean contains(Position position);
 }

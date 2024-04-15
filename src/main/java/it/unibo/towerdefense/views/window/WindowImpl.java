@@ -99,6 +99,19 @@ public class WindowImpl implements Window {
      */
     @SuppressFBWarnings(
         value = { "EI_EXPOSE_REP" },
+        justification = "Intended behavior. Other frames should be"
+            + "able to access their parent frame."
+    )
+    @Override
+    public JFrame getFrame() {
+        return this.frame;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressFBWarnings(
+        value = { "EI_EXPOSE_REP" },
         justification = "Intended behavior. Other views should be"
             + "able to edit its contents."
     )

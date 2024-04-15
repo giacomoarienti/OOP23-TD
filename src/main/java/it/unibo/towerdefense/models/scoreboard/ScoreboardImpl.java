@@ -27,8 +27,8 @@ public class ScoreboardImpl implements Scoreboard {
             + "scoreboard.json";
 
     private final Set<Score> scores = new TreeSet<>();
-    private final Logger logger;
     private final String filePath;
+    private final Logger logger;
 
     /**
      * Constructor with file path.
@@ -89,13 +89,16 @@ public class ScoreboardImpl implements Scoreboard {
      */
     @Override
     public boolean saveScore(final String name, final int wave) throws IOException {
-        // create the score object
-        final Score score = new ScoreImpl(name, wave);
+        // load the current scores
+        this.loadScores();
+        // add the new score
+        this.scores.add(new ScoreImpl(name, wave));
         try {
-            final String jsonData = FileUtils.readFile(filePath);
-            // convert the JSON string to a set of Score objects
-            final JSONArray jsonArray =  jsonData.isEmpty() ? new JSONArray() : new JSONArray(jsonData);
-            jsonArray.put(new JSONObject(score.toJSON()));
+            // add each score to the a JSON array
+            final JSONArray jsonArray =  new JSONArray();
+            this.scores.forEach((score) ->
+                jsonArray.put(new JSONObject(score.toJSON()))
+            );
             // save the json string to file
             FileUtils.writeFile(filePath, jsonArray.toString());
         } catch (final JSONException e) {

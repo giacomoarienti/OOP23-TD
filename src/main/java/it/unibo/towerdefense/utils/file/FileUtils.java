@@ -9,10 +9,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import it.unibo.towerdefense.commons.Constants;
+
 /**
  * Class for file utilities.
  */
 public final class FileUtils {
+
+    /**
+     * Creates the folder for the game.
+     * @throws IOException if the folder cannot be created
+     */
+    public static void createGameFolder() throws IOException {
+        FileUtils.createFolder(Constants.GAME_FOLDER);
+    }
 
     /**
      * Create a folder at the specified path.
