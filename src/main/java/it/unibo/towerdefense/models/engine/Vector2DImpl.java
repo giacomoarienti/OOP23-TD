@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.engine;
 
+import com.google.common.base.Objects;
+
 /**
  * Class implementing the concept of Vector
  * in a 2D space.
@@ -68,6 +70,27 @@ public class Vector2DImpl implements Vector2D {
     public void add(final Vector2D vector) {
         x += vector.getX();
         y += vector.getY();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object o) {
+        if (o instanceof Vector2DImpl) {
+            final Vector2DImpl vec = (Vector2DImpl) o;
+            return this.getX() == vec.getX()
+                && this.getY() == vec.getY();
+        }
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.getX(), this.getY());
     }
 
     /**
