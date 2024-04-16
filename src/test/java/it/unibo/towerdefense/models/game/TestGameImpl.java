@@ -36,10 +36,10 @@ class TestGameImpl {
      */
     @Test
     void testDecreaseLives() {
-        final int init_lives = this.game.getLives();
-        IntStream.range(1 ,init_lives).forEach((i) -> {
+        final int initLives = this.game.getLives();
+        IntStream.range(1, initLives).forEach((i) -> {
             Assertions.assertTrue(this.game.decreaseLives());
-            Assertions.assertEquals(init_lives - i, this.game.getLives());
+            Assertions.assertEquals(initLives - i, this.game.getLives());
         });
         // make sure at next call it will return false, as the lives are 0
         Assertions.assertFalse(this.game.decreaseLives());
@@ -68,8 +68,7 @@ class TestGameImpl {
         Assertions.assertFalse(this.game.purchase(money + 1));
         // correct purchase
         this.game.purchase(money);
-        money -= money;
-        Assertions.assertEquals(money, this.game.getMoney());
+        Assertions.assertEquals(0, this.game.getMoney());
     }
 
     /**

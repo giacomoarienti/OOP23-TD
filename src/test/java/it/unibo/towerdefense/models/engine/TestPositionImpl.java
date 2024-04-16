@@ -30,8 +30,8 @@ class TestPositionImpl {
      */
     @Test
     void testAdd() {
-        final Position pos2 = new PositionImpl(pos);
-        pos.add(pos2);
+        final Position pos2 = new PositionImpl(this.pos);
+        this.pos.add(pos2);
         Assertions.assertEquals(START_X + START_X, pos.getX());
         Assertions.assertEquals(START_Y + START_Y, pos.getY());
     }
@@ -41,9 +41,9 @@ class TestPositionImpl {
      */
     @Test
     void testSubtract() {
-        final Position pos2 = new PositionImpl(pos);
+        final Position pos2 = new PositionImpl(this.pos);
         pos.subtract(pos2);
-        Assertions.assertEquals(this.zero, pos);
+        Assertions.assertEquals(this.zero, this.pos);
     }
 
     /**
@@ -53,9 +53,9 @@ class TestPositionImpl {
     void testDistanceTo() {
         // distance from itself
         final Position pos2 = new PositionImpl(this.pos);
-        Assertions.assertEquals(0, pos.distanceTo(pos2));
+        Assertions.assertEquals(0, this.pos.distanceTo(pos2));
         // distance from origin
-        final double distance = Math.sqrt(START_X*START_X + START_Y*START_Y);
-        Assertions.assertEquals(distance, pos.distanceTo(zero));
+        final double distance = Math.sqrt(START_X * START_X + START_Y * START_Y);
+        Assertions.assertEquals(distance, this.pos.distanceTo(zero));
     }
 }

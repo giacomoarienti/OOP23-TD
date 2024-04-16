@@ -27,10 +27,10 @@ class TestFileUtils {
     @BeforeEach
     void setUp() {
         // if TEST_FILE or TEST_DIR exists, delete them
-        if(fileExists(TEST_DIR)) {
+        if (fileExists(TEST_DIR)) {
             deleteFile(TEST_DIR);
         }
-        if(fileExists(TEST_FILE)) {
+        if (fileExists(TEST_FILE)) {
             deleteFile(TEST_FILE);
         }
     }
@@ -84,8 +84,8 @@ class TestFileUtils {
         Assertions.assertTrue(fileExists(path));
     }
 
-    private void deleteFile(final String path) {
+    private boolean deleteFile(final String path) {
         final File file = new File(path);
-        file.delete();
+        return file.delete();
     }
 }
