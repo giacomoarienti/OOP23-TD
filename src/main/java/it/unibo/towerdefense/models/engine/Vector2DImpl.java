@@ -77,7 +77,7 @@ public class Vector2DImpl implements Vector2D {
      * @return the direction's Vector
      */
     public static Vector2D direction(final Position start, final Position end) {
-        return new Vector2DImpl(start.getX() - end.getX(), start.getY() - end.getY());
+        return new Vector2DImpl(end.getX() - start.getX(), end.getY() - start.getY());
     }
 
     /**
