@@ -67,8 +67,8 @@ public abstract class CellAbs implements Cell {
      */
     @Override
     public boolean contains(final Position position) {
-        return position.intX() >= topLeft.intX() && position.getX() <= downRight.intX()
-            && position.intY() >= topLeft.intY() && position.getY() <= downRight.intY();
+        return position.getX() >= topLeft.getX() && position.getX() <= downRight.getX()
+            && position.getY() >= topLeft.getY() && position.getY() <= downRight.getY();
     }
 
     /**

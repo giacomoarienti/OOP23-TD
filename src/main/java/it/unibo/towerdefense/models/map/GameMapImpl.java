@@ -39,8 +39,8 @@ public class GameMapImpl implements GameMap {
         PathCell newCell;
         int distanceToEnd = 0;
         do {
-            var topLeft = new PositionImpl(cellWidth * temp.x(), cellHeight * temp.y());
-            var downRight = new PositionImpl(cellWidth * (temp.x() + 1) - 1, cellHeight * (temp.y() + 1) - 1);
+            var topLeft = new PositionImpl((int) (cellWidth * temp.x()), (int) (cellHeight * temp.y()));
+            var downRight = new PositionImpl((int) (cellWidth * (temp.x() + 1)) - 1,(int)  (cellHeight * (temp.y() + 1)) - 1);
             newCell = new PathCellImpl(temp, topLeft, downRight, distanceToEnd);
             map[temp.x()][temp.y()] = newCell;
             temp = path.getPrevious(temp);

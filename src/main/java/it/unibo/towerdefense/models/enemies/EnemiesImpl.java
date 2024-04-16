@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
-import it.unibo.towerdefense.controllers.gameMap.MapController;
+import it.unibo.towerdefense.controllers.map.MapController;
 
 /**
  * @inheritDoc .

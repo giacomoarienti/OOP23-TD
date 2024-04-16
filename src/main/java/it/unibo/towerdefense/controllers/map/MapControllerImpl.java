@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controllers.gameMap;
+package it.unibo.towerdefense.controllers.map;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
