@@ -38,7 +38,6 @@ class TestGameImpl {
     void testDecreaseLives() {
         final int init_lives = this.game.getLives();
         IntStream.range(1 ,init_lives).forEach((i) -> {
-            System.out.println(i);
             Assertions.assertTrue(this.game.decreaseLives());
             Assertions.assertEquals(init_lives - i, this.game.getLives());
         });
