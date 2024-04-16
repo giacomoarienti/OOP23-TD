@@ -7,15 +7,15 @@ import com.google.common.base.Objects;
  */
 public class PositionImpl implements Position {
 
-    private double x;
-    private double y;
+    private int x;
+    private int y;
 
     /**
      * Construct from x,y coords.
      * @param x coord
      * @param y coord
      */
-    public PositionImpl(final double x, final double y) {
+    public PositionImpl(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
@@ -33,7 +33,7 @@ public class PositionImpl implements Position {
      * {@inheritDoc}
      */
     @Override
-    public double getX() {
+    public int getX() {
         return x;
     }
 
@@ -41,7 +41,7 @@ public class PositionImpl implements Position {
      * {@inheritDoc}
      */
     @Override
-    public double getY() {
+    public int getY() {
         return y;
     }
 
@@ -49,23 +49,7 @@ public class PositionImpl implements Position {
      * {@inheritDoc}
      */
     @Override
-    public int intX() {
-        return (int) Math.round(x);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int intY() {
-        return (int) Math.round(y);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setX(final double x) {
+    public void setX(final int x) {
         this.x = x;
     }
 
@@ -73,7 +57,7 @@ public class PositionImpl implements Position {
      * {@inheritDoc}
      */
     @Override
-    public void setY(final double y) {
+    public void setY(final int y) {
         this.y = y;
     }
 
@@ -100,12 +84,12 @@ public class PositionImpl implements Position {
      */
     @Override
     public double distanceTo(final Position other) {
-        final double deltaX = this.getX() - other.getX();
-        final double deltaY = this.getY() - other.getY();
+        final int deltaX = this.getX() - other.getX();
+        final int deltaY = this.getY() - other.getY();
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
 
-    /**Integer
+    /**
      * {@inheritDoc}
      */
     @Override

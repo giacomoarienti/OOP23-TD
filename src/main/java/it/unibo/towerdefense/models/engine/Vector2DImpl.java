@@ -6,33 +6,33 @@ package it.unibo.towerdefense.models.engine;
  */
 public class Vector2DImpl implements Vector2D {
 
-    private double x;
-    private double y;
+    private int x;
+    private int y;
 
     /**
      * Constructor from x,y coordinates.
      * @param x first coordinate
      * @param y second coordinate
      */
-    public Vector2DImpl(final double x, final double y) {
+    public Vector2DImpl(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
 
     /**
-     * Normalizes the current vector.
+     * Constructor from given vector.
+     * @param vec the vector to copy from.
      */
-    private void normalize() {
-        final double length = length();
-        x = x == 0 ? 0 : x / length;
-        y = y == 0 ? 0 : y / length;
+    public Vector2DImpl(final Vector2D vec) {
+        this.x = vec.getX();
+        this.y = vec.getY();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double getX() {
+    public int getX() {
         return x;
     }
 
@@ -40,7 +40,7 @@ public class Vector2DImpl implements Vector2D {
      * {@inheritDoc}
      */
     @Override
-    public double getY() {
+    public int getY() {
         return y;
     }
 
@@ -56,7 +56,7 @@ public class Vector2DImpl implements Vector2D {
      * {@inheritDoc}
      */
     @Override
-    public void multiply(final double scalar) {
+    public void multiply(final int scalar) {
         x *= scalar;
         y *= scalar;
     }
@@ -71,24 +71,13 @@ public class Vector2DImpl implements Vector2D {
     }
 
     /**
-     * Creates a new Vector with the components of the given one.
-     * @param vector the vector to copy from
-     * @return a copy of the given vector
-     */
-    public static Vector2D copyOf(final Vector2D vector) {
-        return new Vector2DImpl(vector.getX(), vector.getY());
-    }
-
-    /**
      * Return the Vector representing the direction from start to end.
      * @param start the starting position
      * @param end the final position
      * @return the direction's Vector
      */
     public static Vector2D direction(final Position start, final Position end) {
-        final Vector2DImpl direction = new Vector2DImpl(start.getX() - end.getX(), start.getY() - end.getY());
-        direction.normalize();
-        return direction;
+        return new Vector2DImpl(start.getX() - end.getX(), start.getY() - end.getY());
     }
 
     /**
@@ -97,7 +86,7 @@ public class Vector2DImpl implements Vector2D {
      * @param v2 second vector
      * @return the result of the dot product
      */
-    public static double dot(final Vector2D v1, final Vector2D v2) {
+    public static int dot(final Vector2D v1, final Vector2D v2) {
         return v1.getX() * v2.getX() + v1.getY() * v2.getY();
     }
 }

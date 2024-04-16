@@ -10,37 +10,25 @@ public interface Position {
      * X getter.
      * @return the value of x
      */
-    double getX();
+    int getX();
 
     /**
      * Y getter.
      * @return the value of y
      */
-    double getY();
-
-    /**
-     * X getter.
-     * @return the value of x by rounding it
-     */
-    int intX();
-
-    /**
-     * Y getter.
-     * @return the value of y by rounding it
-     */
-    int intY();
+    int getY();
 
     /**
      * Updates the value of x.
      * @param x new x value
      */
-    void setX(double x);
+    void setX(int x);
 
     /**
      * Updates the value of y.
      * @param y new y value
      */
-    void setY(double y);
+    void setY(int y);
 
     /**
      * Add position's components (x,y) to the current position.

@@ -48,10 +48,10 @@ public class CollisionBoxImpl implements CollisionBox {
         if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
             return false;
         }
-        final int tx = this.position.intX();
-        final int ty = this.position.intY();
-        final int rx = other.getPosition().intX();
-        final int ry = other.getPosition().intY();
+        final int tx = this.position.getX();
+        final int ty = this.position.getY();
+        final int rx = other.getPosition().getX();
+        final int ry = other.getPosition().getY();
         rw += rx;
         rh += ry;
         tw += tx;

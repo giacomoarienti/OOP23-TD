@@ -9,13 +9,13 @@ public interface Vector2D {
      * X getter.
      * @return the value of x.
      */
-    double getX();
+    int getX();
 
     /**
      * Y getter.
      * @return the value of y.
      */
-    double getY();
+    int getY();
 
     /**
      * Calculate the length of the vector.
@@ -27,7 +27,7 @@ public interface Vector2D {
      * Multiply the vector components by a scalar.
      * @param scalar the scalar to multiply by.
      */
-    void multiply(double scalar);
+    void multiply(int scalar);
 
     /**
      * Adds the component of a vector to
