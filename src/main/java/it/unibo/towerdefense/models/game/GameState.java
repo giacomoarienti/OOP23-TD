@@ -10,11 +10,6 @@ public enum GameState {
     PLAYING,
 
     /**
-     * Game is fast forwarding.
-     */
-    FAST_FORWARDING,
-
-    /**
      * Game is in pause.
      */
     PAUSE

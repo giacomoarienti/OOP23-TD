@@ -9,7 +9,6 @@ public class GameImpl implements Game {
     private static final int START_MONEY = 500;
     private static final int START_WAVE = 1;
     private static final int PLAYING_GAME_SPEED = 1;
-    private static final int FAST_FORWARD_GAME_SPEED = 2;
     private static final int PAUSE_GAME_SPEED = 0;
 
     private int lives;
@@ -24,7 +23,7 @@ public class GameImpl implements Game {
         this.lives = START_LIVES;
         this.money = START_MONEY;
         this.wave = START_WAVE;
-        this.gameState = GameState.PLAYING;
+        this.gameState = GameState.PAUSE;
     }
 
     /**
@@ -140,8 +139,7 @@ public class GameImpl implements Game {
     @Override
     public boolean isRunning() {
         final GameState gameState = this.getGameState();
-        return gameState.equals(GameState.PLAYING)
-            || gameState.equals(GameState.FAST_FORWARDING);
+        return !gameState.equals(GameState.PAUSE);
     }
 
     /**
@@ -151,7 +149,6 @@ public class GameImpl implements Game {
     public double getGameSpeed() {
         return switch (this.gameState) {
             case PLAYING -> PLAYING_GAME_SPEED;
-            case FAST_FORWARDING -> FAST_FORWARD_GAME_SPEED;
             case PAUSE -> PAUSE_GAME_SPEED;
             default -> throw new IllegalStateException("invalid gameState " + gameState.name());
         };
