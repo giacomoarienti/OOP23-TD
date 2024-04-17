@@ -62,7 +62,8 @@ public class EnemyImpl implements Enemy {
      */
     @Override
     public EnemyPosition getPosition() {
-        return pos.clone();
+        //return pos.clone();
+        throw new UnsupportedOperationException();
     }
 
     /**

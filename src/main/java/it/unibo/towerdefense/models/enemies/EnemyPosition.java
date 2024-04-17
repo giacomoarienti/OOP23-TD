@@ -36,23 +36,7 @@ public class EnemyPosition implements Cloneable {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Getter for the x of the corresponding cell.
-     *
-     * @return the x of the corresponding cell.
-     */
-    int getCellX() {
-        return getX() / SCALING_FACTOR;
-    }
-
-    /**
-     * Getter for the y of the corresponding cell.
-     *
-     * @return the y of the corresponding cell.
-     */
-    int getCellY() {
-        return getY() / SCALING_FACTOR;
-    }
+    
 
     /**
      * Getter for the x.
@@ -111,11 +95,5 @@ public class EnemyPosition implements Cloneable {
         return Pair.of(x, y);
     };
 
-    /**
-     * @inheritDoc .
-     */
-    @Override
-    public EnemyPosition clone() {
-        return new EnemyPosition(x, y);
-    }
+    
 }

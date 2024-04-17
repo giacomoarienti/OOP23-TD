@@ -1,11 +1,13 @@
 package it.unibo.towerdefense.controllers.enemies;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.models.enemies.Enemies;
 import it.unibo.towerdefense.models.enemies.EnemiesImpl;
@@ -17,6 +19,7 @@ import it.unibo.towerdefense.views.window.Window;
 /**
  * @inheritDoc .
  */
+
 public class EnemyControllerImpl implements EnemyController {
 
     private final int width;
@@ -62,23 +65,24 @@ public class EnemyControllerImpl implements EnemyController {
      * @inheritDoc .
      */
     @Override
-    public List<Pair<Pair<Integer, Integer>, Integer>> getEnemies() {
-        lastGivenEnemies = Optional.of(model.getEnemies().stream()
+    public List<Pair<LogicalPosition, Integer>> getEnemies() {
+        /*lastGivenEnemies = Optional.of(model.getEnemies().stream()
                 .map(e -> Pair.of(e, Pair.of(e.getPosition().asPair(), e.getHp()))).toList());
-        return lastGivenEnemies.get().stream().map(p -> p.getRight()).toList();
+        return lastGivenEnemies.get().stream().map(p -> p.getRight()).toList();*/
+        throw new UnsupportedOperationException();
     }
 
     /**
      * @inheritDoc .
      */
     @Override
-    public void hurtEnemies(final Set<Pair<Integer, Integer>> indexes) {
-        if (lastGivenEnemies.isEmpty()) {
+    public void hurtEnemies(final Map<Integer, Integer> which) {
+        /*if (lastGivenEnemies.isEmpty()) {
             throw new IllegalStateException();
         }
         for (Pair<Integer, Integer> element : indexes) {
             lastGivenEnemies.get().get(element.getLeft()).getLeft().hurt(element.getRight());
-        }
+        }*/
     }
 
 }
