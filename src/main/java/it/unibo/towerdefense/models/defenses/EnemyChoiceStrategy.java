@@ -1,7 +1,9 @@
 package it.unibo.towerdefense.models.defenses;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.towerdefense.models.enemies.Enemy;
 import it.unibo.towerdefense.models.engine.Position;
 
@@ -14,12 +16,13 @@ public interface EnemyChoiceStrategy {
      * @param towerPosition the position from wich the distances are calculated.
      * @return the enemies that are eligible to be damaged.
      */
-    Set<Enemy> chooseEnemies(Set<Enemy> set, Position towerPosition);
+    List<Enemy> chooseEnemies(List<Enemy> set, Position towerPosition);
 
     /**
-     * @param availableTargets the enemies obtained by the method choseEnemies.
+     * Executes the strategy.
+     * @param availableTargets the possible targets to attack,must be filtered by chooseEnemies method.
      * @param baseDamage the base damage stat of the tower executing the strategy.
-     * @return true if there was at least one enemy that was hit.
+     * @return a map with the key indicating index of entity to damage and the value indicating the damage to inflict.
      */
-    boolean execute(Set<Enemy> availableTargets, int baseDamage);
+    Map<Integer,Integer> execute(List<Pair<Position,Integer>> availableTargets, int baseDamage);
 }
