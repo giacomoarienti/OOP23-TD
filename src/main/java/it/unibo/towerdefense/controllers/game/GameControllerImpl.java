@@ -10,6 +10,7 @@ import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameImpl;
 import it.unibo.towerdefense.models.game.GameState;
+import it.unibo.towerdefense.views.window.Window;
 
 /**
  * Game controller implementation.
@@ -19,12 +20,16 @@ public class GameControllerImpl  implements GameController {
     private final Logger logger;
     private final Game game;
     private final List<Controller> controllers;
+    private final Window window;
+    private boolean terminated;
 
     /**
-     * Zero-argument constructor.
+     * Constructor with Window.
+     * @param window the interface's window
      */
-    public GameControllerImpl() {
+    public GameControllerImpl(final Window window) {
         this.logger = LoggerFactory.getLogger(this.getClass());
+        this.window = window;
         this.game = new GameImpl();
         // instantiate controllers
         this.controllers = new ArrayList<>();
@@ -35,7 +40,16 @@ public class GameControllerImpl  implements GameController {
      * {@inheritDoc}
      */
     @Override
-    public void pauseGame() {
+    public void start() {
+        // TODO to be implemented
+        logger.info("start()");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pause() {
         this.game.setGameState(GameState.PAUSE);
     }
 
@@ -43,7 +57,7 @@ public class GameControllerImpl  implements GameController {
      * {@inheritDoc}
      */
     @Override
-    public void resumeGame() {
+    public void resume() {
         this.game.setGameState(GameState.PLAYING);
     }
 
@@ -52,8 +66,9 @@ public class GameControllerImpl  implements GameController {
      */
     @Override
     public void exit() {
-        // TODO exit
         logger.info("exit()");
+        this.terminated = true;
+        this.window.close();
     }
 
     /**
@@ -70,6 +85,14 @@ public class GameControllerImpl  implements GameController {
     @Override
     public boolean isRunning() {
         return this.game.isRunning();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isTerminated() {
+        return this.terminated;
     }
 
     /**

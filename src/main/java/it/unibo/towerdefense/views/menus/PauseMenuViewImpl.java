@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.views.menu;
+package it.unibo.towerdefense.views.menus;
 
 import java.awt.FlowLayout;
 import java.awt.Color;
@@ -49,7 +49,7 @@ public class PauseMenuViewImpl implements View {
         // create resume label and add action listener
         final JButton resumeBtn = new JButton(RESUME_LABEL);
         resumeBtn.setHorizontalAlignment(JButton.CENTER);
-        resumeBtn.addActionListener((e) -> this.controller.pauseGame());
+        resumeBtn.addActionListener((e) -> this.controller.pause());
         // create quit button and add action listener
         final JButton quitBtn = new JButton(QUIT_LABEL);
         resumeBtn.setHorizontalAlignment(JButton.CENTER);

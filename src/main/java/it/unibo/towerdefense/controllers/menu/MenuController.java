@@ -6,19 +6,24 @@ package it.unibo.towerdefense.controllers.menu;
 public interface MenuController {
 
     /**
-     * Displays the game selection view.
+     * Displays the saving selection view.
      */
-    void gameSelection();
+    void savingSelection();
+
+    /**
+     * Start a new game.
+     */
+    void play();
+
+    /**
+     * Pause the current game.
+     */
+    void pause();
 
     /**
      * Resume the current game.
      */
-    void resumeGame();
-
-    /**
-     * Pause the game and shows the pause menu.
-     */
-    void pauseGame();
+    void resume();
 
     /**
      * Quit game.

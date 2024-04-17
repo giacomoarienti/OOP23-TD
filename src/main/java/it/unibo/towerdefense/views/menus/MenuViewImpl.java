@@ -1,7 +1,10 @@
-package it.unibo.towerdefense.views.menu;
+package it.unibo.towerdefense.views.menus;
+
+import java.util.List;
 
 import java.awt.FlowLayout;
 import java.awt.Color;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -48,22 +51,20 @@ public class MenuViewImpl implements View {
         final JLabel titleLbl = new JLabel(MENU_LABEL);
         titleLbl.setHorizontalAlignment(JLabel.CENTER);
         innerPnl.add(titleLbl);
-        // create play label and add action listener
-        final JButton resumeBtn = new JButton(PLAY_LABEL);
-        resumeBtn.setHorizontalAlignment(JButton.CENTER);
-        resumeBtn.addActionListener((e) -> this.controller.pauseGame());
-        // create load game label and add action listener
-        final JButton loadGameBtn = new JButton(LOAD_GAME_LABEL);
-        loadGameBtn.setHorizontalAlignment(JButton.CENTER);
-        loadGameBtn.addActionListener((e) -> this.controller.gameSelection());
-        // create quit button and add action listener
-        final JButton quitBtn = new JButton(QUIT_LABEL);
-        resumeBtn.setHorizontalAlignment(JButton.CENTER);
-        quitBtn.addActionListener((e) -> this.controller.exit());
-        // add buttons to inner panel
-        innerPnl.add(resumeBtn);
-        innerPnl.add(loadGameBtn);
-        innerPnl.add(quitBtn);
+        // create play, load, quit buttons
+        final List<JButton> buttons = List.of(
+            createButton(PLAY_LABEL, (e) -> this.controller.play()),
+            createButton(LOAD_GAME_LABEL, (e) -> this.controller.savingSelection()),
+            createButton(QUIT_LABEL, (e) -> this.controller.exit())
+        );
+        buttons.stream().forEach((button) -> innerPnl.add(button));
         return panel;
+    }
+
+    private JButton createButton(final String label, final ActionListener action) {
+        final JButton button = new JButton(label);
+        button.setHorizontalAlignment(JButton.CENTER);
+        button.addActionListener(action);
+        return button;
     }
 }

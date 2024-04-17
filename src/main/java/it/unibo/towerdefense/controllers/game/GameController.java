@@ -8,14 +8,19 @@ import it.unibo.towerdefense.controllers.Controller;
 public interface GameController extends Controller {
 
     /**
+     * Starts the game.
+     */
+    void start();
+
+    /**
      * Sets gameState to PLAYING.
      */
-    void resumeGame();
+    void resume();
 
     /**
      * Sets gameState to PAUSE.
      */
-    void pauseGame();
+    void pause();
 
     /**
      * Gets current game speed.
@@ -24,10 +29,16 @@ public interface GameController extends Controller {
     double getGameSpeed();
 
     /**
-     * Checks if game is running.
+     * Returns if the game loop should run.
      * @return true if game is running
      */
     boolean isRunning();
+
+    /**
+     * Return if the process should terminate.
+     * @return true if the game loop should stop.
+     */
+    boolean isTerminated();
 
     /**
      * Quits the game.
