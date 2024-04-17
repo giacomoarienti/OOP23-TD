@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameImpl;
+import it.unibo.towerdefense.models.game.GameLoop;
 import it.unibo.towerdefense.models.game.GameState;
 import it.unibo.towerdefense.models.savingloader.SavingLoader;
 import it.unibo.towerdefense.models.savingloader.SavingLoaderImpl;
@@ -44,9 +45,25 @@ public class GameControllerImpl  implements GameController {
      * {@inheritDoc}
      */
     @Override
+    public void run() {
+        logger.info("run()");
+        // display the StartMenu
+        // display the window
+        this.window.display();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void start() {
-        // TODO to be implemented
         logger.info("start()");
+        // set the game state to playing
+        this.game.setGameState(GameState.PLAYING);
+        // initialize game loop and start it
+        final GameLoop.Builder gameLoopBuilder = new GameLoop.Builder();
+        final GameLoop gameLoop = gameLoopBuilder.build(this);
+        gameLoop.start();
     }
 
     /**

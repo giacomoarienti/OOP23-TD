@@ -8,7 +8,12 @@ import it.unibo.towerdefense.controllers.Controller;
 public interface GameController extends Controller {
 
     /**
-     * Starts the game.
+     * Run the application.
+     */
+    void run();
+
+    /**
+     * Starts the game loop.
      */
     void start();
 
