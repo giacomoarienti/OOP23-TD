@@ -7,12 +7,19 @@ import it.unibo.towerdefense.models.game.GameDTO;
 
 /**
  * Interface that models a game saving.
- * The saving is made up of:
+ * The saving is made up of:ù
+ * - the saving name
  * - the game state and statistics
  * - the game map
  * - the game entities (defenses).
  */
 public interface Saving extends JsonSerializable<Saving> {
+
+    /**
+     * Returns the saving name.
+     * @return the saving name
+     */
+    String getName();
 
     /**
      * Returns the game dto.

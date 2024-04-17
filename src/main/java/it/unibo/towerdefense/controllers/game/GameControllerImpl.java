@@ -61,7 +61,7 @@ public class GameControllerImpl  implements GameController {
      */
     @Override
     public double getGameSpeed() {
-        return game.getGameSpeed();
+        return this.game.getGameSpeed();
     }
 
     /**

@@ -13,6 +13,7 @@ import it.unibo.towerdefense.models.game.GameDTO;
  */
 public class SavingImpl implements Saving {
 
+    private String name;
     private GameDTO game;
     private Object map;
     private List<Object> defenses;
@@ -23,7 +24,13 @@ public class SavingImpl implements Saving {
      * @param map the map instance
      * @param defenses the list of defenses
      */
-    public SavingImpl(final GameDTO game, final Object map, final List<Object> defenses) {
+    public SavingImpl(
+        final String name,
+        final GameDTO game,
+        final Object map,
+        final List<Object> defenses
+    ) {
+        this.name = name;
         this.game = game;
         this.map = map;
         this.defenses = Collections.unmodifiableList(defenses);
@@ -33,7 +40,18 @@ public class SavingImpl implements Saving {
      * Constructs an empty SavingImpl.
      */
     public SavingImpl() {
-        this(null, null, null);
+        this(null, null, null, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+        if (Objects.isNull(this.name)) {
+            throw new IllegalStateException("Name is null");
+        }
+        return this.name;
     }
 
     /**
@@ -44,7 +62,7 @@ public class SavingImpl implements Saving {
         if (Objects.isNull(this.game)) {
             throw new IllegalStateException("Game is null");
         }
-        return game;
+        return this.game;
     }
 
     /**
@@ -55,7 +73,7 @@ public class SavingImpl implements Saving {
         if (Objects.isNull(this.map)) {
             throw new IllegalStateException("Map is null");
         }
-        return map;
+        return this.map;
     }
 
     /**
@@ -66,7 +84,7 @@ public class SavingImpl implements Saving {
         if (Objects.isNull(this.defenses)) {
             throw new IllegalStateException("Defenses is null");
         }
-        return defenses;
+        return this.defenses;
     }
 
     /**
@@ -75,7 +93,8 @@ public class SavingImpl implements Saving {
     @Override
     public String toJSON() {
         return new JSONObject()
-            .put("game", game.toJSON())
+            .put("name", this.name)
+            .put("game", this.game.toJSON())
             // .put("map", map.toJSON())
             // .put("defenses", null)
             .toString();
@@ -89,6 +108,7 @@ public class SavingImpl implements Saving {
         // TODO implement map and defenses deserialization
         final JSONObject jsonObject = new JSONObject(jsonData);
         return new SavingImpl(
+            jsonObject.getString("name"),
             GameDTO.fromJson(jsonObject.getString("game")),
             null, //Map.fromJson(jsonObject.getString("map")),
             null //List.of(...);
