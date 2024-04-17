@@ -13,12 +13,12 @@ import javax.swing.BoxLayout;
 
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.controllers.menu.MenuController;
-import it.unibo.towerdefense.views.View;
+import it.unibo.towerdefense.views.modal.ModalContent;
 
 /**
  * View representing the game's Menu.
  */
-public class MenuViewImpl implements View {
+public class MenuViewImpl implements ModalContent {
 
     private static final String MENU_LABEL = Constants.GAME_NAME;
     private static final String PLAY_LABEL = "Play";
@@ -39,7 +39,7 @@ public class MenuViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public JPanel build() {
+    public JPanel build(final Runnable onClose) {
         // create main panel
         final JPanel panel = new JPanel(new FlowLayout());
         // create inner pnl for differing layout and add to main panel
@@ -55,7 +55,7 @@ public class MenuViewImpl implements View {
         final List<JButton> buttons = List.of(
             createButton(PLAY_LABEL, (e) -> this.controller.play()),
             createButton(LOAD_GAME_LABEL, (e) -> this.controller.savingSelection()),
-            createButton(QUIT_LABEL, (e) -> this.controller.exit())
+            createButton(QUIT_LABEL, (e) -> this.close(onClose))
         );
         buttons.stream().forEach((button) -> innerPnl.add(button));
         return panel;
@@ -66,5 +66,10 @@ public class MenuViewImpl implements View {
         button.setHorizontalAlignment(JButton.CENTER);
         button.addActionListener(action);
         return button;
+    }
+
+    private void close(final Runnable onClose) {
+        onClose.run();
+        this.controller.exit();
     }
 }

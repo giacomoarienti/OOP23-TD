@@ -10,7 +10,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import it.unibo.towerdefense.views.View;
 import it.unibo.towerdefense.views.window.Window;
 
 /**
@@ -28,9 +27,9 @@ public class ModalImpl implements Modal {
      * Constructor for ModalImpl.
      * @param parent the parent window
      * @param title the title of the modal
-     * @param content the view to be displayed
+     * @param content the content to be displayed
      */
-    public ModalImpl(final Window parent, final String title, final View content) {
+    public ModalImpl(final Window parent, final String title, final ModalContent content) {
         // create the dialog frame
         this.dialog = new JDialog(parent.getFrame(), "", true);
         this.dialog.setUndecorated(true);
@@ -52,7 +51,7 @@ public class ModalImpl implements Modal {
         closeButton.addActionListener((final ActionEvent e) -> this.closeModal());
         topBar.add(closeButton, BorderLayout.EAST);
         // build and add the content view to the dialog
-        panel.add(content.build(), BorderLayout.CENTER);
+        panel.add(content.build(this::close), BorderLayout.CENTER);
     }
 
     private void closeModal() {
