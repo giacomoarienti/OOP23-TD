@@ -1,29 +1,24 @@
 package it.unibo.towerdefense.controllers.defenses;
 
 import it.unibo.towerdefense.controllers.Controller;
-import it.unibo.towerdefense.models.defenses.Defense;
 import it.unibo.towerdefense.models.engine.Position;
-
-import java.util.Set;
-import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Interface for the controller of the game defenses.
  */
 public interface DefensesController extends Controller {
     /**
-    * @return all the defenses currently built and their positions.
-    */
-    Set<Pair<Position, Defense>> getDefenses();
+     * Builds a tower of the given type.
+     * @param type the type of defense to build.
+     * @param position the position of the defense.
+     */
+    void BuildDefense(DefenseType type,Position position);
 
     /**
-     * it reduces the cooldown of all defenses,the cooldown is the mechanic wich checks if a defense is ready to hurt an enemy.
+     * Removes a defense.
+     * @param position where the defense is located at.
+     * @return the money you get from disassembling the build.
+     * @throws IllegalArgumentException if there is no Defense at given position.
      */
-    void updateCooldowns();
-
-    /**
-     * executes the EnemyChoiceStrategy of all the defenses that are eligible for being attacked.
-     * @TODO define parameters
-     */
-    void executeStrategies();
+    int DisassembleDefense(Position position);
 } 
