@@ -15,6 +15,11 @@ public interface Window {
     void display();
 
     /**
+     * Close the window.
+     */
+    void close();
+
+    /**
      * Return the JFrame where game is displayed.
      * @return the JFrame
      */

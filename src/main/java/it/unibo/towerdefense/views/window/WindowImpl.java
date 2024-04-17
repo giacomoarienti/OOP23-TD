@@ -36,7 +36,7 @@ public class WindowImpl implements Window {
      */
     public WindowImpl() {
         // create base frame
-        this.frame = new JFrame(WindowImpl.WINDOW_TITLE);
+        this.frame = new JFrame(WINDOW_TITLE);
         this.frame.setLayout(new BorderLayout());
         // calc and set starting frame size
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,24 +49,10 @@ public class WindowImpl implements Window {
             width / CANVAS_PROPORTION,
             height
         ));
-        // create upgrade menu
-        this.upgradeMenu = new JPanel();
-        this.upgradeMenu.setPreferredSize(new Dimension(
-            width / SIDE_MENUS_PROPORTION,
-            height
-        ));
-        // create buy menu
-        this.buyMenu = new JPanel();
-        this.buyMenu.setPreferredSize(new Dimension(
-            width / SIDE_MENUS_PROPORTION,
-            height
-        ));
-        // create info panel
-        this.infoPanel = new JPanel();
-        this.infoPanel.setPreferredSize(new Dimension(
-            width,
-            height / INFO_PROPORTION
-        ));
+        // create menus
+        this.upgradeMenu = createPanel(width / SIDE_MENUS_PROPORTION, height);
+        this.buyMenu = createPanel(width / SIDE_MENUS_PROPORTION, height);
+        this.infoPanel = createPanel(width, height / INFO_PROPORTION);
         // add panels to frame
         this.frame.add(this.canvas, BorderLayout.CENTER);
         this.frame.add(this.upgradeMenu, BorderLayout.WEST);
@@ -92,6 +78,15 @@ public class WindowImpl implements Window {
         // push frame on screen
         this.frame.setVisible(true);
         this.logger.info("Window displayed");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void close() {
+        this.frame.dispose();
+        this.logger.info("Window closed");
     }
 
     /**
@@ -157,5 +152,11 @@ public class WindowImpl implements Window {
     @Override
     public JPanel getInfoContainer() {
        return this.infoPanel;
+    }
+
+    private JPanel createPanel(final int width, final int height) {
+        final JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(width, height));
+        return panel;
     }
 }
