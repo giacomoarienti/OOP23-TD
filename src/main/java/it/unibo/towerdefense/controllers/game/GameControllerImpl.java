@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.controllers.game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,9 @@ import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameImpl;
 import it.unibo.towerdefense.models.game.GameState;
+import it.unibo.towerdefense.models.savingloader.SavingLoader;
+import it.unibo.towerdefense.models.savingloader.SavingLoaderImpl;
+import it.unibo.towerdefense.models.savingloader.saving.SavingImpl;
 import it.unibo.towerdefense.views.window.Window;
 
 /**
@@ -67,6 +71,9 @@ public class GameControllerImpl  implements GameController {
     @Override
     public void exit() {
         logger.info("exit()");
+        // save the current game state
+        this.saveGame();
+        // terminate the game
         this.terminated = true;
         this.window.close();
     }
@@ -117,5 +124,16 @@ public class GameControllerImpl  implements GameController {
         .forEach(
             controller -> controller.render()
         );
+    }
+
+    private void saveGame() {
+        try {
+            final SavingLoader savingLoader = new SavingLoaderImpl();
+            final SavingImpl saving = new SavingImpl();
+            savingLoader.writeSaving(saving);
+        } catch (final IOException e) {
+            logger.error("Error saving game", e);
+            this.window.displayError("Error saving game");
+        }
     }
 }
