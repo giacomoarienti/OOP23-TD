@@ -1,8 +1,10 @@
 package it.unibo.towerdefense.controllers.enemies;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
+
+import it.unibo.towerdefense.commons.LogicalPosition;
 
 /**
  * Interface which defines the enemies' controller public methods.
@@ -25,7 +27,7 @@ public interface EnemyController {
      *
      * @return the enemies' position and hp
      */
-    List<Pair<Pair<Integer, Integer>, Integer>> getEnemies();
+    List<Pair<LogicalPosition, Integer>> getEnemies();
 
     /**
      * Hurts the enemies (index, amount).
@@ -33,6 +35,6 @@ public interface EnemyController {
      * @param indexes enemies to hurt
      * @throws IllegalStateException if getEnemies has never been called.
      */
-    void hurtEnemies(Set<Pair<Integer, Integer>> indexes);
+    void hurtEnemies(Map<Integer, Integer> indexes);
 
 }
