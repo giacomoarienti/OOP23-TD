@@ -1,6 +1,9 @@
 package it.unibo.towerdefense.controllers.menu;
 
 import it.unibo.towerdefense.controllers.game.GameController;
+import it.unibo.towerdefense.views.menus.StartMenuViewImpl;
+import it.unibo.towerdefense.views.modal.ModalContent;
+import it.unibo.towerdefense.views.window.Window;
 
 /**
  * Class implementing the Menu methods.
@@ -8,13 +11,16 @@ import it.unibo.towerdefense.controllers.game.GameController;
 public class MenuControllerImpl implements MenuController {
 
     private final GameController gameController;
+    private final Window window;
 
     /**
      * Constructor with GameController.
      * @param gameController the instance of the GameController
+     * @param window the instance of the Window
      */
-    public MenuControllerImpl(final GameController gameController) {
+    public MenuControllerImpl(final GameController gameController, final Window window) {
         this.gameController = gameController;
+        this.window = window;
     }
 
 
@@ -49,17 +55,25 @@ public class MenuControllerImpl implements MenuController {
      * {@inheritDoc}
      */
     @Override
-    public void savingSelection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gameSelection'");
+    public void exit() {
+        this.gameController.exit();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void exit() {
-        this.gameController.exit();
+    public void displayStartMenu() {
+        final ModalContent startMenu = new StartMenuViewImpl(this);
+        this.window.displayModal("Start Menu", startMenu);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displaySavingSelection() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'gameSelection'");
+    }
 }

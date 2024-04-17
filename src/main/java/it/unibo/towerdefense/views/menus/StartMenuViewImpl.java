@@ -54,7 +54,7 @@ public class StartMenuViewImpl implements ModalContent {
         // create play, load, quit buttons
         final List<JButton> buttons = List.of(
             createButton(PLAY_LABEL, (e) -> this.controller.play()),
-            createButton(LOAD_GAME_LABEL, (e) -> this.controller.savingSelection()),
+            createButton(LOAD_GAME_LABEL, (e) -> this.controller.displaySavingSelection()),
             createButton(QUIT_LABEL, (e) -> this.close(onClose))
         );
         buttons.stream().forEach((button) -> innerPnl.add(button));

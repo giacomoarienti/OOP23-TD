@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.controllers.Controller;
+import it.unibo.towerdefense.controllers.menu.MenuController;
+import it.unibo.towerdefense.controllers.menu.MenuControllerImpl;
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameImpl;
 import it.unibo.towerdefense.models.game.GameLoop;
@@ -24,6 +26,7 @@ public class GameControllerImpl  implements GameController {
 
     private final Logger logger;
     private final Game game;
+    private final MenuController menuController;
     private final List<Controller> controllers;
     private final Window window;
     private boolean terminated;
@@ -37,6 +40,7 @@ public class GameControllerImpl  implements GameController {
         this.window = window;
         this.game = new GameImpl();
         // instantiate controllers
+        this.menuController = new MenuControllerImpl(this, this.window);
         this.controllers = new ArrayList<>();
         // TODO add controllers
     }
@@ -47,9 +51,10 @@ public class GameControllerImpl  implements GameController {
     @Override
     public void run() {
         logger.info("run()");
-        // display the StartMenu
         // display the window
         this.window.display();
+        // display the StartMenu
+        this.menuController.displayStartMenu();
     }
 
     /**
