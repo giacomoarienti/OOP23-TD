@@ -18,7 +18,7 @@ import it.unibo.towerdefense.views.modal.ModalContent;
 /**
  * View representing the game's Menu.
  */
-public class MenuViewImpl implements ModalContent {
+public class StartMenuViewImpl implements ModalContent {
 
     private static final String MENU_LABEL = Constants.GAME_NAME;
     private static final String PLAY_LABEL = "Play";
@@ -31,7 +31,7 @@ public class MenuViewImpl implements ModalContent {
      * MenuView constructor passing reference to its controller.
      * @param controller the MenuController
      */
-    public MenuViewImpl(final MenuController controller) {
+    public StartMenuViewImpl(final MenuController controller) {
         this.controller = controller;
     }
 
