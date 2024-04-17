@@ -20,6 +20,12 @@ public interface Window {
     void close();
 
     /**
+     * Display a error message.
+     * @param message the message to display
+     */
+    void displayError(String message);
+
+    /**
      * Return the JFrame where game is displayed.
      * @return the JFrame
      */
