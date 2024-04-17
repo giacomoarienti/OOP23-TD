@@ -1,7 +1,11 @@
 package it.unibo.towerdefense.controllers.map;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.map.BuildableCell;
 import it.unibo.towerdefense.models.map.PathCell;
@@ -23,11 +27,12 @@ public interface MapController {
     PathCell getSpawnCell();
 
     /**
-     *Return the next path cell from current.
-     * @param current the current cell
-     * @return Optional of the next cell, Optional.empty if @current is the last of path
+     * Returns the position where a enemy have to move next update
+     * @param pos current position
+     * @param distanceToMove the distance an enemy travels each update
+     * @return the position where the enemy will be located, empty if it reached the end
      */
-    Optional<PathCell> getNext(PathCell current);
+    Optional<LogicalPosition> getNextPosition(LogicalPosition pos, int distanceToMove);
 
     /**
      *Select the cell which contains the position clicked by the user, if cell is already selected it is deselected.
@@ -41,4 +46,15 @@ public interface MapController {
      */
     Optional<BuildableCell> getSelected();
 
+    /**
+     * Build a tower in the selected Cell.
+     * @param optionNumber the index of tower to build in the option list.
+     */
+    void build(int optionNumber);
+
+    /**
+     * Returns the building options in the selected cell.
+     * @return a list of pairs <defense name, cost>
+     */
+    List<Pair<String, Integer>> getBuildingOptions();
 }
