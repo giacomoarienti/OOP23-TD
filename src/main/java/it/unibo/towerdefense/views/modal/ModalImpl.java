@@ -34,16 +34,14 @@ public class ModalImpl implements Modal {
         // create main panel
         final JPanel panel = new JPanel(new BorderLayout());
         this.dialog.getContentPane().add(panel);
-        // create top bar panel
-        final JPanel topBar = new JPanel(new BorderLayout());
-        panel.add(topBar, BorderLayout.NORTH);
         // add title
         final JLabel titleLabel = new JLabel(title);
         titleLabel.setBorder(
             BorderFactory.createEmptyBorder(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE, BORDER_SIZE)
         );
         titleLabel.setFont(new Font(TITLE_FONT_NAME, TITLE_FONT_STYLE, TITLE_FONT_SIZE));
-        topBar.add(titleLabel, BorderLayout.CENTER);
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(titleLabel, BorderLayout.NORTH);
         // build and add the content view to the dialog
         panel.add(content.build(this::close), BorderLayout.CENTER);
     }
