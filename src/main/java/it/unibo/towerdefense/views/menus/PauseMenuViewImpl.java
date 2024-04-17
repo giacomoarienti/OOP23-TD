@@ -9,12 +9,12 @@ import javax.swing.JButton;
 import javax.swing.BoxLayout;
 
 import it.unibo.towerdefense.controllers.menu.MenuController;
-import it.unibo.towerdefense.views.View;
+import it.unibo.towerdefense.views.modal.ModalContent;
 
 /**
  * View representing the game's Menu.
  */
-public class PauseMenuViewImpl implements View {
+public class PauseMenuViewImpl implements ModalContent {
 
     private static final String MENU_LABEL = "Pause";
     private static final String RESUME_LABEL = "Resume";
@@ -34,7 +34,7 @@ public class PauseMenuViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public JPanel build() {
+    public JPanel build(final Runnable onClose) {
         // create main panel
         final JPanel panel = new JPanel(new FlowLayout());
         // create inner pnl for differing layout and add to main panel
@@ -53,10 +53,15 @@ public class PauseMenuViewImpl implements View {
         // create quit button and add action listener
         final JButton quitBtn = new JButton(QUIT_LABEL);
         resumeBtn.setHorizontalAlignment(JButton.CENTER);
-        quitBtn.addActionListener((e) -> this.controller.exit());
+        quitBtn.addActionListener((e) -> this.close(onClose));
         // add buttons to inner panel
         innerPnl.add(resumeBtn);
         innerPnl.add(quitBtn);
         return panel;
+    }
+
+    private void close(final Runnable onClose) {
+        onClose.run();
+        this.controller.exit();
     }
 }

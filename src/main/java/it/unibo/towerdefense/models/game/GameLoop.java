@@ -1,11 +1,9 @@
-package it.unibo.towerdefense;
+package it.unibo.towerdefense.models.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.controllers.game.GameController;
-import it.unibo.towerdefense.controllers.game.GameControllerImpl;
-import it.unibo.towerdefense.views.window.Window;
 
 /**
  * GameLoop implementation.
@@ -101,14 +99,15 @@ public class GameLoop implements Runnable {
 
         /**
          * Build the GameLoop.
+         * @param controller the game controller
          * @return the GameLoop instance.
          */
-        public final GameLoop build(final Window window) {
+        public final GameLoop build(final GameController controller) {
             if (this.consumed) {
                 throw new IllegalStateException("The builder can only be used once");
             }
             this.consumed = true;
-            return new GameLoop(new GameControllerImpl(window));
+            return new GameLoop(controller);
         }
     }
 }

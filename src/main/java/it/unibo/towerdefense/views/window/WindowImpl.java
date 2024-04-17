@@ -1,12 +1,16 @@
 package it.unibo.towerdefense.views.window;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import it.unibo.towerdefense.views.modal.ModalContent;
+import it.unibo.towerdefense.views.modal.Modal;
+import it.unibo.towerdefense.views.modal.ModalImpl;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -20,6 +24,7 @@ import java.awt.BorderLayout;
 public class WindowImpl implements Window {
 
     private static final String WINDOW_TITLE = "Tower Defense";
+    private static final String ERROR_ALERT_TITLE = "Error";
     private static final int CANVAS_PROPORTION = 2;
     private static final int SIDE_MENUS_PROPORTION = 8;
     private static final int INFO_PROPORTION = 12;
@@ -87,6 +92,23 @@ public class WindowImpl implements Window {
     public void close() {
         this.frame.dispose();
         this.logger.info("Window closed");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayError(final String message) {
+        JOptionPane.showMessageDialog(frame, message, ERROR_ALERT_TITLE, JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayModal(final String title, final ModalContent content) {
+        final Modal modal = new ModalImpl(this, title, content);
+        modal.display();
     }
 
     /**

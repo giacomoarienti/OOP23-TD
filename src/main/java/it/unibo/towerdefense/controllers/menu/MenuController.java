@@ -6,11 +6,6 @@ package it.unibo.towerdefense.controllers.menu;
 public interface MenuController {
 
     /**
-     * Displays the saving selection view.
-     */
-    void savingSelection();
-
-    /**
      * Start a new game.
      */
     void play();
@@ -29,4 +24,14 @@ public interface MenuController {
      * Quit game.
      */
     void exit();
+
+    /**
+     * Display the start menu.
+     */
+    void displayStartMenu();
+
+    /**
+     * Display the saving selection view.
+     */
+    void displaySavingSelection();
 }

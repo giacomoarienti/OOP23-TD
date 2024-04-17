@@ -8,7 +8,7 @@ public interface Modal {
     /**
      * Shows the modal window.
      */
-    void show();
+    void display();
 
     /**
      * Closes the modal window.

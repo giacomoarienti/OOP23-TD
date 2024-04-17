@@ -12,5 +12,10 @@ public enum GameState {
     /**
      * Game is in pause.
      */
-    PAUSE
+    PAUSE,
+
+    /**
+     * Game is over.
+     */
+    GAME_OVER
 }

@@ -20,6 +20,7 @@ public class SavingImpl implements Saving {
 
     /**
      * SavingImpl constructor from a game, a map and a list of defenses.
+     * @param name the name of the player
      * @param game the game instance
      * @param map the map instance
      * @param defenses the list of defenses
