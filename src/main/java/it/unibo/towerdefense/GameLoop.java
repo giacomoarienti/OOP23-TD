@@ -5,12 +5,14 @@ import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.game.GameControllerImpl;
+import it.unibo.towerdefense.views.window.Window;
 
 /**
  * GameLoop implementation.
  */
 public class GameLoop implements Runnable {
 
+    private static final String THREAD_NAME = "GameLoop";
     private static final int UPDATES_PER_SECOND = 60;
     private static final double UPDATE_RATE = 1.0d / UPDATES_PER_SECOND;
     private static final double MILLISECONDS_IN_SECOND = 1000d;
@@ -39,20 +41,28 @@ public class GameLoop implements Runnable {
         long currentTime, lastUpdate = System.currentTimeMillis();
         this.nextStatTime = System.currentTimeMillis() + (int) MILLISECONDS_IN_SECOND;
         // while game is running update state and render
-        while (this.controller.isRunning()) {
-            currentTime = System.currentTimeMillis();
-            final double lastRenderTime = (currentTime - lastUpdate) / MILLISECONDS_IN_SECOND;
-            accumulator += lastRenderTime * this.controller.getGameSpeed();
-            lastUpdate = currentTime;
-            /* render only if we do not exceed the UPDATE_RATE,
-            prevent rounding problems using int comparison */
-            while (accumulator - UPDATE_RATE > ROUNDING_DELTA) {
-                this.update();
-                this.render();
-                accumulator -= UPDATE_RATE;
+        while (this.controller.isTerminated()) {
+            while (this.controller.isRunning()) {
+                currentTime = System.currentTimeMillis();
+                final double lastRenderTime = (currentTime - lastUpdate) / MILLISECONDS_IN_SECOND;
+                accumulator += lastRenderTime * this.controller.getGameSpeed();
+                lastUpdate = currentTime;
+                /* render only if we do not exceed the UPDATE_RATE,
+                prevent rounding problems using int comparison */
+                while (accumulator - UPDATE_RATE > ROUNDING_DELTA) {
+                    this.update();
+                    this.render();
+                    accumulator -= UPDATE_RATE;
+                }
+                // print statistics for debug purposes
+                this.printStats();
             }
-            // print statistics for debug purposes
-            this.printStats();
+            // if the game loop should not update, skip a frame
+            try {
+                Thread.sleep((int) MILLISECONDS_IN_SECOND / UPDATES_PER_SECOND);
+            } catch (final InterruptedException e) {
+                logger.error("Error in game loop", e);
+            }
         }
     }
 
@@ -60,7 +70,7 @@ public class GameLoop implements Runnable {
      * Start the game loop.
      */
     public void start() {
-        new Thread(this, "GameLoop").start();
+        new Thread(this, THREAD_NAME).start();
     }
 
     private void printStats() {
@@ -93,12 +103,12 @@ public class GameLoop implements Runnable {
          * Build the GameLoop.
          * @return the GameLoop instance.
          */
-        public final GameLoop build() {
+        public final GameLoop build(final Window window) {
             if (this.consumed) {
                 throw new IllegalStateException("The builder can only be used once");
             }
             this.consumed = true;
-            return new GameLoop(new GameControllerImpl());
+            return new GameLoop(new GameControllerImpl(window));
         }
     }
 }
