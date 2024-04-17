@@ -2,10 +2,8 @@ package it.unibo.towerdefense.views.modal;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,20 +34,14 @@ public class ModalImpl implements Modal {
         // create main panel
         final JPanel panel = new JPanel(new BorderLayout());
         this.dialog.getContentPane().add(panel);
-        // create top bar panel
-        final JPanel topBar = new JPanel(new BorderLayout());
-        panel.add(topBar, BorderLayout.NORTH);
         // add title
         final JLabel titleLabel = new JLabel(title);
         titleLabel.setBorder(
             BorderFactory.createEmptyBorder(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE, BORDER_SIZE)
         );
         titleLabel.setFont(new Font(TITLE_FONT_NAME, TITLE_FONT_STYLE, TITLE_FONT_SIZE));
-        topBar.add(titleLabel, BorderLayout.CENTER);
-        // closing button
-        final JButton closeButton = new JButton("X");
-        closeButton.addActionListener((final ActionEvent e) -> this.closeModal());
-        topBar.add(closeButton, BorderLayout.EAST);
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(titleLabel, BorderLayout.NORTH);
         // build and add the content view to the dialog
         panel.add(content.build(this::close), BorderLayout.CENTER);
     }
@@ -62,7 +54,7 @@ public class ModalImpl implements Modal {
      * {@inheritDoc}
      */
     @Override
-    public void show() {
+    public void display() {
         // pack the content
         this.dialog.pack();
         // set position to center of the screen

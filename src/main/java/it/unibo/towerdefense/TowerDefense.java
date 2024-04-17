@@ -5,8 +5,8 @@ import java.io.IOException;
 import it.unibo.towerdefense.utils.file.FileUtils;
 import it.unibo.towerdefense.views.window.Window;
 import it.unibo.towerdefense.views.window.WindowImpl;
-import it.unibo.towerdefense.controllers.game.GameController;
-import it.unibo.towerdefense.controllers.game.GameControllerImpl;
+import it.unibo.towerdefense.controllers.app.AppController;
+import it.unibo.towerdefense.controllers.app.AppControllerImpl;
 
 /**
  * The main class for the Tower Defense game.
@@ -30,8 +30,8 @@ public final class TowerDefense {
         FileUtils.createGameFolder();
         // instantiate the game window
         final Window window = new WindowImpl();
-        // instantiate the game controller and run it
-        final GameController gameController = new GameControllerImpl(window);
-        gameController.run();
+        // instantiate the app controller and run it
+        final AppController appController = new AppControllerImpl(window);
+        appController.run();
     }
 }

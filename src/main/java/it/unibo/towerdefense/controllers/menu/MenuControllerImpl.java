@@ -1,20 +1,26 @@
 package it.unibo.towerdefense.controllers.menu;
 
-import it.unibo.towerdefense.controllers.game.GameController;
+import it.unibo.towerdefense.controllers.app.AppController;
+import it.unibo.towerdefense.views.menus.StartMenuViewImpl;
+import it.unibo.towerdefense.views.modal.ModalContent;
+import it.unibo.towerdefense.views.window.Window;
 
 /**
  * Class implementing the Menu methods.
  */
 public class MenuControllerImpl implements MenuController {
 
-    private final GameController gameController;
+    private final AppController appController;
+    private final Window window;
 
     /**
      * Constructor with GameController.
-     * @param gameController the instance of the GameController
+     * @param appController the instance of the GameController
+     * @param window the instance of the Window
      */
-    public MenuControllerImpl(final GameController gameController) {
-        this.gameController = gameController;
+    public MenuControllerImpl(final AppController appController, final Window window) {
+        this.appController = appController;
+        this.window = window;
     }
 
 
@@ -24,7 +30,7 @@ public class MenuControllerImpl implements MenuController {
     @Override
     public void play() {
         // TODO remove PauseMenuView
-        this.gameController.start();
+        this.appController.start();
     }
 
     /**
@@ -33,7 +39,7 @@ public class MenuControllerImpl implements MenuController {
     @Override
     public void pause() {
         // TODO remove PauseMenuView
-        this.gameController.pause();
+        this.appController.pause();
     }
 
     /**
@@ -42,16 +48,7 @@ public class MenuControllerImpl implements MenuController {
     @Override
     public void resume() {
         // TODO remove PauseMenuView
-        this.gameController.resume();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void savingSelection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gameSelection'");
+        this.appController.resume();
     }
 
     /**
@@ -59,7 +56,24 @@ public class MenuControllerImpl implements MenuController {
      */
     @Override
     public void exit() {
-        this.gameController.exit();
+        this.appController.exit();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayStartMenu() {
+        final ModalContent startMenu = new StartMenuViewImpl(this);
+        this.window.displayModal("Start Menu", startMenu);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displaySavingSelection() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'gameSelection'");
+    }
 }

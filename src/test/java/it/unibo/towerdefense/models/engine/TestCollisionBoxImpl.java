@@ -13,7 +13,6 @@ class TestCollisionBoxImpl {
     private static final int WIDTH = 5;
     private static final int HEIGHT = 6;
     private static final int ZERO = 0;
-    private static final Size size = new SizeImpl(WIDTH, HEIGHT);
 
 
     /**
@@ -21,6 +20,7 @@ class TestCollisionBoxImpl {
      */
     @Test
     void testCollidesWith() {
+        final Size size = new SizeImpl(WIDTH, HEIGHT);
         // test colliding boxes
         final CollisionBox col1 = new CollisionBoxImpl(
             new PositionImpl(START_X, START_Y),
