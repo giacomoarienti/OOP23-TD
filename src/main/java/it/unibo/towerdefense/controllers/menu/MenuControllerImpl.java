@@ -17,11 +17,39 @@ public class MenuControllerImpl implements MenuController {
         this.gameController = gameController;
     }
 
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public void gameSelection() {
+    public void play() {
+        // TODO remove PauseMenuView
+        this.gameController.start();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pause() {
+        // TODO remove PauseMenuView
+        this.gameController.pause();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resume() {
+        // TODO remove PauseMenuView
+        this.gameController.resume();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void savingSelection() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'gameSelection'");
     }
@@ -30,27 +58,8 @@ public class MenuControllerImpl implements MenuController {
      * {@inheritDoc}
      */
     @Override
-    public void resumeGame() {
-        // TODO remove PauseMenuView
-        this.gameController.resumeGame();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void pauseGame() {
-        // TODO pause the game and display the PauseMenuView
-        this.gameController.pauseGame();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void exit() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exit'");
+        this.gameController.exit();
     }
 
 }
