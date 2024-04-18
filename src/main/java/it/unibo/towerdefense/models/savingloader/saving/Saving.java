@@ -7,13 +7,13 @@ import it.unibo.towerdefense.models.game.GameDTO;
 
 /**
  * Interface that models a game saving.
- * The saving is made up of:ù
+ * The saving is made up of:
  * - the saving name
  * - the game state and statistics
  * - the game map
  * - the game entities (defenses).
  */
-public interface Saving extends JsonSerializable<Saving> {
+public interface Saving extends JsonSerializable {
 
     /**
      * Returns the saving name.
@@ -45,7 +45,7 @@ public interface Saving extends JsonSerializable<Saving> {
      * @return the saving object
      */
     static Saving fromJson(final String jsonData) {
-        return new SavingImpl().fromJSON(jsonData);
+        return SavingImpl.fromJson(jsonData);
     }
 
 }

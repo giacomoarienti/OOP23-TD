@@ -2,20 +2,15 @@ package it.unibo.towerdefense.models;
 
 /**
  * Interface that models a JSON serializable object.
- * @param <T> the type of the object
+ * The class that implements this interface should implement
+ * a static method T fromJson(String jsonData) that returns
+ * the object from the JSON representation.
  */
-public interface JsonSerializable<T> {
+public interface JsonSerializable {
 
     /**
      * Returns the object as a JSON string.
      * @return the JSON string
      */
     String toJSON();
-
-    /**
-     * Returns the object from the JSON representation.
-     * @param jsonData the JSON representation of the object
-     * @return the object
-     */
-    T fromJSON(String jsonData);
 }

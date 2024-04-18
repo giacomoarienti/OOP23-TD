@@ -12,14 +12,6 @@ public class ScoreImpl implements Score {
     private final int wave;
 
     /**
-     * Zero-argument constructor.
-     */
-    public ScoreImpl() {
-        this.name = "";
-        this.wave = 0;
-    }
-
-    /**
      * Constructor from name and wave.
      * @param name the player's name
      * @param wave the reached wave
@@ -43,30 +35,6 @@ public class ScoreImpl implements Score {
     @Override
     public int getWave() {
         return wave;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Score fromJSON(final String jsonData) {
-        // convert the JSON string to a Score object
-        final JSONObject jsonObject = new JSONObject(jsonData);
-        return new ScoreImpl(
-            jsonObject.getString("name"),
-            jsonObject.getInt("wave")
-        );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toJSON() {
-        return new JSONObject()
-            .put("name", this.getName())
-            .put("wave", this.getWave())
-            .toString();
     }
 
     /**
@@ -98,4 +66,28 @@ public class ScoreImpl implements Score {
         return Objects.hashCode(this.getName(), this.getWave());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toJSON() {
+        return new JSONObject()
+            .put("name", this.getName())
+            .put("wave", this.getWave())
+            .toString();
+    }
+
+    /**
+     * Returns the score object from JSON string.
+     * @param jsonData the JSON representation of the scoreboard
+     * @return the score object
+     */
+    public static Score fromJson(final String jsonData) {
+        // convert the JSON string to a Score object
+        final JSONObject jsonObject = new JSONObject(jsonData);
+        return new ScoreImpl(
+            jsonObject.getString("name"),
+            jsonObject.getInt("wave")
+        );
+    }
 }

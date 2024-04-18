@@ -1,7 +1,6 @@
 package it.unibo.towerdefense.models.savingloader.saving;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Collections;
 
 import org.json.JSONObject;
@@ -13,10 +12,10 @@ import it.unibo.towerdefense.models.game.GameDTO;
  */
 public class SavingImpl implements Saving {
 
-    private String name;
-    private GameDTO game;
-    private Object map;
-    private List<Object> defenses;
+    private final String name;
+    private final GameDTO game;
+    private final Object map;
+    private final List<Object> defenses;
 
     /**
      * SavingImpl constructor from a game, a map and a list of defenses.
@@ -38,20 +37,10 @@ public class SavingImpl implements Saving {
     }
 
     /**
-     * Constructs an empty SavingImpl.
-     */
-    public SavingImpl() {
-        this(null, null, null, null);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public String getName() {
-        if (Objects.isNull(this.name)) {
-            throw new IllegalStateException("Name is null");
-        }
         return this.name;
     }
 
@@ -60,9 +49,6 @@ public class SavingImpl implements Saving {
      */
     @Override
     public GameDTO getGame() {
-        if (Objects.isNull(this.game)) {
-            throw new IllegalStateException("Game is null");
-        }
         return this.game;
     }
 
@@ -71,9 +57,6 @@ public class SavingImpl implements Saving {
      */
     @Override
     public Object getMap() {
-        if (Objects.isNull(this.map)) {
-            throw new IllegalStateException("Map is null");
-        }
         return this.map;
     }
 
@@ -82,9 +65,6 @@ public class SavingImpl implements Saving {
      */
     @Override
     public List<Object> getDefenses() {
-        if (Objects.isNull(this.defenses)) {
-            throw new IllegalStateException("Defenses is null");
-        }
         return this.defenses;
     }
 
@@ -102,10 +82,11 @@ public class SavingImpl implements Saving {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the saving object from JSON string.
+     * @param jsonData the JSON representation of the saving
+     * @return the saving object
      */
-    @Override
-    public Saving fromJSON(final String jsonData) {
+    public static Saving fromJson(final String jsonData) {
         // TODO implement map and defenses deserialization
         final JSONObject jsonObject = new JSONObject(jsonData);
         return new SavingImpl(
