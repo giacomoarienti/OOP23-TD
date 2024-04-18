@@ -29,10 +29,28 @@ public interface GameController extends Controller {
     boolean save();
 
     /**
+     * Increase wave number.
+     */
+    void advanceWave();
+
+    /**
      * Gets current game speed.
      * @return game speed
      */
     double getGameSpeed();
+
+    /**
+     * Gets the current wave number.
+     * @return wave number
+     */
+    int getWave();
+
+    /**
+     * Get the money of the player.
+     * @return the amount of money
+     */
+    int getMoney();
+
 
     /**
      * Returns if the game loop should run.
