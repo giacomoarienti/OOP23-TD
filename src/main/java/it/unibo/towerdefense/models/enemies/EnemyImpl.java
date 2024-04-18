@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.models.enemies;
 
+import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 
 /**
@@ -11,7 +12,7 @@ public class EnemyImpl implements Enemy {
     private final Enemies enemies;
     private final int speed;
     private int hp;
-    private EnemyPosition pos;
+    private LogicalPosition pos;
 
     /**
      * Constructor for the class.
@@ -24,7 +25,7 @@ public class EnemyImpl implements Enemy {
         this.hp = type.getMaxHP();
         this.speed = type.getSpeed();
         this.enemies = enemies;
-        this.pos = new EnemyPosition(0, 0); //to pass spotbugs
+        this.pos = new LogicalPosition(0, 0); //to pass spotbugs
     }
 
     /**
@@ -61,9 +62,8 @@ public class EnemyImpl implements Enemy {
      * @inheritDoc .
      */
     @Override
-    public EnemyPosition getPosition() {
-        //return pos.clone();
-        throw new UnsupportedOperationException();
+    public LogicalPosition getPosition() {
+        return pos.clone();
     }
 
     /**

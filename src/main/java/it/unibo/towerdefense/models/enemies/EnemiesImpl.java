@@ -36,21 +36,7 @@ public class EnemiesImpl implements Enemies {
      */
     @Override
     public void move() {
-        /*
-         * for(Enemy e : enemies){
-         * int budget = e.getSpeed();
-         * while(budget > 0){
-         * Optional<PathCell> next = map.getNext(e.getPosition().toPathCell());
-         * if(next.isEmpty()){
-         * signalDeath(e);
-         * }else{
-         * EnemyPosition nextPos = EnemyPosition.fromPathCell(next.get());
-         * int distance = e.getPosition().distanceFromAdjacent(nextPos);
-         * budget-=distance;
-         * }
-         * }
-         * }unfinished
-         */
+        throw new UnsupportedOperationException();
     }
 
     /**

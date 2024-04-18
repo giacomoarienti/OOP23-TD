@@ -45,4 +45,14 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
         return new LogicalPosition(this.getX(), this.getY());
     }
 
+    /**
+     * Compact setter.
+     * @param x the new x
+     * @param y the new y
+     */
+    public void set(int x, int y){
+        this.setX(x);
+        this.setY(y);
+    }
+
 }
