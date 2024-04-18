@@ -2,6 +2,9 @@ package it.unibo.towerdefense.models.game;
 
 import it.unibo.towerdefense.models.JsonSerializable;
 
+/**
+ * Data transfer object for Game.
+ */
 public interface GameDTO extends JsonSerializable {
 
     /**
