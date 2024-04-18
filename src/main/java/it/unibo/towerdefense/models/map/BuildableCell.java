@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.models.map;
 
-import java.util.Optional;
+import it.unibo.towerdefense.controllers.defenses.DefenseType;
 
 /**
  * Interface that models a buildable cell.
@@ -8,14 +8,20 @@ import java.util.Optional;
 public interface BuildableCell extends Cell {
 
     /**
-     *Cell build current state.
+     * Cell build current state.
      * @return true if cell contains a defense, false if is empty.
      */
     boolean isBuilt();
 
     /**
-     *Return the ID of defense present in the cell.
-     * @return Optional of Object id of the defense, Optiona.empty if it is not built.
+     * Return the defense present in the cell.
+     * @return the defense present in the cell, NOTOWER if is not present.
      */
-    Optional<Long> getDefense(); // ???
+    DefenseType getDefense();
+
+    /**
+     * Build the defense in this cell.
+     * @param defense type of defense to build, NOTOWER to sell the tower.
+     */
+    void build(DefenseType defense);
 }

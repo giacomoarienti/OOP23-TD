@@ -139,7 +139,7 @@ public class GameImpl implements Game {
     @Override
     public boolean isRunning() {
         final GameState gameState = this.getGameState();
-        return !gameState.equals(GameState.PAUSE);
+        return gameState.equals(GameState.PLAYING);
     }
 
     /**

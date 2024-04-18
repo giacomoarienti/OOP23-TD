@@ -37,30 +37,11 @@ public class ScoreboardViewImpl implements ScoreboardView {
         this.scoreboard = new ScoreboardDTO(scoreboard);
     }
 
-    private JLabel buildText(final String text, final boolean bold) {
-        final JLabel label = new JLabel(text);
-        label.setFont(new Font(FONT_NAME, bold ? Font.BOLD : Font.PLAIN, FONT_SIZE));
-        return label;
-    }
-
-    private JPanel buildRowEntry(final String col1, final String col2, final boolean isHeader) {
-        final GridLayout layout = new GridLayout(1, 2);
-        layout.setHgap(ENTRY_V_SPACING);
-        final JPanel panel = new JPanel(layout);
-        panel.add(this.buildText(col1, isHeader));
-        panel.add(this.buildText(col2, isHeader));
-        return panel;
-    }
-
-    private JPanel buildScoreEntry(final Score score) {
-        return this.buildRowEntry(score.getName(), String.valueOf(score.getWave()), false);
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public JPanel build() {
+    public JPanel build(final Runnable onClose) {
         // create main panel
         final JPanel panel = new JPanel(new FlowLayout());
         panel.setBorder(
@@ -79,6 +60,25 @@ public class ScoreboardViewImpl implements ScoreboardView {
             innerPnl.add(this.buildScoreEntry(entry));
         }
         return panel;
+    }
+
+    private JLabel buildText(final String text, final boolean bold) {
+        final JLabel label = new JLabel(text);
+        label.setFont(new Font(FONT_NAME, bold ? Font.BOLD : Font.PLAIN, FONT_SIZE));
+        return label;
+    }
+
+    private JPanel buildRowEntry(final String col1, final String col2, final boolean isHeader) {
+        final GridLayout layout = new GridLayout(1, 2);
+        layout.setHgap(ENTRY_V_SPACING);
+        final JPanel panel = new JPanel(layout);
+        panel.add(this.buildText(col1, isHeader));
+        panel.add(this.buildText(col2, isHeader));
+        return panel;
+    }
+
+    private JPanel buildScoreEntry(final Score score) {
+        return this.buildRowEntry(score.getName(), String.valueOf(score.getWave()), false);
     }
 
 }

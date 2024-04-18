@@ -1,29 +1,44 @@
 package it.unibo.towerdefense.controllers.defenses;
 
+import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.Controller;
-import it.unibo.towerdefense.models.defenses.Defense;
-import it.unibo.towerdefense.models.engine.Position;
 
-import java.util.Set;
+import java.util.Map;
+import java.util.List;
+
 import org.apache.commons.lang3.tuple.Pair;
+
 
 /**
  * Interface for the controller of the game defenses.
  */
 public interface DefensesController extends Controller {
     /**
-    * @return all the defenses currently built and their positions.
-    */
-    Set<Pair<Position, Defense>> getDefenses();
+     * Builds a tower of the given type.
+     * @param type the type of defense to build.
+     * @param position the position of the defense.
+     */
+    void buildDefense(DefenseType type, LogicalPosition position);
 
     /**
-     * it reduces the cooldown of all defenses,the cooldown is the mechanic wich checks if a defense is ready to hurt an enemy.
+     * Removes a defense.
+     * @param position where the defense is located at.
+     * @return the money you get from disassembling the build.
+     * @throws IllegalArgumentException if there is no Defense at given position.
      */
-    void updateCooldowns();
+    int disassembleDefense(LogicalPosition position);
 
     /**
-     * executes the EnemyChoiceStrategy of all the defenses that are eligible for being attacked.
-     * @TODO define parameters
+     * Gets the possible buildable defenses on given position.
+     * @param position the position where to build.
+     * @return the possibles types of buildable defenses and their mapped cost. 
      */
-    void executeStrategies();
+    Map<DefenseType, Integer> getBuildables(LogicalPosition position);
+
+    /**
+     * makes the current ready defenses attack the available enemies.
+     * @param availableTargets a list of the targets position and health.
+     * @return the targets index and the amount of damage to deal (key=index and damage=value).
+     */
+    Map<Integer, Integer> attackEnemies(List<Pair<LogicalPosition, Integer>> availableTargets);
 } 

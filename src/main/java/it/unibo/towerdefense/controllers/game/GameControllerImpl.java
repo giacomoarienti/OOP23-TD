@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.controllers.game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,11 @@ import org.slf4j.LoggerFactory;
 import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameImpl;
+import it.unibo.towerdefense.models.game.GameLoop;
 import it.unibo.towerdefense.models.game.GameState;
+import it.unibo.towerdefense.models.savingloader.SavingLoader;
+import it.unibo.towerdefense.models.savingloader.SavingLoaderImpl;
+import it.unibo.towerdefense.models.savingloader.saving.SavingImpl;
 
 /**
  * Game controller implementation.
@@ -19,9 +24,10 @@ public class GameControllerImpl  implements GameController {
     private final Logger logger;
     private final Game game;
     private final List<Controller> controllers;
+    private boolean terminated;
 
     /**
-     * Zero-argument constructor.
+     * Constructor with Window.
      */
     public GameControllerImpl() {
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -35,7 +41,21 @@ public class GameControllerImpl  implements GameController {
      * {@inheritDoc}
      */
     @Override
-    public void pauseGame() {
+    public void start() {
+        logger.info("start()");
+        // set the game state to playing
+        this.game.setGameState(GameState.PLAYING);
+        // initialize game loop and start it
+        final GameLoop.Builder gameLoopBuilder = new GameLoop.Builder();
+        final GameLoop gameLoop = gameLoopBuilder.build(this);
+        gameLoop.start();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pause() {
         this.game.setGameState(GameState.PAUSE);
     }
 
@@ -43,17 +63,28 @@ public class GameControllerImpl  implements GameController {
      * {@inheritDoc}
      */
     @Override
-    public void resumeGame() {
+    public void resume() {
         this.game.setGameState(GameState.PLAYING);
     }
+
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void exit() {
-        // TODO exit
-        logger.info("exit()");
+    public boolean save() {
+        // TODO pass the game, map and defenses to the SavingImpl constructor
+        // create saving instance
+        final SavingImpl saving = new SavingImpl();
+        // write saving
+        try {
+            final SavingLoader savingLoader = new SavingLoaderImpl();
+            savingLoader.writeSaving(saving);
+            return true;
+        } catch (final IOException e) {
+            logger.error("Error saving game", e);
+            return false;
+        }
     }
 
     /**
@@ -70,6 +101,14 @@ public class GameControllerImpl  implements GameController {
     @Override
     public boolean isRunning() {
         return this.game.isRunning();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isTerminated() {
+        return this.terminated;
     }
 
     /**
