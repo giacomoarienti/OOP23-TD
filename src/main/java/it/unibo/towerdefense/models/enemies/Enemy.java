@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.models.enemies;
 
+import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 
 /**
@@ -46,6 +47,6 @@ public interface Enemy {
      *
      * @return the enemy's EnemyPosition.
      */
-    EnemyPosition getPosition();
+    LogicalPosition getPosition();
 
 }

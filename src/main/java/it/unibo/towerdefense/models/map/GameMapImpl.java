@@ -3,6 +3,7 @@ package it.unibo.towerdefense.models.map;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
+import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.engine.PositionImpl;
 import it.unibo.towerdefense.models.engine.Size;
@@ -26,11 +27,11 @@ public class GameMapImpl implements GameMap {
      * @param sizeInPixel size of map in terms of pixels
      * @param sizeInCell size of map in terms of Cells
      */
-    public GameMapImpl(final Size sizeInPixel, final Size sizeInCell) {
+    public GameMapImpl(final Size size) {
 
-        this.sizeInCell = sizeInCell;
-        cellHeight = (double) sizeInPixel.getHeight() / sizeInCell.getHeight();
-        cellWidth = (double) sizeInPixel.getWidth() / sizeInCell.getWidth();
+        this.sizeInCell = size;
+        cellHeight = (double) LogicalPosition.SCALING_FACTOR;
+        cellWidth = (double) LogicalPosition.SCALING_FACTOR;
         map = new Cell[sizeInCell.getHeight()][sizeInCell.getWidth()];
 
         final Coords end = new Coords(sizeInCell.getWidth(), random.nextInt(sizeInCell.getHeight()));

@@ -2,6 +2,7 @@ package it.unibo.towerdefense.controllers.enemies;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class EnemyControllerImpl implements EnemyController {
     private final Enemies model;
     private final EnemiesRenderer renderer;
     private final MapController map;
-    private Optional<List<Pair<Enemy, Pair<Pair<Integer, Integer>, Integer>>>> lastGivenEnemies = Optional.empty();
+    private Optional<List<Enemy>> lastGivenEnemies = Optional.empty();
 
     /**
      * Constructor for the controller.
@@ -66,10 +67,8 @@ public class EnemyControllerImpl implements EnemyController {
      */
     @Override
     public List<Pair<LogicalPosition, Integer>> getEnemies() {
-        /*lastGivenEnemies = Optional.of(model.getEnemies().stream()
-                .map(e -> Pair.of(e, Pair.of(e.getPosition().asPair(), e.getHp()))).toList());
-        return lastGivenEnemies.get().stream().map(p -> p.getRight()).toList();*/
-        throw new UnsupportedOperationException();
+        lastGivenEnemies = Optional.of(model.getEnemies().stream().toList());
+        return lastGivenEnemies.get().stream().map(e -> Pair.of(e.getPosition(), e.getHp())).toList();
     }
 
     /**
@@ -77,12 +76,13 @@ public class EnemyControllerImpl implements EnemyController {
      */
     @Override
     public void hurtEnemies(final Map<Integer, Integer> which) {
-        /*if (lastGivenEnemies.isEmpty()) {
-            throw new IllegalStateException();
+        if (lastGivenEnemies.isEmpty()) {
+            throw new IllegalStateException("getEnemies has not been called yet");
+        }else{
+            for (Entry<Integer, Integer> element : which.entrySet()) {
+                lastGivenEnemies.get().get(element.getKey()).hurt(element.getValue());
+            }
         }
-        for (Pair<Integer, Integer> element : indexes) {
-            lastGivenEnemies.get().get(element.getLeft()).getLeft().hurt(element.getRight());
-        }*/
     }
 
 }
