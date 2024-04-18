@@ -19,7 +19,7 @@ import it.unibo.towerdefense.models.savingloader.saving.SavingImpl;
 /**
  * Game controller implementation.
  */
-public class GameControllerImpl  implements GameController {
+public class GameControllerImpl implements GameController {
 
     private final Logger logger;
     private final Game game;
@@ -91,8 +91,32 @@ public class GameControllerImpl  implements GameController {
      * {@inheritDoc}
      */
     @Override
+    public void advanceWave() {
+        this.game.advanceWave();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public double getGameSpeed() {
         return this.game.getGameSpeed();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getWave() {
+        return this.game.getWave();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getMoney() {
+        return this.game.getMoney();
     }
 
     /**
