@@ -6,9 +6,6 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
-
-
-
 /**
  * The strategy responsible for selecting targets and calculating the amount of damage to deal.
  */
