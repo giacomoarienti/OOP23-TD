@@ -23,11 +23,8 @@ import it.unibo.towerdefense.views.window.Window;
 
 public class EnemyControllerImpl implements EnemyController {
 
-    private final int width;
-    private final int height;
     private final Enemies model;
     private final EnemiesRenderer renderer;
-    private final MapController map;
     private Optional<List<Enemy>> lastGivenEnemies = Optional.empty();
 
     /**
@@ -38,12 +35,9 @@ public class EnemyControllerImpl implements EnemyController {
      * @param window handle to be passed to the renderer
      * @param map    to know where to move enemies
      */
-    EnemyControllerImpl(final int width, final int height, final Window window, final MapController map) {
-        this.width = width;
-        this.height = height;
-        model = new EnemiesImpl(width, height, map);
+    EnemyControllerImpl(final Window window, final MapController map) {
+        model = new EnemiesImpl(map);
         renderer = new EnemiesRendererImpl(window);
-        this.map = map;
     }
 
     /**
@@ -83,6 +77,14 @@ public class EnemyControllerImpl implements EnemyController {
                 lastGivenEnemies.get().get(element.getKey()).hurt(element.getValue());
             }
         }
+    }
+
+    /**
+     * @inheritDoc .
+     */
+    @Override
+    public void spawn(int wave){
+        throw new UnsupportedOperationException();
     }
 
 }

@@ -2,8 +2,10 @@ package it.unibo.towerdefense.models.enemies;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
+import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 import it.unibo.towerdefense.controllers.map.MapController;
 
@@ -13,8 +15,6 @@ import it.unibo.towerdefense.controllers.map.MapController;
 public class EnemiesImpl implements Enemies {
 
     private Set<Enemy> enemies;
-    private final int width;
-    private final int height;
     private final MapController map;
 
     /**
@@ -24,9 +24,7 @@ public class EnemiesImpl implements Enemies {
      * @param height of the game area in cells
      * @param map    handle to get next positions
      */
-    public EnemiesImpl(final int width, final int height, final MapController map) {
-        this.width = width;
-        this.height = height;
+    public EnemiesImpl(final MapController map) {
         this.enemies = new HashSet<>();
         this.map = map;
     }
@@ -36,7 +34,14 @@ public class EnemiesImpl implements Enemies {
      */
     @Override
     public void move() {
-        throw new UnsupportedOperationException();
+        for(Enemy e: enemies){
+            Optional<LogicalPosition> next = map.getNextPosition(e.getPosition(), e.getSpeed());
+            if(next.isEmpty()){
+                this.signalDeath(e);
+            }else{
+                e.move(next.get());
+            }
+        }
     }
 
     /**

@@ -16,6 +16,13 @@ public interface Enemy {
     void hurt(int amount);
 
     /**
+     * Sets the enemy's position to be the same of the one passed as an argument.
+     *
+     * @param pos the new position
+     */
+    void move(final LogicalPosition pos);
+
+    /**
      *  Moves the enemy to the desired position.
      *
      * @param x x

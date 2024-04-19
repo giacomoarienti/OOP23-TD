@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.controllers.game;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +11,6 @@ import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameImpl;
 import it.unibo.towerdefense.models.game.GameLoop;
 import it.unibo.towerdefense.models.game.GameState;
-import it.unibo.towerdefense.models.savingloader.SavingLoader;
-import it.unibo.towerdefense.models.savingloader.SavingLoaderImpl;
-import it.unibo.towerdefense.models.savingloader.saving.SavingImpl;
 
 /**
  * Game controller implementation.
@@ -74,7 +70,7 @@ public class GameControllerImpl implements GameController {
     @Override
     public boolean save() {
         // TODO pass the game, map and defenses to the SavingImpl constructor
-        // create saving instance
+        /*// create saving instance
         final SavingImpl saving = new SavingImpl();
         // write saving
         try {
@@ -84,7 +80,8 @@ public class GameControllerImpl implements GameController {
         } catch (final IOException e) {
             logger.error("Error saving game", e);
             return false;
-        }
+        }*/
+        return true;
     }
 
     /**

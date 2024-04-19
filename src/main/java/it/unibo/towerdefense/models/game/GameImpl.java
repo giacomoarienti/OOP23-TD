@@ -40,6 +40,14 @@ public class GameImpl implements Game {
     }
 
     /**
+     * Constructor from GameDTO.
+     * @param gameDTO the GameDTO object
+     */
+    public GameImpl(final GameDTO gameDTO) {
+        this(gameDTO.getLives(), gameDTO.getMoney(), gameDTO.getWave());
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

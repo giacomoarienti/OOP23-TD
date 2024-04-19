@@ -70,4 +70,13 @@ public interface Game {
      * @return current game speed
      */
     double getGameSpeed();
+
+    /**
+     * Returns the Game object from a GameDTO object.
+     * @param dto the GameDTO object
+     * @return the Game object
+     */
+    static Game fromDTO(final GameDTO dto) {
+        return new GameImpl(dto);
+    }
 }
