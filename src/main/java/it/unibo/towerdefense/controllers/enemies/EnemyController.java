@@ -37,4 +37,12 @@ public interface EnemyController {
      */
     void hurtEnemies(Map<Integer, Integer> indexes);
 
+    /**
+     * Spawns the enemies corresponding to the given wave.
+     *
+     * The amount and type of enemies are arbitrarily decided based on the wave number.
+     * @param wave
+     */
+    void spawn(int wave);
+
 }

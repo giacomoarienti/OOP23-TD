@@ -62,6 +62,14 @@ public class EnemyImpl implements Enemy {
      * @inheritDoc .
      */
     @Override
+    public void move(final LogicalPosition pos) {
+        this.move(pos.getX(), pos.getY());
+    }
+
+    /**
+     * @inheritDoc .
+     */
+    @Override
     public LogicalPosition getPosition() {
         return pos.clone();
     }
