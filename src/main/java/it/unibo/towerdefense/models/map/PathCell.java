@@ -5,22 +5,17 @@ package it.unibo.towerdefense.models.map;
  */
 public interface PathCell extends Cell {
 
-    /*the four cardinal points *
-    public enum Direction {
-        N, S, E, W;
-    }
-
     /**
      * Entry Direction  getter.
      * @return Direction from which enemies enter the cell
-     *
+     */
     Direction getInDirection();
 
     /**
      * Exit Direction  getter.
      * @return Direction from which enemies exit the cell
-     *
-    Direction getOuDirection();*/
+     */
+    Direction getOutDirection();
 
     /**
      * Return the distandce from end of path.
