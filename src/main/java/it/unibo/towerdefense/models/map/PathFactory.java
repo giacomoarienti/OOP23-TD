@@ -3,31 +3,14 @@ package it.unibo.towerdefense.models.map;
 import java.util.List;
 import java.util.stream.Stream;
 
+import it.unibo.towerdefense.models.engine.Position;
+import it.unibo.towerdefense.models.engine.PositionImpl;
+
 /**
  * Class that generate different tipes of path.
  */
 public class PathFactory {
 
-    private enum Direction {
-        N(0, +1), W(+1, 0), S(0, -1), E(-1, 0);
-
-        private final int orizontal;
-        private final int vertical;
-
-        Direction(final int orizontal, final int vertical) {
-            this.orizontal = orizontal;
-            this.vertical = vertical;
-        }
-
-        public int orizontal() {
-            return orizontal;
-        }
-
-        public int vertical() {
-            return vertical;
-        }
-
-    }
 
     private int turnRight(final int ind) {
         return turnLeft(turnLeft(turnLeft(ind)));
@@ -43,13 +26,14 @@ public class PathFactory {
      * @param end coordinates of last point of line.
      * @return the path
      */
-    public Path line(final Coords end) {
+    public Path line(final Position end) {
         return new Path() {
 
-            private List<Coords> list = Stream.iterate(0, i -> i < end.x(), i -> i + 1).map(i -> new Coords(i, end.y())).toList();
+            private List<Position> list = Stream.iterate(0, i -> i < end.getX(), i -> i + 1)
+                .map(i -> (Position) new PositionImpl(i, end.getY())).toList();
 
             @Override
-            public Coords getNext(final Coords coords) {
+            public Position getNext(final Position coords) {
                 int i = list.indexOf(coords);
                 if (i < list.size() - 1) {
                     return list.get(i + 1);
@@ -58,7 +42,7 @@ public class PathFactory {
             }
 
             @Override
-            public Coords getPrevious(final Coords coords) {
+            public Position getPrevious(final Position coords) {
                 int i = list.indexOf(coords);
                 if (i > 0) {
                     return list.get(i - 1);

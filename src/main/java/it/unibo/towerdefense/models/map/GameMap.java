@@ -35,5 +35,5 @@ public interface GameMap {
      * @return the next cell in the path
      * @throws NoSuchElementException if current is a finish cell of path
      */
-    PathCell getNext(PathCell current) throws NoSuchElementException;
+    Position getNext(Position current) throws NoSuchElementException;
 }

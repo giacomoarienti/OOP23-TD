@@ -7,8 +7,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.map.BuildableCell;
-import it.unibo.towerdefense.models.map.PathCell;
 
 /**
  *Interface that models controller of map.
@@ -21,13 +19,13 @@ public interface MapController {
     void update();
 
     /**
-     * Enemies spawn Cell getter.
-     * @return the first cell of path.
+     * Enemies spawn point getter.
+     * @return the centre of side of path-cell where enemies spawn.
      */
-    PathCell getSpawnCell();
+    LogicalPosition getSpawnPosition();
 
     /**
-     * Returns the position where a enemy have to move next update
+     * Returns the position where a enemy have to move next update.
      * @param pos current position
      * @param distanceToMove the distance an enemy travels each update
      * @return the position where the enemy will be located, empty if it reached the end
@@ -44,7 +42,7 @@ public interface MapController {
      *Return an optional of the current selected cell.
      * @return Optional of the cell if a cell is currently selected and is a BuildableCell, else Optional.empty.
      */
-    Optional<BuildableCell> getSelected();
+    Optional<Position> getSelected();
 
     /**
      * Build a tower in the selected Cell.
