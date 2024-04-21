@@ -83,10 +83,15 @@ class TestEnemyChoiceStrategyFactoryImpl {
         final LogicalPosition testPos1 = new LogicalPosition(5, 5);
         final LogicalPosition testPos2 = new LogicalPosition(3, 3);
         final LogicalPosition testPos3 = new LogicalPosition(-12, -15);
+        final LogicalPosition testPos4 = new LogicalPosition(0, 0);
+        final LogicalPosition testPos5 = new LogicalPosition(4, -5);
+        final LogicalPosition testPos6 = new LogicalPosition(4, 0);
         /**create expected results */
         final Map<Integer, Integer> expectedResultTest1 = new HashMap<>();
         final Map<Integer, Integer> expectedResultTest2 = Map.of(0, TEST_DAMAGE);
         final Map<Integer, Integer> expectedResultTest3 = Map.of(0, TEST_DAMAGE, 1, TEST_DAMAGE);
+        final Map<Integer, Integer> expectedResultTest4 = Map.of(1, TEST_DAMAGE,
+        3, TEST_DAMAGE, 5, TEST_DAMAGE);
 
         EnemyChoiceStrategy strategy = factory.closestTargetWithAreaDamage(TEST_AREA_RANGE, TEST_RANGE, TEST_POSITION);
         /**Test 1: no target possible*/
@@ -98,5 +103,10 @@ class TestEnemyChoiceStrategyFactoryImpl {
         testTargets.add(new ImmutablePair<>(testPos2, TEST_HP));
         testTargets.add(new ImmutablePair<>(testPos3, TEST_HP));
         Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest3);
+        /**Test 4:Add a few more entities for precision check.*/
+        testTargets.add(new ImmutablePair<>(testPos4, TEST_HP));
+        testTargets.add(new ImmutablePair<>(testPos5, TEST_HP));
+        testTargets.add(new ImmutablePair<>(testPos6, TEST_HP));
+        Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest4);
     }
 }

@@ -34,6 +34,10 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
             @Override
             public Map<Integer, Integer> execute(final List<Pair<LogicalPosition, Integer>> availableTargets,
             final int baseDamage) {
+                /**No need for calculations if list is empty.*/
+                if (availableTargets.size() == 0) {
+                    return Map.of();
+                }
                 /*map entities to list index.*/
                 Map<Integer, Pair<LogicalPosition, Integer>> mappedAvailableTargets = IntStream.range(0, availableTargets.size())
                         .boxed()
@@ -75,6 +79,26 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
     @Override
     public EnemyChoiceStrategy closestTargetWithAreaDamage(final int damageRange, final int range, 
     final LogicalPosition position) {
-        return null;
+        /**get closest target to tower (this function takes all entities and finds the closest one to the defense).*/
+        Function<Map<Integer, Pair<LogicalPosition, Integer>>, LogicalPosition> getClosest =
+        (targets) -> targets.entrySet()
+        .stream()
+        .sorted((p1, p2) ->
+            Double.compare(p1.getValue().getKey().distanceTo(position),
+            p2.getValue().getKey().distanceTo(position)))
+        .findFirst()
+        .get()
+        .getValue().getKey();
+
+        /**now we can build the function.*/
+        return genericModel((x1, x2) -> x1.distanceTo(x2) <= range,
+        map -> map.entrySet()
+        .stream()
+        .filter(ent -> ent.getValue().getKey().distanceTo(getClosest.apply(map)) <= damageRange)
+        .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
+        (damage, map) -> map.entrySet()
+        .stream()
+        .collect(Collectors.toMap(m -> m.getKey(), m -> damage)),
+        position);
     }
 }
