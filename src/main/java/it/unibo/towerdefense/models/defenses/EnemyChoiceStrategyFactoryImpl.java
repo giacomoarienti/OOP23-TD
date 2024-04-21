@@ -75,7 +75,6 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
     @Override
     public EnemyChoiceStrategy closestTargetWithAreaDamage(final int damageRange, final int range, 
     final LogicalPosition position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'closestTargetWithAreaDamage'");
+        return null;
     }
 }
