@@ -1,14 +1,19 @@
 package it.unibo.towerdefense.controllers.map;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.controllers.defenses.DefenseType;
+import it.unibo.towerdefense.controllers.defenses.DefensesController;
 import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.engine.PositionImpl;
 import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.models.map.BuildableCell;
 import it.unibo.towerdefense.models.map.Cell;
 import it.unibo.towerdefense.models.map.Direction;
 import it.unibo.towerdefense.models.map.GameMap;
@@ -21,14 +26,18 @@ import it.unibo.towerdefense.models.map.PathCell;
 public class MapControllerImpl implements MapController {
 
     private final GameMap map;
-    private Position selected = null;
+    private BuildableCell selected = null;
+    private final DefensesController defensesController;
+    private List<Entry<DefenseType, Integer>> options;
 
     /**
      *Constructor from size of map in two unit of measure.
      * @param size size of map in terms of game cells.
+     * @param defensesController the defenses controller.
      */
-    public MapControllerImpl(final Size size) {
+    public MapControllerImpl(final Size size, final DefensesController defensesController) {
         this.map = new GameMapImpl(size);
+        this.defensesController = defensesController;
     }
 
     /**
@@ -41,6 +50,7 @@ public class MapControllerImpl implements MapController {
     }
 
     /**
+     * Returns the midpoint of in-direction's cell side.
      * {@inheritDoc}
      */
     @Override
@@ -55,10 +65,13 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public void select(final Position position) {
-        if (selected.equals(position)) {
+        Cell c = map.getCellAt(position);
+        if (c.equals(selected)) {
             selected = null;
         } else {
-            selected = position;
+            if (c instanceof BuildableCell && ((BuildableCell) c).isBuildable()) {
+                selected = (BuildableCell) c;
+            }
         }
     }
 
@@ -67,7 +80,7 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public Optional<Position> getSelected() {
-        return selected == null ? Optional.empty() : Optional.of(selected);
+        return selected == null ? Optional.empty() : Optional.of(new PositionImpl(selected.getX(), selected.getY()));
     }
 
     /**
@@ -106,8 +119,17 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public void build(final int optionNumber) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'build'");
+        if (selected == null || options.isEmpty()) {
+            throw new IllegalStateException("Can't build!");
+        }
+        defensesController.buildDefense(options.get(optionNumber).getKey(), selected.getCenter());
+    }
+
+    private  List<Map.Entry<DefenseType, Integer>> requestBuildinOption() {
+        if (selected == null) {
+            return List.of();
+        }
+        return defensesController.getBuildables(selected.getCenter()).entrySet().stream().toList();
     }
 
     /**
@@ -115,12 +137,8 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public List<Pair<String, Integer>> getBuildingOptions() {
-        if (selected == null) {
-            return List.of();
-        }
-
-         // TODO Auto-generated method stub
-         throw new UnsupportedOperationException("Unimplemented method 'build'");
+        options = requestBuildinOption();
+        return options.stream().map(e -> Pair.of(e.getKey().toString(), e.getValue())).toList();
     }
 
 }
