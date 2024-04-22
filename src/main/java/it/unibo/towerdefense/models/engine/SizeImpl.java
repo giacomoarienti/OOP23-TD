@@ -42,4 +42,12 @@ public class SizeImpl implements Size {
     public int getHeight() {
         return height;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Size copy() {
+        return new SizeImpl(this);
+    }
 }

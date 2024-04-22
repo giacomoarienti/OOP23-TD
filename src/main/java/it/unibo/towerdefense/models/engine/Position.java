@@ -1,10 +1,12 @@
 package it.unibo.towerdefense.models.engine;
 
+import it.unibo.towerdefense.models.Copyable;
+
 /**
  * Interface representing the position of an object
  * in a 2D space.
  */
-public interface Position {
+public interface Position extends Copyable<Position> {
 
     /**
      * X getter.
@@ -48,4 +50,12 @@ public interface Position {
      * @return the distance between the two positions
      */
     double distanceTo(Position position);
+
+    /**
+     * Return the position of origin (0,0).
+     * @return the position of origin
+     */
+    static Position origin() {
+        return new PositionImpl(0, 0);
+    }
 }
