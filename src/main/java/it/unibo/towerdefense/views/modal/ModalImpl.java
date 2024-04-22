@@ -7,8 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import it.unibo.towerdefense.views.window.Window;
+import javax.swing.JFrame;
 
 /**
  * Class implementing the Modal interface.
@@ -23,13 +22,13 @@ public class ModalImpl implements Modal {
 
     /**
      * Constructor for ModalImpl.
-     * @param parent the parent window
+     * @param parent the parent frame
      * @param title the title of the modal
      * @param content the content to be displayed
      */
-    public ModalImpl(final Window parent, final String title, final ModalContent content) {
+    public ModalImpl(final JFrame parent, final String title, final ModalContent content) {
         // create the dialog frame
-        this.dialog = new JDialog(parent.getFrame(), "", true);
+        this.dialog = new JDialog(parent, "", true);
         this.dialog.setUndecorated(true);
         // create main panel
         final JPanel panel = new JPanel(new BorderLayout());

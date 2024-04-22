@@ -7,12 +7,14 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.views.modal.ModalContent;
+import it.unibo.towerdefense.models.engine.Position;
+import it.unibo.towerdefense.models.engine.Size;
 import it.unibo.towerdefense.views.modal.Modal;
 import it.unibo.towerdefense.views.modal.ModalImpl;
 
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.Canvas;
@@ -107,73 +109,21 @@ public class WindowImpl implements Window {
      */
     @Override
     public void displayModal(final String title, final ModalContent content) {
-        final Modal modal = new ModalImpl(this, title, content);
+        final Modal modal = new ModalImpl(this.frame, title, content);
         modal.display();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressFBWarnings(
-        value = { "EI_EXPOSE_REP" },
-        justification = "Intended behavior. Other frames should be"
-            + "able to access their parent frame."
-    )
+   /**
+    * {@inheritDoc}
+    */
     @Override
-    public JFrame getFrame() {
-        return this.frame;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressFBWarnings(
-        value = { "EI_EXPOSE_REP" },
-        justification = "Intended behavior. Other views should be"
-            + "able to edit its contents."
-    )
-    @Override
-    public Canvas getCanvas() {
-        return this.canvas;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressFBWarnings(
-        value = { "EI_EXPOSE_REP" },
-        justification = "Intended behavior. Other views should be"
-            + "able to edit its contents."
-    )
-    @Override
-    public JPanel getBuyMenuContainer() {
-        return this.buyMenu;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressFBWarnings(
-        value = { "EI_EXPOSE_REP" },
-        justification = "Intended behavior. Other views should be"
-            + "able to edit its contents."
-    )
-    @Override
-    public JPanel getUpgradeMenuContainer() {
-        return this.upgradeMenu;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressFBWarnings(
-        value = { "EI_EXPOSE_REP" },
-        justification = "Intended behavior. Other views should be"
-            + "able to edit its contents."
-    )
-    @Override
-    public JPanel getInfoContainer() {
-       return this.infoPanel;
+    public void paint(final Image img, final Position pos, final Size size) {
+        this.canvas.getGraphics().drawImage(
+            img,
+            pos.getX(), pos.getY(),
+            size.getWidth(), size.getHeight(),
+            null
+        );
     }
 
     private JPanel createPanel(final int width, final int height) {
