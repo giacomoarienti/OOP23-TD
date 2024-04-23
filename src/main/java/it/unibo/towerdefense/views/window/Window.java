@@ -1,11 +1,10 @@
 package it.unibo.towerdefense.views.window;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.Image;
 
+import it.unibo.towerdefense.models.engine.Position;
+import it.unibo.towerdefense.models.engine.Size;
 import it.unibo.towerdefense.views.modal.ModalContent;
-
-import java.awt.Canvas;
 
 /**
  * Interface that defines the Window methods.
@@ -36,32 +35,10 @@ public interface Window {
     void displayModal(String title, ModalContent content);
 
     /**
-     * Return the JFrame where game is displayed.
-     * @return the JFrame
+     * Paint an image to canvas.
+     * @param img the image to be painted.
+     * @param pos the position where the image should be painted.
+     * @param size the size of the image.
      */
-    JFrame getFrame();
-
-    /**
-     * Return the Canvas  where game is displayed.
-     * @return the Canvas
-     */
-    Canvas getCanvas();
-
-    /**
-     * Return the side Buy menu's container.
-     * @return the JPanel menu container.
-     */
-    JPanel getBuyMenuContainer();
-
-    /**
-     * Return the side Upgrade menu's container.
-     * @return the JPanel menu container.
-     */
-    JPanel getUpgradeMenuContainer();
-
-    /**
-     * Return the top info container.
-     * @return JPanel info container.
-     */
-    JPanel getInfoContainer();
+    void paint(Image img, Position pos, Size size);
 }
