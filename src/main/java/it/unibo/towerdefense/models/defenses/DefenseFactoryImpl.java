@@ -15,13 +15,20 @@ public class DefenseFactoryImpl implements DefenseFactory {
     //private EnemyChoiceStrategyFactory strategyFactory;
 
     /**
-     * @return the defense representing the archer tower.
-     * @param fileName the json file with the attribute values for this defense.
-     * @param reference the position of the defense (to use for calculations).
-     * @TODO create upgrades.
+     *{@inheritDoc}
      */
     @Override
-    public Defense archerTower(final String fileName, final LogicalPosition reference) {
-        return new DefenseImpl(fileName, Set.of());
+    public Defense archerTower(String fileName) {
+        Defense result = new DefenseImpl(fileName, Set.of());
+        return result;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public Defense archerTowerFromPosition(String fileName, LogicalPosition reference) {
+        Defense result = new DefenseImpl(fileName, Set.of());
+        return result;
     }
 }
