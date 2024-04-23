@@ -13,6 +13,7 @@ public class DefenseImpl implements Defense {
     private int attackSpeed;
     private int buildingCost;
     private int sellingValue;
+    private int level;
     private EnemyChoiceStrategy strategy;
     private Set<Defense> upgrades;
 
@@ -24,10 +25,12 @@ public class DefenseImpl implements Defense {
      * @param sellValue
      * @param strat
      * @param upgrades
+     * @param level
      */
-    public DefenseImpl(final int damage, 
+    public DefenseImpl(final int damage, final int level, 
     final int attackSpeed, final int cost, final int sellValue, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
         this.damage = damage;
+        this.level = level;
         this.attackSpeed = attackSpeed;
         this.buildingCost = cost;
         this.sellingValue = sellValue;
@@ -37,16 +40,24 @@ public class DefenseImpl implements Defense {
 
     /**
      * This constructor builds all the elementary stats from a json file.
+     * WARNING! this will give a placeholder as strategy.
      * @param filePath the path of the json file.
-     * @param strat the choice strategy.
      * @param upgrades the available updates.
      * @TODO implement constructor.
      */
-    public DefenseImpl(final String filePath, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
+    public DefenseImpl(final String filePath, final Set<Defense> upgrades) {
 
     }
     /**
-     * @return damage.
+     *{@inheritDoc}
+     */
+    @Override
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     *{@inheritDoc}
      */
     @Override
     public int getDamage() {
@@ -54,7 +65,7 @@ public class DefenseImpl implements Defense {
     }
 
     /**
-     * @return the attack speed.
+     *{@inheritDoc}
      */
     @Override
     public int getAttackSpeed() {
@@ -62,7 +73,7 @@ public class DefenseImpl implements Defense {
     }
 
     /**
-     * @return the cost of building.
+     *{@inheritDoc}
      */
     @Override
     public int getBuildingCost() {
@@ -70,7 +81,7 @@ public class DefenseImpl implements Defense {
     }
 
     /**
-     * @return the value for selling.
+     *{@inheritDoc}
      */
     @Override
     public int getSellingValue() {
@@ -78,7 +89,7 @@ public class DefenseImpl implements Defense {
     }
 
     /**
-     * @return the strategy.
+     *{@inheritDoc}
      */
     @Override
     public EnemyChoiceStrategy getStrategy() {
@@ -86,10 +97,18 @@ public class DefenseImpl implements Defense {
     }
 
     /**
-     * @return the possible upgrades.
+     *{@inheritDoc}
      */
     @Override
     public Set<Defense> getPossibleUpgrades() {
         return upgrades;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public void setStrategy(final EnemyChoiceStrategy strat) {
+        this.strategy = strat;
     }
 }

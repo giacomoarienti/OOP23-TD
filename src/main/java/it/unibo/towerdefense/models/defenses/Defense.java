@@ -8,7 +8,12 @@ import java.util.Set;
 public interface Defense {
 
     /**
-     * @return the value used calculate the damage to deal to enemies
+     * @return the level of the defense.
+     */
+    int getLevel();
+
+    /**
+     * @return the value used calculate the damage to deal to enemies.
      */
     int getDamage();
 
@@ -36,4 +41,9 @@ public interface Defense {
      * @return the available defenses that can be built as upgrade fo the current defense
      */
     Set<Defense> getPossibleUpgrades();
+
+    /**Sets the strategy for the defense.
+     * @param strat the strategy to set.
+    */
+    void setStrategy(EnemyChoiceStrategy strat);
 }
