@@ -5,20 +5,18 @@ import org.apache.commons.lang3.tuple.Pair;
 /**
  * Interface which models an enemy in its abstract form.
  */
-@FunctionalInterface
 interface EnemyType {
     /**
-     * The functional method.
+     * Getter for the max HP.
      *
-     * @return a pair containing MaxHP and Speed values
+     * @return the initial HP for the EnemyType
      */
-    Pair<Integer, Integer> getSpecs();
+    int getMaxHP();
 
-    default int getMaxHP() {
-        return getSpecs().getLeft();
-    }
-
-    default int getSpeed() {
-        return getSpecs().getRight();
-    }
+    /**
+     * Getter for the speed.
+     *
+     * @return the speed for the EnemyType expressed in 1/SCALING_FACTOR cells per cycle
+     */
+    int getSpeed();
 }

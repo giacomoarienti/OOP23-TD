@@ -11,9 +11,16 @@ import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 public interface Enemies {
 
     /**
-     * Moves the enemy.
+     * Moves the enemies.
      */
     void move();
+
+    /**
+     * Adds an Enemy to the collection.
+     *
+     * @param e the new Enemy.
+     */
+    void add(Enemy e);
 
     /**
      * Method called by enemies when they die.

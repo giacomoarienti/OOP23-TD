@@ -4,15 +4,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.models.enemies.Enemies;
 import it.unibo.towerdefense.models.enemies.EnemiesImpl;
 import it.unibo.towerdefense.models.enemies.Enemy;
+import it.unibo.towerdefense.models.enemies.SimpleWavesManager;
+import it.unibo.towerdefense.models.enemies.WavesManager;
 import it.unibo.towerdefense.views.enemies.EnemiesRenderer;
 import it.unibo.towerdefense.views.enemies.EnemiesRendererImpl;
 import it.unibo.towerdefense.views.window.Window;
@@ -23,8 +25,10 @@ import it.unibo.towerdefense.views.window.Window;
 
 public class EnemyControllerImpl implements EnemyController {
 
-    private final Enemies model;
+    private final Enemies enemies;
     private final EnemiesRenderer renderer;
+    private final WavesManager waves;
+
     private Optional<List<Enemy>> lastGivenEnemies = Optional.empty();
 
     /**
@@ -35,9 +39,10 @@ public class EnemyControllerImpl implements EnemyController {
      * @param window handle to be passed to the renderer
      * @param map    to know where to move enemies
      */
-    EnemyControllerImpl(final Window window, final MapController map) {
-        model = new EnemiesImpl(map);
+    EnemyControllerImpl(final Window window, final MapController map, final GameController gc) {
+        enemies = new EnemiesImpl(map);
         renderer = new EnemiesRendererImpl(window);
+        waves = new SimpleWavesManager(enemies, gc, new LogicalPosition(0, 0)); //map.getStartingPos
     }
 
     /**
@@ -45,7 +50,8 @@ public class EnemyControllerImpl implements EnemyController {
      */
     @Override
     public void update() {
-        model.move();
+        enemies.move();
+        waves.update();
     }
 
     /**
@@ -53,7 +59,7 @@ public class EnemyControllerImpl implements EnemyController {
      */
     @Override
     public void render() {
-        renderer.render(model.getEnemiesInfo());
+        renderer.render(enemies.getEnemiesInfo());
     }
 
     /**
@@ -61,7 +67,7 @@ public class EnemyControllerImpl implements EnemyController {
      */
     @Override
     public List<Pair<LogicalPosition, Integer>> getEnemies() {
-        lastGivenEnemies = Optional.of(model.getEnemies().stream().toList());
+        lastGivenEnemies = Optional.of(enemies.getEnemies().stream().toList());
         return lastGivenEnemies.get().stream().map(e -> Pair.of(e.getPosition(), e.getHp())).toList();
     }
 

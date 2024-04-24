@@ -68,4 +68,9 @@ public class EnemiesImpl implements Enemies {
         return enemies.stream().map(e -> e.info()).toList();
     }
 
+    @Override
+    public void add(Enemy e) {
+        enemies.add(e);
+    }
+
 }
