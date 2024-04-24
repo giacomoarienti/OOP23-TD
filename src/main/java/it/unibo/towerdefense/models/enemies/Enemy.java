@@ -5,6 +5,8 @@ import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 
 /**
  * Interface of Enemy.
+ *
+ * Can be observed to be signaled on death.
  */
 public interface Enemy {
 

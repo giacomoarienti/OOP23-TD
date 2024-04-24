@@ -2,13 +2,11 @@ package it.unibo.towerdefense.models.enemies;
 
 import java.util.Iterator;
 
-import it.unibo.towerdefense.controllers.game.GameController;
-
 public class SpawnerFactory {
 
     private final EnemyFactory factory;
 
-    SpawnerFactory(EnemyFactory factory, GameController gc){
+    SpawnerFactory(EnemyFactory factory){
         this.factory = factory;
     };
 

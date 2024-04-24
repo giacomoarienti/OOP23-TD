@@ -41,4 +41,10 @@ public interface Enemies {
      */
     Collection<EnemyInfo> getEnemiesInfo();
 
+    /**
+     * Method to know wheter any Enemy is still alive.
+     * @return True if no Enemy is currently alive, False otherwise
+     */
+    boolean areDead();
+
 }
