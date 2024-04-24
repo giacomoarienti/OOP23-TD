@@ -2,6 +2,8 @@ package it.unibo.towerdefense.models.defenses;
 
 import java.util.Set;
 
+import it.unibo.towerdefense.commons.LogicalPosition;
+
 /**
  * Implementation of the defense interface.
  */
@@ -16,6 +18,7 @@ public class DefenseImpl implements Defense {
     private int level;
     private EnemyChoiceStrategy strategy;
     private Set<Defense> upgrades;
+    private LogicalPosition position;
 
     /**
      * This constructor builds the defense from scratch,passing all the required fields from the interface.
@@ -26,8 +29,9 @@ public class DefenseImpl implements Defense {
      * @param strat
      * @param upgrades
      * @param level
+     * @param position
      */
-    public DefenseImpl(final int damage, final int level, 
+    public DefenseImpl(final int damage, final int level, final LogicalPosition position,
     final int attackSpeed, final int cost, final int sellValue, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
         this.damage = damage;
         this.level = level;
@@ -36,6 +40,7 @@ public class DefenseImpl implements Defense {
         this.sellingValue = sellValue;
         this.strategy = strat;
         this.upgrades = upgrades;
+        this.position = position;
     }
 
     /**
@@ -108,7 +113,23 @@ public class DefenseImpl implements Defense {
      *{@inheritDoc}
      */
     @Override
+    public LogicalPosition getPosition() {
+        return position;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
     public void setStrategy(final EnemyChoiceStrategy strat) {
         this.strategy = strat;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public void setPosition(final LogicalPosition newPos) {
+        this.position = newPos;
     }
 }

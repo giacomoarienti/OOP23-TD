@@ -1,7 +1,4 @@
 package it.unibo.towerdefense.models.defenses;
-
-import java.util.Set;
-
 import it.unibo.towerdefense.commons.LogicalPosition;
 
 /**
@@ -18,17 +15,15 @@ public class DefenseFactoryImpl implements DefenseFactory {
      *{@inheritDoc}
      */
     @Override
-    public Defense archerTower(String fileName) {
-        Defense result = new DefenseImpl(fileName, Set.of());
-        return result;
+    public Defense archerTower(final String fileName) {
+        return null;
     }
 
     /**
      *{@inheritDoc}
      */
     @Override
-    public Defense archerTowerFromPosition(String fileName, LogicalPosition reference) {
-        Defense result = new DefenseImpl(fileName, Set.of());
-        return result;
+    public Defense archerTowerFromPosition(final String fileName, final LogicalPosition defensePosition) {
+        return null;
     }
 }

@@ -2,6 +2,8 @@ package it.unibo.towerdefense.models.defenses;
 
 import java.util.Set;
 
+import it.unibo.towerdefense.commons.LogicalPosition;
+
 /**
  * The actual physical structure that attacks and defeats the enemies.
  */
@@ -42,8 +44,19 @@ public interface Defense {
      */
     Set<Defense> getPossibleUpgrades();
 
+    /**
+     * @return the position of the Defense.
+     */
+    LogicalPosition getPosition();
+
     /**Sets the strategy for the defense.
      * @param strat the strategy to set.
     */
     void setStrategy(EnemyChoiceStrategy strat);
+
+    /**
+     * Sets the position of the Defense.
+     * @param newPos the position to set.
+     */
+    void setPosition(LogicalPosition newPos);
 }
