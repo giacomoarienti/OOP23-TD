@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.models.defenses;
 
 import java.util.Set;
+import org.json.JSONObject;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 
@@ -131,5 +132,24 @@ public class DefenseImpl implements Defense {
     @Override
     public void setPosition(final LogicalPosition newPos) {
         this.position = newPos;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String toJSON() {
+        JSONObject parser = new JSONObject();
+        /**Add basic data.*/
+        parser.put("level", this.level);
+        parser.put("damage", this.damage);
+        parser.put("speed", this.attackSpeed);
+        parser.put("buildingCost", this.buildingCost);
+        parser.put("sellingValue", this.sellingValue);
+        parser.put("position", this.position);
+
+        /**Handle updates.*/
+        parser.put("updates", Set.of());
+        return parser.toString();
     }
 }

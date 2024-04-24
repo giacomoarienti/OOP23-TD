@@ -20,20 +20,19 @@ public class TestDefenseFactoryImpl {
     @Test
     void testArcherTower() {
         /**Expected values for getters.*/
-        final int expected_damage = 5;
-        final int expected_speed = 3;
-        final int expected_level = 1;
-        final int expected_build_cost = 20;
-        final int expected_sell_cost = 10;
+        final int expectedDamage = 5;
+        final int expectedSpeed = 3;
+        final int expectedLevel = 1;
+        final int expectedBuildCost = 20;
+        final int expectedSellCost = 10;
         Defense tower = factory.archerTower(TEST_PATH1);
 
         /**Test getters */
-        Assertions.assertEquals(expected_damage, tower.getDamage());
-        Assertions.assertEquals(expected_speed, tower.getAttackSpeed());
-        Assertions.assertEquals(expected_level, tower.getLevel());
-        Assertions.assertEquals(expected_build_cost, tower.getBuildingCost());
-        Assertions.assertEquals(expected_sell_cost, tower.getSellingValue());
-
+        Assertions.assertEquals(expectedDamage, tower.getDamage());
+        Assertions.assertEquals(expectedSpeed, tower.getAttackSpeed());
+        Assertions.assertEquals(expectedLevel, tower.getLevel());
+        Assertions.assertEquals(expectedBuildCost, tower.getBuildingCost());
+        Assertions.assertEquals(expectedSellCost, tower.getSellingValue());
 
         /**Test internal strategy */
     }
