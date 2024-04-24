@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.enemies;
 
-public interface Wave extends Iterable<EnemyType>{
+import java.util.Optional;
+
+public interface Wave extends Iterable<Optional<EnemyType>>{
 
 }

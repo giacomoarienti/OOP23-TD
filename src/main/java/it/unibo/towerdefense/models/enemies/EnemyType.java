@@ -1,7 +1,5 @@
 package it.unibo.towerdefense.models.enemies;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 /**
  * Interface which models an enemy in its abstract form.
  */

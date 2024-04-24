@@ -42,7 +42,9 @@ public class SimpleWavesManager implements WavesManager {
     public void update() {
         if(current.isPresent()){
             if(current.get().hasNext()){
-                enemies.add(current.get().next());
+                current.get().next().ifPresent(e -> enemies.add(e));
+            }else{
+                current = Optional.empty();
             }
         }else{
             if(enemies.areDead()){

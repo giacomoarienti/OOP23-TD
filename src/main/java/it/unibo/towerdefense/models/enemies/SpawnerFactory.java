@@ -2,6 +2,8 @@ package it.unibo.towerdefense.models.enemies;
 
 import java.util.Iterator;
 
+import java.util.Optional;
+
 public class SpawnerFactory {
 
     private final EnemyFactory factory;
@@ -11,7 +13,7 @@ public class SpawnerFactory {
     };
 
     public Spawner build(Wave w) {
-        Iterator<EnemyType> it;
+        Iterator<Optional<EnemyType>> it;
         if(!(it = w.iterator()).hasNext()){
             throw new IllegalArgumentException("Tried to init an empty wave.");
         }else{
@@ -21,8 +23,8 @@ public class SpawnerFactory {
                     return it.hasNext();
                 }
                 @Override
-                public Enemy next() {
-                    return factory.build(it.next());
+                public Optional<Enemy> next() {
+                    return it.next().map(et -> factory.build(et));
                 }
             };
         }
