@@ -3,11 +3,12 @@ package it.unibo.towerdefense.models.defenses;
 import java.util.Set;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.models.JsonSerializable;
 
 /**
  * The actual physical structure that attacks and defeats the enemies.
  */
-public interface Defense {
+public interface Defense extends JsonSerializable {
 
     /**
      * @return the level of the defense.
