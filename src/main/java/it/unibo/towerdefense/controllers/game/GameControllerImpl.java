@@ -154,5 +154,6 @@ public class GameControllerImpl implements GameController {
         .forEach(
             controller -> controller.render()
         );
+        // TODO force repaint on canvas
     }
 }
