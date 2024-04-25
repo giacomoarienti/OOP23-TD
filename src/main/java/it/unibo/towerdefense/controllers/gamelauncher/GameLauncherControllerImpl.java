@@ -17,8 +17,8 @@ import it.unibo.towerdefense.views.gamelauncher.GameLauncherViewImpl;
  * Implementation of the GameLauncher interface.
  */
 public class GameLauncherControllerImpl implements GameLauncherController {
-;
-    private static final List<Size> resolutions = List.of(
+
+    private static final List<Size> RESOLUTIONS = List.of(
         new SizeImpl(1920, 1080),
         new SizeImpl(1280, 720),
         new SizeImpl(1024, 768),
@@ -49,7 +49,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
      */
     @Override
     public List<Size> getResolutions() {
-        return Collections.unmodifiableList(resolutions);
+        return Collections.unmodifiableList(RESOLUTIONS);
     }
 
     /**
@@ -57,7 +57,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
      */
     @Override
     public void selectResolution(final int selection) {
-        if (selection < 0 || selection >= resolutions.size()) {
+        if (selection < 0 || selection >= RESOLUTIONS.size()) {
             throw new IllegalArgumentException("Invalid resolution selection");
         }
         this.resolution = selection;
@@ -84,7 +84,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
     @Override
     public void startGame() {
         // instantiate the game window
-        final Window window = new WindowImpl(resolutions.get(this.resolution));
+        final Window window = new WindowImpl(RESOLUTIONS.get(this.resolution));
         // instantiate the app controller and run it
         final AppController appController = new AppControllerImpl(window);
         appController.run();

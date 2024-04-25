@@ -2,6 +2,9 @@ package it.unibo.towerdefense.views.graphics;
 
 import java.util.List;
 
+/**
+ * Interface that defines the Canvas methods.
+ */
 public interface Canvas {
 
     /**

@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import it.unibo.towerdefense.models.engine.Position;
 
 /**
- * Abstract class that represents a
+ * Abstract class that represents a drawable object.
  */
 public abstract class Drawable {
 

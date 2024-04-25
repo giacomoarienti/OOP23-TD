@@ -22,6 +22,7 @@ public interface GameLauncherController {
 
     /**
      * Select the resolution of the game.
+     * @param selection the index of the resolution
      */
     void selectResolution(int selection);
 

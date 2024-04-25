@@ -42,56 +42,8 @@ public class GameLauncherViewImpl implements GameLauncherView {
         this.controller = controller;
         // create the frame
         this.frame = new JFrame(TITLE);
-        // calc and set starting frame size
-        final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        final int width = (int) screen.getWidth() / WIDTH_PROPORTION;
-        final int height = (int) screen.getHeight() / HEIGHT_PROPORTION;
-        this.frame.setSize(width, height);
-        // build the resolution selector
-        this.buildResolutionSelector();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void display() {
-        // set default closing operation
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // center the frame
-        frame.setLocationRelativeTo(null);
-        // set frame not resizable
-        this.frame.setResizable(false);
-        // push frame on screen
-        this.frame.setVisible(true);
-    }
-
-    private void start(final String name, final int resolutionIndex) {
-        try {
-            // set the player name and resolution
-            this.controller.setPlayerName(name);
-            this.controller.selectResolution(resolutionIndex);
-        } catch (final Exception e) {
-            // show an error message
-            JOptionPane.showMessageDialog(frame, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        // close the launcher
-        this.frame.dispose();
-        // start the game
-        this.controller.startGame();
-    }
-
-    private List<String> getResolutionStrings() {
-        // get the available resolutions
-        final List<Size> resolutions = this.controller.getResolutions();
-        return resolutions.stream().map(
-            res -> res.getWidth() + "x" + res.getHeight()
-        ).collect(Collectors.toList());
-    }
-
-    private void buildResolutionSelector() {
         this.frame.setLayout(new FlowLayout());
-        // create the container
+        // create the UI container
         final JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         // create the resolution panel
@@ -125,5 +77,48 @@ public class GameLauncherViewImpl implements GameLauncherView {
         container.add(startButton);
         // add the container to the frame
         this.frame.add(container);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void display() {
+        // calc and set starting frame size
+        final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        final int width = (int) screen.getWidth() / WIDTH_PROPORTION;
+        final int height = (int) screen.getHeight() / HEIGHT_PROPORTION;
+        this.frame.setSize(width, height);
+        // set default closing operation
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // center the frame
+        frame.setLocationRelativeTo(null);
+        // set frame not resizable
+        this.frame.setResizable(false);
+        // push frame on screen
+        this.frame.setVisible(true);
+    }
+
+    private void start(final String name, final int resolutionIndex) {
+        try {
+            // set the player name and resolution
+            this.controller.setPlayerName(name);
+            this.controller.selectResolution(resolutionIndex);
+        } catch (final Exception e) {
+            // show an error message
+            JOptionPane.showMessageDialog(frame, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        // close the launcher
+        this.frame.dispose();
+        // start the game
+        this.controller.startGame();
+    }
+
+    private List<String> getResolutionStrings() {
+        // get the available resolutions
+        final List<Size> resolutions = this.controller.getResolutions();
+        return resolutions.stream().map(
+            res -> res.getWidth() + "x" + res.getHeight()
+        ).collect(Collectors.toList());
     }
 }
