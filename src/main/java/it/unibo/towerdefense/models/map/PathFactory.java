@@ -1,10 +1,9 @@
 package it.unibo.towerdefense.models.map;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.PositionImpl;
 
 /**
  * Class that generate different tipes of path.
@@ -23,34 +22,22 @@ public class PathFactory {
 
     /**
      *Return a path corresponding to an orizontal line from left to right.
-     * @param end coordinates of last point of line.
      * @return the path
      */
-    public Path line(final Position end) {
-        return new Path() {
+    public Iterator<Direction> line() {
+        return repeatPattern(List.of(Direction.E));
+    }
 
-            private List<Position> list = Stream.iterate(0, i -> i < end.getX(), i -> i + 1)
-                .map(i -> (Position) new PositionImpl(i, end.getY())).toList();
+    /**
+     *Return a path corresponding to a topLeft-downRight diagonal.
+     * @return the path
+     */
+    public Iterator<Direction> diagonal() {
+        return repeatPattern(List.of(Direction.E, Direction.S));
+    }
 
-            @Override
-            public Position getNext(final Position coords) {
-                int i = list.indexOf(coords);
-                if (i < list.size() - 1) {
-                    return list.get(i + 1);
-                }
-                return null;
-            }
-
-            @Override
-            public Position getPrevious(final Position coords) {
-                int i = list.indexOf(coords);
-                if (i > 0) {
-                    return list.get(i - 1);
-                }
-                return null;
-            }
-
-        };
+    private Iterator<Direction> repeatPattern(final List<Direction> list) {
+        return Stream.generate(() -> list).flatMap(l -> l.stream()).iterator();
     }
 
     /*int distanceToEnd = 0;

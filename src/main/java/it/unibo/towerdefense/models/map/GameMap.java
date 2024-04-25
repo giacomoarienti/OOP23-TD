@@ -30,6 +30,12 @@ public interface GameMap {
     PathCell getSpawnCell();
 
     /**
+     * End of path getter.
+     * @return the cell were enemies want to go.
+     */
+    PathCell getEndCell();
+
+    /**
      * Return the next path cell from current.
      * @param current the current cell
      * @return the next cell in the path

@@ -7,33 +7,37 @@ import it.unibo.towerdefense.models.engine.Position;
  */
 public class PathCellImpl extends CellAbs implements PathCell {
 
-    private final int distanceToEnd;
+    //private final int distanceToEnd;
+    private final Direction in;
+    private final Direction out;
 
     /**
      *Constructor from coordinates, 2 opposite vertex positions and distance to end of path.
      * @param coords coordinates i j to identify the cell in the map.
-     * @param distanceToEnd number of cell between this and end of path.
+     * @param in direction to enter the cell.
+     * @param out direction to exit the cell.
      */
-    public PathCellImpl(final Position coords, final int distanceToEnd) {
+    public PathCellImpl(final Position coords, final Direction in, final Direction out) {
         super(coords);
-        this.distanceToEnd = distanceToEnd;
+        //this.distanceToEnd = distanceToEnd;
+        this.in = in;
+        this.out = out;
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
+    /*@Override
     public int distanceToEnd() {
         return distanceToEnd;
-    }
+    }*/
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Direction getInDirection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getInDirection'");
+        return in;
     }
 
     /**
@@ -41,8 +45,7 @@ public class PathCellImpl extends CellAbs implements PathCell {
      */
     @Override
     public Direction getOutDirection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getOuDirection'");
+        return out;
     }
 
 }

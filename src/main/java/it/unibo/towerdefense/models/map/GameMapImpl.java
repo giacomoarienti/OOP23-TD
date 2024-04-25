@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.models.map;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
@@ -13,9 +14,10 @@ import it.unibo.towerdefense.models.engine.Size;
 public class GameMapImpl implements GameMap {
 
 
-    private final Size sizeInCell;
-    private final Path path;
+    private final Size size;
+    private final Iterator<Direction> path;
     private final PathCell spawn;
+    private final PathCell end;
     private final Random random = new Random();
     private static final int OBSTACLE_RATE = 10;
     private Cell[][] map;
@@ -26,26 +28,27 @@ public class GameMapImpl implements GameMap {
      */
     public GameMapImpl(final Size size) {
 
-        this.sizeInCell = size;
-        map = new Cell[sizeInCell.getHeight()][sizeInCell.getWidth()];
+        map = new Cell[size.getHeight()][size.getWidth()];
+        this.size = size;
+        path = new PathFactory().line();
 
-        final Position end = new PositionImpl(sizeInCell.getWidth(), random.nextInt(sizeInCell.getHeight()));
-        this.path = new PathFactory().line(end);
-        Position temp = end;
-        PathCell newCell;
-        int distanceToEnd = 0;
-        do {
-            newCell = new PathCellImpl(temp, distanceToEnd);
-            map[temp.getX()][temp.getY()] = newCell;
-            temp = path.getPrevious(temp);
-            distanceToEnd++;
-        } while (temp != null);
-        spawn = newCell;
+        Position pos = new PositionImpl(0, random.nextInt(size.getHeight()));
+        spawn = new PathCellImpl(pos, path.next(), path.next());
 
-        for (int i = 0; i < sizeInCell.getWidth(); i++) {
-            for (int j = 0; j < sizeInCell.getHeight(); j++) {
+        pos.add(path.next().asPosition());
+        PathCell newCell = spawn;
+
+        while (isInArray(pos)) {
+            map[pos.getX()][pos.getY()] = newCell;
+            pos.add(newCell.getOutDirection().asPosition());
+            newCell = new PathCellImpl(pos, newCell.getInDirection(), path.next());
+        }
+        end = newCell;
+
+        for (int i = 0; i < size.getWidth(); i++) {
+            for (int j = 0; j < size.getHeight(); j++) {
                 if (map[i][j] == null) {
-                    map[i][j] = new BuildableCellImpl(new PositionImpl(i,j), random.nextInt(OBSTACLE_RATE) != 0);
+                    map[i][j] = new BuildableCellImpl(new PositionImpl(i, j), random.nextInt(OBSTACLE_RATE) != 0);
                 }
             }
         }
@@ -57,15 +60,18 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public Size getSize() {
-        return sizeInCell;
+        return size;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Cell getCellAt(final Position position) {
-        return map[position.getX()][position.getY()];
+    public Cell getCellAt(final Position pos) {
+        if (!isInArray(pos)) {
+            return null;
+        }
+        return map[pos.getX()][pos.getY()];
     }
 
     /**
@@ -80,12 +86,26 @@ public class GameMapImpl implements GameMap {
      * {@inheritDoc}
      */
     @Override
+    public PathCell getEndCell() {
+        return end;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Position getNext(final Position current) throws NoSuchElementException {
-        var nextCords = path.getNext(new PositionImpl(current.getX(), current.getY()));
+        /*var nextCords = path.getNext(new PositionImpl(current.getX(), current.getY()));
         if (nextCords == null) {
             throw new NoSuchElementException("This cell does not have a next one");
         }
-        return nextCords;
+        return nextCords;*/
+        // TODO
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    private boolean isInArray(Position final pos) {
+        return pos.getX() >= 0 && pos.getX() < size.getWidth() && pos.getY() >= 0 && pos.getX() < size.getHeight();
     }
 
 }

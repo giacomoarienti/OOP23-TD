@@ -1,5 +1,8 @@
 package it.unibo.towerdefense.models.map;
 
+import it.unibo.towerdefense.models.engine.Position;
+import it.unibo.towerdefense.models.engine.PositionImpl;
+
 /**
  * 4 cardinal directions as 2D verosr.
  */
@@ -41,6 +44,14 @@ public enum Direction {
      */
     public int vertical() {
         return vertical;
+    }
+
+    /**
+     * Versor getter.
+     * @return Return versor as a Position
+     */
+    public Position asPosition() {
+        return new PositionImpl(orizontal, vertical);
     }
 
 }
