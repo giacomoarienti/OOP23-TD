@@ -18,6 +18,11 @@ public final class Constants {
             + File.separator
             + ".towerdefense";
 
+    /**
+     * The maximum length of player's name.
+     */
+    public static final int MAX_NAME_LENGTH = 15;
+
     private Constants() {
     }
 }
