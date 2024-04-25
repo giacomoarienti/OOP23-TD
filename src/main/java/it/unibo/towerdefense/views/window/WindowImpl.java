@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.views.modal.ModalContent;
+import it.unibo.towerdefense.models.engine.Size;
 import it.unibo.towerdefense.views.graphics.CanvasImpl;
 import it.unibo.towerdefense.views.modal.Modal;
 import it.unibo.towerdefense.views.modal.ModalImpl;
 
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.BorderLayout;
 
@@ -29,6 +29,7 @@ public class WindowImpl implements Window {
     private static final int INFO_PROPORTION = 12;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Size size;
     private final JFrame frame;
     private final JPanel canvas;
     private final JPanel upgradeMenu;
@@ -36,23 +37,22 @@ public class WindowImpl implements Window {
     private final JPanel infoPanel;
 
     /**
-     * Zero-argument constructor.
+     * Creates a window with the specified size.
+     * @param size the size of the window
      */
-    public WindowImpl() {
+    public WindowImpl(final Size size) {
+        this.size = size.copy();
+        final int w = this.size.getWidth();
+        final int h = this.size.getHeight();
         // create base frame
         this.frame = new JFrame(WINDOW_TITLE);
         this.frame.setLayout(new BorderLayout());
-        // calc and set starting frame size
-        final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        final int width = (int) screen.getWidth();
-        final int height = (int) screen.getHeight();
-        this.frame.setSize(width, height);
         // create canvas
-        this.canvas = new CanvasImpl(width / CANVAS_PROPORTION, height);
+        this.canvas = new CanvasImpl(w / CANVAS_PROPORTION, h);
         // create panels
-        this.upgradeMenu = createPanel(width / SIDE_MENUS_PROPORTION, height);
-        this.buyMenu = createPanel(width / SIDE_MENUS_PROPORTION, height);
-        this.infoPanel = createPanel(width, height / INFO_PROPORTION);
+        this.upgradeMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
+        this.buyMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
+        this.infoPanel = createPanel(w, h / INFO_PROPORTION);
         // add panels to frame
         this.frame.add(this.canvas, BorderLayout.CENTER);
         this.frame.add(this.upgradeMenu, BorderLayout.WEST);
@@ -65,6 +65,11 @@ public class WindowImpl implements Window {
      */
     @Override
     public void display() {
+        // set frame size
+        this.frame.setPreferredSize(
+            new Dimension(this.size.getWidth(), this.size.getHeight())
+        );
+        this.frame.pack();
         // set frame background
         this.frame.setBackground(Color.BLACK);
         // set default closing operation
@@ -75,6 +80,8 @@ public class WindowImpl implements Window {
          * on screen. Results may vary, but it is generally the best choice.
          */
         this.frame.setLocationByPlatform(true);
+        // set frame not resizable
+        this.frame.setResizable(false);
         // push frame on screen
         this.frame.setVisible(true);
         this.logger.info("Window displayed");
@@ -87,6 +94,14 @@ public class WindowImpl implements Window {
     public void close() {
         this.frame.dispose();
         this.logger.info("Window closed");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Size getSize() {
+        return this.size.copy();
     }
 
     /**
