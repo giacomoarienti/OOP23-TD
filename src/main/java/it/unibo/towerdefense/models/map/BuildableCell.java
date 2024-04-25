@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.models.map;
 
 /**
- * Interface that models a buildable cell.
+ * Interface that models a buildable cell, a Cell where you can build denfeses.
  */
 public interface BuildableCell extends Cell {
 

@@ -17,6 +17,7 @@ public class GameMapImpl implements GameMap {
     private final Path path;
     private final PathCell spawn;
     private final Random random = new Random();
+    private static final int OBSTACLE_RATE = 10;
     private Cell[][] map;
 
     /**
@@ -40,6 +41,14 @@ public class GameMapImpl implements GameMap {
             distanceToEnd++;
         } while (temp != null);
         spawn = newCell;
+
+        for (int i = 0; i < sizeInCell.getWidth(); i++) {
+            for (int j = 0; j < sizeInCell.getHeight(); j++) {
+                if (map[i][j] == null) {
+                    map[i][j] = new BuildableCellImpl(new PositionImpl(i,j), random.nextInt(OBSTACLE_RATE) != 0);
+                }
+            }
+        }
 
     }
 
