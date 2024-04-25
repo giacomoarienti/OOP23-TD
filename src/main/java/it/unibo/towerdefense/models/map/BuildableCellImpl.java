@@ -31,7 +31,7 @@ public class BuildableCellImpl extends CellAbs implements BuildableCell {
      * {@inheritDoc}
      */
     @Override
-    public void setBuildable(boolean isBuildable) {
+    public void setBuildable(final boolean isBuildable) {
         this.isBuildable = isBuildable;
     }
 

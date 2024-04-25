@@ -21,5 +21,5 @@ public interface PathCell extends Cell {
      * Return the distandce from end of path.
      * @return number of cell between this and last (last cell gives 0, next to last 1, ...)
      */
-    int distanceToEnd();
+    /*int distanceToEnd();*/
 }
