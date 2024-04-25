@@ -1,10 +1,12 @@
 package it.unibo.towerdefense.models.engine;
 
+import it.unibo.towerdefense.models.Copyable;
+
 /**
  * Interface that models the concept of size
  * (as a rectangle) in a 2D space.
  */
-public interface Size {
+public interface Size extends Copyable<Size> {
 
     /**
      * Width getter.

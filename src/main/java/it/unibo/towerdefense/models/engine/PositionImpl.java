@@ -109,4 +109,12 @@ public class PositionImpl implements Position {
     public int hashCode() {
         return Objects.hashCode(this.getX(), this.getY());
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Position copy() {
+        return new PositionImpl(this);
+    }
 }

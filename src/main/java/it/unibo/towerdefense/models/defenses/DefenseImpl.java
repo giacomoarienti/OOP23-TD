@@ -1,6 +1,9 @@
 package it.unibo.towerdefense.models.defenses;
 
 import java.util.Set;
+import org.json.JSONObject;
+
+import it.unibo.towerdefense.commons.LogicalPosition;
 
 /**
  * Implementation of the defense interface.
@@ -13,8 +16,10 @@ public class DefenseImpl implements Defense {
     private int attackSpeed;
     private int buildingCost;
     private int sellingValue;
+    private int level;
     private EnemyChoiceStrategy strategy;
     private Set<Defense> upgrades;
+    private LogicalPosition position;
 
     /**
      * This constructor builds the defense from scratch,passing all the required fields from the interface.
@@ -24,29 +29,41 @@ public class DefenseImpl implements Defense {
      * @param sellValue
      * @param strat
      * @param upgrades
+     * @param level
+     * @param position
      */
-    public DefenseImpl(final int damage, 
+    public DefenseImpl(final int damage, final int level, final LogicalPosition position,
     final int attackSpeed, final int cost, final int sellValue, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
         this.damage = damage;
+        this.level = level;
         this.attackSpeed = attackSpeed;
         this.buildingCost = cost;
         this.sellingValue = sellValue;
         this.strategy = strat;
         this.upgrades = upgrades;
+        this.position = position;
     }
 
     /**
      * This constructor builds all the elementary stats from a json file.
+     * WARNING! this will give a placeholder as strategy.
      * @param filePath the path of the json file.
-     * @param strat the choice strategy.
      * @param upgrades the available updates.
      * @TODO implement constructor.
      */
-    public DefenseImpl(final String filePath, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
+    public DefenseImpl(final String filePath, final Set<Defense> upgrades) {
 
     }
     /**
-     * @return damage.
+     *{@inheritDoc}
+     */
+    @Override
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     *{@inheritDoc}
      */
     @Override
     public int getDamage() {
@@ -54,7 +71,7 @@ public class DefenseImpl implements Defense {
     }
 
     /**
-     * @return the attack speed.
+     *{@inheritDoc}
      */
     @Override
     public int getAttackSpeed() {
@@ -62,7 +79,7 @@ public class DefenseImpl implements Defense {
     }
 
     /**
-     * @return the cost of building.
+     *{@inheritDoc}
      */
     @Override
     public int getBuildingCost() {
@@ -70,7 +87,7 @@ public class DefenseImpl implements Defense {
     }
 
     /**
-     * @return the value for selling.
+     *{@inheritDoc}
      */
     @Override
     public int getSellingValue() {
@@ -78,7 +95,7 @@ public class DefenseImpl implements Defense {
     }
 
     /**
-     * @return the strategy.
+     *{@inheritDoc}
      */
     @Override
     public EnemyChoiceStrategy getStrategy() {
@@ -86,10 +103,53 @@ public class DefenseImpl implements Defense {
     }
 
     /**
-     * @return the possible upgrades.
+     *{@inheritDoc}
      */
     @Override
     public Set<Defense> getPossibleUpgrades() {
         return upgrades;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public LogicalPosition getPosition() {
+        return position;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public void setStrategy(final EnemyChoiceStrategy strat) {
+        this.strategy = strat;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public void setPosition(final LogicalPosition newPos) {
+        this.position = newPos;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String toJSON() {
+        JSONObject parser = new JSONObject();
+        /**Add basic data.*/
+        parser.put("level", this.level);
+        parser.put("damage", this.damage);
+        parser.put("speed", this.attackSpeed);
+        parser.put("buildingCost", this.buildingCost);
+        parser.put("sellingValue", this.sellingValue);
+        parser.put("position", this.position);
+
+        /**Handle updates.*/
+        parser.put("updates", Set.of());
+        return parser.toString();
     }
 }
