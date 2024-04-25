@@ -3,40 +3,27 @@ package it.unibo.towerdefense.views.graphics;
 import java.awt.Graphics2D;
 
 import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.Size;
 
 /**
  * Abstract class that represents a
  */
 public abstract class Drawable {
 
-    private Size size;
     private Position position;
 
     /**
      * Constructor from starting position and size.
      * @param pos starting position
-     * @param size size of the drawable
      */
-    public Drawable(final Position pos, final Size size) {
+    public Drawable(final Position pos) {
         this.position = pos.copy();
-        this.size = size.copy();
     }
 
     /**
      * Constructor from size, the position is set to 0,0.
-     * @param size size of the drawable
      */
-    public Drawable(final Size size) {
-        this(Position.origin(), size);
-    }
-
-    /**
-     * Returns the dimension of the drawable.
-     * @return the size of the object.
-     */
-    public Size getSize() {
-        return size.copy();
+    public Drawable() {
+        this(Position.origin());
     }
 
     /**
