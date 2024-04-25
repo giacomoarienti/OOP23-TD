@@ -2,6 +2,8 @@ package it.unibo.towerdefense.views.graphics;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
@@ -38,7 +40,7 @@ public class CanvasImpl extends JPanel implements Canvas {
     public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         // create a copy of graphics and set rendering hints
-        Graphics2D g2d = (Graphics2D) g.create();
+        final Graphics2D g2d = (Graphics2D) g.create();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         // clear the canvas
@@ -64,7 +66,7 @@ public class CanvasImpl extends JPanel implements Canvas {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void submit(Drawable drawable) {
+    public synchronized void submit(final Drawable drawable) {
         this.queue.add(drawable);
     }
 
@@ -72,7 +74,23 @@ public class CanvasImpl extends JPanel implements Canvas {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void submitBackground(Drawable drawable) {
+    public synchronized void submitAll(final List<Drawable> drawables) {
+        this.queue.addAll(Collections.unmodifiableCollection(drawables));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void submitBackground(final Drawable drawable) {
        this.queue.add(FIRST_INDEX, drawable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void submitBackgroundAll(final List<Drawable> drawables) {
+       this.queue.addAll(FIRST_INDEX, drawables);
     }
 }
