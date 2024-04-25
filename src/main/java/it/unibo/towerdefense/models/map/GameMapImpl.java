@@ -15,7 +15,6 @@ public class GameMapImpl implements GameMap {
 
 
     private final Size size;
-    private final Iterator<Direction> path;
     private final PathCell spawn;
     private final PathCell end;
     private final Random random = new Random();
@@ -30,18 +29,16 @@ public class GameMapImpl implements GameMap {
 
         map = new Cell[size.getHeight()][size.getWidth()];
         this.size = size;
-        path = new PathFactory().line();
 
-        Position pos = new PositionImpl(0, random.nextInt(size.getHeight()));
+        final Iterator<Direction> path = new PathFactory().diagonal();
+        Position pos = new PositionImpl(0, random.nextInt(size.getHeight() / 2));
         spawn = new PathCellImpl(pos, path.next(), path.next());
-
-        pos.add(path.next().asPosition());
         PathCell newCell = spawn;
 
-        while (isInArray(pos)) {
+        while (isInMap(pos)) {
             map[pos.getX()][pos.getY()] = newCell;
             pos.add(newCell.getOutDirection().asPosition());
-            newCell = new PathCellImpl(pos, newCell.getInDirection(), path.next());
+            newCell = new PathCellImpl(pos, newCell.getOutDirection(), path.next());
         }
         end = newCell;
 
@@ -68,7 +65,7 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public Cell getCellAt(final Position pos) {
-        if (!isInArray(pos)) {
+        if (!isInMap(pos)) {
             return null;
         }
         return map[pos.getX()][pos.getY()];
@@ -104,8 +101,8 @@ public class GameMapImpl implements GameMap {
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
-    private boolean isInArray(Position final pos) {
-        return pos.getX() >= 0 && pos.getX() < size.getWidth() && pos.getY() >= 0 && pos.getX() < size.getHeight();
+    private boolean isInMap(final Position pos) {
+        return pos.getX() >= 0 && pos.getX() < size.getWidth() && pos.getY() >= 0 && pos.getY() < size.getHeight();
     }
 
 }

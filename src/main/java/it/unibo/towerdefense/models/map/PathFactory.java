@@ -40,33 +40,4 @@ public class PathFactory {
         return Stream.generate(() -> list).flatMap(l -> l.stream()).iterator();
     }
 
-    /*int distanceToEnd = 0;
-        final PathCell end = new PathCellImpl(random.nextInt(sizeInCell.getHeight()), sizeInCell.getWidth() - 1, distanceToEnd);
-        PathCell temp = end;
-        static final int MAX_STRAIGHT = 5;
-        int directionIndex = 3;
-        int sameDirectionCounter = 0;
-
-
-
-        do {
-            path.put(temp, new LinkedList<>());
-            if (sameDirectionCounter > random.nextInt(MAX_STRAIGHT)) {      // TODO
-                sameDirectionCounter = 0;
-                directionIndex = turnRight(directionIndex);
-            }
-
-            sameDirectionCounter++;
-            var dir = Direction.values()[directionIndex];
-            path.get(temp).add(new PathCellImpl(temp.getI() + dir.vertical(), temp.getJ() + dir.orizontal(), distanceToEnd));
-            temp = path.get(temp).get(0);
-        } while (temp.getI() != spawnJ || temp.getJ() != spawnI);
-
-        spawn = new PathCellImpl(spawnI, spawnJ, distanceToEnd);
-
-    public Path line(final Size sizeInCell, int spawnX, int  spawnY) {
-        return new Path() {
-        };
-    }*/
-
 }

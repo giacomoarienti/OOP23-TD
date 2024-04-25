@@ -9,13 +9,13 @@ import it.unibo.towerdefense.models.engine.PositionImpl;
 public enum Direction {
 
     /** North. */
-    N(0, +1),
+    N(0, -1),
     /** West. */
-    W(+1, 0),
+    W(-1, 0),
     /** Sud. */
-    S(0, -1),
+    S(0, +1),
     /** East. */
-    E(-1, 0);
+    E(+1, 0);
 
     private final int orizontal;
     private final int vertical;
