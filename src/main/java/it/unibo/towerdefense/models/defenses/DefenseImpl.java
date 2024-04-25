@@ -4,6 +4,7 @@ import java.util.Set;
 import org.json.JSONObject;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.models.defenses.costants.DefenseMapKeys;
 
 /**
  * Implementation of the defense interface.
@@ -141,15 +142,15 @@ public class DefenseImpl implements Defense {
     public String toJSON() {
         JSONObject parser = new JSONObject();
         /**Add basic data.*/
-        parser.put("level", this.level);
-        parser.put("damage", this.damage);
-        parser.put("speed", this.attackSpeed);
-        parser.put("buildingCost", this.buildingCost);
-        parser.put("sellingValue", this.sellingValue);
-        parser.put("position", this.position);
+        parser.put(DefenseMapKeys.LEVEL, this.level);
+        parser.put(DefenseMapKeys.DAMAGE, this.damage);
+        parser.put(DefenseMapKeys.SPEED, this.attackSpeed);
+        parser.put(DefenseMapKeys.BUILDING_COST, this.buildingCost);
+        parser.put(DefenseMapKeys.SELLING_COST, this.sellingValue);
+        parser.put(DefenseMapKeys.POSITION, this.position);
 
         /**Handle updates.*/
-        parser.put("updates", Set.of());
+        parser.put(DefenseMapKeys.UPGRADES, Set.of());
         return parser.toString();
     }
 }
