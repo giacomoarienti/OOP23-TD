@@ -1,13 +1,8 @@
 package it.unibo.towerdefense.models.enemies;
 
-import it.unibo.towerdefense.controllers.map.MapController;
+import java.util.Iterator;
+import java.util.Optional;
 
-public class Spawner {
-
-    private final MapController map;
-
-    Spawner(MapController map){
-        this.map = map;
-    }
+public interface Spawner extends Iterator<Optional<Enemy>>{
 
 }

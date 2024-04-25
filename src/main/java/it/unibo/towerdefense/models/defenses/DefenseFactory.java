@@ -12,11 +12,16 @@ public interface DefenseFactory {
      * It shoots at the closest enemy in its range.
      * @return a defense with a closestTargets strategy and the stats defined by the corresponding json file.
      * @param fileName the json file with the attribute values for this defense.
-     * @param reference the position to use for calculations.
      */
-    Defense archerTower(String fileName, LogicalPosition reference);
+    Defense archerTower(String fileName);
 
     /**
-     * @TODO : add other defenses
+     * An archer tower is one of the most basics and common defenses in a tower defense.
+     * It shoots at the closest enemy in its range.
+     * If the defense was not recovered from a previous save,then this method will be used instead of ArcherTower.
+     * @return a defense with a closestTargets strategy and the stats defined by the corresponding json file.
+     * @param fileName the json file with the attribute values for this defense.
+     * @param reference the position of the tower.
      */
+    Defense archerTowerFromPosition(String fileName, LogicalPosition reference);
 }

@@ -68,4 +68,20 @@ public class EnemiesImpl implements Enemies {
         return enemies.stream().map(e -> e.info()).toList();
     }
 
+    /**
+     * @inheritDoc .
+     */
+    @Override
+    public void add(Enemy e) {
+        enemies.add(e);
+    }
+
+    /**
+     * @inheritDoc .
+     */
+    @Override
+    public boolean areDead(){
+        return enemies.isEmpty();
+    }
+
 }
