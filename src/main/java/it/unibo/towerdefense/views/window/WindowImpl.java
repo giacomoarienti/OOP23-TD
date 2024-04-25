@@ -8,16 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.views.modal.ModalContent;
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.views.graphics.CanvasImpl;
 import it.unibo.towerdefense.views.modal.Modal;
 import it.unibo.towerdefense.views.modal.ModalImpl;
 
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Color;
-import java.awt.Canvas;
 import java.awt.BorderLayout;
 
 /**
@@ -33,7 +30,7 @@ public class WindowImpl implements Window {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final JFrame frame;
-    private final Canvas canvas;
+    private final JPanel canvas;
     private final JPanel upgradeMenu;
     private final JPanel buyMenu;
     private final JPanel infoPanel;
@@ -51,12 +48,8 @@ public class WindowImpl implements Window {
         final int height = (int) screen.getHeight();
         this.frame.setSize(width, height);
         // create canvas
-        this.canvas = new Canvas();
-        this.canvas.setPreferredSize(new Dimension(
-            width / CANVAS_PROPORTION,
-            height
-        ));
-        // create menus
+        this.canvas = new CanvasImpl(width / CANVAS_PROPORTION, height);
+        // create panels
         this.upgradeMenu = createPanel(width / SIDE_MENUS_PROPORTION, height);
         this.buyMenu = createPanel(width / SIDE_MENUS_PROPORTION, height);
         this.infoPanel = createPanel(width, height / INFO_PROPORTION);
@@ -111,19 +104,6 @@ public class WindowImpl implements Window {
     public void displayModal(final String title, final ModalContent content) {
         final Modal modal = new ModalImpl(this.frame, title, content);
         modal.display();
-    }
-
-   /**
-    * {@inheritDoc}
-    */
-    @Override
-    public void paint(final Image img, final Position pos, final Size size) {
-        this.canvas.getGraphics().drawImage(
-            img,
-            pos.getX(), pos.getY(),
-            size.getWidth(), size.getHeight(),
-            null
-        );
     }
 
     private JPanel createPanel(final int width, final int height) {
