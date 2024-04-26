@@ -44,7 +44,7 @@ public class TestDefenseImpl {
         Assertions.assertEquals(testPosition, result.getPosition());
     }
 
-    /**Test for json conversion.*/
+    /**Test for json conversion (from defense to json).*/
     @Test
     void testToJson() {
         /**Test values.*/
@@ -67,5 +67,35 @@ public class TestDefenseImpl {
         jsonVersion.put(DefenseMapKeys.UPGRADES, Set.of());
         /**Assertions.*/
         Assertions.assertEquals(result.toJSON(), jsonVersion.toString());
+    }
+
+    /**Test for json conversion (from json to defense).*/
+    @Test
+    void testFromJson() {
+        /**Test values.*/
+        final int testDamage = 10;
+        final int testLevel = 1;
+        final int testSpeed = 5;
+        final int testBuildCost = 12;
+        final int testSellCost = 5;
+        final LogicalPosition testPosition = new LogicalPosition(10, 10);
+        /**Create json object*/
+        JSONObject jsonVersion = new JSONObject();
+        jsonVersion.put(DefenseMapKeys.LEVEL, testLevel);
+        jsonVersion.put(DefenseMapKeys.DAMAGE, testDamage);
+        jsonVersion.put(DefenseMapKeys.SPEED, testSpeed);
+        jsonVersion.put(DefenseMapKeys.BUILDING_COST, testBuildCost);
+        jsonVersion.put(DefenseMapKeys.SELLING_COST, testSellCost);
+        jsonVersion.put(DefenseMapKeys.POSITION, testPosition);
+        jsonVersion.put(DefenseMapKeys.UPGRADES, Set.of());
+        /**Test */
+        Defense result = DefenseImpl.fromJson(jsonVersion.toString());
+        /**Assertions.*/
+        Assertions.assertEquals(result.getLevel(), testLevel);
+        Assertions.assertEquals(result.getDamage(), testDamage);
+        Assertions.assertEquals(result.getAttackSpeed(), testSpeed);
+        Assertions.assertEquals(result.getBuildingCost(), testBuildCost);
+        Assertions.assertEquals(result.getSellingValue(), testSellCost);
+        Assertions.assertEquals(result.getPosition(), testPosition);
     }
 }

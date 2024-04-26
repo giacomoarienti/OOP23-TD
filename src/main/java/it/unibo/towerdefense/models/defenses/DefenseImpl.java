@@ -1,9 +1,12 @@
 package it.unibo.towerdefense.models.defenses;
 
 import java.util.Set;
+import java.util.HashSet;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.google.common.base.Optional;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapKeys;
@@ -49,12 +52,15 @@ public class DefenseImpl implements Defense {
 
     /**
      * This constructor builds all the elementary stats from a json file.
+     * Non available fields will be replaced with placeholders.
      * WARNING! this will give a placeholder as strategy.
      * @param filePath the path of the json file.
-     * @param upgrades the available updates.
+     * @param upgrades the available updates,if the optional is empty it means that the upgrades are already in the file.
+     * @param position in case the file does not have a position,this can be used instead.
      * @TODO implement constructor.
      */
-    public DefenseImpl(final String filePath, final Set<Defense> upgrades) {
+    public DefenseImpl(final String filePath, final Optional<Set<Defense>> upgrades,
+    final Optional<LogicalPosition> position) {
 
     }
     /**
@@ -156,5 +162,24 @@ public class DefenseImpl implements Defense {
         this.upgrades.forEach(u -> upgrades.put(u.toJSON()));
         parser.put(DefenseMapKeys.UPGRADES, upgrades);
         return parser.toString();
+    }
+
+    public static Defense fromJson(final String jsonData) {
+        JSONObject json = new JSONObject(jsonData);
+        /**Obtain upgrades.*/
+        Set<Defense> upgrades = new HashSet<>();
+        json.getJSONArray(DefenseMapKeys.UPGRADES).forEach(x ->
+            upgrades.add(fromJson(x.toString()))
+        );
+
+        return new DefenseImpl(
+        json.getInt(DefenseMapKeys.DAMAGE),
+        json.getInt(DefenseMapKeys.LEVEL),
+        json.has(DefenseMapKeys.POSITION) ? (LogicalPosition) json.get(DefenseMapKeys.POSITION) : null,
+        json.getInt(DefenseMapKeys.SPEED),
+        json.getInt(DefenseMapKeys.BUILDING_COST),
+        json.getInt(DefenseMapKeys.SELLING_COST),
+        null,
+        upgrades);
     }
 }
