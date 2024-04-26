@@ -117,4 +117,12 @@ public class PositionImpl implements Position {
     public Position copy() {
         return new PositionImpl(this);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "(" + this.getX() + ", " + this.getY() + ")";
+    }
 }
