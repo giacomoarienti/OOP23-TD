@@ -19,7 +19,7 @@ public interface Canvas {
     void submit(Drawable drawable);
 
     /**
-     * Submit a list of drawebles to the canvas queue.
+     * Submit a list of drawables to the canvas queue.
      * @param drawables the list of drawables to submit
      */
     void submitAll(List<Drawable> drawables);
