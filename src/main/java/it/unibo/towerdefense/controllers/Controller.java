@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.controllers;
 
+import it.unibo.towerdefense.views.graphics.GameRenderer;
+
 /**
  * Interface that models a standard Controller.
  */
@@ -13,6 +15,6 @@ public interface Controller {
     /**
      * Renders on the screen based on current state.
      */
-    void render();
+    void render(GameRenderer renderer);
 
 }

@@ -1,11 +1,9 @@
 package it.unibo.towerdefense.controllers.game;
 
-import it.unibo.towerdefense.controllers.Controller;
-
 /**
  * Interface that defines GameController methods.
  */
-public interface GameController extends Controller {
+public interface GameController {
 
     /**
      * Starts the game loop.
@@ -63,4 +61,14 @@ public interface GameController extends Controller {
      * @return true if the game loop should stop.
      */
     boolean isTerminated();
+
+    /**
+     * Updates the game state.
+     */
+    void update();
+
+    /**
+     * Renders the game state.
+     */
+    void render();
 }
