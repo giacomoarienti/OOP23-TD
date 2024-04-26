@@ -1,7 +1,9 @@
 package it.unibo.towerdefense.models.enemies;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
+import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 
 /**
  * @inheritDoc .
@@ -36,6 +38,9 @@ public class SimpleEnemySpawner implements EnemySpawner{
      * to all instances of Enemy entities of that type
      */
     private class MinimalEnemy implements Enemy{
+
+        private record MinimalEnemyInfo(LogicalPosition getPos, Integer getHp, EnemyLevel getEnemyLevel, EnemyArchetype getEnemyArchetype) implements EnemyInfo{};
+
         private final EnemyType t;
         private final LogicalPosition pos = startingPos.clone();
         private int hp;
@@ -101,8 +106,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
          */
         @Override
         public EnemyInfo info() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'info'");
+            return new MinimalEnemyInfo(this.getPosition(), this.getHp(), t.getEnemyLevel(), t.getEnemyArchetype());
         }
 
         /**

@@ -26,12 +26,12 @@ public interface EnemyInfo {
      *
      * @return the EnemyLevel
      */
-    EnemyLevel getLevel();
+    EnemyLevel getEnemyLevel();
 
     /**
      * Getter for the enemy's EnemyArchetype
      *
      * @return the EnemyArchetype
      */
-    EnemyArchetype getArchetype();
+    EnemyArchetype getEnemyArchetype();
 }
