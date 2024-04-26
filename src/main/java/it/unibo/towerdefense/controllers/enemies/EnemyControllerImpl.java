@@ -10,8 +10,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.map.MapController;
-import it.unibo.towerdefense.models.enemies.Enemies;
-import it.unibo.towerdefense.models.enemies.EnemiesImpl;
+import it.unibo.towerdefense.models.enemies.EnemyCollection;
+import it.unibo.towerdefense.models.enemies.EnemyCollectionImpl;
 import it.unibo.towerdefense.models.enemies.Enemy;
 import it.unibo.towerdefense.models.enemies.SimpleWavesManager;
 import it.unibo.towerdefense.models.enemies.WavesManager;
@@ -25,7 +25,7 @@ import it.unibo.towerdefense.views.window.Window;
 
 public class EnemyControllerImpl implements EnemyController {
 
-    private final Enemies enemies;
+    private final EnemyCollection enemies;
     private final EnemiesRenderer renderer;
     private final WavesManager waves;
 
@@ -40,9 +40,9 @@ public class EnemyControllerImpl implements EnemyController {
      * @param map    to know where to move enemies
      */
     EnemyControllerImpl(final Window window, final MapController map, final GameController gc) {
-        enemies = new EnemiesImpl(map);
+        enemies = new EnemyCollectionImpl(map);
         renderer = new EnemiesRendererImpl(window);
-        waves = new SimpleWavesManager(enemies, gc, new LogicalPosition(0, 0)); //map.getStartingPos
+        waves = new SimpleWavesManager(enemies, gc, new LogicalPosition(0, 0), null); //map.getStartingPos
     }
 
     /**

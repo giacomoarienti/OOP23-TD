@@ -11,7 +11,7 @@ import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 public class SimpleEnemySpawner implements EnemySpawner{
 
     private final LogicalPosition startingPos;
-    private final Enemies enemies;
+    private final EnemyCollection enemies;
 
     /**
      * Constructor for the class.
@@ -19,7 +19,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
      * @param startingPos the starting position for all enemies produced by the factory
      * @param enemies the class which holds information about the enemies
      */
-    SimpleEnemySpawner(final LogicalPosition startingPos, final Enemies enemies){
+    SimpleEnemySpawner(final LogicalPosition startingPos, final EnemyCollection enemies){
         this.startingPos = startingPos;
         this.enemies = enemies;
     }
@@ -40,7 +40,6 @@ public class SimpleEnemySpawner implements EnemySpawner{
     private class MinimalEnemy implements Enemy{
 
         private record MinimalEnemyInfo(LogicalPosition getPos, Integer getHp, EnemyLevel getEnemyLevel, EnemyArchetype getEnemyArchetype) implements EnemyInfo{};
-
         private final EnemyType t;
         private final LogicalPosition pos = startingPos.clone();
         private int hp;

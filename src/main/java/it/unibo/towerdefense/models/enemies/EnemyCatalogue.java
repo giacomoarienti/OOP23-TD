@@ -4,9 +4,8 @@ import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 
@@ -15,7 +14,6 @@ import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
  * Class responsible of initializing and maintaining a list of all possible enemies.
  */
 class EnemyCatalogue {
-
     /**
      * Level of the enemy, determines total stats.
      */
@@ -89,19 +87,19 @@ class EnemyCatalogue {
     }
 
     /**
-     * Returns a set of all EnemyTypes in the game.
-     * @return a set of all EnemyTypes in the game
+     * Returns a list of all EnemyTypes in the game.
+     * @return a list of all EnemyTypes in the game
      */
-    public Set<EnemyType> getEnemyTypes(){
+    public List<EnemyType> getEnemyTypes(){
         return getEnemyTypes(et -> true);
     }
 
     /**
-     * Returns a set of all EnemyTypes in the game that match a given predicate.
-     * @return a set of all EnemyTypes in the game that match a given predicate
+     * Returns a list of all EnemyTypes in the game that match a given predicate.
+     * @return a list of all EnemyTypes in the game that match a given predicate
      */
-    public Set<EnemyType> getEnemyTypes(final Predicate<EnemyType> test){
-        return availableTypes.stream().filter(test).collect(Collectors.toSet());
+    public List<EnemyType> getEnemyTypes(final Predicate<EnemyType> test){
+        return availableTypes.stream().filter(test).toList();
     }
 
     /**

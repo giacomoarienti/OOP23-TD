@@ -8,7 +8,7 @@ import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 /**
  * Defines the interface to the enemies.
  */
-public interface Enemies {
+public interface EnemyCollection {
 
     /**
      * Moves the enemies.

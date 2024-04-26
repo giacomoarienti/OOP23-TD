@@ -10,16 +10,10 @@ import it.unibo.towerdefense.controllers.game.GameController;
  */
 public class SimpleWavesManager implements WavesManager {
 
-    private final WaveSupplier supplier = new WaveSupplier() {
-        @Override
-        public Wave apply(Integer t) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'apply'");
-        }
-    };
-    private final EnemySpawner spawner;
-    private final Enemies enemies;
+    private final EnemyCollection enemies;
     private final GameController gc;
+    private final EnemySpawner spawner;
+    private final WaveSupplier supplier;
     private Optional<Wave> current = Optional.empty();
 
     /**
@@ -29,10 +23,11 @@ public class SimpleWavesManager implements WavesManager {
      * @param gc
      * @param startingPos
      */
-    public SimpleWavesManager(Enemies enemies, GameController gc, LogicalPosition startingPos){
+    public SimpleWavesManager(EnemyCollection enemies, GameController gc, LogicalPosition startingPos, WavePolicySupplier wp){
         this.enemies = enemies;
         this.gc = gc;
         this.spawner = new SimpleEnemySpawner(startingPos, enemies);
+        this.supplier = new PredicateBasedRandomWaveGenerator(wp);
     }
 
     /**
