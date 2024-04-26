@@ -14,7 +14,7 @@ import javax.swing.JFrame;
  */
 public class ModalImpl implements Modal {
 
-    private static final int BORDER_SIZE = 10;
+    private static final int BORDER_SIZE = 20;
     private static final String TITLE_FONT_NAME = "Calibri";
     private static final int TITLE_FONT_SIZE = 24;
     private static final int TITLE_FONT_STYLE = Font.BOLD;
@@ -29,7 +29,6 @@ public class ModalImpl implements Modal {
     public ModalImpl(final JFrame parent, final String title, final ModalContent content) {
         // create the dialog frame
         this.dialog = new JDialog(parent, "", true);
-        this.dialog.setUndecorated(true);
         // create main panel
         final JPanel panel = new JPanel(new BorderLayout());
         this.dialog.getContentPane().add(panel);
@@ -56,8 +55,10 @@ public class ModalImpl implements Modal {
     public void display() {
         // pack the content
         this.dialog.pack();
-        // set position to center of the screen
-        this.dialog.setLocationRelativeTo(null);
+        // set position relative to the parent frame
+        this.dialog.setLocationRelativeTo(
+            this.dialog.getRootPane()
+        );
         // show the dialog
         this.dialog.setVisible(true);
     }
