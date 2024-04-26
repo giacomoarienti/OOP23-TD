@@ -19,10 +19,10 @@ import it.unibo.towerdefense.views.gamelauncher.GameLauncherViewImpl;
 public class GameLauncherControllerImpl implements GameLauncherController {
 
     private static final List<Size> RESOLUTIONS = List.of(
+        new SizeImpl(3440, 1440),
+        new SizeImpl(2560, 1440),
         new SizeImpl(1920, 1080),
-        new SizeImpl(1280, 720),
-        new SizeImpl(1024, 768),
-        new SizeImpl(800, 600)
+        new SizeImpl(1280, 720)
     );
 
     private String playerName;
@@ -71,7 +71,6 @@ public class GameLauncherControllerImpl implements GameLauncherController {
         if (name.isBlank()) {
             throw new IllegalArgumentException("Invalid player name");
         }
-        System.out.println(name.length());
         if (name.length() > Constants.MAX_NAME_LENGTH) {
             throw new IllegalArgumentException("Player name too long, max " + Constants.MAX_NAME_LENGTH + " characters allowed");
         }
