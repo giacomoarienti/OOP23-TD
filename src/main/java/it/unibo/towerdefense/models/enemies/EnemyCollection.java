@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.models.enemies;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
@@ -39,7 +39,7 @@ public interface EnemyCollection {
      *
      * @return a Collection with all the enemies' EnemyInfo
      */
-    Collection<EnemyInfo> getEnemiesInfo();
+    List<EnemyInfo> getEnemiesInfo();
 
     /**
      * Method to know wheter any Enemy is still alive.

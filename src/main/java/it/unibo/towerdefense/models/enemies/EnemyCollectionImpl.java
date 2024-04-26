@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.models.enemies;
 
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -64,7 +64,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
      * @inheritDoc .
      */
     @Override
-    public Collection<EnemyInfo> getEnemiesInfo() {
+    public List<EnemyInfo> getEnemiesInfo() {
         return enemies.stream().map(e -> e.info()).toList();
     }
 
