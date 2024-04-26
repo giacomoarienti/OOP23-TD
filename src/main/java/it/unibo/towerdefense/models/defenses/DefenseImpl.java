@@ -1,6 +1,8 @@
 package it.unibo.towerdefense.models.defenses;
 
 import java.util.Set;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
@@ -150,7 +152,9 @@ public class DefenseImpl implements Defense {
         parser.put(DefenseMapKeys.POSITION, this.position);
 
         /**Handle updates.*/
-        parser.put(DefenseMapKeys.UPGRADES, Set.of());
+        JSONArray upgrades = new JSONArray();
+        this.upgrades.forEach(u -> upgrades.put(u.toJSON()));
+        parser.put(DefenseMapKeys.UPGRADES, upgrades);
         return parser.toString();
     }
 }

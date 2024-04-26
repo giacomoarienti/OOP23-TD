@@ -1,16 +1,17 @@
 package it.unibo.towerdefense.models.defenses;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.models.defenses.costants.DefenseMapKeys;
 
 import java.util.Set;
 
 /**Tests for the implementation of Defense.*/
 public class TestDefenseImpl {
-    
-    /**Test of constructors and get methods*/
+    /**Test of constructors and get methods.*/
     @Test
     void testConstructorsAndGetters() {
         /**Test values.*/
@@ -41,5 +42,30 @@ public class TestDefenseImpl {
         final LogicalPosition testPosition = new LogicalPosition(20, 20);
         result.setPosition(testPosition);
         Assertions.assertEquals(testPosition, result.getPosition());
+    }
+
+    /**Test for json conversion.*/
+    @Test
+    void testToJson() {
+        /**Test values.*/
+        final int testDamage = 10;
+        final int testLevel = 1;
+        final int testSpeed = 5;
+        final int testBuildCost = 12;
+        final int testSellCost = 5;
+        final LogicalPosition testPosition = new LogicalPosition(10, 10);
+        Defense result = new DefenseImpl(testDamage, testLevel, testPosition, testSpeed,
+        testBuildCost, testSellCost, null, Set.of());
+        /**Create json object*/
+        JSONObject jsonVersion = new JSONObject();
+        jsonVersion.put(DefenseMapKeys.LEVEL, testLevel);
+        jsonVersion.put(DefenseMapKeys.DAMAGE, testDamage);
+        jsonVersion.put(DefenseMapKeys.SPEED, testSpeed);
+        jsonVersion.put(DefenseMapKeys.BUILDING_COST, testBuildCost);
+        jsonVersion.put(DefenseMapKeys.SELLING_COST, testSellCost);
+        jsonVersion.put(DefenseMapKeys.POSITION, testPosition);
+        jsonVersion.put(DefenseMapKeys.UPGRADES, Set.of());
+        /**Assertions.*/
+        Assertions.assertEquals(result.toJSON(), jsonVersion.toString());
     }
 }
