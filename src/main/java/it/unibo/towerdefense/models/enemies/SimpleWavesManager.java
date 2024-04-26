@@ -17,10 +17,10 @@ public class SimpleWavesManager implements WavesManager {
             throw new UnsupportedOperationException("Unimplemented method 'apply'");
         }
     };
-    private final SpawnerFactory factory;
+    private final EnemySpawner spawner;
     private final Enemies enemies;
     private final GameController gc;
-    private Optional<Spawner> current = Optional.empty();
+    private Optional<Wave> current = Optional.empty();
 
     /**
      * The constructor for the class.
@@ -32,7 +32,7 @@ public class SimpleWavesManager implements WavesManager {
     public SimpleWavesManager(Enemies enemies, GameController gc, LogicalPosition startingPos){
         this.enemies = enemies;
         this.gc = gc;
-        this.factory = new SpawnerFactory(new SimpleEnemyFactory(startingPos, enemies));
+        this.spawner = new SimpleEnemySpawner(startingPos, enemies);
     }
 
     /**
@@ -42,7 +42,7 @@ public class SimpleWavesManager implements WavesManager {
     public void update() {
         if(current.isPresent()){
             if(current.get().hasNext()){
-                current.get().next().ifPresent(e -> enemies.add(e));
+                current.get().next().ifPresent(et -> spawner.spawn(et));
             }else{
                 current = Optional.empty();
             }
@@ -57,11 +57,11 @@ public class SimpleWavesManager implements WavesManager {
      * @inheritDoc .
      */
     @Override
-    public void spawn(int wave) {
+    public void spawn(int waveNumber) {
         if(current.isPresent()){
             throw new IllegalStateException("A wave is already being spawned.");
         }else{
-            current = Optional.of(factory.build(supplier.apply(wave)));
+            current = Optional.of(supplier.apply(waveNumber));
         }
     }
 }

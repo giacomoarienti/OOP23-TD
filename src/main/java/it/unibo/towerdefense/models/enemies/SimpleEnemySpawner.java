@@ -6,27 +6,27 @@ import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 /**
  * @inheritDoc .
  */
-public class SimpleEnemyFactory implements EnemyFactory{
+public class SimpleEnemySpawner implements EnemySpawner{
 
     private final LogicalPosition startingPos;
-    private final Enemies controller;
+    private final Enemies enemies;
 
     /**
      * Constructor for the class.
      *
      * @param startingPos the starting position for all enemies produced by the factory
-     * @param controller the controller to which every enemy should signal an eventual death
+     * @param enemies the class which holds information about the enemies
      */
-    SimpleEnemyFactory(LogicalPosition startingPos, Enemies controller){
+    SimpleEnemySpawner(final LogicalPosition startingPos, final Enemies enemies){
         this.startingPos = startingPos;
-        this.controller = controller;
+        this.enemies = enemies;
     }
 
     /**
      * @inheritDoc .
      */
-    public Enemy build(EnemyType t){
-        return new MinimalEnemy(t);
+    public void spawn(EnemyType t){
+        enemies.add(new MinimalEnemy(t));
     }
 
     /**
@@ -59,7 +59,7 @@ public class SimpleEnemyFactory implements EnemyFactory{
                 throw new IllegalArgumentException("Tried to hurt an enemy by " + String.valueOf(amount));
             }else{
                 if ((hp-=amount) < 0) {
-                    controller.signalDeath(this);
+                    enemies.signalDeath(this);
                 }
             }
         }

@@ -6,20 +6,22 @@ import java.util.Optional;
 import java.util.Random;
 
 
-public class PredicateBasedRandomWaveSupplier implements WaveSupplier{
+public class PredicateBasedRandomWaveGenerator implements WaveSupplier{
 
     private final WavePolicySupplier wp;
     private final Random r = new Random();
 
-    PredicateBasedRandomWaveSupplier(final WavePolicySupplier wp){
+    PredicateBasedRandomWaveGenerator(final WavePolicySupplier wp){
         this.wp = wp;
     }
 
     @Override
     public Wave apply(final Integer wave) {
         List<EnemyType> availableTypes = List.copyOf(EnemyCatalogue.getCatalogue().getEnemyTypes(wp.getPredicate(wave)));
-        List<EnemyType> order = r.ints(wp.getLength(wave), 0, availableTypes.size()).mapToObj( i -> availableTypes.get(i)).toList();
-        return new ModulableWave(wp.getCyclesPerSpawn(wave), order);
+        return (Wave)new SkipIterator<EnemyType>(
+                r.ints(wp.getLength(wave), 0, availableTypes.size())
+                                .mapToObj( i -> availableTypes.get(i)).iterator(),
+                wp.getCyclesPerSpawn(wave));
     }
 
     /**
@@ -43,19 +45,6 @@ public class PredicateBasedRandomWaveSupplier implements WaveSupplier{
         public Optional<T> next() {
             counter++;
             return counter % skip == 0 ? Optional.of(base.next()) : Optional.empty();
-        }
-    }
-
-    private class ModulableWave implements Wave{
-        private final int cyclesPerSpawn;
-        private final Iterable<EnemyType> order;
-        ModulableWave(final int cyclesPerSpawn, final Iterable<EnemyType> order){
-            this.cyclesPerSpawn = cyclesPerSpawn;
-            this.order = order;
-        }
-        @Override
-        public Iterator<Optional<EnemyType>> iterator() {
-            return new SkipIterator<>(order.iterator(), cyclesPerSpawn);
         }
     }
 }
