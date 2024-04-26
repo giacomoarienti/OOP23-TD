@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.game;
 
+import it.unibo.towerdefense.models.engine.PositionImpl;
+
 /**
  * Base implementation of the Game interface.
  */
@@ -160,5 +162,29 @@ public class GameImpl implements Game {
             case PAUSE -> PAUSE_GAME_SPEED;
             default -> throw new IllegalStateException("invalid gameState " + gameState.name());
         };
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameDTO toDTO() {
+        return new GameDTOImpl(this.lives, this.money, this.wave);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof GameImpl) {
+            final GameImpl gameObject = (GameImpl) obj;
+            return this.getLives() == gameObject.getLives()
+                && this.getMoney() == gameObject.getMoney()
+                && this.getWave() == gameObject.getWave()
+                && this.getGameState() == gameObject.getGameState();
+        }
+        return false;
     }
 }

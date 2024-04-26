@@ -72,6 +72,12 @@ public interface Game {
     double getGameSpeed();
 
     /**
+     * Returns the DTO representation of the Game object.
+     * @return the GameDTO object
+     */
+    GameDTO toDTO();
+
+    /**
      * Returns the Game object from a GameDTO object.
      * @param dto the GameDTO object
      * @return the Game object
