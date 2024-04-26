@@ -12,6 +12,9 @@ import it.unibo.towerdefense.models.game.GameDTO;
  */
 public class SavingImpl implements Saving {
 
+    private static final String NAME_FIELD = "name";
+    private static final String GAME_FIELD = "game";
+
     private final String name;
     private final GameDTO game;
     private final Object map;
@@ -74,10 +77,10 @@ public class SavingImpl implements Saving {
     @Override
     public String toJSON() {
         return new JSONObject()
-            .put("name", this.name)
-            .put("game", this.game.toJSON())
-            // .put("map", map.toJSON())
+            .put(NAME_FIELD, this.name)
+            .put(GAME_FIELD, this.game.toJSON())
             // .put("defenses", null)
+            // .put("map", map.toJSON())
             .toString();
     }
 
@@ -90,8 +93,8 @@ public class SavingImpl implements Saving {
         // TODO implement map and defenses deserialization
         final JSONObject jsonObject = new JSONObject(jsonData);
         return new SavingImpl(
-            jsonObject.getString("name"),
-            GameDTO.fromJson(jsonObject.getString("game")),
+            jsonObject.getString(NAME_FIELD),
+            GameDTO.fromJson(jsonObject.getString(GAME_FIELD)),
             null, //Map.fromJson(jsonObject.getString("map")),
             null //List.of(...);
         );

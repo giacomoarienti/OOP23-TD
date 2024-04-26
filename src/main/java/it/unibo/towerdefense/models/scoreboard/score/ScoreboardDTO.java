@@ -21,7 +21,7 @@ public class ScoreboardDTO {
     }
 
     /**
-     * Returns an umodifiable Set of Scores.
+     * Returns an unmodifiable Set of Scores.
      * @return the scores
      */
     public Set<Score> getScores() {
