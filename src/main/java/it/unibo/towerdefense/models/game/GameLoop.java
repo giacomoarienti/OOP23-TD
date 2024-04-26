@@ -39,7 +39,7 @@ public class GameLoop implements Runnable {
         long currentTime, lastUpdate = System.currentTimeMillis();
         this.nextStatTime = System.currentTimeMillis() + (int) MILLISECONDS_IN_SECOND;
         // while game is running update state and render
-        while (this.controller.isTerminated()) {
+        while (!this.controller.isTerminated()) {
             while (this.controller.isRunning()) {
                 currentTime = System.currentTimeMillis();
                 final double lastRenderTime = (currentTime - lastUpdate) / MILLISECONDS_IN_SECOND;
