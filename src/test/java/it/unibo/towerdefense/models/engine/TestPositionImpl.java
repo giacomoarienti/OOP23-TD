@@ -58,4 +58,14 @@ class TestPositionImpl {
         final double distance = Math.sqrt(START_X * START_X + START_Y * START_Y);
         Assertions.assertEquals(distance, this.pos.distanceTo(zero));
     }
+
+    /**
+     * Test toJson and fromJson method.
+     */
+    @Test
+    void testJson() {
+        final String json = this.pos.toJSON();
+        final Position pos2 = PositionImpl.fromJson(json);
+        Assertions.assertEquals(this.pos, pos2);
+    }
 }
