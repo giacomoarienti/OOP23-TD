@@ -8,6 +8,8 @@ import com.google.common.base.Objects;
  */
 public class ScoreImpl implements Score {
 
+    private static final String NAME_FIELD = "name";
+    private static final String WAVE_FIELD = "wave";
     private final String name;
     private final int wave;
 
@@ -72,8 +74,8 @@ public class ScoreImpl implements Score {
     @Override
     public String toJSON() {
         return new JSONObject()
-            .put("name", this.getName())
-            .put("wave", this.getWave())
+            .put(NAME_FIELD, this.getName())
+            .put(WAVE_FIELD, this.getWave())
             .toString();
     }
 
@@ -86,8 +88,8 @@ public class ScoreImpl implements Score {
         // convert the JSON string to a Score object
         final JSONObject jsonObject = new JSONObject(jsonData);
         return new ScoreImpl(
-            jsonObject.getString("name"),
-            jsonObject.getInt("wave")
+            jsonObject.getString(NAME_FIELD),
+            jsonObject.getInt(WAVE_FIELD)
         );
     }
 }

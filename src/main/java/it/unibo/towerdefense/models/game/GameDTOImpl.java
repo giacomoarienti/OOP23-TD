@@ -7,6 +7,10 @@ import org.json.JSONObject;
  */
 public class GameDTOImpl implements GameDTO {
 
+    private static final String WAVE_FIELD = "wave";
+    private static final String LIVES_FIELD = "lives";
+    private static final String MONEY_FIELD = "money";
+
     private final int lives;
     private final int money;
     private final int wave;
@@ -57,9 +61,9 @@ public class GameDTOImpl implements GameDTO {
     public String toJSON() {
         // convert the Game object to a JSON string
        return new JSONObject()
-            .put("wave", this.getWave())
-            .put("lives", this.getLives())
-            .put("money", this.getMoney())
+            .put(WAVE_FIELD, this.getWave())
+            .put(LIVES_FIELD, this.getLives())
+            .put(MONEY_FIELD, this.getMoney())
             .toString();
     }
 
@@ -72,9 +76,9 @@ public class GameDTOImpl implements GameDTO {
         // convert the JSON string to a Game object
         final JSONObject jsonObject = new JSONObject(jsonData);
         return new GameDTOImpl(
-            jsonObject.getInt("lives"),
-            jsonObject.getInt("money"),
-            jsonObject.getInt("wave"
+            jsonObject.getInt(LIVES_FIELD),
+            jsonObject.getInt(MONEY_FIELD),
+            jsonObject.getInt(WAVE_FIELD
         ));
     }
 }

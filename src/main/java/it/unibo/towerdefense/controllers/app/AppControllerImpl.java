@@ -7,6 +7,7 @@ import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.game.GameControllerImpl;
 import it.unibo.towerdefense.controllers.menu.MenuController;
 import it.unibo.towerdefense.controllers.menu.MenuControllerImpl;
+import it.unibo.towerdefense.views.graphics.GameRendererImpl;
 import it.unibo.towerdefense.views.window.Window;
 
 /**
@@ -28,8 +29,9 @@ public class AppControllerImpl implements AppController {
         this.window = window;
         // instantiate controller
         this.menuController = new MenuControllerImpl(this, this.window);
-        this.gameController = new GameControllerImpl();
-        // TODO add controllers
+        this.gameController = new GameControllerImpl(
+            new GameRendererImpl(window)
+        );
     }
 
     /**

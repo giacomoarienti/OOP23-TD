@@ -9,11 +9,15 @@ import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.views.modal.ModalContent;
 import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.views.graphics.Canvas;
 import it.unibo.towerdefense.views.graphics.CanvasImpl;
+import it.unibo.towerdefense.views.graphics.Drawable;
 import it.unibo.towerdefense.views.modal.Modal;
 import it.unibo.towerdefense.views.modal.ModalImpl;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.util.List;
 import java.awt.Color;
 import java.awt.BorderLayout;
 
@@ -26,12 +30,11 @@ public class WindowImpl implements Window {
     private static final String ERROR_ALERT_TITLE = "Error";
     private static final int CANVAS_PROPORTION = 2;
     private static final int SIDE_MENUS_PROPORTION = 8;
-    private static final int INFO_PROPORTION = 12;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Size size;
     private final JFrame frame;
-    private final JPanel canvas;
+    private final Canvas canvas;
     private final JPanel upgradeMenu;
     private final JPanel buyMenu;
     private final JPanel infoPanel;
@@ -47,17 +50,22 @@ public class WindowImpl implements Window {
         // create base frame
         this.frame = new JFrame(WINDOW_TITLE);
         this.frame.setLayout(new BorderLayout());
+        this.frame.setSize(new Dimension(w, h));
         // create canvas
         this.canvas = new CanvasImpl(w / CANVAS_PROPORTION, h);
         // create panels
         this.upgradeMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
-        this.buyMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
-        this.infoPanel = createPanel(w, h / INFO_PROPORTION);
+        final var rightMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
+        rightMenu.setLayout(new FlowLayout());
+        this.infoPanel = new JPanel();
+        this.buyMenu = new JPanel();
+        rightMenu.add(this.infoPanel);
+        rightMenu.add(this.buyMenu);
         // add panels to frame
-        this.frame.add(this.canvas, BorderLayout.CENTER);
+        this.frame.add((JPanel) this.canvas, BorderLayout.CENTER);
         this.frame.add(this.upgradeMenu, BorderLayout.WEST);
-        this.frame.add(this.buyMenu, BorderLayout.EAST);
-        this.frame.add(this.infoPanel, BorderLayout.NORTH);
+        this.frame.add(rightMenu, BorderLayout.EAST);
+        // this.frame.add(this.buyMenu, BorderLayout.EAST);
     }
 
     /**
@@ -65,11 +73,6 @@ public class WindowImpl implements Window {
      */
     @Override
     public void display() {
-        // set frame size
-        this.frame.setPreferredSize(
-            new Dimension(this.size.getWidth(), this.size.getHeight())
-        );
-        this.frame.pack();
         // set frame background
         this.frame.setBackground(Color.BLACK);
         // set default closing operation
@@ -121,9 +124,61 @@ public class WindowImpl implements Window {
         modal.display();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setInfoContent(final JPanel panel) {
+        this.infoPanel.removeAll();
+        this.infoPanel.add(panel);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setBuyMenuContent(final JPanel panel) {
+        this.buyMenu.removeAll();
+        this.buyMenu.add(panel);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setUpgradesContent(final JPanel panel) {
+        this.upgradeMenu.removeAll();
+        this.upgradeMenu.add(panel);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void submitToCanvas(final Drawable drawable) {
+        this.canvas.submit(drawable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void submitAllToCanvas(final List<Drawable> drawables) {
+        this.canvas.submitAll(drawables);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void renderCanvas() {
+        this.canvas.render();
+    }
+
     private JPanel createPanel(final int width, final int height) {
         final JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(width, height));
         return panel;
     }
+
 }

@@ -6,21 +6,27 @@ import java.util.Collections;
 
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Main canvas of the game.
  */
-public class CanvasImpl extends JPanel implements Canvas {
+public class CanvasImpl extends JPanel implements Canvas, MouseListener {
 
     private static final int FIRST_INDEX = 0;
     private static final int START_Y = 0;
     private static final int START_X = 0;
 
     private final List<Drawable> queue = new ArrayList<>();
+    private final Logger logger;
 
     /**
      * Constructor from width and height.
@@ -31,6 +37,8 @@ public class CanvasImpl extends JPanel implements Canvas {
         super();
         // set the size of the canvas
         this.setPreferredSize(new Dimension(width, height));
+        // create the logger
+        this.logger = LoggerFactory.getLogger(this.getClass());
     }
 
     /**
@@ -93,4 +101,38 @@ public class CanvasImpl extends JPanel implements Canvas {
     public synchronized void submitBackgroundAll(final List<Drawable> drawables) {
        this.queue.addAll(FIRST_INDEX, drawables);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseClicked(final MouseEvent e) {
+        this.logger.debug("Mouse clicked at: " + e.getX() + ", " + e.getY());
+        // call selected cell on MapController
+        // this.mapController.selectedCell(new PositionImpl(e.getX(), e.getY()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseEntered(MouseEvent e) { }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseExited(MouseEvent e) { }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mousePressed(MouseEvent e) { }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseReleased(MouseEvent e) { }
 }

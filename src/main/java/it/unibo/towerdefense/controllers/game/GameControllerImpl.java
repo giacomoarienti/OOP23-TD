@@ -7,10 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.controllers.Controller;
+import it.unibo.towerdefense.controllers.defenses.DefensesController;
+import it.unibo.towerdefense.controllers.enemies.EnemyControllerImpl;
+import it.unibo.towerdefense.controllers.map.MapControllerImpl;
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameImpl;
 import it.unibo.towerdefense.models.game.GameLoop;
 import it.unibo.towerdefense.models.game.GameState;
+import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**
  * Game controller implementation.
@@ -19,18 +23,27 @@ public class GameControllerImpl implements GameController {
 
     private final Logger logger;
     private final Game game;
+    private final GameRenderer gameRenderer;
     private final List<Controller> controllers;
     private boolean terminated;
 
     /**
-     * Constructor with Window.
+     * Constructor with GameRender.
+     * @param gameRenderer the game renderer
      */
-    public GameControllerImpl() {
+    public GameControllerImpl(final GameRenderer gameRenderer) {
+        this.gameRenderer = gameRenderer;
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.game = new GameImpl();
         // instantiate controllers
-        this.controllers = new ArrayList<>();
-        // TODO add controllers
+        // final DefensesController defensesController = new DefensesController(this.game);
+        // final MapControllerImpl mapController = new MapControllerImpl(null, defensesController, this);
+        // final EnemyControllerImpl enemyController = new EnemyControllerImpl(null, mapController, this);
+        this.controllers = List.of(
+            // defensesController,
+            // mapController,
+            // enemyController
+        );
     }
 
     /**
@@ -152,8 +165,9 @@ public class GameControllerImpl implements GameController {
         // calls render on each controller
         this.controllers.stream()
         .forEach(
-            controller -> controller.render()
+            controller -> controller.render(gameRenderer)
         );
-        // TODO force repaint on canvas
+        // force repaint
+        this.gameRenderer.renderCanvas();
     }
 }
