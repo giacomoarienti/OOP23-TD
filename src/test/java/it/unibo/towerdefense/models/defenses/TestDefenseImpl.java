@@ -63,7 +63,7 @@ public class TestDefenseImpl {
         jsonVersion.put(DefenseMapKeys.SPEED, testSpeed);
         jsonVersion.put(DefenseMapKeys.BUILDING_COST, testBuildCost);
         jsonVersion.put(DefenseMapKeys.SELLING_COST, testSellCost);
-        jsonVersion.put(DefenseMapKeys.POSITION, testPosition);
+        jsonVersion.put(DefenseMapKeys.POSITION, testPosition.toJSON());
         jsonVersion.put(DefenseMapKeys.UPGRADES, Set.of());
         /**Assertions.*/
         Assertions.assertEquals(result.toJSON(), jsonVersion.toString());
@@ -86,7 +86,7 @@ public class TestDefenseImpl {
         jsonVersion.put(DefenseMapKeys.SPEED, testSpeed);
         jsonVersion.put(DefenseMapKeys.BUILDING_COST, testBuildCost);
         jsonVersion.put(DefenseMapKeys.SELLING_COST, testSellCost);
-        jsonVersion.put(DefenseMapKeys.POSITION, testPosition);
+        jsonVersion.put(DefenseMapKeys.POSITION, testPosition.toJSON());
         jsonVersion.put(DefenseMapKeys.UPGRADES, Set.of());
         /**Test */
         Defense result = DefenseImpl.fromJson(jsonVersion.toString());

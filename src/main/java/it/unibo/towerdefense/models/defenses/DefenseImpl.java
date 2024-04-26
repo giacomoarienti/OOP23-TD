@@ -10,6 +10,7 @@ import com.google.common.base.Optional;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapKeys;
+import it.unibo.towerdefense.models.engine.Position;
 
 /**
  * Implementation of the defense interface.
@@ -155,7 +156,7 @@ public class DefenseImpl implements Defense {
         parser.put(DefenseMapKeys.SPEED, this.attackSpeed);
         parser.put(DefenseMapKeys.BUILDING_COST, this.buildingCost);
         parser.put(DefenseMapKeys.SELLING_COST, this.sellingValue);
-        parser.put(DefenseMapKeys.POSITION, this.position);
+        parser.put(DefenseMapKeys.POSITION, this.position.toJSON());
 
         /**Handle updates.*/
         JSONArray upgrades = new JSONArray();
@@ -172,10 +173,16 @@ public class DefenseImpl implements Defense {
             upgrades.add(fromJson(x.toString()))
         );
 
+        /**Obtain  position,if it exists*/
+        Optional<Position> position =
+        json.has(DefenseMapKeys.POSITION) ? Optional.of(Position.fromJson(json.getString(DefenseMapKeys.POSITION)))
+        : Optional.absent();
+
         return new DefenseImpl(
         json.getInt(DefenseMapKeys.DAMAGE),
         json.getInt(DefenseMapKeys.LEVEL),
-        json.has(DefenseMapKeys.POSITION) ? (LogicalPosition) json.get(DefenseMapKeys.POSITION) : null,
+        position.isPresent() ? new LogicalPosition(position.get().getX(), position.get().getY())
+        : null,
         json.getInt(DefenseMapKeys.SPEED),
         json.getInt(DefenseMapKeys.BUILDING_COST),
         json.getInt(DefenseMapKeys.SELLING_COST),
