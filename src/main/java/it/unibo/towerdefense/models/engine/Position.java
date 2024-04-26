@@ -1,12 +1,13 @@
 package it.unibo.towerdefense.models.engine;
 
 import it.unibo.towerdefense.models.Copyable;
+import it.unibo.towerdefense.models.JsonSerializable;
 
 /**
  * Interface representing the position of an object
  * in a 2D space.
  */
-public interface Position extends Copyable<Position> {
+public interface Position extends JsonSerializable, Copyable<Position> {
 
     /**
      * X getter.
@@ -57,5 +58,14 @@ public interface Position extends Copyable<Position> {
      */
     static Position origin() {
         return new PositionImpl(0, 0);
+    }
+
+    /**
+     * Returns the Position object from JSON string.
+     * @param jsonData the JSON representation
+     * @return the Position object
+     */
+    static Position fromJson(final String jsonData) {
+        return PositionImpl.fromJson(jsonData);
     }
 }

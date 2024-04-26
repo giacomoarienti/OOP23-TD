@@ -95,33 +95,40 @@ public class MapControllerImpl implements MapController {
 
         Position cellPos = new PositionImpl(pos.getCellX(), pos.getCellY());
         Cell cell = map.getCellAt(cellPos);
-        if (!(cell instanceof PathCell)) {
+        if (cell == null || !(cell instanceof PathCell)) {
             throw new IllegalArgumentException("position must belong to a PathCell");
         }
         LogicalPosition tempPos = pos;
         PathCell pCell = (PathCell) cell;
         Direction dir = pCell.getInDirection();
-
         int remaningDistance = distanceToMove;
 
         for (int i = 2; i > 0; i--) {
 
-            int PositionInCell = (pos.getX() * dir.orizontal() + pos.getY() * dir.vertical()) % LogicalPosition.SCALING_FACTOR;
+            int positionInCell = (pos.getX() * dir.orizontal() + pos.getY() * dir.vertical()) % LogicalPosition.SCALING_FACTOR;
             int factor = LogicalPosition.SCALING_FACTOR / i;
-            if (PositionInCell <= factor) {
-                int distanceToTravel = factor - PositionInCell;
+
+            if (positionInCell <= factor) {
+                int distanceToTravel = factor - positionInCell;
                 if (remaningDistance < distanceToTravel) {
-                    return Optional.of(new LogicalPosition(tempPos.getX() + remaningDistance * dir.orizontal(),
-                        tempPos.getX() + remaningDistance * dir.vertical()));
+                    return Optional.of(new LogicalPosition(
+                        tempPos.getX() + remaningDistance * dir.orizontal(),
+                        tempPos.getY() + remaningDistance * dir.vertical())
+                    );
                 }
                 remaningDistance -=  distanceToTravel;
-                tempPos = new LogicalPosition(tempPos.getX() + distanceToTravel * dir.orizontal(),
-                tempPos.getX() + distanceToTravel * dir.vertical());
+                tempPos = new LogicalPosition(
+                    tempPos.getX() + distanceToTravel * dir.orizontal(),
+                    tempPos.getY() + distanceToTravel * dir.vertical()
+                );
                 dir = pCell.getOutDirection();
             }
         }
-
-        while (remaningDistance >= LogicalPosition.SCALING_FACTOR) {
+        if (map.getEndCell().contains(tempPos)) {
+            return Optional.empty();
+        }
+        return getNextPosition(tempPos, remaningDistance);
+        /*while (remaningDistance >= LogicalPosition.SCALING_FACTOR) {
             remaningDistance -= LogicalPosition.SCALING_FACTOR;
             try {
                 cellPos = map.getNext(cellPos);
@@ -143,7 +150,7 @@ public class MapControllerImpl implements MapController {
         return Optional.of(new LogicalPosition(
                 pCell.getX() * LogicalPosition.SCALING_FACTOR + remaningDistance * dir.orizontal() + halfScalig * in.orizontal(),
                 pCell.getY() * LogicalPosition.SCALING_FACTOR + remaningDistance * dir.vertical() + halfScalig * in.vertical()
-            ));
+            ));*/
     }
 
     /**

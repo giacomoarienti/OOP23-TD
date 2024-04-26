@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.engine;
 
+import org.json.JSONObject;
+
 import com.google.common.base.Objects;
 
 /**
@@ -116,5 +118,39 @@ public class PositionImpl implements Position {
     @Override
     public Position copy() {
         return new PositionImpl(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "(" + this.getX() + ", " + this.getY() + ")";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toJSON() {
+        // convert the Position object to a JSON string
+        return new JSONObject()
+            .put("x", this.getX())
+            .put("y", this.getY())
+            .toString();
+    }
+
+    /**
+     * Returns the Position object from JSON string.
+     * @param jsonData the JSON representation
+     * @return the Position object
+     */
+    public static Position fromJson(final String jsonData) {
+        // convert the JSON string to a Game object
+        final JSONObject jsonObject = new JSONObject(jsonData);
+        return new PositionImpl(
+            jsonObject.getInt("x"),
+            jsonObject.getInt("y")
+        );
     }
 }

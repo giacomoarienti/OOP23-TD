@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.views.menus;
 
 import java.util.List;
-
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 
@@ -42,7 +42,7 @@ public class StartMenuViewImpl implements ModalContent {
         final JPanel innerPanel = new JPanel();
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
         // create play, load, quit buttons
-        final List<JButton> buttons = List.of(
+        final List<Component> buttons = List.of(
             createButton(PLAY_LABEL, (e) -> this.play(onClose)),
             createButton(LOAD_GAME_LABEL, (e) -> this.controller.displaySavingSelection()),
             createButton(QUIT_LABEL, (e) -> this.close(onClose))
@@ -53,11 +53,17 @@ public class StartMenuViewImpl implements ModalContent {
         return panel;
     }
 
-    private JButton createButton(final String label, final ActionListener action) {
+    private Component createButton(final String label, final ActionListener action) {
+        // create button container
+        final JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        // create button
         final JButton button = new JButton(label);
         button.setHorizontalAlignment(JButton.CENTER);
         button.addActionListener(action);
-        return button;
+        // add button to container and return it
+        panel.add(button);
+        return panel;
     }
 
     private void play(final Runnable onClose) {

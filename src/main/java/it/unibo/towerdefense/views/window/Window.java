@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.views.window;
 
+import it.unibo.towerdefense.models.engine.Size;
 import it.unibo.towerdefense.views.modal.ModalContent;
 
 /**
@@ -16,6 +17,12 @@ public interface Window {
      * Close the window.
      */
     void close();
+
+    /**
+     * Get the size of the window.
+     * @return the size of the window
+     */
+    Size getSize();
 
     /**
      * Display a error message.
