@@ -1,23 +1,37 @@
 package it.unibo.towerdefense.controllers.enemies;
 
-import org.apache.commons.lang3.tuple.Pair;
+import it.unibo.towerdefense.commons.LogicalPosition;
 
 /**
- * Data about a concrete Enemy to be passed around.
+ * Data about an Enemy to be passed around.
  */
 public interface EnemyInfo {
 
     /**
-     * Gives back position as pair of integers.
+     * Getter for the LogicalPosition of the Enemy.
      *
-     * @return position as pair of integers
+     * @return the position of the Enemy
      */
-    Pair<Integer, Integer> getPos();
+    LogicalPosition getPos();
 
     /**
-     * Gets the enemy's hp.
+     * Getter for the Enemy's hp.
      *
      * @return the hp
      */
     Integer getHp();
+
+    /**
+     * Getter for the enemy's EnemyLevel
+     *
+     * @return the EnemyLevel
+     */
+    EnemyLevel getLevel();
+
+    /**
+     * Getter for the enemy's EnemyArchetype
+     *
+     * @return the EnemyArchetype
+     */
+    EnemyArchetype getArchetype();
 }
