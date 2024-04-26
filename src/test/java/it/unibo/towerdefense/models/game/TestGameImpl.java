@@ -95,4 +95,18 @@ class TestGameImpl {
         Assertions.assertEquals(INITIAL_WAVE, game.getWave());
         Assertions.assertEquals(PAUSE_STATE, game.getGameState());
     }
+
+    /**
+     * Test json from DTO.
+     */
+    @Test
+    void testJson() {
+        // create json string from game
+        final var gameDTO = this.game.toDTO();
+        final var json = gameDTO.toJSON();
+        // reconvert json string to game
+        final var gameFromJson = GameDTO.fromJson(json);
+        final var gameFromDTO = Game.fromDTO(gameFromJson);
+        Assertions.assertEquals(this.game, gameFromDTO);
+    }
 }
