@@ -1,32 +1,34 @@
 package it.unibo.towerdefense.models.enemies;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
+import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 
 /**
  * @inheritDoc .
  */
-public class SimpleEnemyFactory implements EnemyFactory{
+public class SimpleEnemySpawner implements EnemySpawner{
 
     private final LogicalPosition startingPos;
-    private final Enemies controller;
+    private final Enemies enemies;
 
     /**
      * Constructor for the class.
      *
      * @param startingPos the starting position for all enemies produced by the factory
-     * @param controller the controller to which every enemy should signal an eventual death
+     * @param enemies the class which holds information about the enemies
      */
-    SimpleEnemyFactory(LogicalPosition startingPos, Enemies controller){
+    SimpleEnemySpawner(final LogicalPosition startingPos, final Enemies enemies){
         this.startingPos = startingPos;
-        this.controller = controller;
+        this.enemies = enemies;
     }
 
     /**
      * @inheritDoc .
      */
-    public Enemy build(EnemyType t){
-        return new MinimalEnemy(t);
+    public void spawn(EnemyType t){
+        enemies.add(new MinimalEnemy(t));
     }
 
     /**
@@ -36,6 +38,9 @@ public class SimpleEnemyFactory implements EnemyFactory{
      * to all instances of Enemy entities of that type
      */
     private class MinimalEnemy implements Enemy{
+
+        private record MinimalEnemyInfo(LogicalPosition getPos, Integer getHp, EnemyLevel getEnemyLevel, EnemyArchetype getEnemyArchetype) implements EnemyInfo{};
+
         private final EnemyType t;
         private final LogicalPosition pos = startingPos.clone();
         private int hp;
@@ -59,7 +64,7 @@ public class SimpleEnemyFactory implements EnemyFactory{
                 throw new IllegalArgumentException("Tried to hurt an enemy by " + String.valueOf(amount));
             }else{
                 if ((hp-=amount) < 0) {
-                    controller.signalDeath(this);
+                    enemies.signalDeath(this);
                 }
             }
         }
@@ -101,8 +106,7 @@ public class SimpleEnemyFactory implements EnemyFactory{
          */
         @Override
         public EnemyInfo info() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'info'");
+            return new MinimalEnemyInfo(this.getPosition(), this.getHp(), t.getEnemyLevel(), t.getEnemyArchetype());
         }
 
         /**
