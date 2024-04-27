@@ -21,6 +21,7 @@ import java.awt.event.MouseListener;
  */
 public class CanvasImpl extends JPanel implements Canvas, MouseListener {
 
+    private static final long serialVersionUID = 1000L;
     private static final int FIRST_INDEX = 0;
     private static final int START_Y = 0;
     private static final int START_X = 0;
@@ -116,23 +117,23 @@ public class CanvasImpl extends JPanel implements Canvas, MouseListener {
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered(MouseEvent e) { }
+    public void mouseEntered(final MouseEvent e) { }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited(MouseEvent e) { }
+    public void mouseExited(final MouseEvent e) { }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed(MouseEvent e) { }
+    public void mousePressed(final MouseEvent e) { }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased(MouseEvent e) { }
+    public void mouseReleased(final MouseEvent e) { }
 }

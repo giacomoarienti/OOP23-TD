@@ -28,6 +28,7 @@ public interface GameLauncherController {
 
     /**
      * Saves player's name.
+     * @param name the player's name
      */
     void setPlayerName(String name);
 

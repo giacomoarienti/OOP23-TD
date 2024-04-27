@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.game;
 
+import com.google.common.base.Objects;
+
 /**
  * Base implementation of the Game interface.
  */
@@ -175,5 +177,13 @@ public class GameImpl implements Game {
                 && this.getGameState() == gameObject.getGameState();
         }
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.lives, this.money, this.wave, this.gameState);
     }
 }
