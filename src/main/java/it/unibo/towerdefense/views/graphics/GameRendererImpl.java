@@ -2,7 +2,8 @@ package it.unibo.towerdefense.views.graphics;
 
 import java.util.List;
 
-import it.unibo.towerdefense.views.View;
+import javax.swing.JPanel;
+
 import it.unibo.towerdefense.views.window.Window;
 
 /**
@@ -24,24 +25,24 @@ public class GameRendererImpl implements GameRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void renderInfo(final View view) {
-        this.window.setInfoContent(view.build());
+    public void renderInfo(final JPanel panel) {
+        this.window.setInfoContent(panel);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void renderBuyMenu(final View view) {
-        this.window.setBuyMenuContent(view.build());
+    public void renderBuyMenu(final JPanel panel) {
+        this.window.setBuyMenuContent(panel);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void renderUpgrades(final View view) {
-        this.window.setUpgradesContent(view.build());
+    public void renderUpgrades(final JPanel panel) {
+        this.window.setUpgradesContent(panel);
     }
 
     /**
