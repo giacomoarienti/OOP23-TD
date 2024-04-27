@@ -1,9 +1,10 @@
 package it.unibo.towerdefense.controllers.game;
 
 import it.unibo.towerdefense.models.game.Game;
+import it.unibo.towerdefense.models.game.GameState;
 import it.unibo.towerdefense.models.game.GameDTO;
 import it.unibo.towerdefense.models.game.GameImpl;
-import it.unibo.towerdefense.models.game.GameState;
+import it.unibo.towerdefense.models.game.GameInfo;
 import it.unibo.towerdefense.views.game.GameInfoView;
 import it.unibo.towerdefense.views.game.GameInfoViewImpl;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
@@ -13,16 +14,18 @@ import it.unibo.towerdefense.views.graphics.GameRenderer;
  */
 public class GameControllerImpl implements GameController {
 
+    private static final int DEFAULT_VALUE = 0;
+
     private final Game game;
     private final GameInfoView view;
-    private GameInfoState prevState;
+    private GameInfo prevState;
     private boolean shouldRender;
 
     private GameControllerImpl(final Game game) {
         this.game = game;
-        // instantiate the view and set the previous state to 0
+        // instantiate the view and set the previous state
         this.view = new GameInfoViewImpl();
-        this.prevState = new GameInfoState(0, 0, 0);
+        this.prevState = new GameInfo(DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_VALUE);
     }
 
     /**
@@ -127,7 +130,7 @@ public class GameControllerImpl implements GameController {
             || this.game.getMoney() != this.prevState.money()
             || this.game.getLives() != this.prevState.lives()
         ) {
-            this.prevState = new GameInfoState(
+            this.prevState = new GameInfo(
                 this.game.getWave(),
                 this.game.getMoney(),
                 this.game.getLives()
@@ -150,12 +153,9 @@ public class GameControllerImpl implements GameController {
             return;
         }
         // update the view
-        this.view.setWave(this.prevState.wave());
-        this.view.setMoney(this.prevState.money());
-        this.view.setLives(this.prevState.lives());
+        this.view.setGameInfo(this.prevState);
         // build the view and render it
         renderer.renderInfo(this.view.build());
     }
 
-    private record GameInfoState(int wave, int money, int lives) { }
 }

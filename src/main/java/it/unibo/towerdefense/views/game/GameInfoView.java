@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.views.game;
 
+import it.unibo.towerdefense.models.game.GameInfo;
 import it.unibo.towerdefense.views.View;
 
 /**
@@ -8,17 +9,7 @@ import it.unibo.towerdefense.views.View;
 public interface GameInfoView extends View {
 
     /**
-     * Sets the wave number.
+     * Sets the view state.
      */
-    void setWave(int wave);
-
-    /**
-     * Sets the money amount.
-     */
-    void setMoney(int money);
-
-    /**
-     * Sets the lives amount.
-     */
-    void setLives(int lives);
+    void setGameInfo(GameInfo gameState);
 }
