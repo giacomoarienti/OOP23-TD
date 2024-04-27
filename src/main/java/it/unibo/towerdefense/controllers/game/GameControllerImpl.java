@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.controllers.game;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -36,12 +35,14 @@ public class GameControllerImpl implements GameController {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.game = new GameImpl();
         // instantiate controllers
+        final GameInfoController gameInfoController = new GameInfoControllerImpl(this);
         // final DefensesController defensesController = new DefensesController(this.game);
         // final MapControllerImpl mapController = new MapControllerImpl(null, defensesController, this);
         // final EnemyControllerImpl enemyController = new EnemyControllerImpl(null, mapController, this);
         this.controllers = List.of(
-            // defensesController,
             // mapController,
+            gameInfoController//,
+            // defensesController,
             // enemyController
         );
     }
@@ -127,6 +128,14 @@ public class GameControllerImpl implements GameController {
     @Override
     public int getMoney() {
         return this.game.getMoney();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getLives() {
+        return this.game.getLives();
     }
 
     /**

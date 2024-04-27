@@ -49,6 +49,11 @@ public interface GameController {
      */
     int getMoney();
 
+    /**
+     * Get lives of the player.
+     * @return the amount of lives
+     */
+    int getLives();
 
     /**
      * Returns if the game loop should run.
