@@ -81,4 +81,12 @@ public class GameDTOImpl implements GameDTO {
             jsonObject.getInt(WAVE_FIELD
         ));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameDTO copy() {
+        return new GameDTOImpl(this.getLives(), this.getMoney(), this.getWave());
+    }
 }

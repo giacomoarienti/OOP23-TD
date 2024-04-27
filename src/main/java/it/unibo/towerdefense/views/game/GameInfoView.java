@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.views.game;
 
-import it.unibo.towerdefense.models.game.GameInfo;
+import it.unibo.towerdefense.models.game.GameDTO;
 import it.unibo.towerdefense.views.View;
 
 /**
@@ -10,6 +10,7 @@ public interface GameInfoView extends View {
 
     /**
      * Sets the view state.
+     * @param info the gameDTO
      */
-    void setGameInfo(GameInfo gameState);
+    void setGameInfo(GameDTO info);
 }

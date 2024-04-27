@@ -3,19 +3,24 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import it.unibo.towerdefense.models.game.GameInfo;
+import it.unibo.towerdefense.models.game.GameDTO;
+import it.unibo.towerdefense.models.game.GameDTOImpl;
 
 /**
  * Game info view implementation.
  */
 public class GameInfoViewImpl implements GameInfoView {
 
-    private GameInfo gameInfo;
+    private static final int DEFAULT_VALUE = 0;
+    private GameDTO gameInfo;
 
     /**
      * Zero-argument constructor.
      */
-    public GameInfoViewImpl() { }
+    public GameInfoViewImpl() {
+        // initialize the game info with default values
+        this.gameInfo = new GameDTOImpl(DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_VALUE);
+    }
 
     /**
      * {@inheritDoc}
@@ -25,9 +30,9 @@ public class GameInfoViewImpl implements GameInfoView {
         final JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         // add wave, money and lives labels
-        panel.add(new JLabel("Wave: " + this.gameInfo.wave()));
-        panel.add(new JLabel("Money: " + this.gameInfo.money()));
-        panel.add(new JLabel("Lives: " + this.gameInfo.lives()));
+        panel.add(new JLabel("Wave: " + this.gameInfo.getWave()));
+        panel.add(new JLabel("Money: " + this.gameInfo.getMoney()));
+        panel.add(new JLabel("Lives: " + this.gameInfo.getLives()));
         return panel;
     }
 
@@ -35,7 +40,7 @@ public class GameInfoViewImpl implements GameInfoView {
      * {@inheritDoc}
      */
     @Override
-    public void setGameInfo(final GameInfo gameInfo) {
+    public void setGameInfo(final GameDTO game) {
         // store a copy of the game info
         this.gameInfo = gameInfo.copy();
     }

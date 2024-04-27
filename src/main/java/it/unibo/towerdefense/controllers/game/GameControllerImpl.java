@@ -3,8 +3,8 @@ package it.unibo.towerdefense.controllers.game;
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameState;
 import it.unibo.towerdefense.models.game.GameDTO;
+import it.unibo.towerdefense.models.game.GameDTOImpl;
 import it.unibo.towerdefense.models.game.GameImpl;
-import it.unibo.towerdefense.models.game.GameInfo;
 import it.unibo.towerdefense.views.game.GameInfoView;
 import it.unibo.towerdefense.views.game.GameInfoViewImpl;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
@@ -18,14 +18,14 @@ public class GameControllerImpl implements GameController {
 
     private final Game game;
     private final GameInfoView view;
-    private GameInfo prevState;
+    private GameDTO prevState;
     private boolean shouldRender;
 
     private GameControllerImpl(final Game game) {
         this.game = game;
         // instantiate the view and set the previous state
         this.view = new GameInfoViewImpl();
-        this.prevState = new GameInfo(DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_VALUE);
+        this.prevState = new GameDTOImpl(DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_VALUE);
     }
 
     /**
@@ -126,11 +126,11 @@ public class GameControllerImpl implements GameController {
     public void update() {
         // if any of the game info has changed update it
         if (
-            this.game.getWave() != this.prevState.wave()
-            || this.game.getMoney() != this.prevState.money()
-            || this.game.getLives() != this.prevState.lives()
+            this.game.getWave() != this.prevState.getWave()
+            || this.game.getMoney() != this.prevState.getMoney()
+            || this.game.getLives() != this.prevState.getLives()
         ) {
-            this.prevState = new GameInfo(
+            this.prevState = new GameDTOImpl(
                 this.game.getWave(),
                 this.game.getMoney(),
                 this.game.getLives()
