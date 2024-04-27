@@ -2,6 +2,8 @@ package it.unibo.towerdefense.models.game;
 
 import org.json.JSONObject;
 
+import com.google.common.base.Objects;
+
 /**
  * Game data transfer object.
  */
@@ -88,5 +90,27 @@ public class GameDTOImpl implements GameDTO {
     @Override
     public GameDTO copy() {
         return new GameDTOImpl(this.getLives(), this.getMoney(), this.getWave());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof GameDTOImpl) {
+            final GameDTOImpl gameObject = (GameDTOImpl) obj;
+            return this.getLives() == gameObject.getLives()
+                && this.getMoney() == gameObject.getMoney()
+                && this.getWave() == gameObject.getWave();
+        }
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.lives, this.money, this.wave);
     }
 }

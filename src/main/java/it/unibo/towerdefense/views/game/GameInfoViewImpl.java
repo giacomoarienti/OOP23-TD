@@ -40,8 +40,8 @@ public class GameInfoViewImpl implements GameInfoView {
      * {@inheritDoc}
      */
     @Override
-    public void setGameInfo(final GameDTO game) {
+    public void setGameInfo(final GameDTO dto) {
         // store a copy of the game info
-        this.gameInfo = gameInfo.copy();
+        this.gameInfo = dto.copy();
     }
 }

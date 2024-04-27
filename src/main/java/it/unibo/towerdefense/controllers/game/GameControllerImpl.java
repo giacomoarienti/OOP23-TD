@@ -125,16 +125,9 @@ public class GameControllerImpl implements GameController {
     @Override
     public void update() {
         // if any of the game info has changed update it
-        if (
-            this.game.getWave() != this.prevState.getWave()
-            || this.game.getMoney() != this.prevState.getMoney()
-            || this.game.getLives() != this.prevState.getLives()
-        ) {
-            this.prevState = new GameDTOImpl(
-                this.game.getWave(),
-                this.game.getMoney(),
-                this.game.getLives()
-            );
+        final GameDTO newState = this.game.toDTO();
+        if (!this.prevState.equals(newState)) {
+            this.prevState = newState;
             // set the flag to render
             this.shouldRender = true;
             return;
