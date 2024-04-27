@@ -3,6 +3,7 @@ package it.unibo.towerdefense.models.defenses;
 import java.util.Set;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.controllers.defenses.DefenseType;
 import it.unibo.towerdefense.models.JsonSerializable;
 
 /**
@@ -14,6 +15,9 @@ public interface Defense extends JsonSerializable {
      * @return the level of the defense.
      */
     int getLevel();
+
+    /**@return the type of the defense.*/
+    DefenseType getType();
 
     /**
      * @return the value used calculate the damage to deal to enemies.
@@ -35,7 +39,7 @@ public interface Defense extends JsonSerializable {
      */
     int getSellingValue();
 
-    /** 
+    /**
      * @return the strategy used for selecting and damaging enemies
      */
     EnemyChoiceStrategy getStrategy();

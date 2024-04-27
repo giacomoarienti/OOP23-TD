@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import com.google.common.base.Optional;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.controllers.defenses.DefenseType;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapKeys;
 import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.utils.file.FileUtils;
@@ -26,6 +27,7 @@ public class DefenseImpl implements Defense {
     private int buildingCost;
     private int sellingValue;
     private int level;
+    private DefenseType type;
     private EnemyChoiceStrategy strategy;
     private Set<Defense> upgrades;
     private LogicalPosition position;
@@ -54,10 +56,11 @@ public class DefenseImpl implements Defense {
      * @param level
      * @param position
      */
-    public DefenseImpl(final int damage, final int level, final LogicalPosition position,
+    public DefenseImpl(final int damage, final int level, final LogicalPosition position, final DefenseType type,
     final int attackSpeed, final int cost, final int sellValue, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
         this.damage = damage;
         this.level = level;
+        this.type = type;
         this.attackSpeed = attackSpeed;
         this.buildingCost = cost;
         this.sellingValue = sellValue;
@@ -95,6 +98,14 @@ public class DefenseImpl implements Defense {
     @Override
     public int getLevel() {
         return level;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public DefenseType getType() {
+        return type;
     }
 
     /**
@@ -208,6 +219,7 @@ public class DefenseImpl implements Defense {
         json.getInt(DefenseMapKeys.LEVEL),
         position.isPresent() ? new LogicalPosition(position.get().getX(), position.get().getY())
         : null,
+        DefenseType.valueOf(json.get(DefenseMapKeys.TYPE).toString()),
         json.getInt(DefenseMapKeys.SPEED),
         json.getInt(DefenseMapKeys.BUILDING_COST),
         json.getInt(DefenseMapKeys.SELLING_COST),

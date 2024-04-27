@@ -6,6 +6,8 @@ package it.unibo.towerdefense.models.defenses.costants;
 public final class DefenseMapKeys {
     /**level key.*/
     public static final String LEVEL = "level";
+    /**type key.*/
+    public static final String TYPE = "type";
     /**damage key.*/
     public static final String DAMAGE = "damage";
     /**speed key.*/
