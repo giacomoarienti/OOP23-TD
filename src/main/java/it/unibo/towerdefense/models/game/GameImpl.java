@@ -1,7 +1,5 @@
 package it.unibo.towerdefense.models.game;
 
-import it.unibo.towerdefense.models.engine.PositionImpl;
-
 /**
  * Base implementation of the Game interface.
  */
@@ -141,15 +139,6 @@ public class GameImpl implements Game {
     @Override
     public void setGameState(final GameState state) {
         this.gameState = state;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isRunning() {
-        final GameState gameState = this.getGameState();
-        return gameState.equals(GameState.PLAYING);
     }
 
     /**

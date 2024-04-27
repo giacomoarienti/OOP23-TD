@@ -1,14 +1,12 @@
 package it.unibo.towerdefense.controllers.game;
 
+import it.unibo.towerdefense.controllers.Controller;
+import it.unibo.towerdefense.models.game.GameState;
+
 /**
  * Interface that defines GameController methods.
  */
-public interface GameController {
-
-    /**
-     * Starts the game loop.
-     */
-    void start();
+public interface GameController extends Controller {
 
     /**
      * Sets gameState to PLAYING.
@@ -32,12 +30,6 @@ public interface GameController {
     void advanceWave();
 
     /**
-     * Gets current game speed.
-     * @return game speed
-     */
-    double getGameSpeed();
-
-    /**
      * Gets the current wave number.
      * @return wave number
      */
@@ -56,24 +48,8 @@ public interface GameController {
     int getLives();
 
     /**
-     * Returns if the game loop should run.
-     * @return true if game is running
+     * Returns the current game state.
+     * @return the game state
      */
-    boolean isRunning();
-
-    /**
-     * Return if the process should terminate.
-     * @return true if the game loop should stop.
-     */
-    boolean isTerminated();
-
-    /**
-     * Updates the game state.
-     */
-    void update();
-
-    /**
-     * Renders the game state.
-     */
-    void render();
+    GameState getGameState();
 }

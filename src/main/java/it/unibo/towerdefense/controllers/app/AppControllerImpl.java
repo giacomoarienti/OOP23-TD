@@ -3,8 +3,8 @@ package it.unibo.towerdefense.controllers.app;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import it.unibo.towerdefense.controllers.game.GameController;
-import it.unibo.towerdefense.controllers.game.GameControllerImpl;
+import it.unibo.towerdefense.controllers.game.GameLoopController;
+import it.unibo.towerdefense.controllers.game.GameLoopControllerImpl;
 import it.unibo.towerdefense.controllers.menu.MenuController;
 import it.unibo.towerdefense.controllers.menu.MenuControllerImpl;
 import it.unibo.towerdefense.views.graphics.GameRendererImpl;
@@ -17,7 +17,7 @@ public class AppControllerImpl implements AppController {
 
     private final Logger logger;
     private final MenuController menuController;
-    private final GameController gameController;
+    private final GameLoopController loopController;
     private final Window window;
 
     /**
@@ -29,7 +29,7 @@ public class AppControllerImpl implements AppController {
         this.window = window;
         // instantiate controller
         this.menuController = new MenuControllerImpl(this, this.window);
-        this.gameController = new GameControllerImpl(
+        this.loopController = new GameLoopControllerImpl(
             new GameRendererImpl(window)
         );
     }
@@ -52,7 +52,7 @@ public class AppControllerImpl implements AppController {
     @Override
     public void start() {
         logger.info("start()");
-        this.gameController.start();
+        this.loopController.start();
     }
 
     /**
@@ -60,7 +60,7 @@ public class AppControllerImpl implements AppController {
      */
     @Override
     public void pause() {
-        this.gameController.pause();
+        this.loopController.pause();
     }
 
     /**
@@ -68,7 +68,7 @@ public class AppControllerImpl implements AppController {
      */
     @Override
     public void resume() {
-        this.gameController.resume();
+        this.loopController.resume();
     }
 
     /**
@@ -77,7 +77,7 @@ public class AppControllerImpl implements AppController {
     @Override
     public void saveAndExit() {
         logger.info("saveAndExit()");
-        this.gameController.save();
+        this.loopController.save();
         this.exit();
     }
 
@@ -87,6 +87,7 @@ public class AppControllerImpl implements AppController {
     @Override
     public void exit() {
         logger.info("exit()");
+        this.loopController.stop();
         this.window.close();
     }
 }

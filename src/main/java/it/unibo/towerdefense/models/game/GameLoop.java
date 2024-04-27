@@ -3,7 +3,7 @@ package it.unibo.towerdefense.models.game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import it.unibo.towerdefense.controllers.game.GameController;
+import it.unibo.towerdefense.controllers.game.GameLoopController;
 
 /**
  * GameLoop implementation.
@@ -17,7 +17,7 @@ public class GameLoop implements Runnable {
     private static final int ROUNDING_DELTA = 0;
 
     private final Logger logger;
-    private final GameController controller;
+    private final GameLoopController controller;
     private long nextStatTime;
     private int fps, ups;
 
@@ -25,7 +25,7 @@ public class GameLoop implements Runnable {
      * Constructor with GameController.
      * @param controller the game controller
      */
-    public GameLoop(final GameController controller) {
+    public GameLoop(final GameLoopController controller) {
         this.controller = controller;
         this.logger = LoggerFactory.getLogger(this.getClass());
     }
@@ -43,7 +43,7 @@ public class GameLoop implements Runnable {
             while (this.controller.isRunning()) {
                 currentTime = System.currentTimeMillis();
                 final double lastRenderTime = (currentTime - lastUpdate) / MILLISECONDS_IN_SECOND;
-                accumulator += lastRenderTime * this.controller.getGameSpeed();
+                accumulator += lastRenderTime;
                 lastUpdate = currentTime;
                 /* render only if we do not exceed the UPDATE_RATE,
                 prevent rounding problems using int comparison */
@@ -102,7 +102,7 @@ public class GameLoop implements Runnable {
          * @param controller the game controller
          * @return the GameLoop instance.
          */
-        public final GameLoop build(final GameController controller) {
+        public final GameLoop build(final GameLoopController controller) {
             if (this.consumed) {
                 throw new IllegalStateException("The builder can only be used once");
             }

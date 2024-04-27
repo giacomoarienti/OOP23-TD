@@ -1,72 +1,43 @@
 package it.unibo.towerdefense.controllers.game;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import it.unibo.towerdefense.controllers.Controller;
-import it.unibo.towerdefense.controllers.defenses.DefensesController;
-import it.unibo.towerdefense.controllers.enemies.EnemyControllerImpl;
-import it.unibo.towerdefense.controllers.map.MapControllerImpl;
 import it.unibo.towerdefense.models.game.Game;
+import it.unibo.towerdefense.models.game.GameDTO;
 import it.unibo.towerdefense.models.game.GameImpl;
-import it.unibo.towerdefense.models.game.GameLoop;
 import it.unibo.towerdefense.models.game.GameState;
+import it.unibo.towerdefense.views.game.GameInfoView;
+import it.unibo.towerdefense.views.game.GameInfoViewImpl;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**
- * Game controller implementation.
+ * Game info controller implementation.
  */
 public class GameControllerImpl implements GameController {
 
-    private final Logger logger;
     private final Game game;
-    private final GameRenderer gameRenderer;
-    private final List<Controller> controllers;
-    private boolean terminated;
+    private final GameInfoView view;
+    private GameInfoState prevState;
+    private boolean shouldRender;
 
-    /**
-     * Constructor with GameRender.
-     * @param gameRenderer the game renderer
-     */
-    public GameControllerImpl(final GameRenderer gameRenderer) {
-        this.gameRenderer = gameRenderer;
-        this.logger = LoggerFactory.getLogger(this.getClass());
-        this.game = new GameImpl();
-        // instantiate controllers
-        final GameInfoController gameInfoController = new GameInfoControllerImpl(this);
-        // final DefensesController defensesController = new DefensesController(this.game);
-        // final MapControllerImpl mapController = new MapControllerImpl(null, defensesController, this);
-        // final EnemyControllerImpl enemyController = new EnemyControllerImpl(null, mapController, this);
-        this.controllers = List.of(
-            // mapController,
-            gameInfoController//,
-            // defensesController,
-            // enemyController
-        );
+    private GameControllerImpl(final Game game) {
+        this.game = game;
+        // instantiate the view and set the previous state to 0
+        this.view = new GameInfoViewImpl();
+        this.prevState = new GameInfoState(0, 0, 0);
     }
 
     /**
-     * {@inheritDoc}
+     * Constructor with GameDTO.
+     * @param gameDTO the game DTO
      */
-    @Override
-    public void start() {
-        logger.info("start()");
-        // set the game state to playing
-        this.game.setGameState(GameState.PLAYING);
-        // initialize game loop and start it
-        final GameLoop.Builder gameLoopBuilder = new GameLoop.Builder();
-        final GameLoop gameLoop = gameLoopBuilder.build(this);
-        gameLoop.start();
+    public GameControllerImpl(final GameDTO gameDTO) {
+        this(Game.fromDTO(gameDTO));
     }
 
     /**
-     * {@inheritDoc}
+     * Zero-argument constructor, creates a new game instance.
      */
-    @Override
-    public void pause() {
-        this.game.setGameState(GameState.PAUSE);
+    public GameControllerImpl() {
+        this(new GameImpl());
     }
 
     /**
@@ -77,6 +48,13 @@ public class GameControllerImpl implements GameController {
         this.game.setGameState(GameState.PLAYING);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pause() {
+        this.game.setGameState(GameState.PAUSE);
+    }
 
     /**
      * {@inheritDoc}
@@ -110,14 +88,6 @@ public class GameControllerImpl implements GameController {
      * {@inheritDoc}
      */
     @Override
-    public double getGameSpeed() {
-        return this.game.getGameSpeed();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int getWave() {
         return this.game.getWave();
     }
@@ -142,16 +112,8 @@ public class GameControllerImpl implements GameController {
      * {@inheritDoc}
      */
     @Override
-    public boolean isRunning() {
-        return this.game.isRunning();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isTerminated() {
-        return this.terminated;
+    public GameState getGameState() {
+        return this.game.getGameState();
     }
 
     /**
@@ -159,24 +121,41 @@ public class GameControllerImpl implements GameController {
      */
     @Override
     public void update() {
-        // calls update on each controller
-        this.controllers.stream()
-        .forEach(
-            controller -> controller.update()
-        );
+        // if any of the game info has changed update it
+        if (
+            this.game.getWave() != this.prevState.wave()
+            || this.game.getMoney() != this.prevState.money()
+            || this.game.getLives() != this.prevState.lives()
+        ) {
+            this.prevState = new GameInfoState(
+                this.game.getWave(),
+                this.game.getMoney(),
+                this.game.getLives()
+            );
+            // set the flag to render
+            this.shouldRender = true;
+            return;
+        }
+        // if nothing has changed don't render
+        this.shouldRender = false;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void render() {
-        // calls render on each controller
-        this.controllers.stream()
-        .forEach(
-            controller -> controller.render(gameRenderer)
-        );
-        // force repaint
-        this.gameRenderer.renderCanvas();
+    public void render(final GameRenderer renderer) {
+        // if nothing has changed don't render
+        if (!this.shouldRender) {
+            return;
+        }
+        // update the view
+        this.view.setWave(this.prevState.wave());
+        this.view.setMoney(this.prevState.money());
+        this.view.setLives(this.prevState.lives());
+        // build the view and render it
+        renderer.renderInfo(this.view.build());
     }
+
+    private record GameInfoState(int wave, int money, int lives) { }
 }
