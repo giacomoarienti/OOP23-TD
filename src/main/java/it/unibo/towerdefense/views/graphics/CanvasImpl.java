@@ -26,8 +26,8 @@ public class CanvasImpl extends JPanel implements Canvas, MouseListener {
     private static final int START_Y = 0;
     private static final int START_X = 0;
 
-    private final List<Drawable> queue = new ArrayList<>();
-    private final Logger logger;
+    private final transient List<Drawable> queue = new ArrayList<>();
+    private final transient Logger logger;
 
     /**
      * Constructor from width and height.

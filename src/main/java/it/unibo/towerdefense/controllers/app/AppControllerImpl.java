@@ -8,6 +8,7 @@ import it.unibo.towerdefense.controllers.game.GameLoopControllerImpl;
 import it.unibo.towerdefense.controllers.menu.MenuController;
 import it.unibo.towerdefense.controllers.menu.MenuControllerImpl;
 import it.unibo.towerdefense.views.graphics.GameRendererImpl;
+import it.unibo.towerdefense.views.modal.ModalContent;
 import it.unibo.towerdefense.views.window.Window;
 
 /**
@@ -28,7 +29,7 @@ public class AppControllerImpl implements AppController {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.window = window;
         // instantiate controller
-        this.menuController = new MenuControllerImpl(this, this.window);
+        this.menuController = new MenuControllerImpl(this);
         this.loopController = new GameLoopControllerImpl(
             new GameRendererImpl(window)
         );
@@ -89,5 +90,13 @@ public class AppControllerImpl implements AppController {
         logger.info("exit()");
         this.loopController.stop();
         this.window.close();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayModal(final String title, final ModalContent content) {
+        this.window.displayModal(title, content);
     }
 }
