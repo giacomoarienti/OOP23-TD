@@ -25,7 +25,7 @@ public class TestDefenseFactoryImpl {
         final int expectedLevel = 1;
         final int expectedBuildCost = 20;
         final int expectedSellCost = 10;
-        Defense tower = factory.archerTower(TEST_PATH1);
+        Defense tower = factory.archerTowerFromSaveFile(TEST_PATH1);
 
         /**Test getters */
         Assertions.assertEquals(expectedDamage, tower.getDamage());

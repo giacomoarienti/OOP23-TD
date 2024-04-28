@@ -74,24 +74,12 @@ public class DefenseImpl implements Defense {
      * Non available fields will be replaced with placeholders.
      * WARNING! this will give a placeholder as strategy.
      * @param filePath the path of the json file.
-     * @param upgrades the available updates,if the optional is empty it means that the upgrades are already in the file.
-     * @param position in case the file does not have a position,this can be used instead.
-     * @throws IOException 
      * @throws IOexception if it fails to read the file.
      */
-    public DefenseImpl(final String filePath, final Optional<Set<Defense>> upgrades,
-    final Optional<LogicalPosition> position) throws IOException {
+    public DefenseImpl(final String filePath) throws IOException {
         this(fromJson(FileUtils.readFile(filePath)));
-
-        /**Giving optional values.*/
-        if (upgrades.isPresent()) {
-            this.upgrades = upgrades.get();
-        }
-
-        if (position.isPresent()) {
-            this.position = position.get();
-        }
     }
+
     /**
      *{@inheritDoc}
      */
