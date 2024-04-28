@@ -16,18 +16,18 @@ public class TestDefenseImpl {
     @Test
     void testConstructorsAndGetters() {
         /**Test values.*/
-        final int testDamage = 10;
+        final DefenseType testType = DefenseType.ARCHERTOWER;
         final int testLevel = 1;
-        final int testSpeed = 5;
+        final int testDamage = 10;
         final int testRange = 3;
+        final int testSpeed = 5;
         final int testBuildCost = 12;
         final int testSellCost = 5;
-        final DefenseType testType = DefenseType.ARCHERTOWER;
         final LogicalPosition testPosition = new LogicalPosition(10, 10);
 
         /**Test full constructor*/
-        Defense result = new DefenseImpl(testDamage, testLevel, testPosition, testType,
-        testRange, testSpeed, testBuildCost, testSellCost, null, Set.of());
+        Defense result = new DefenseImpl(testType, testLevel, testDamage, testRange,
+        testSpeed, testBuildCost, testSellCost, testPosition, null, Set.of());
         Assertions.assertEquals(testLevel, result.getLevel());
         Assertions.assertEquals(testDamage, result.getDamage());
         Assertions.assertEquals(testSpeed, result.getAttackSpeed());
@@ -40,7 +40,7 @@ public class TestDefenseImpl {
     @Test
     void testSetters() {
         /**Test defense (we don't care about not settable values).*/
-        final Defense result = new DefenseImpl(0, 0, null, DefenseType.ARCHERTOWER,0, 0, 0, 0, null, null);
+        final Defense result = new DefenseImpl(DefenseType.ARCHERTOWER, 0, 0, 0, 0, 0, 0, null, null, Set.of());
         /**Test setters */
         final LogicalPosition testPosition = new LogicalPosition(20, 20);
         result.setPosition(testPosition);
@@ -51,16 +51,16 @@ public class TestDefenseImpl {
     @Test
     void testToJson() {
         /**Test values.*/
-        final int testDamage = 10;
+        final DefenseType testType = DefenseType.WIZARDTOWER;
         final int testLevel = 1;
+        final int testDamage = 15;
+        final int testRange = 3;
         final int testSpeed = 5;
         final int testBuildCost = 12;
-        final int testSellCost = 5;
-        final int testRange = 4;
-        final DefenseType testType = DefenseType.ARCHERTOWER;
+        final int testSellCost = 4;
         final LogicalPosition testPosition = new LogicalPosition(10, 10);
-        Defense result = new DefenseImpl(testDamage, testLevel, testPosition, testType,
-        testRange, testSpeed, testBuildCost, testSellCost, null, Set.of());
+        Defense result = new DefenseImpl(testType, testLevel, testDamage, testRange,
+        testSpeed, testBuildCost, testSellCost, testPosition, null, Set.of());
         /**Create json object*/
         JSONObject jsonVersion = new JSONObject();
         jsonVersion.put(DefenseMapKeys.LEVEL, testLevel);

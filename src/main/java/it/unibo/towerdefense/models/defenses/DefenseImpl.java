@@ -57,9 +57,9 @@ public class DefenseImpl implements Defense {
      * @param level
      * @param position
      */
-    public DefenseImpl(final int damage, final int level, final LogicalPosition position, final DefenseType type,
-    final int range, final int attackSpeed, final int cost, final int sellValue, final EnemyChoiceStrategy strat,
-    final Set<Defense> upgrades) {
+    public DefenseImpl(final DefenseType type, final int level, final int damage,
+    final int range, final int attackSpeed, final int cost, final int sellValue,
+    final LogicalPosition position, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
         this.damage = damage;
         this.level = level;
         this.type = type;
@@ -218,20 +218,19 @@ public class DefenseImpl implements Defense {
         );
 
         /**Obtain  position,if it exists*/
-        Optional<Position> position =
-        json.has(DefenseMapKeys.POSITION) ? Optional.of(Position.fromJson(json.getString(DefenseMapKeys.POSITION)))
+        Optional<LogicalPosition> position =
+        json.has(DefenseMapKeys.POSITION) ? Optional.of(LogicalPosition.fromJson(json.getString(DefenseMapKeys.POSITION)))
         : Optional.absent();
 
         return new DefenseImpl(
-        json.getInt(DefenseMapKeys.DAMAGE),
-        json.getInt(DefenseMapKeys.LEVEL),
-        position.isPresent() ? new LogicalPosition(position.get().getX(), position.get().getY())
-        : null,
         DefenseType.valueOf(json.get(DefenseMapKeys.TYPE).toString()),
+        json.getInt(DefenseMapKeys.LEVEL),
+        json.getInt(DefenseMapKeys.DAMAGE),
         json.getInt(DefenseMapKeys.RANGE),
         json.getInt(DefenseMapKeys.SPEED),
         json.getInt(DefenseMapKeys.BUILDING_COST),
         json.getInt(DefenseMapKeys.SELLING_COST),
+        position.isPresent() ? position.get() : null,
         null,
         upgrades);
     }
