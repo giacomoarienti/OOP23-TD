@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.defenses;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +20,7 @@ public class TestDefenseFactoryImpl {
 
     /**Test the archer tower method.*/
     @Test
-    void testArcherTower() {
+    void testArcherTower() throws IOException {
         /**Expected values for getters.*/
         final int expectedDamage = 5;
         final int expectedSpeed = 3;

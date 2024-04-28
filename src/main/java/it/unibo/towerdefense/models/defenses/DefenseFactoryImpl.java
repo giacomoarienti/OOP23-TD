@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.HashSet;
 
-import org.apache.commons.lang3.Range;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -52,9 +51,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
      */
     @Override
     public Defense archerTowerFromSaveFile(final String fileName) throws IOException {
-        Defense result = new DefenseImpl(fileName);
-        result.setStrategy(strategyFactory.closestTargets(0, 0, result.getPosition()));
-        return result;
+        return null;
     }
 
     /**
