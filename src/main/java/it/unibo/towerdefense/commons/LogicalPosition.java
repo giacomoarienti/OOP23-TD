@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.commons;
 
+import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.engine.PositionImpl;
 
 public class LogicalPosition extends PositionImpl implements Cloneable {
@@ -53,6 +54,14 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
     public void set(int x, int y){
         this.setX(x);
         this.setY(y);
+    }
+
+    /**
+     * overload for fromJson method.
+     */
+    public static LogicalPosition fromJson(String jsonData) {
+        Position result = Position.fromJson(jsonData);
+        return new LogicalPosition(result.getX(), result.getY());
     }
 
 }
