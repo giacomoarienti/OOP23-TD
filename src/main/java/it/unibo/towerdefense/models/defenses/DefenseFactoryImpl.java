@@ -51,7 +51,9 @@ public class DefenseFactoryImpl implements DefenseFactory {
      */
     @Override
     public Defense archerTowerFromSaveFile(final String fileName) throws IOException {
-        return null;
+        Defense result = new DefenseImpl(fileName);
+        result.setStrategy(strategyFactory.closestTargets(1, result.getRange(), result.getPosition()));
+        return result;
     }
 
     /**
@@ -59,6 +61,10 @@ public class DefenseFactoryImpl implements DefenseFactory {
      */
     @Override
     public Defense newArcherTowerFrom(final String fileName, final LogicalPosition defensePosition) throws IOException {
-        return null;
+        Defense result = new DefenseImpl(fileName);
+        result.setPosition(defensePosition);
+        result.setStrategy(strategyFactory.closestTargets(1, result.getRange(), result.getPosition()));
+        result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.ARCHERTOWER, result.getLevel()));
+        return result;
     }
 }
