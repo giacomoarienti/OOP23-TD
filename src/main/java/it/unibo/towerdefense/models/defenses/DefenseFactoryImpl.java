@@ -67,4 +67,25 @@ public class DefenseFactoryImpl implements DefenseFactory {
         result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.ARCHERTOWER, result.getLevel()));
         return result;
     }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public Defense bomberTowerFromSaveFile(String fileName) throws IOException {
+        Defense result = new DefenseImpl(fileName);
+        result.setStrategy(strategyFactory.closestTargetWithAreaDamage(0, result.getRange(), result.getPosition()));
+        return result;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public Defense newBomberTower(String fileName, LogicalPosition buildPosition) throws IOException {
+        Defense result = new DefenseImpl(fileName);
+        result.setStrategy(strategyFactory.closestTargetWithAreaDamage(0, result.getRange(), result.getPosition()));
+        result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.BOMBTOWER, result.getLevel()));
+        return result;
+    }
 }
