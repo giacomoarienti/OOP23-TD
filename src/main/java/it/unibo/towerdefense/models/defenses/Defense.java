@@ -25,6 +25,11 @@ public interface Defense extends JsonSerializable {
     int getDamage();
 
     /**
+     * @return the range used by the defense strategy.
+     */
+    int getRange();
+
+    /**
      * @return the frequency with wich the defense executes its attack
      */
     int getAttackSpeed();

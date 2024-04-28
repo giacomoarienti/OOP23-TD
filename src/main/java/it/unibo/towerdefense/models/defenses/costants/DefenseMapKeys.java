@@ -10,6 +10,8 @@ public final class DefenseMapKeys {
     public static final String TYPE = "type";
     /**damage key.*/
     public static final String DAMAGE = "damage";
+    /**range key.*/
+    public static final String RANGE = "range";
     /**speed key.*/
     public static final String SPEED = "speed";
     /**building cost key.*/

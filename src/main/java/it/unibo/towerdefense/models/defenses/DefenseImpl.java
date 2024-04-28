@@ -27,6 +27,7 @@ public class DefenseImpl implements Defense {
     private int buildingCost;
     private int sellingValue;
     private int level;
+    private int range;
     private DefenseType type;
     private EnemyChoiceStrategy strategy;
     private Set<Defense> upgrades;
@@ -57,7 +58,8 @@ public class DefenseImpl implements Defense {
      * @param position
      */
     public DefenseImpl(final int damage, final int level, final LogicalPosition position, final DefenseType type,
-    final int attackSpeed, final int cost, final int sellValue, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
+    final int range, final int attackSpeed, final int cost, final int sellValue, final EnemyChoiceStrategy strat,
+    final Set<Defense> upgrades) {
         this.damage = damage;
         this.level = level;
         this.type = type;
@@ -67,6 +69,7 @@ public class DefenseImpl implements Defense {
         this.strategy = strat;
         this.upgrades = upgrades;
         this.position = position;
+        this.range = range;
     }
 
     /**
@@ -94,6 +97,14 @@ public class DefenseImpl implements Defense {
     @Override
     public DefenseType getType() {
         return type;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public int getRange() {
+        return range;
     }
 
     /**
@@ -189,6 +200,7 @@ public class DefenseImpl implements Defense {
         parser.put(DefenseMapKeys.BUILDING_COST, this.buildingCost);
         parser.put(DefenseMapKeys.SELLING_COST, this.sellingValue);
         parser.put(DefenseMapKeys.POSITION, this.position.toJSON());
+        parser.put(DefenseMapKeys.RANGE, this.range);
 
         /**Handle updates.*/
         JSONArray upgrades = new JSONArray();
@@ -216,6 +228,7 @@ public class DefenseImpl implements Defense {
         position.isPresent() ? new LogicalPosition(position.get().getX(), position.get().getY())
         : null,
         DefenseType.valueOf(json.get(DefenseMapKeys.TYPE).toString()),
+        json.getInt(DefenseMapKeys.RANGE),
         json.getInt(DefenseMapKeys.SPEED),
         json.getInt(DefenseMapKeys.BUILDING_COST),
         json.getInt(DefenseMapKeys.SELLING_COST),
