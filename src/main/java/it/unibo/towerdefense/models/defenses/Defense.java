@@ -64,4 +64,9 @@ public interface Defense extends JsonSerializable {
      * @param newPos the position to set.
      */
     void setPosition(LogicalPosition newPos);
+
+    /**Adds new upgrades to the defense.
+     * @param newUpgrades the upgrades to Add.
+    */
+    public void addUpgrades(final Set<Defense> newUpgrades);
 }

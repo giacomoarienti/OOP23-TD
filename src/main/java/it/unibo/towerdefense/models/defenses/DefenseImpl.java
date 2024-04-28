@@ -172,6 +172,14 @@ public class DefenseImpl implements Defense {
      *{@inheritDoc}
      */
     @Override
+    public void addUpgrades(final Set<Defense> newUpgrades) {
+        this.upgrades.addAll(newUpgrades);
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
     public String toJSON() {
         JSONObject parser = new JSONObject();
         /**Add basic data.*/
