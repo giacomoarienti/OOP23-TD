@@ -106,6 +106,5 @@ public class TestDefenseImpl {
         Assertions.assertEquals(result.getAttackSpeed(), testSpeed);
         Assertions.assertEquals(result.getBuildingCost(), testBuildCost);
         Assertions.assertEquals(result.getSellingValue(), testSellCost);
-        Assertions.assertEquals(result.getPosition(), testPosition);
-    }
+        Assertions.assertEquals(result.getPosition(), testPosition);    }
 }
