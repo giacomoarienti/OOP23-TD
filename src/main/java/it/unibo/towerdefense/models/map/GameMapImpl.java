@@ -1,12 +1,18 @@
 package it.unibo.towerdefense.models.map;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.engine.PositionImpl;
 import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.models.engine.SizeImpl;
 
 /**
  * Class that implements GameMap methods, and generate the map.
@@ -52,6 +58,14 @@ public class GameMapImpl implements GameMap {
 
     }
 
+    public GameMapImpl(final Stream<Cell> mapStream, final Size size, final PathCell spawn, final PathCell end) {
+        this.size = size;
+        this.spawn = spawn;
+        this.end = end;
+        this.map = new Cell[size.getHeight()][size.getWidth()];
+        mapStream.forEach(c -> map[c.getX()][c.getY()] = c);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -87,22 +101,40 @@ public class GameMapImpl implements GameMap {
         return end;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Position getNext(final Position current) throws NoSuchElementException {
-        /*var nextCords = path.getNext(new PositionImpl(current.getX(), current.getY()));
-        if (nextCords == null) {
-            throw new NoSuchElementException("This cell does not have a next one");
-        }
-        return nextCords;*/
-        // TODO
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
     private boolean isInMap(final Position pos) {
         return pos.getX() >= 0 && pos.getX() < size.getWidth() && pos.getY() >= 0 && pos.getY() < size.getHeight();
     }
 
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String toJSON() {
+        final JSONObject jObj = new JSONObject();
+        jObj.put("spawn", end.toJSON()).put("end", end.toJSON())
+            .put("height", size.getHeight()).put("width", size.getWidth());
+
+        final JSONArray jArray = new JSONArray();
+        toStream(map, size).forEach(c -> c.toJSON()); //TODO
+        jObj.put("map", jArray);
+        return jObj.toString();
+    }
+
+    public static GameMap fromJson(final String jsonData) {
+        final JSONObject jObj = new JSONObject(jsonData);
+        final JSONArray jArray = jObj.optJSONArray("map");
+        return new GameMapImpl(
+            IntStream.range(0, jArray.length()).mapToObj(i -> (Cell) jArray.get(i)), //TODO
+            new SizeImpl(jObj.getInt("height"), jObj.getInt("width")),
+            PathCellImpl.fromJson(jObj.getString("spawn")),
+            PathCellImpl.fromJson(jObj.getString("end"))
+        );
+    }
+
+    private <T> Stream<T> toStream(T[][] array, Size size) {
+        return Stream.iterate(0, x -> x < size.getWidth(), x -> x + 1)
+            .flatMap(x -> Stream.iterate(
+                new PositionImpl(x, 0), p -> p.getY() < size.getHeight(), p -> new PositionImpl(x, p.getY() + 1)))
+            .map(p -> array[p.getX()][p.getY()]);
+    }
 }

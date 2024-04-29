@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.map;
 
+import org.json.JSONObject;
+
 import it.unibo.towerdefense.models.engine.Position;
 
 /**
@@ -7,7 +9,6 @@ import it.unibo.towerdefense.models.engine.Position;
  */
 public class PathCellImpl extends CellAbs implements PathCell {
 
-    //private final int distanceToEnd;
     private final Direction in;
     private final Direction out;
 
@@ -19,18 +20,9 @@ public class PathCellImpl extends CellAbs implements PathCell {
      */
     public PathCellImpl(final Position coords, final Direction in, final Direction out) {
         super(coords);
-        //this.distanceToEnd = distanceToEnd;
         this.in = in;
         this.out = out;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    /*@Override
-    public int distanceToEnd() {
-        return distanceToEnd;
-    }*/
 
     /**
      * {@inheritDoc}
@@ -48,4 +40,29 @@ public class PathCellImpl extends CellAbs implements PathCell {
         return out;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toJSON() {
+        return new JSONObject()
+            .put("pos", ((Position) this).toJSON())
+            .put("in", this.in)
+            .put("out", this.out)
+            .toString();
+    }
+
+    /**
+     * Returns the PathCell object from JSON string.
+     * @param jsonData the JSON representation
+     * @return the PathCell object
+     */
+    public static PathCell fromJson(final String jsonData) {
+        final JSONObject jsonObject = new JSONObject(jsonData);
+        return new PathCellImpl(
+            Position.fromJson(jsonObject.getString("pos")),
+            jsonObject.getEnum(Direction.class, "in"),
+            jsonObject.getEnum(Direction.class, "out")
+        );
+    }
 }
