@@ -23,7 +23,7 @@ public class PathFactory {
         private final Function<Position, Integer> coord;
         private int value;
 
-        Limit(Function<Position, Integer> coord, BiPredicate<Integer, Integer> p) {
+        Limit(final Function<Position, Integer> coord, final BiPredicate<Integer, Integer> p) {
             predicate = p;
             this.coord = coord;
         }

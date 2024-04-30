@@ -20,7 +20,7 @@ public class TestMap {
     @Test
     void testGetNextPosition() {
         var op = map.getNextPosition(pos, 10000);
-        Assertions.assertEquals(new LogicalPosition(spawn.getX()+3600+1800, spawn.getY()-3600-1000), op.get());
+        Assertions.assertEquals(new LogicalPosition(spawn.getX() + 3600 + 1800, spawn.getY() - 3600 - 1000), op.get());
 
         while (op.isPresent()) {
             pos = op.get();
