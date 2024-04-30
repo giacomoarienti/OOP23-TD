@@ -8,17 +8,18 @@ import it.unibo.towerdefense.models.engine.PositionImpl;
  */
 public enum Direction {
 
+    /** East. */
+    E(+1, 0),
     /** North. */
-    N(0, -1),
+    N(0, +1),
     /** West. */
     W(-1, 0),
     /** Sud. */
-    S(0, +1),
-    /** East. */
-    E(+1, 0);
+    S(0, -1);
 
     private final int orizontal;
     private final int vertical;
+    static final String JSON_KEY = "dir";
 
     /**
      * Constructor from versor component.

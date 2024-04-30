@@ -20,13 +20,13 @@ public class TestMap {
     @Test
     void testGetNextPosition() {
         var op = map.getNextPosition(pos, 10000);
-        Assertions.assertEquals(new LogicalPosition(spawn.getX()+3600+1800, spawn.getY()+3600+1000), op.get());
+        Assertions.assertEquals(new LogicalPosition(spawn.getX() + 3600 + 1800, spawn.getY() - 3600 - 1000), op.get());
 
         while (op.isPresent()) {
             pos = op.get();
             op = map.getNextPosition(pos, 100);
         }
-        Assertions.assertTrue(20 * 3600 > pos.getY());
-        Assertions.assertTrue(20 * 3600 - 100 <= pos.getY());
+        Assertions.assertTrue(100 > pos.getY());
+        Assertions.assertTrue(0 <= pos.getY());
     }
 }

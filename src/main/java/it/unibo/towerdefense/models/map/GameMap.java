@@ -1,14 +1,13 @@
 package it.unibo.towerdefense.models.map;
 
-import java.util.NoSuchElementException;
-
+import it.unibo.towerdefense.models.JsonSerializable;
 import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.engine.Size;
 
 /**
  * The entity that contain game map informations, with some utility methods to use in 2D space.
  */
-public interface GameMap {
+public interface GameMap extends JsonSerializable {
 
     /**
      * Map size getter.
@@ -35,11 +34,4 @@ public interface GameMap {
      */
     PathCell getEndCell();
 
-    /**
-     * Return the next path cell from current.
-     * @param current the current cell
-     * @return the next cell in the path
-     * @throws NoSuchElementException if current is a finish cell of path
-     */
-    Position getNext(Position current) throws NoSuchElementException;
 }

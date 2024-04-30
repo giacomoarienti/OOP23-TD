@@ -55,4 +55,11 @@ public interface MapController {
      * @return a list of pairs <defense name, cost>
      */
     List<Pair<String, Integer>> getBuildingOptions();
+
+    /**
+     * Returns a String in JSON with all map information needed.
+     * @return JSON String of game map
+     */
+    String getMapJSON();
+
 }

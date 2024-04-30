@@ -2,7 +2,7 @@ package it.unibo.towerdefense.views.graphics;
 
 import java.util.List;
 
-import it.unibo.towerdefense.views.View;
+import javax.swing.JPanel;
 
 /**
  * Interface that models the game renderer.
@@ -12,21 +12,21 @@ public interface GameRenderer {
 
     /**
      * Adds view contents to the info panel.
-     * @param view the view to render
+     * @param panel the panel to display
      */
-    void renderInfo(View view);
+    void renderInfo(JPanel panel);
 
     /**
      * Adds view contents to the buy menu panel.
-     * @param view the view to render
+     * @param panel the panel to display
      */
-    void renderBuyMenu(View view);
+    void renderBuyMenu(JPanel panel);
 
     /**
      * Adds view contents to the upgrades panel.
-     * @param view the view to render
+     * @param panel the panel to display
      */
-    void renderUpgrades(View view);
+    void renderUpgrades(JPanel panel);
 
     /**
      * Adds a drawable object to the canvas.

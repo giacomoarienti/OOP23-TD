@@ -3,7 +3,6 @@ package it.unibo.towerdefense.controllers.menu;
 import it.unibo.towerdefense.controllers.app.AppController;
 import it.unibo.towerdefense.views.menus.StartMenuViewImpl;
 import it.unibo.towerdefense.views.modal.ModalContent;
-import it.unibo.towerdefense.views.window.Window;
 
 /**
  * Class implementing the Menu methods.
@@ -11,16 +10,14 @@ import it.unibo.towerdefense.views.window.Window;
 public class MenuControllerImpl implements MenuController {
 
     private final AppController appController;
-    private final Window window;
 
     /**
      * Constructor with GameController.
      * @param appController the instance of the GameController
      * @param window the instance of the Window
      */
-    public MenuControllerImpl(final AppController appController, final Window window) {
+    public MenuControllerImpl(final AppController appController) {
         this.appController = appController;
-        this.window = window;
     }
 
 
@@ -65,7 +62,7 @@ public class MenuControllerImpl implements MenuController {
     @Override
     public void displayStartMenu() {
         final ModalContent startMenu = new StartMenuViewImpl(this);
-        this.window.displayModal("Start Menu", startMenu);
+        this.appController.displayModal("Start Menu", startMenu);
     }
 
     /**

@@ -1,11 +1,12 @@
 package it.unibo.towerdefense.models.map;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.models.engine.Position;
 
 /**
  * Interface that model a Cell, the square spatial unit of game.
  */
-public interface Cell {
+public interface Cell extends Position {
 
     /**
      *I getter.
@@ -31,4 +32,5 @@ public interface Cell {
      * @return the LogicalPosition of centre of cell.
      */
     LogicalPosition getCenter();
+
 }

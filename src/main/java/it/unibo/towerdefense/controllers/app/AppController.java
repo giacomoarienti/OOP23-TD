@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.controllers.app;
 
+import it.unibo.towerdefense.views.modal.ModalContent;
+
 /**
  * Interface that defines GameController methods.
  */
@@ -34,4 +36,11 @@ public interface AppController {
      * Quits the game.
      */
     void exit();
+
+    /**
+     * Displays a modal with given content.
+     * @param title the title of the modal
+     * @param content the content of the modal
+     */
+    void displayModal(String title, ModalContent content);
 }

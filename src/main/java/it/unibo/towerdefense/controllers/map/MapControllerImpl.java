@@ -45,6 +45,18 @@ public class MapControllerImpl implements MapController {
     }
 
     /**
+     *Constructor from size of map in two unit of measure.
+     * @param jsondata JSON representation of GameMap Object.
+     * @param defensesController the defenses controller.
+     * @param gameController the game controller.
+     */
+    public MapControllerImpl(final String jsondata, final DefensesController defensesController, final GameController gameController) {
+        this.map = GameMapImpl.fromJson(jsondata);
+        this.gameController = gameController;
+        this.defensesController = defensesController;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -128,29 +140,6 @@ public class MapControllerImpl implements MapController {
             return Optional.empty();
         }
         return getNextPosition(tempPos, remaningDistance);
-        /*while (remaningDistance >= LogicalPosition.SCALING_FACTOR) {
-            remaningDistance -= LogicalPosition.SCALING_FACTOR;
-            try {
-                cellPos = map.getNext(cellPos);
-            } catch (Exception e) {
-                return Optional.empty();
-            }
-        }
-
-        pCell = (PathCell) map.getCellAt(cellPos);
-        Direction in = pCell.getInDirection();
-        int halfScalig = LogicalPosition.SCALING_FACTOR / 2;
-        if (remaningDistance < halfScalig) {
-            dir = in;
-            halfScalig = 0;
-        } else {
-            dir = pCell.getOutDirection();
-            remaningDistance -= halfScalig;
-        }
-        return Optional.of(new LogicalPosition(
-                pCell.getX() * LogicalPosition.SCALING_FACTOR + remaningDistance * dir.orizontal() + halfScalig * in.orizontal(),
-                pCell.getY() * LogicalPosition.SCALING_FACTOR + remaningDistance * dir.vertical() + halfScalig * in.vertical()
-            ));*/
     }
 
     /**
@@ -178,6 +167,14 @@ public class MapControllerImpl implements MapController {
     public List<Pair<String, Integer>> getBuildingOptions() {
         options = requestBuildinOption();
         return options.stream().map(e -> Pair.of(e.getKey().toString(), e.getValue())).toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getMapJSON() {
+        return map.toJSON();
     }
 
 }

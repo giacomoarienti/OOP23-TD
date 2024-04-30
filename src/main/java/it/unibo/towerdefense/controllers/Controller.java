@@ -14,6 +14,7 @@ public interface Controller {
 
     /**
      * Renders on the screen based on current state.
+     * @param renderer the game renderer
      */
     void render(GameRenderer renderer);
 

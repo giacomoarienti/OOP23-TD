@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.models.game;
 
-import it.unibo.towerdefense.models.engine.PositionImpl;
+import com.google.common.base.Objects;
 
 /**
  * Base implementation of the Game interface.
@@ -147,15 +147,6 @@ public class GameImpl implements Game {
      * {@inheritDoc}
      */
     @Override
-    public boolean isRunning() {
-        final GameState gameState = this.getGameState();
-        return gameState.equals(GameState.PLAYING);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public double getGameSpeed() {
         return switch (this.gameState) {
             case PLAYING -> PLAYING_GAME_SPEED;
@@ -186,5 +177,13 @@ public class GameImpl implements Game {
                 && this.getGameState() == gameObject.getGameState();
         }
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.lives, this.money, this.wave, this.gameState);
     }
 }

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import com.google.common.base.Optional;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.controllers.defenses.DefenseType;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapKeys;
 import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.utils.file.FileUtils;
@@ -26,6 +27,8 @@ public class DefenseImpl implements Defense {
     private int buildingCost;
     private int sellingValue;
     private int level;
+    private int range;
+    private DefenseType type;
     private EnemyChoiceStrategy strategy;
     private Set<Defense> upgrades;
     private LogicalPosition position;
@@ -54,16 +57,19 @@ public class DefenseImpl implements Defense {
      * @param level
      * @param position
      */
-    public DefenseImpl(final int damage, final int level, final LogicalPosition position,
-    final int attackSpeed, final int cost, final int sellValue, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
+    public DefenseImpl(final DefenseType type, final int level, final int damage,
+    final int range, final int attackSpeed, final int cost, final int sellValue,
+    final LogicalPosition position, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
         this.damage = damage;
         this.level = level;
+        this.type = type;
         this.attackSpeed = attackSpeed;
         this.buildingCost = cost;
         this.sellingValue = sellValue;
         this.strategy = strat;
         this.upgrades = upgrades;
         this.position = position;
+        this.range = range;
     }
 
     /**
@@ -71,30 +77,34 @@ public class DefenseImpl implements Defense {
      * Non available fields will be replaced with placeholders.
      * WARNING! this will give a placeholder as strategy.
      * @param filePath the path of the json file.
-     * @param upgrades the available updates,if the optional is empty it means that the upgrades are already in the file.
-     * @param position in case the file does not have a position,this can be used instead.
-     * @throws IOException 
      * @throws IOexception if it fails to read the file.
      */
-    public DefenseImpl(final String filePath, final Optional<Set<Defense>> upgrades,
-    final Optional<LogicalPosition> position) throws IOException {
+    public DefenseImpl(final String filePath) throws IOException {
         this(fromJson(FileUtils.readFile(filePath)));
-
-        /**Giving optional values.*/
-        if (upgrades.isPresent()) {
-            this.upgrades = upgrades.get();
-        }
-
-        if (position.isPresent()) {
-            this.position = position.get();
-        }
     }
+
     /**
      *{@inheritDoc}
      */
     @Override
     public int getLevel() {
         return level;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public DefenseType getType() {
+        return type;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public int getRange() {
+        return range;
     }
 
     /**
@@ -173,6 +183,14 @@ public class DefenseImpl implements Defense {
      *{@inheritDoc}
      */
     @Override
+    public void addUpgrades(final Set<Defense> newUpgrades) {
+        this.upgrades.addAll(newUpgrades);
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
     public String toJSON() {
         JSONObject parser = new JSONObject();
         /**Add basic data.*/
@@ -182,6 +200,7 @@ public class DefenseImpl implements Defense {
         parser.put(DefenseMapKeys.BUILDING_COST, this.buildingCost);
         parser.put(DefenseMapKeys.SELLING_COST, this.sellingValue);
         parser.put(DefenseMapKeys.POSITION, this.position.toJSON());
+        parser.put(DefenseMapKeys.RANGE, this.range);
 
         /**Handle updates.*/
         JSONArray upgrades = new JSONArray();
@@ -199,18 +218,19 @@ public class DefenseImpl implements Defense {
         );
 
         /**Obtain  position,if it exists*/
-        Optional<Position> position =
-        json.has(DefenseMapKeys.POSITION) ? Optional.of(Position.fromJson(json.getString(DefenseMapKeys.POSITION)))
+        Optional<LogicalPosition> position =
+        json.has(DefenseMapKeys.POSITION) ? Optional.of(LogicalPosition.fromJson(json.getString(DefenseMapKeys.POSITION)))
         : Optional.absent();
 
         return new DefenseImpl(
-        json.getInt(DefenseMapKeys.DAMAGE),
+        DefenseType.valueOf(json.get(DefenseMapKeys.TYPE).toString()),
         json.getInt(DefenseMapKeys.LEVEL),
-        position.isPresent() ? new LogicalPosition(position.get().getX(), position.get().getY())
-        : null,
+        json.getInt(DefenseMapKeys.DAMAGE),
+        json.getInt(DefenseMapKeys.RANGE),
         json.getInt(DefenseMapKeys.SPEED),
         json.getInt(DefenseMapKeys.BUILDING_COST),
         json.getInt(DefenseMapKeys.SELLING_COST),
+        position.isPresent() ? position.get() : null,
         null,
         upgrades);
     }
