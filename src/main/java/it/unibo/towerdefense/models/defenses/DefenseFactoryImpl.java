@@ -95,4 +95,28 @@ public class DefenseFactoryImpl implements DefenseFactory {
         }
         return result;
     }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public Defense wizardTowerToSaveFile(String fileName) throws IOException {
+        Defense result = new DefenseImpl(fileName);
+        result.setStrategy(strategyFactory.closestTargets(5, result.getRange(), result.getPosition()));
+        return result;
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public Defense newWizardTower(String fileName, Optional<String> upgradesFileName,
+    LogicalPosition buildPosition) throws IOException {
+        Defense result = new DefenseImpl(fileName);
+        result.setStrategy(strategyFactory.closestTargets(5, result.getRange(), result.getPosition()));
+        if (upgradesFileName.isPresent()) {
+            result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.WIZARDTOWER, result.getLevel()));
+        }
+        return result;
+    }
 }

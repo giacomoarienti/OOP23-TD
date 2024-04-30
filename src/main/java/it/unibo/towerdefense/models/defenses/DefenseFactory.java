@@ -53,4 +53,26 @@ public interface DefenseFactory {
      */
     Defense newBomberTower(String fileName, Optional<String> upgradesFileName,
     LogicalPosition buildPosition) throws IOException;
+
+    /**
+     * Builds a wizard tower from scratch.
+     * It attacks multiple enemies at once.
+     * @return a defense with a closestTargetWithAreaDamage strategy and the stats defined by the corresponding json save file.
+     * @param fileName the json file with the attribute values for this defense.
+     * @throws IOexception if file related errors occur.
+     */
+    Defense wizardTowerToSaveFile(String fileName) throws IOException;
+
+    /**
+     * Builds a wizard tower from scratch.
+     * It attacks multiple enemies at once.
+     * If the defense was not recovered from a previous save,then this method will be used instead of wizardTowerFromSaveFile.
+     * @return a defense with a closestTargets strategy and the stats defined by the corresponding json file.
+     * @param fileName the json file with the attribute values for this defense.
+     * @param buildPosition the position of the tower.
+     * @param upgradesFileName if necessary,it passes a json file with an array of upgraded towers to put as upgrades.
+     * @throws IOexception if file related errors occur.
+     */
+    Defense newWizardTower(String fileName, Optional<String> upgradesFileName,
+    LogicalPosition buildPosition) throws IOException;
 }
