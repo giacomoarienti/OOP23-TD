@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.models.defenses;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 
@@ -25,9 +26,11 @@ public interface DefenseFactory {
      * @return a defense with a closestTargets strategy and the stats defined by the corresponding json file.
      * @param fileName the json file with the attribute values for this defense.
      * @param buildPosition the position of the tower.
+     * @param upgradesFileName if necessary,it passes a json file with an array of upgraded towers to put as upgrades.
      * @throws IOexception if file related errors occur.
      */
-    Defense newArcherTowerFrom(String fileName, LogicalPosition buildPosition) throws IOException;
+    Defense newArcherTowerFrom(String fileName, Optional<String> upgradesFileName,
+    LogicalPosition buildPosition) throws IOException;
 
     /**
      * Builds a bomber tower from scratch.
@@ -45,7 +48,9 @@ public interface DefenseFactory {
      * @return a defense with a closestTargets strategy and the stats defined by the corresponding json file.
      * @param fileName the json file with the attribute values for this defense.
      * @param buildPosition the position of the tower.
+     * @param upgradesFileName if necessary,it passes a json file with an array of upgraded towers to put as upgrades.
      * @throws IOexception if file related errors occur.
      */
-    Defense newBomberTower(String fileName, LogicalPosition buildPosition) throws IOException;
+    Defense newBomberTower(String fileName, Optional<String> upgradesFileName,
+    LogicalPosition buildPosition) throws IOException;
 }

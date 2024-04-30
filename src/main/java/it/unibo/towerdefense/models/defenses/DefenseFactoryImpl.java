@@ -8,6 +8,7 @@ import it.unibo.towerdefense.utils.file.FileUtils;
 import java.io.IOException;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Optional;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -60,11 +61,14 @@ public class DefenseFactoryImpl implements DefenseFactory {
      *{@inheritDoc}
      */
     @Override
-    public Defense newArcherTowerFrom(final String fileName, final LogicalPosition defensePosition) throws IOException {
+    public Defense newArcherTowerFrom(final String fileName, final Optional<String> upgradesFileName,
+    final LogicalPosition defensePosition) throws IOException {
         Defense result = new DefenseImpl(fileName);
         result.setPosition(defensePosition);
         result.setStrategy(strategyFactory.closestTargets(1, result.getRange(), result.getPosition()));
-        result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.ARCHERTOWER, result.getLevel()));
+        if (upgradesFileName.isPresent()) {
+            result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.ARCHERTOWER, result.getLevel()));
+        }
         return result;
     }
 
@@ -82,10 +86,13 @@ public class DefenseFactoryImpl implements DefenseFactory {
      *{@inheritDoc}
      */
     @Override
-    public Defense newBomberTower(String fileName, LogicalPosition buildPosition) throws IOException {
+    public Defense newBomberTower(String fileName, Optional<String> upgradesFileName,
+    LogicalPosition buildPosition) throws IOException {
         Defense result = new DefenseImpl(fileName);
         result.setStrategy(strategyFactory.closestTargetWithAreaDamage(0, result.getRange(), result.getPosition()));
-        result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.BOMBTOWER, result.getLevel()));
+        if (upgradesFileName.isPresent()) {
+            result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.BOMBTOWER, result.getLevel()));
+        }
         return result;
     }
 }

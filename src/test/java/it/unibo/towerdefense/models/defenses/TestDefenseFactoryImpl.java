@@ -2,6 +2,7 @@ package it.unibo.towerdefense.models.defenses;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +37,7 @@ public class TestDefenseFactoryImpl {
         final int expectedSellCost = 10;
         final LogicalPosition expectedPosition = new LogicalPosition(10, 10);
 
-        
+
         /**Test getters using save file constructor.*/
         Defense tower = factory.archerTowerFromSaveFile(TEST_PATH1);
         Assertions.assertEquals(expectedLevel, tower.getLevel());
@@ -50,7 +51,7 @@ public class TestDefenseFactoryImpl {
         Assertions.assertEquals(Set.of(), tower.getPossibleUpgrades());
 
         /**Test getters using new file constructor*/
-        tower = factory.newArcherTowerFrom(TEST_PATH2, expectedPosition);
+        tower = factory.newArcherTowerFrom(TEST_PATH2, Optional.empty(),expectedPosition);
         Assertions.assertEquals(expectedLevel, tower.getLevel());
         Assertions.assertEquals(expectedType, tower.getType());
         Assertions.assertEquals(expectedDamage, tower.getDamage());
@@ -63,7 +64,8 @@ public class TestDefenseFactoryImpl {
 
         /**Test exception thrown.*/
         Assertions.assertThrowsExactly(IOException.class, () -> factory.archerTowerFromSaveFile(""));
-        Assertions.assertThrowsExactly(IOException.class, () -> factory.newArcherTowerFrom("",null));
+        Assertions.assertThrowsExactly(IOException.class, ()
+         -> factory.newArcherTowerFrom("",Optional.of(null),null));
     }
 
     /**Test the bomber tower methods.*/
