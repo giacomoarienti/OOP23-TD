@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class TestDefenseFactoryImpl {
     private DefenseFactory factory = new DefenseFactoryImpl();
-    
+
     /**Files paths.*/
     private static final String TEST_PATH1 = "/defenses/test_archer_tower.json";
 

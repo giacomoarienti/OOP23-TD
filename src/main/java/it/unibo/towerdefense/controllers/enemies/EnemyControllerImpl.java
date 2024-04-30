@@ -10,15 +10,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.map.MapController;
-import it.unibo.towerdefense.models.enemies.EnemyCollection;
-import it.unibo.towerdefense.models.enemies.EnemyCollectionImpl;
 import it.unibo.towerdefense.models.enemies.Enemies;
 import it.unibo.towerdefense.models.enemies.EnemiesImpl;
 import it.unibo.towerdefense.models.enemies.Enemy;
-import it.unibo.towerdefense.models.enemies.SimpleWavesManager;
-import it.unibo.towerdefense.models.enemies.WavesManager;
-import it.unibo.towerdefense.views.enemies.EnemiesRenderer;
-import it.unibo.towerdefense.views.enemies.EnemiesRendererImpl;
 import it.unibo.towerdefense.views.window.Window;
 
 /**
