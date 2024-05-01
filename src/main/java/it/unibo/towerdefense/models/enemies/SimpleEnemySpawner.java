@@ -1,9 +1,8 @@
 package it.unibo.towerdefense.models.enemies;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
-import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
+import it.unibo.towerdefense.controllers.enemies.EnemyType;
 
 /**
  * @inheritDoc .
@@ -27,7 +26,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
     /**
      * @inheritDoc .
      */
-    public void spawn(EnemyType t){
+    public void spawn(RichEnemyType t){
         enemies.add(new MinimalEnemy(t));
     }
 
@@ -39,8 +38,8 @@ public class SimpleEnemySpawner implements EnemySpawner{
      */
     private class MinimalEnemy implements Enemy{
 
-        private record MinimalEnemyInfo(LogicalPosition getPos, Integer getHp, EnemyLevel getEnemyLevel, EnemyArchetype getEnemyArchetype) implements EnemyInfo{};
-        private final EnemyType t;
+        private record MinimalEnemyInfo(LogicalPosition getPos, Integer getHp, EnemyType getType) implements EnemyInfo{};
+        private final RichEnemyType t;
         private final LogicalPosition pos = startingPos.clone();
         private int hp;
 
@@ -49,7 +48,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
          *
          * @param t the type of the Enemy from which to retrieve hp and speed
          */
-        MinimalEnemy(EnemyType t){
+        MinimalEnemy(RichEnemyType t){
             this.t = t;
             this.hp = t.getMaxHP();
         }
@@ -105,7 +104,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
          */
         @Override
         public EnemyInfo info() {
-            return new MinimalEnemyInfo(this.getPosition(), this.getHp(), t.getEnemyLevel(), t.getEnemyArchetype());
+            return new MinimalEnemyInfo(this.getPosition(), this.getHp(), t);
         }
 
         /**

@@ -9,16 +9,18 @@ import java.util.Random;
 public class PredicateBasedRandomWaveGenerator implements WaveSupplier{
 
     private final WavePolicySupplier wp;
+    private final EnemyCatalogue ec;
     private final Random r = new Random();
 
-    PredicateBasedRandomWaveGenerator(final WavePolicySupplier wp){
+    PredicateBasedRandomWaveGenerator(final WavePolicySupplier wp, final EnemyCatalogue ec){
         this.wp = wp;
+        this.ec = ec;
     }
 
     @Override
     public Wave apply(final Integer wave) {
-        List<EnemyType> availableTypes = List.copyOf(EnemyCatalogue.getCatalogue().getEnemyTypes(wp.getPredicate(wave)));
-        return (Wave)new SkipIterator<EnemyType>(
+        List<RichEnemyType> availableTypes = List.copyOf(ec.getEnemyTypes(wp.getPredicate(wave)));
+        return (Wave)new SkipIterator<RichEnemyType>(
                 r.ints(wp.getLength(wave), 0, availableTypes.size())
                                 .mapToObj( i -> availableTypes.get(i)).iterator(),
                 wp.getCyclesPerSpawn(wave));

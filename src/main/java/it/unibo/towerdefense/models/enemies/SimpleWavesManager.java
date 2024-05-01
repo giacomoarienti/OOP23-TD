@@ -23,11 +23,11 @@ public class SimpleWavesManager implements WavesManager {
      * @param gc
      * @param startingPos
      */
-    public SimpleWavesManager(EnemyCollection enemies, GameController gc, LogicalPosition startingPos, WavePolicySupplier wp){
+    public SimpleWavesManager(final EnemyCollection enemies, final GameController gc, final LogicalPosition startingPos, final WavePolicySupplier wp, final EnemyCatalogue ec){
         this.enemies = enemies;
         this.gc = gc;
         this.spawner = new SimpleEnemySpawner(startingPos, enemies);
-        this.supplier = new PredicateBasedRandomWaveGenerator(wp);
+        this.supplier = new PredicateBasedRandomWaveGenerator(wp, ec);
     }
 
     /**

@@ -13,7 +13,7 @@ import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 
 public class WavePolicySupplierImpl implements WavePolicySupplier{
 
-    private static SortedMap<Integer,Predicate<EnemyType>> predicates;
+    private static SortedMap<Integer,Predicate<RichEnemyType>> predicates;
     private static SortedMap<Integer, Integer> lengths;
     private static SortedMap<Integer, Integer> rates;
 
@@ -40,7 +40,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier{
                         int wave = Integer.parseInt(m.group(1));
                         int length = Integer.parseInt(m.group(2));
                         int rate = Integer.parseInt(m.group(3));
-                        Predicate<EnemyType> acceptedTypes = translate(m.group(4));
+                        Predicate<RichEnemyType> acceptedTypes = translate(m.group(4));
                         predicates.put(wave, acceptedTypes);
                         lengths.put(wave, length);
                         rates.put(wave, rate);
@@ -61,20 +61,20 @@ public class WavePolicySupplierImpl implements WavePolicySupplier{
      * @param s the string containing accepted types
      * @return the corresponding predicate
      */
-    private static Predicate<EnemyType> translate(String s){
-        Predicate<EnemyType> ret = et -> false;
+    private static Predicate<RichEnemyType> translate(String s){
+        Predicate<RichEnemyType> ret = et -> false;
         for (String type : s.split(" ")){
             EnemyLevel l = EnemyLevel.valueOf(type.substring(0, type.length()-1));
             EnemyArchetype t = EnemyArchetype.valueOf(type.substring(type.length()-1));
             ret = ret.or(
-                et -> et.getEnemyLevel().equals(l) && et.getEnemyArchetype().equals(t)
+                et -> et.level().equals(l) && et.type().equals(t)
             );
         }
         return ret;
     }
 
     @Override
-    public Predicate<EnemyType> getPredicate(Integer wave) {
+    public Predicate<RichEnemyType> getPredicate(Integer wave) {
         return predicates.headMap(wave + 1).values().stream().reduce(et -> false, (p1, p2) -> p1.or(p2));
     }
 

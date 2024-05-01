@@ -22,16 +22,8 @@ public interface EnemyInfo {
     Integer getHp();
 
     /**
-     * Getter for the enemy's EnemyLevel
-     *
-     * @return the EnemyLevel
+     * Getter for the Enemy's EnemyType.
+     * @return the EnemyType of the enemy.
      */
-    EnemyLevel getEnemyLevel();
-
-    /**
-     * Getter for the enemy's EnemyArchetype
-     *
-     * @return the EnemyArchetype
-     */
-    EnemyArchetype getEnemyArchetype();
+    EnemyType getType();
 }

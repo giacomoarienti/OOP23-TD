@@ -11,7 +11,7 @@ public interface WavePolicySupplier {
      * @param wave the wave about which information is asked
      * @return the predicate
      */
-    Predicate<EnemyType> getPredicate(final Integer wave);
+    Predicate<RichEnemyType> getPredicate(final Integer wave);
 
     /**
      * Returns how many enemies the wave should contain.

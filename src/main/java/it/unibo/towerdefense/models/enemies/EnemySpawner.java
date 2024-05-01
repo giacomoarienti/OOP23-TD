@@ -10,5 +10,5 @@ public interface EnemySpawner {
      * @param t the type of the Enemy to spawn
      * @return the spawn Enemy
      */
-    void spawn(EnemyType t);
+    void spawn(RichEnemyType t);
 }
