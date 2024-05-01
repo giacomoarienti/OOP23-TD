@@ -2,8 +2,12 @@ package it.unibo.towerdefense.models.enemies;
 
 import com.google.common.math.IntMath;
 
+import org.json.JSONObject;
+
+import java.io.InputStream;
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -19,11 +23,29 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue{
 
     /**
      * Constructor for the class.
-     * Used singleton pattern.
      */
     ConfigurableEnemyCatalogue(final String configFile){
-        rateos = null;
-        powerlevels = null;
+        rateos = new HashMap<>();
+        powerlevels = new HashMap<>();
+        try(InputStream configStream = ClassLoader.getSystemResourceAsStream(configFile)){
+            JSONObject config = new JSONObject(new String(configStream.readAllBytes()));
+            config.getJSONArray("levels").forEach(
+                (Object o) -> {
+                    assert o instanceof JSONObject;
+                    JSONObject level = (JSONObject)o;
+                    powerlevels.put(EnemyLevel.valueOf(level.getString("level")), level.getInt("powerlevel"));
+                }
+            );
+            config.getJSONArray("archetypes").forEach(
+                (Object o) -> {
+                    assert o instanceof JSONObject;
+                    JSONObject level = (JSONObject)o;
+                    rateos.put(EnemyArchetype.valueOf(level.getString("archetype")), level.getInt("rateo"));
+                }
+            );
+        }catch(Exception e){
+            throw new RuntimeException("Failed to load enemy types configuration from " + configFile, e);
+        }
         availableTypes = Arrays.stream(EnemyLevel.values())
                                 .flatMap( l -> Arrays.stream(EnemyArchetype.values()).map( t -> build(l, t)) )
                                 .toList();
