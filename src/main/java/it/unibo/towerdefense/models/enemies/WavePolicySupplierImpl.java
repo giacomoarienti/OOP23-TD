@@ -17,6 +17,12 @@ public class WavePolicySupplierImpl implements WavePolicySupplier{
     private static SortedMap<Integer, Integer> lengths;
     private static SortedMap<Integer, Integer> rates;
 
+    /**
+     * The pattern a row of the configfile should respect.
+     * Ex: 1 10 4 IA IB
+     * Means that starting from wave 1 until is specified otherwise, waves should be 10 enemies long
+     * and spawn an enemy every 4 game cycles. From wave 1 onwards the enemy types IA and IB are accepted.
+     */
     private static final Pattern linePattern = Pattern.compile("^(\\d+) (\\d+) (\\d+) ([A-Z]+( [A-Z]+)*)");
 
     //"it/unibo/towerdefense/models/enemies/waves.config"

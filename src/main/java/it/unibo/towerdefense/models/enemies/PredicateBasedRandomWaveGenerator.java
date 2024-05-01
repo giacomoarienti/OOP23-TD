@@ -43,8 +43,8 @@ public class PredicateBasedRandomWaveGenerator implements WaveSupplier{
         }
         @Override
         public Optional<T> next() {
-            counter++;
-            return counter % skip == 0 ? Optional.of(base.next()) : Optional.empty();
+            counter = (counter + 1) % skip;
+            return counter == 0 ? Optional.of(base.next()) : Optional.empty();
         }
     }
 }
