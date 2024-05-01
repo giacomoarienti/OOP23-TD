@@ -12,7 +12,6 @@ import com.google.common.base.Optional;
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.defenses.DefenseType;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapKeys;
-import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.utils.file.FileUtils;
 
 /**
@@ -37,8 +36,10 @@ public class DefenseImpl implements Defense {
      *@param copy the defense to copy.
     */
     private DefenseImpl(Defense copy) {
-        this.damage = copy.getDamage();
+        this.type = copy.getType();
         this.level = copy.getLevel();
+        this.damage = copy.getDamage();
+        this.range = copy.getRange();
         this.attackSpeed = copy.getAttackSpeed();
         this.buildingCost = copy.getBuildingCost();
         this.sellingValue = copy.getSellingValue();
@@ -60,16 +61,16 @@ public class DefenseImpl implements Defense {
     public DefenseImpl(final DefenseType type, final int level, final int damage,
     final int range, final int attackSpeed, final int cost, final int sellValue,
     final LogicalPosition position, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
-        this.damage = damage;
-        this.level = level;
         this.type = type;
+        this.level = level;
+        this.damage = damage;
+        this.range = range;
         this.attackSpeed = attackSpeed;
         this.buildingCost = cost;
         this.sellingValue = sellValue;
         this.strategy = strat;
         this.upgrades = upgrades;
         this.position = position;
-        this.range = range;
     }
 
     /**
@@ -213,9 +214,13 @@ public class DefenseImpl implements Defense {
         JSONObject json = new JSONObject(jsonData);
         /**Obtain upgrades.*/
         Set<Defense> upgrades = new HashSet<>();
-        json.getJSONArray(DefenseMapKeys.UPGRADES).forEach(x ->
-            upgrades.add(fromJson(x.toString()))
-        );
+
+        /**add upgrades if they exist.*/
+        if (json.has(DefenseMapKeys.UPGRADES)) {
+                json.getJSONArray(DefenseMapKeys.UPGRADES).forEach(x ->
+                upgrades.add(fromJson(x.toString()))
+            );
+        }
 
         /**Obtain  position,if it exists*/
         Optional<LogicalPosition> position =

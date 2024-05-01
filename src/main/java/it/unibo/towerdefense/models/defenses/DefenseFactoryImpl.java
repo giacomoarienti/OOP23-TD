@@ -21,7 +21,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     /**
      * an internal factory for the strategies.
      */
-    private EnemyChoiceStrategyFactory strategyFactory;
+    private EnemyChoiceStrategyFactory strategyFactory = new EnemyChoiceStrategyFactoryImpl();
 
     /**
      * Private method for retrieving the updates from a file.
@@ -37,13 +37,13 @@ public class DefenseFactoryImpl implements DefenseFactory {
         JSONArray defenses = new JSONArray(fileContent);
         Set<Defense> result = new HashSet<>();
         /**check for valid updates.*/
-        defenses.forEach(x -> {
-            JSONObject conv = new JSONObject(x.toString());
-            if(conv.getInt(DefenseMapKeys.LEVEL) == level &&
+        for(int i = 0;i <defenses.length(); i++) {
+            JSONObject conv = defenses.getJSONObject(i);
+            if(conv.getInt(DefenseMapKeys.LEVEL) == level + 1 &&
             DefenseType.valueOf(conv.getString(DefenseMapKeys.TYPE)) == type) {
                 result.add(DefenseImpl.fromJson(conv.toString()));
             }
-        });
+        }
         return result;
     }
 
@@ -67,7 +67,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
         result.setPosition(defensePosition);
         result.setStrategy(strategyFactory.closestTargets(1, result.getRange(), result.getPosition()));
         if (upgradesFileName.isPresent()) {
-            result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.ARCHERTOWER, result.getLevel()));
+            result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.ARCHERTOWER, result.getLevel()));
         }
         return result;
     }
@@ -91,7 +91,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
         Defense result = new DefenseImpl(fileName);
         result.setStrategy(strategyFactory.closestTargetWithAreaDamage(0, result.getRange(), result.getPosition()));
         if (upgradesFileName.isPresent()) {
-            result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.BOMBTOWER, result.getLevel()));
+            result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.BOMBTOWER, result.getLevel()));
         }
         return result;
     }
@@ -115,7 +115,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
         Defense result = new DefenseImpl(fileName);
         result.setStrategy(strategyFactory.closestTargets(5, result.getRange(), result.getPosition()));
         if (upgradesFileName.isPresent()) {
-            result.addUpgrades(getDefensesOfLevel(fileName, DefenseType.WIZARDTOWER, result.getLevel()));
+            result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.WIZARDTOWER, result.getLevel()));
         }
         return result;
     }

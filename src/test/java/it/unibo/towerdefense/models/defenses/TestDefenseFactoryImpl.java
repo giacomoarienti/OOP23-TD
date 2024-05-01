@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.models.defenses;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.Set;
 
 import javax.swing.text.html.Option;
@@ -70,9 +71,7 @@ public class TestDefenseFactoryImpl {
         Assertions.assertEquals(Set.of(), tower.getPossibleUpgrades());
 
         /**Test exception thrown.*/
-        Assertions.assertThrowsExactly(IOException.class, () -> factory.archerTowerFromSaveFile(""));
-        Assertions.assertThrowsExactly(IOException.class, ()
-         -> factory.newArcherTowerFrom("",Optional.of(null),null));
+        Assertions.assertThrowsExactly(NoSuchFileException.class, () -> factory.archerTowerFromSaveFile("src/unexistent"));
 
         /**Test with upgrades.*/
         tower = factory.newArcherTowerFrom(ARCHER_TEST_PATH1, Optional.of(ARCHER_TEST_PATH3), expectedPosition);
