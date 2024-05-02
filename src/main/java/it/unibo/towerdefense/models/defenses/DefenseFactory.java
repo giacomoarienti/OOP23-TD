@@ -11,88 +11,44 @@ import it.unibo.towerdefense.commons.LogicalPosition;
 
 public interface DefenseFactory {
     /**
-     * An archer tower is one of the most basics and common defenses in a tower defense.
-     * It shoots at the closest enemy in its range.
-     * @return a defense with a closestTargets strategy and the stats defined by the corresponding json save file.
-     * @param fileName the json file with the attribute values for this defense.
-     * @throws IOexception if file related errors occur.
-     */
-    Defense archerTowerFromSaveFile(String fileName) throws IOException;
-
-    /**
-     * An archer tower is one of the most basics and common defenses in a tower defense.
-     * It shoots at the closest enemy in its range.
-     * If the defense was not recovered from a previous save,then this method will be used instead of ArcherTower.
-     * @return a defense with a closestTargets strategy and the stats defined by the corresponding json file.
-     * @param fileName the json file with the attribute values for this defense.
-     * @param buildPosition the position of the tower.
-     * @param upgradesFileName if necessary,it passes a json file with an array of upgraded towers to put as upgrades.
-     * @throws IOexception if file related errors occur.
-     */
-    Defense newArcherTowerFrom(String fileName, Optional<String> upgradesFileName,
-    LogicalPosition buildPosition) throws IOException;
-
-    /**
-     * Builds a bomber tower from scratch.
-     * It uses an area based damage strategy,based on the closest target.
-     * @return a defense with a closestTargetWithAreaDamage strategy and the stats defined by the corresponding json save file.
-     * @param fileName the json file with the attribute values for this defense.
-     * @throws IOexception if file related errors occur.
-     */
-    Defense bomberTowerFromSaveFile(String fileName) throws IOException;
-
-    /**
-     * An archer tower is one of the most basics and common defenses in a tower defense.
-     * It shoots at the closest enemy in its range.
-     * If the defense was not recovered from a previous save,then this method will be used instead of ArcherTower.
-     * @return a defense with a closestTargets strategy and the stats defined by the corresponding json file.
-     * @param fileName the json file with the attribute values for this defense.
-     * @param buildPosition the position of the tower.
-     * @param upgradesFileName if necessary,it passes a json file with an array of upgraded towers to put as upgrades.
-     * @throws IOexception if file related errors occur.
-     */
-    Defense newBomberTower(String fileName, Optional<String> upgradesFileName,
-    LogicalPosition buildPosition) throws IOException;
-
-    /**
-     * Builds a wizard tower from scratch.
-     * It attacks multiple enemies at once.
-     * @return a defense with a closestTargetWithAreaDamage strategy and the stats defined by the corresponding json save file.
-     * @param fileName the json file with the attribute values for this defense.
-     * @throws IOexception if file related errors occur.
-     */
-    Defense wizardTowerToSaveFile(String fileName) throws IOException;
-
-    /**
-     * Builds a wizard tower from scratch.
-     * It attacks multiple enemies at once.
-     * If the defense was not recovered from a previous save,then this method will be used instead of wizardTowerFromSaveFile.
-     * @return a defense with a closestTargets strategy and the stats defined by the corresponding json file.
-     * @param fileName the json file with the attribute values for this defense.
-     * @param buildPosition the position of the tower.
-     * @param upgradesFileName if necessary,it passes a json file with an array of upgraded towers to put as upgrades.
-     * @throws IOexception if file related errors occur.
-     */
-    Defense newWizardTower(String fileName, Optional<String> upgradesFileName,
-    LogicalPosition buildPosition) throws IOException;
-
-    /**The thunder invoker attacks enemies that are the closest to reach the end of map.
-     * It will not be able to attack targets too close to it. 
-     * @return a defense with a defense with a closestToCustomPointNotInRange strategy.
-     * @param fileName the json file with the attribute values for this defense.
-     * @param customPoint the custom position for the strategy.
-     * @throws IOexception if file related errors occur.
+     * @return a defense from a previous save file.
+     * @param saveFile the save file with all the informations.
+     * @throws IOException if errors occur during file reading.
     */
-    Defense thunderInvokerFromSaveFile(String fileName, LogicalPosition customPoint) throws IOException;
-
-    /**The thunder invoker attacks enemies that are the closest to reach the end of map.
-     * It will not be able to attack targets too close to it. 
-     * @return a defense with a defense with a closestToCustomPointNotInRange strategy.
-     * @param fileName the json file with the attribute values for this defense.
-     * @param buildPosition the position where to build.
-     * @param customPoint the position for the strategy.
-     * @param upgradesFileName if necessary,it passes a json file with an array of upgraded towers to put as upgrades.
+    Defense defenseFromSaveFile(String saveFile) throws IOException;
+    /**
+     * @return a defense from pre-built stat file.
+     * @param statFile the file with the statistics of the defense.
+     * @param buildPosition this is the first time we build the defense,so we need to know where to build it.
+     * @param upgradesFileName will be used for getting the upgrades if the defense has any.
+     * @throws IOException if errors occur during file reading.
     */
-    Defense newThunderInvoker(String fileName, LogicalPosition buildPosition,
-    LogicalPosition customPoint, Optional<String> upgradesFileName) throws IOException;
+    Defense levelOneDefense(String statFile, LogicalPosition buildPosition, Optional<String> upgradesFileName) throws IOException;
+    /**
+     * @return a defense from a previous save file that uses a custom position for its strategy.
+     * @param saveFile the save file with all the informations.
+     * @param customPosition the custom position.
+     * @throws IOException if errors occur during file reading.
+    */
+    Defense defenseFromSaveFileWithCustomPoint(String saveFile,LogicalPosition customPosition) throws IOException;
+
+    /**
+     * @return a defense from pre-built stat file that uses a customPosition in its strategy.
+     * @param statFile the file with the statistics of the defense.
+     * @param buildPosition this is the first time we build the defense,so we need to know where to build it.
+     * @param upgradesFileName will be used for getting the upgrades if the defense has any.
+     * @param customPosition the custom position.
+     * @throws IOException if errors occur during file reading.
+    */
+    Defense levelOneDefenseWithCustomPosition(String statFile, LogicalPosition buildPosition,
+    LogicalPosition customPosition, Optional<String> upgradesFileName) throws IOException;
+
+    /**
+     * Upgrades the given defense.
+     * @param current the defense to upgrade.
+     * @param upgradeIndex indicates wich upgrade to use.
+     * @param upgradesFileName used for getting the upgrades of the upgrade.
+     * @throws IOException if errors occur during file reading.
+     */
+    void upgrade(Defense current,int upgradeIndex, Optional<String> upgradesFileName) throws IOException;
 }

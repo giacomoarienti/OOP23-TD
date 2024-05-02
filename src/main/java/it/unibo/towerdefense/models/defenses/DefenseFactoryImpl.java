@@ -48,103 +48,97 @@ public class DefenseFactoryImpl implements DefenseFactory {
         return result;
     }
 
-    /**
-     *{@inheritDoc}
-     */
-    @Override
-    public Defense archerTowerFromSaveFile(final String fileName) throws IOException {
-        Defense result = new DefenseImpl(fileName);
-        result.setStrategy(strategyFactory.closestTargets(1, result.getRange(), result.getPosition()));
-        return result;
-    }
-
-    /**
-     *{@inheritDoc}
-     */
-    @Override
-    public Defense newArcherTowerFrom(final String fileName, final Optional<String> upgradesFileName,
-    final LogicalPosition defensePosition) throws IOException {
-        Defense result = new DefenseImpl(fileName);
-        result.setPosition(defensePosition);
-        result.setStrategy(strategyFactory.closestTargets(1, result.getRange(), result.getPosition()));
-        if (upgradesFileName.isPresent()) {
-            result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.ARCHERTOWER, result.getLevel()));
+    /**sets the strategy for a defense based on its type
+     * @param def the defense to set the strategy to.
+     * @param customPos used for Thunder summoner,and any other possible defense that uses a custom position.
+     * @throws IllegalStateException if defense type is none
+    */
+    private void setStrategyFor(Defense def, Optional<LogicalPosition> customPos) {
+        switch (def.getType()) {
+            case ARCHERTOWER:
+                def.setStrategy(strategyFactory.closestTargets(1, def.getRange(), def.getPosition()));
+            break;
+            case BOMBTOWER:
+                def.setStrategy(strategyFactory.closestTargetWithAreaDamage(DefenseFormulas.BOMB_TOWER_DAMAGEAREA_FORMULA(def),
+                def.getRange(), def.getPosition()));
+            break;
+            case WIZARDTOWER:
+                def.setStrategy(strategyFactory.closestTargets(DefenseFormulas.WIZARD_TOWER_TARGET_FORMULA(def),
+                def.getRange(), def.getPosition()));
+            break;
+            case THUNDERINVOKER:
+                if(customPos.isEmpty()) {
+                    throw new IllegalStateException();
+                }
+                def.setStrategy(strategyFactory.closestToCustomPointNotInRange(
+                def.getRange(), customPos.get(), def.getPosition()));
+            break;
+            case NOTOWER:
+            default:
+                throw new IllegalStateException();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Defense defenseFromSaveFile(String saveFile) throws IOException {
+        Defense result = new DefenseImpl(saveFile);
+        setStrategyFor(result, Optional.empty());
         return result;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public Defense bomberTowerFromSaveFile(String fileName) throws IOException {
-        Defense result = new DefenseImpl(fileName);
-        result.setStrategy(strategyFactory.closestTargetWithAreaDamage(DefenseFormulas.BOMB_TOWER_DAMAGEAREA_FORMULA(result),
-        result.getRange(), result.getPosition()));
-        return result;
-    }
-
-    /**
-     *{@inheritDoc}
-     */
-    @Override
-    public Defense newBomberTower(String fileName, Optional<String> upgradesFileName,
-    LogicalPosition buildPosition) throws IOException {
-        Defense result = new DefenseImpl(fileName);
+    public Defense levelOneDefense(String statFile, LogicalPosition buildPosition,
+    Optional<String> upgradesFileName) throws IOException {
+        Defense result = new DefenseImpl(statFile);
         result.setPosition(buildPosition);
-        result.setStrategy(strategyFactory.closestTargetWithAreaDamage(DefenseFormulas.BOMB_TOWER_DAMAGEAREA_FORMULA(result),
-        result.getRange(), result.getPosition()));
-        if (upgradesFileName.isPresent()) {
-            result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.BOMBTOWER, result.getLevel()));
+        setStrategyFor(result, Optional.empty());
+        if(upgradesFileName.isPresent()) {
+            result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), result.getType(), result.getLevel()));
         }
         return result;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public Defense wizardTowerToSaveFile(String fileName) throws IOException {
-        Defense result = new DefenseImpl(fileName);
-        result.setStrategy(strategyFactory.closestTargets(DefenseFormulas.WIZARD_TOWER_TARGET_FORMULA(result),
-        result.getRange(), result.getPosition()));
+    public Defense defenseFromSaveFileWithCustomPoint(String saveFile, LogicalPosition customPosition) throws IOException {
+        Defense result = new DefenseImpl(saveFile);
+        setStrategyFor(result, Optional.of(customPosition));
         return result;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public Defense newWizardTower(String fileName, Optional<String> upgradesFileName,
-    LogicalPosition buildPosition) throws IOException {
-        Defense result = new DefenseImpl(fileName);
-        result.setPosition(buildPosition);
-        result.setStrategy(strategyFactory.closestTargets(DefenseFormulas.WIZARD_TOWER_TARGET_FORMULA(result),
-         result.getRange(), result.getPosition()));
-        if (upgradesFileName.isPresent()) {
-            result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.WIZARDTOWER, result.getLevel()));
-        }
-        return result;
-    }
-
-    @Override
-    public Defense thunderInvokerFromSaveFile(String fileName, LogicalPosition customPoint) throws IOException {
-        Defense result = new DefenseImpl(fileName);
-        result.setStrategy(strategyFactory.closestToCustomPointNotInRange(result.getRange(),
-        customPoint, result.getPosition()));
-        return result;
-    }
-
-    @Override
-    public Defense newThunderInvoker(String fileName, LogicalPosition buildPosition, LogicalPosition customPoint,
-            Optional<String> upgradesFileName) throws IOException {
-                Defense result = new DefenseImpl(fileName);
+    public Defense levelOneDefenseWithCustomPosition(String statFile, LogicalPosition buildPosition,
+            LogicalPosition customPosition, Optional<String> upgradesFileName) throws IOException {
+                Defense result = new DefenseImpl(statFile);
                 result.setPosition(buildPosition);
-                result.setStrategy(strategyFactory.closestToCustomPointNotInRange(result.getRange(),
-                customPoint, result.getPosition()));
-                if (upgradesFileName.isPresent()) {
-                    result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.WIZARDTOWER, result.getLevel()));
+                setStrategyFor(result, Optional.of(customPosition));
+                if(upgradesFileName.isPresent()) {
+                    result.addUpgrades(getDefensesOfLevel(statFile, result.getType(), result.getLevel()));
                 }
                 return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void upgrade(Defense current,int upgradeIndex, Optional<String> upgradesFileName) throws IOException {
+        Optional<LogicalPosition> optionalCustomPos = current.getStrategy().getCustomPosition();
+        current = current.getPossibleUpgrades().stream().toList().get(upgradeIndex);
+        setStrategyFor(current, optionalCustomPos);
+        if(upgradesFileName.isPresent()) {
+            current.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), current.getType(), current.getLevel()));
+        }
     }
 }
