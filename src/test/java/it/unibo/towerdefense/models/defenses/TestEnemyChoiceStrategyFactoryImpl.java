@@ -20,6 +20,7 @@ class TestEnemyChoiceStrategyFactoryImpl {
 
     private static EnemyChoiceStrategyFactory factory = new EnemyChoiceStrategyFactoryImpl();
     private static final LogicalPosition TEST_POSITION = new LogicalPosition(0, 0);
+    private static final LogicalPosition TEST_CUSTOM_POINT = new LogicalPosition(15, 15);
     private static final int TEST_RANGE = 10;
     private static final int TEST_MAX_TARGETS = 5;
     private static final int TEST_DAMAGE = 20;
@@ -51,7 +52,7 @@ class TestEnemyChoiceStrategyFactoryImpl {
         final Map<Integer, Integer> expectedResultTest1 = new HashMap<>();
         final Map<Integer, Integer> expectedResultTest2 = Map.of(0, TEST_DAMAGE);
         final Map<Integer, Integer> expectedResultTest3 = Map.of(0, TEST_DAMAGE);
-        final Map<Integer, Integer> expectedResultTest4 = 
+        final Map<Integer, Integer> expectedResultTest4 =
         Map.of(0, TEST_DAMAGE, 3, TEST_DAMAGE, 4, TEST_DAMAGE, 6, TEST_DAMAGE, 7, TEST_DAMAGE);
 
         EnemyChoiceStrategy strategy = factory.closestTargets(TEST_MAX_TARGETS, TEST_RANGE, TEST_POSITION);
@@ -108,5 +109,43 @@ class TestEnemyChoiceStrategyFactoryImpl {
         testTargets.add(new ImmutablePair<>(testPos5, TEST_HP));
         testTargets.add(new ImmutablePair<>(testPos6, TEST_HP));
         Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest4);
+    }
+
+    @Test
+    void testClosestToCustomPointNotInRange() {
+        /**create positions for this test.*/
+        final LogicalPosition testPos1 = new LogicalPosition(12, 12);
+        final LogicalPosition testPos2 = new LogicalPosition(14, 14);
+        final LogicalPosition testPos3 = new LogicalPosition(0, 0);
+        final LogicalPosition testPos4 = new LogicalPosition(1, -1);
+        final LogicalPosition testPos5 = new LogicalPosition(13, -13);
+        final LogicalPosition testPos6 = new LogicalPosition(15, 14);
+
+        /**create expected results */
+        final Map<Integer, Integer> expectedResultTest1 = Map.of(1, TEST_DAMAGE);
+        final Map<Integer, Integer> expectedResultTest2 = new HashMap<>();
+        final Map<Integer, Integer> expectedResultTest3 = Map.of(5, TEST_DAMAGE);
+
+        EnemyChoiceStrategy strategy = factory.closestToCustomPointNotInRange(TEST_AREA_RANGE,
+        TEST_CUSTOM_POINT, TEST_POSITION);
+
+        /**Test 1:check closest target to custom point.*/
+        testTargets.add(new ImmutablePair<>(testPos1, TEST_HP));
+        testTargets.add(new ImmutablePair<>(testPos2, TEST_HP));
+        Assertions.assertEquals(expectedResultTest1, strategy.execute(testTargets, TEST_DAMAGE));
+        /**Test 2:check that targets in range aren't being selected.*/
+        testTargets.clear();
+        testTargets.add(new ImmutablePair<>(testPos3, TEST_HP));
+        testTargets.add(new ImmutablePair<>(testPos4, TEST_HP));
+        Assertions.assertEquals(expectedResultTest2, strategy.execute(testTargets, TEST_DAMAGE));
+        /**Test 3:multiple targets,some selectable and some not.*/
+        testTargets.clear();
+        testTargets.add(new ImmutablePair<>(testPos1, TEST_HP));
+        testTargets.add(new ImmutablePair<>(testPos2, TEST_HP));
+        testTargets.add(new ImmutablePair<>(testPos3, TEST_HP));
+        testTargets.add(new ImmutablePair<>(testPos4, TEST_HP));
+        testTargets.add(new ImmutablePair<>(testPos5, TEST_HP));
+        testTargets.add(new ImmutablePair<>(testPos6, TEST_HP));
+        Assertions.assertEquals(expectedResultTest3, strategy.execute(testTargets, TEST_DAMAGE));
     }
 }
