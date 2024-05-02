@@ -110,7 +110,14 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
      */
     @Override
     public EnemyChoiceStrategy closestToCustomPointNotInRange(int range, LogicalPosition customPoint, LogicalPosition position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'closestToCustomPointNotInRange'");
+        return genericModel((x1,x2) -> x1.distanceTo(x2) > range,
+        map -> map.entrySet()
+        .stream()
+        .filter(ent -> ent.getValue().getKey().distanceTo(getClosestTo(map, customPoint)) == 0)
+        .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
+        (damage, map) -> map.entrySet()
+        .stream()
+        .collect(Collectors.toMap(m -> m.getKey(), m -> damage)),
+        position);
     }
 }
