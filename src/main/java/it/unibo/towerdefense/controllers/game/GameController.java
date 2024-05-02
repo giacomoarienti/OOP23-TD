@@ -42,6 +42,12 @@ public interface GameController extends Controller {
     int getMoney();
 
     /**
+     * Increases the amount of money by amount .
+     * @param amount quantity of money to be increased
+     */
+    void addMoney(int amount);
+
+    /**
      * Get lives of the player.
      * @return the amount of lives
      */

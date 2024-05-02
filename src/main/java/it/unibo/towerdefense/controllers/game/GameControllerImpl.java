@@ -107,6 +107,14 @@ public class GameControllerImpl implements GameController {
      * {@inheritDoc}
      */
     @Override
+    public void addMoney(final int amount) {
+        this.game.addMoney(amount);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int getLives() {
         return this.game.getLives();
     }
