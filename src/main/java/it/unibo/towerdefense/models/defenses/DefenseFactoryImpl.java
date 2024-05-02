@@ -103,7 +103,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     @Override
     public Defense wizardTowerToSaveFile(String fileName) throws IOException {
         Defense result = new DefenseImpl(fileName);
-        result.setStrategy(strategyFactory.closestTargets(5, result.getRange(), result.getPosition()));
+        result.setStrategy(strategyFactory.closestTargets(result.getLevel()+1, result.getRange(), result.getPosition()));
         return result;
     }
 
@@ -114,7 +114,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     public Defense newWizardTower(String fileName, Optional<String> upgradesFileName,
     LogicalPosition buildPosition) throws IOException {
         Defense result = new DefenseImpl(fileName);
-        result.setStrategy(strategyFactory.closestTargets(5, result.getRange(), result.getPosition()));
+        result.setStrategy(strategyFactory.closestTargets(result.getLevel()+1, result.getRange(), result.getPosition()));
         if (upgradesFileName.isPresent()) {
             result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.WIZARDTOWER, result.getLevel()));
         }

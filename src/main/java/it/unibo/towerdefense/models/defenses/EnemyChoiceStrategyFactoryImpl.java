@@ -23,9 +23,9 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
      * @param mapDamage maps the filtered entities for damage based on a passed integer.
      * @param basePosition the position used for checking validity of targets
      */
-    private EnemyChoiceStrategy genericModel(final BiPredicate<LogicalPosition, LogicalPosition> isTargetValid, 
+    private EnemyChoiceStrategy genericModel(final BiPredicate<LogicalPosition, LogicalPosition> isTargetValid,
     final Function<Map<Integer, Pair<LogicalPosition, Integer>>, Map<Integer, Pair<LogicalPosition, Integer>>> mapValidTargets,
-    final BiFunction<Integer, Map<Integer, Pair<LogicalPosition, Integer>>, Map<Integer, Integer>> mapDamage, 
+    final BiFunction<Integer, Map<Integer, Pair<LogicalPosition, Integer>>, Map<Integer, Integer>> mapDamage,
     final LogicalPosition basePosition) {
         return new EnemyChoiceStrategy() {
             /**
@@ -50,8 +50,23 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
                     /**get targets that are going to be hit and return mapped damage. */
                 Map<Integer, Pair<LogicalPosition, Integer>> finalTargets = mapValidTargets.apply(validTargets);
                 return mapDamage.apply(baseDamage, finalTargets);
-            } 
+            }
         };
+    }
+
+    /**returns the closest entitie to a defined position.
+     * @param entities the entities to check.
+     * @param point the position we want to see distance to.
+    */
+    private LogicalPosition getClosestTo(Map<Integer, Pair<LogicalPosition, Integer>> entities, LogicalPosition point) {
+        return entities.entrySet()
+        .stream()
+        .sorted((p1, p2) ->
+            Double.compare(p1.getValue().getKey().distanceTo(point),
+            p2.getValue().getKey().distanceTo(point)))
+        .findFirst()
+        .get()
+        .getValue().getKey();
     }
 
     /**
@@ -61,8 +76,8 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
     public EnemyChoiceStrategy closestTargets(final int maxTargets, final int range, final LogicalPosition position) {
         return genericModel((x1, x2) -> x1.distanceTo(x2) <= range,
             map -> map.entrySet()
-            .stream() 
-            .sorted((p1, p2) -> 
+            .stream()
+            .sorted((p1, p2) ->
                 Double.compare(p1.getValue().getKey().distanceTo(position), p2.getValue().getKey().distanceTo(position)))
             .limit(maxTargets)
             .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
@@ -79,26 +94,23 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
     @Override
     public EnemyChoiceStrategy closestTargetWithAreaDamage(final int damageRange, final int range, 
     final LogicalPosition position) {
-        /**get closest target to tower (this function takes all entities and finds the closest one to the defense).*/
-        Function<Map<Integer, Pair<LogicalPosition, Integer>>, LogicalPosition> getClosest =
-        (targets) -> targets.entrySet()
-        .stream()
-        .sorted((p1, p2) ->
-            Double.compare(p1.getValue().getKey().distanceTo(position),
-            p2.getValue().getKey().distanceTo(position)))
-        .findFirst()
-        .get()
-        .getValue().getKey();
-
-        /**now we can build the function.*/
         return genericModel((x1, x2) -> x1.distanceTo(x2) <= range,
         map -> map.entrySet()
         .stream()
-        .filter(ent -> ent.getValue().getKey().distanceTo(getClosest.apply(map)) <= damageRange)
+        .filter(ent -> ent.getValue().getKey().distanceTo(getClosestTo(map, position)) <= damageRange)
         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
         (damage, map) -> map.entrySet()
         .stream()
         .collect(Collectors.toMap(m -> m.getKey(), m -> damage)),
         position);
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public EnemyChoiceStrategy closestToCustomPointNotInRange(int range, LogicalPosition customPoint, LogicalPosition position) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'closestToCustomPointNotInRange'");
     }
 }
