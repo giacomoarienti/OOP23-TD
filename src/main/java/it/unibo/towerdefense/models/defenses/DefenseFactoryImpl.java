@@ -89,6 +89,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     public Defense newBomberTower(String fileName, Optional<String> upgradesFileName,
     LogicalPosition buildPosition) throws IOException {
         Defense result = new DefenseImpl(fileName);
+        result.setPosition(buildPosition);
         result.setStrategy(strategyFactory.closestTargetWithAreaDamage(0, result.getRange(), result.getPosition()));
         if (upgradesFileName.isPresent()) {
             result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.BOMBTOWER, result.getLevel()));

@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.Set;
 
-import javax.swing.text.html.Option;
-
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -22,9 +20,9 @@ public class TestDefenseFactoryImpl {
     private static final String ARCHER_TEST_PATH1 = "src/test/resources/defenses/TestArcherTower1.json";
     private static final String ARCHER_TEST_PATH2 = "src/test/resources/defenses/TestArcherTower2.json";
     private static final String ARCHER_TEST_PATH3 = "src/test/resources/defenses/TestArcherTowerUp.json";
-    private static final String ARCHER_TEST_PATH4 = "src/test/resources/defenses/TestBombTower1.json";
-    private static final String ARCHER_TEST_PATH5 = "src/test/resources/defenses/TestBombTower2.json";
-    private static final String ARCHER_TEST_PATH6 = "src/test/resources/defenses/TestBombTowerUp.json";
+    private static final String BOMB_TEST_PATH1 = "src/test/resources/defenses/TestBombTower1.json";
+    private static final String BOMB_TEST_PATH2 = "src/test/resources/defenses/TestBombTower2.json";
+    private static final String BOMB_TEST_PATH3 = "src/test/resources/defenses/TestBombTowerUp.json";
 
     @BeforeEach
     /**set up some collections.*/
@@ -82,8 +80,8 @@ public class TestDefenseFactoryImpl {
     @Test
     void testBomberTower() throws IOException {
         /**Expected values for getters.*/
-        final int expectedLevel = 1;
-        final DefenseType expectedType = DefenseType.ARCHERTOWER;
+        final int expectedLevel = 2;
+        final DefenseType expectedType = DefenseType.BOMBTOWER;
         final int expectedDamage = 5;
         final int expectedSpeed = 3;
         final int expectedRange = 7;
@@ -93,7 +91,7 @@ public class TestDefenseFactoryImpl {
 
 
         /**Test getters using save file constructor.*/
-        Defense tower = factory.bomberTowerFromSaveFile(ARCHER_TEST_PATH4);
+        Defense tower = factory.bomberTowerFromSaveFile(BOMB_TEST_PATH1);
         Assertions.assertEquals(expectedLevel, tower.getLevel());
         Assertions.assertEquals(expectedType, tower.getType());
         Assertions.assertEquals(expectedDamage, tower.getDamage());
@@ -102,10 +100,30 @@ public class TestDefenseFactoryImpl {
         Assertions.assertEquals(expectedBuildCost, tower.getBuildingCost());
         Assertions.assertEquals(expectedSellCost, tower.getSellingValue());
         Assertions.assertEquals(expectedPosition, tower.getPosition());
-        Assertions.assertEquals(Set.of(), tower.getPossibleUpgrades());
+        Assertions.assertEquals(tower.getPossibleUpgrades().size(), 1);
+        /**check that upgrade got loaded correctly*/
+        Defense upgrade = tower.getPossibleUpgrades().stream().findFirst().get();
+        /**Expected values for getters.*/
+        final int expectedLevelUp = 3;
+        final DefenseType expectedTypeUp = DefenseType.BOMBTOWER;
+        final int expectedDamageUp = 7;
+        final int expectedSpeedUp = 4;
+        final int expectedRangeUp = 8;
+        final int expectedBuildCostUp = 35;
+        final int expectedSellCostUp = 21;
 
-        /**Test getters using new file constructor*/
-        tower = factory.newBomberTower(ARCHER_TEST_PATH5, Optional.empty(),expectedPosition);
+        /**Test getters of upgrade*/
+        Assertions.assertEquals(expectedLevelUp, upgrade.getLevel());
+        Assertions.assertEquals(expectedTypeUp, upgrade.getType());
+        Assertions.assertEquals(expectedDamageUp, upgrade.getDamage());
+        Assertions.assertEquals(expectedSpeedUp, upgrade.getAttackSpeed());
+        Assertions.assertEquals(expectedRangeUp, upgrade.getRange());
+        Assertions.assertEquals(expectedBuildCostUp, upgrade.getBuildingCost());
+        Assertions.assertEquals(expectedSellCostUp, upgrade.getSellingValue());
+        Assertions.assertEquals(Set.of(), upgrade.getPossibleUpgrades());
+
+        /**Test lv1 constructor.*/
+        tower = factory.newBomberTower(BOMB_TEST_PATH2, Optional.empty(),expectedPosition);
         Assertions.assertEquals(expectedLevel, tower.getLevel());
         Assertions.assertEquals(expectedType, tower.getType());
         Assertions.assertEquals(expectedDamage, tower.getDamage());
@@ -117,12 +135,10 @@ public class TestDefenseFactoryImpl {
         Assertions.assertEquals(Set.of(), tower.getPossibleUpgrades());
 
         /**Test exception thrown.*/
-        Assertions.assertThrowsExactly(IOException.class, () -> factory.bomberTowerFromSaveFile(""));
-        Assertions.assertThrowsExactly(IOException.class, ()
-         -> factory.newBomberTower("",Optional.of(null),null));
+        Assertions.assertThrowsExactly(NoSuchFileException.class, () -> factory.bomberTowerFromSaveFile("fakeFile"));
 
         /**Test with upgrades.*/
-        tower = factory.newBomberTower(ARCHER_TEST_PATH4, Optional.of(ARCHER_TEST_PATH6), expectedPosition);
-        Assertions.assertEquals(tower.getPossibleUpgrades().size(), 2);
+        tower = factory.newBomberTower(BOMB_TEST_PATH2, Optional.of(BOMB_TEST_PATH3), expectedPosition);
+        Assertions.assertEquals(tower.getPossibleUpgrades().size(), 1);
     }
 }
