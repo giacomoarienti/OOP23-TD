@@ -80,7 +80,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     public Defense bomberTowerFromSaveFile(String fileName) throws IOException {
         Defense result = new DefenseImpl(fileName);
         result.setStrategy(strategyFactory.closestTargetWithAreaDamage(DefenseFormulas.BOMB_TOWER_DAMAGEAREA_FORMULA(result),
-         result.getRange(), result.getPosition()));
+        result.getRange(), result.getPosition()));
         return result;
     }
 
@@ -107,7 +107,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     public Defense wizardTowerToSaveFile(String fileName) throws IOException {
         Defense result = new DefenseImpl(fileName);
         result.setStrategy(strategyFactory.closestTargets(DefenseFormulas.WIZARD_TOWER_TARGET_FORMULA(result),
-         result.getRange(), result.getPosition()));
+        result.getRange(), result.getPosition()));
         return result;
     }
 
@@ -118,6 +118,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     public Defense newWizardTower(String fileName, Optional<String> upgradesFileName,
     LogicalPosition buildPosition) throws IOException {
         Defense result = new DefenseImpl(fileName);
+        result.setPosition(buildPosition);
         result.setStrategy(strategyFactory.closestTargets(DefenseFormulas.WIZARD_TOWER_TARGET_FORMULA(result),
          result.getRange(), result.getPosition()));
         if (upgradesFileName.isPresent()) {
