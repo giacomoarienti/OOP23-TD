@@ -129,14 +129,22 @@ public class DefenseFactoryImpl implements DefenseFactory {
 
     @Override
     public Defense thunderInvokerFromSaveFile(String fileName, LogicalPosition customPoint) throws IOException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'thunderInvokerFromSaveFile'");
+        Defense result = new DefenseImpl(fileName);
+        result.setStrategy(strategyFactory.closestToCustomPointNotInRange(result.getRange(),
+        customPoint, result.getPosition()));
+        return result;
     }
 
     @Override
     public Defense newThunderInvoker(String fileName, LogicalPosition buildPosition, LogicalPosition customPoint,
             Optional<String> upgradesFileName) throws IOException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'newThunderInvoker'");
+                Defense result = new DefenseImpl(fileName);
+                result.setPosition(buildPosition);
+                result.setStrategy(strategyFactory.closestToCustomPointNotInRange(result.getRange(),
+                customPoint, result.getPosition()));
+                if (upgradesFileName.isPresent()) {
+                    result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.WIZARDTOWER, result.getLevel()));
+                }
+                return result;
     }
 }
