@@ -125,4 +125,17 @@ public class DefenseFactoryImpl implements DefenseFactory {
         }
         return result;
     }
+
+    @Override
+    public Defense thunderInvokerFromSaveFile(String fileName, LogicalPosition customPoint) throws IOException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'thunderInvokerFromSaveFile'");
+    }
+
+    @Override
+    public Defense newThunderInvoker(String fileName, LogicalPosition buildPosition, LogicalPosition customPoint,
+            Optional<String> upgradesFileName) throws IOException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'newThunderInvoker'");
+    }
 }

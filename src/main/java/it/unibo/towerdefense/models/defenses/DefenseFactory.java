@@ -75,4 +75,24 @@ public interface DefenseFactory {
      */
     Defense newWizardTower(String fileName, Optional<String> upgradesFileName,
     LogicalPosition buildPosition) throws IOException;
+
+    /**The thunder invoker attacks enemies that are the closest to reach the end of map.
+     * It will not be able to attack targets too close to it. 
+     * @return a defense with a defense with a closestToCustomPointNotInRange strategy.
+     * @param fileName the json file with the attribute values for this defense.
+     * @param customPoint the custom position for the strategy.
+     * @throws IOexception if file related errors occur.
+    */
+    Defense thunderInvokerFromSaveFile(String fileName, LogicalPosition customPoint) throws IOException;
+
+    /**The thunder invoker attacks enemies that are the closest to reach the end of map.
+     * It will not be able to attack targets too close to it. 
+     * @return a defense with a defense with a closestToCustomPointNotInRange strategy.
+     * @param fileName the json file with the attribute values for this defense.
+     * @param buildPosition the position where to build.
+     * @param customPoint the position for the strategy.
+     * @param upgradesFileName if necessary,it passes a json file with an array of upgraded towers to put as upgrades.
+    */
+    Defense newThunderInvoker(String fileName, LogicalPosition buildPosition,
+    LogicalPosition customPoint, Optional<String> upgradesFileName) throws IOException;
 }
