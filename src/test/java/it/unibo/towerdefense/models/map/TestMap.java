@@ -16,17 +16,18 @@ public class TestMap {
     private MapController map = new MapControllerImpl(new SizeImpl(20, 20), null, null);
     private Position spawn = map.getSpawnPosition();
     private LogicalPosition pos = new LogicalPosition(spawn.getX(), spawn.getY());
+    private final static int ITERATION_MOVEMENT = 500;
 
     @Test
     void testGetNextPosition() {
-        var op = map.getNextPosition(pos, 10000);
-        Assertions.assertEquals(new LogicalPosition(spawn.getX() + 3600 + 1800, spawn.getY() - 3600 - 1000), op.get());
+        var opt = map.getNextPosition(pos, 10000);
+        Assertions.assertEquals(new LogicalPosition(spawn.getX() + 3600 + 1800, spawn.getY() - 3600 - 1000), opt.get());
 
-        while (op.isPresent()) {
-            pos = op.get();
-            op = map.getNextPosition(pos, 100);
+        while (opt.isPresent()) {
+            pos = opt.get();
+            opt = map.getNextPosition(pos, ITERATION_MOVEMENT);
         }
-        Assertions.assertTrue(100 > pos.getY());
-        Assertions.assertTrue(0 <= pos.getY());
+        Assertions.assertTrue(pos.getY() < ITERATION_MOVEMENT);
+        Assertions.assertTrue(pos.getY() >= 0);
     }
 }

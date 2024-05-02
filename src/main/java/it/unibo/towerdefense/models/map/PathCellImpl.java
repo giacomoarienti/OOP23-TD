@@ -2,6 +2,7 @@ package it.unibo.towerdefense.models.map;
 
 import org.json.JSONObject;
 
+import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.models.engine.Position;
 
 /**
@@ -38,6 +39,15 @@ public class PathCellImpl extends CellAbs implements PathCell {
     @Override
     public Direction getOutDirection() {
         return out;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LogicalPosition inSideMidpoint() {
+        return new LogicalPosition(getCenter().getX() * Math.abs(getInDirection().vertical()),
+            getCenter().getY() * Math.abs(getInDirection().orizontal()));
     }
 
     /**

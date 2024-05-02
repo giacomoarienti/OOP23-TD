@@ -23,12 +23,12 @@ public class PathFactory {
         private final Function<Position, Integer> coord;
         private int value;
 
-        Limit(final Function<Position, Integer> coord, final BiPredicate<Integer, Integer> p) {
-            predicate = p;
+        Limit(final Function<Position, Integer> coord, final BiPredicate<Integer, Integer> predicate) {
+            this.predicate = predicate;
             this.coord = coord;
         }
 
-        public boolean update(Position pos) {
+        public boolean update(final Position pos) {
             if (predicate.test(coord.apply(pos), value)) {
                 value = coord.apply(pos);
                 return true;
@@ -40,7 +40,7 @@ public class PathFactory {
             return value;
         }
 
-        public void set(int value) {
+        public void set(final int value) {
             this.value = value;
         }
     }

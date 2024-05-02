@@ -26,7 +26,7 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
      * @return the x of the corresponding cell.
      */
     public int getCellX() {
-        return getX() / SCALING_FACTOR;
+        return getCellCoord(getX());
     }
 
     /**
@@ -35,7 +35,7 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
      * @return the y of the corresponding cell.
      */
     public int getCellY() {
-        return getY() / SCALING_FACTOR;
+        return getCellCoord(getY());
     }
 
     /**
@@ -64,4 +64,10 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
         return new LogicalPosition(result.getX(), result.getY());
     }
 
+    private static int getCellCoord(final int posCoord) {
+        if (posCoord < 0) {
+            return (posCoord + 1) / SCALING_FACTOR - 1;
+        }
+        return posCoord / SCALING_FACTOR;
+    }
 }
