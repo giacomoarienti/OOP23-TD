@@ -8,7 +8,7 @@ public final class DefenseFormulas {
      * @param tower the defense used for the formula.
      * the formula is towerLevel +1.
     */
-    final static int WIZARD_TOWER_TARGET_FORMULA(Defense tower) {
+    public static int WIZARD_TOWER_TARGET_FORMULA(Defense tower) {
         return tower.getLevel() + 1;
     }
 
@@ -16,7 +16,7 @@ public final class DefenseFormulas {
      * @param tower the defense used for the formula.
      * the formula is range/2 -1 + level.
     */
-    final static int BOMB_TOWER_DAMAGEAREA_FORMULA(Defense tower) {
+    public static int BOMB_TOWER_DAMAGEAREA_FORMULA(Defense tower) {
         return tower.getRange()/2 + tower.getLevel() -1;
     }
 }

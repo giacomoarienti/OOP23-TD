@@ -2,6 +2,7 @@ package it.unibo.towerdefense.models.defenses;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.defenses.DefenseType;
+import it.unibo.towerdefense.models.defenses.costants.DefenseFormulas;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapKeys;
 import it.unibo.towerdefense.utils.file.FileUtils;
 
@@ -78,7 +79,8 @@ public class DefenseFactoryImpl implements DefenseFactory {
     @Override
     public Defense bomberTowerFromSaveFile(String fileName) throws IOException {
         Defense result = new DefenseImpl(fileName);
-        result.setStrategy(strategyFactory.closestTargetWithAreaDamage(0, result.getRange(), result.getPosition()));
+        result.setStrategy(strategyFactory.closestTargetWithAreaDamage(DefenseFormulas.BOMB_TOWER_DAMAGEAREA_FORMULA(result),
+         result.getRange(), result.getPosition()));
         return result;
     }
 
@@ -90,7 +92,8 @@ public class DefenseFactoryImpl implements DefenseFactory {
     LogicalPosition buildPosition) throws IOException {
         Defense result = new DefenseImpl(fileName);
         result.setPosition(buildPosition);
-        result.setStrategy(strategyFactory.closestTargetWithAreaDamage(0, result.getRange(), result.getPosition()));
+        result.setStrategy(strategyFactory.closestTargetWithAreaDamage(DefenseFormulas.BOMB_TOWER_DAMAGEAREA_FORMULA(result),
+        result.getRange(), result.getPosition()));
         if (upgradesFileName.isPresent()) {
             result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.BOMBTOWER, result.getLevel()));
         }
@@ -103,7 +106,8 @@ public class DefenseFactoryImpl implements DefenseFactory {
     @Override
     public Defense wizardTowerToSaveFile(String fileName) throws IOException {
         Defense result = new DefenseImpl(fileName);
-        result.setStrategy(strategyFactory.closestTargets(result.getLevel()+1, result.getRange(), result.getPosition()));
+        result.setStrategy(strategyFactory.closestTargets(DefenseFormulas.WIZARD_TOWER_TARGET_FORMULA(result),
+         result.getRange(), result.getPosition()));
         return result;
     }
 
@@ -114,7 +118,8 @@ public class DefenseFactoryImpl implements DefenseFactory {
     public Defense newWizardTower(String fileName, Optional<String> upgradesFileName,
     LogicalPosition buildPosition) throws IOException {
         Defense result = new DefenseImpl(fileName);
-        result.setStrategy(strategyFactory.closestTargets(result.getLevel()+1, result.getRange(), result.getPosition()));
+        result.setStrategy(strategyFactory.closestTargets(DefenseFormulas.WIZARD_TOWER_TARGET_FORMULA(result),
+         result.getRange(), result.getPosition()));
         if (upgradesFileName.isPresent()) {
             result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), DefenseType.WIZARDTOWER, result.getLevel()));
         }
