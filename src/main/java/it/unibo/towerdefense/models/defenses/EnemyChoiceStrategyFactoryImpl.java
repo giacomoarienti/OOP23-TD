@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.towerdefense.commons.LogicalPosition;
@@ -22,11 +23,12 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
      * @param mapValidTargets maps wich valid targets are going to be hit.
      * @param mapDamage maps the filtered entities for damage based on a passed integer.
      * @param basePosition the position used for checking validity of targets
+     * @param customPos saved if the strategies uses additional positions for calculations.
      */
     private EnemyChoiceStrategy genericModel(final BiPredicate<LogicalPosition, LogicalPosition> isTargetValid,
     final Function<Map<Integer, Pair<LogicalPosition, Integer>>, Map<Integer, Pair<LogicalPosition, Integer>>> mapValidTargets,
     final BiFunction<Integer, Map<Integer, Pair<LogicalPosition, Integer>>, Map<Integer, Integer>> mapDamage,
-    final LogicalPosition basePosition) {
+    final LogicalPosition basePosition, final Optional<LogicalPosition> customPos) {
         return new EnemyChoiceStrategy() {
             /**
              * {@inheritDoc}
@@ -41,7 +43,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
                 /*map entities to list index.*/
                 Map<Integer, Pair<LogicalPosition, Integer>> mappedAvailableTargets = IntStream.range(0, availableTargets.size())
                         .boxed()
-                        .collect(Collectors.toMap(i -> i, i -> availableTargets.get(i))); 
+                        .collect(Collectors.toMap(i -> i, i -> availableTargets.get(i)));
                     /**get valid targets */
                 Map<Integer, Pair<LogicalPosition, Integer>> validTargets = mappedAvailableTargets.entrySet()
                         .stream()
@@ -50,6 +52,13 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
                     /**get targets that are going to be hit and return mapped damage. */
                 Map<Integer, Pair<LogicalPosition, Integer>> finalTargets = mapValidTargets.apply(validTargets);
                 return mapDamage.apply(baseDamage, finalTargets);
+            }
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public Optional<LogicalPosition> getCustomPosition() {
+                return customPos;
             }
         };
     }
@@ -84,7 +93,8 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
             (damage, map) -> map.entrySet()
             .stream()
             .collect(Collectors.toMap(m -> m.getKey(), m -> damage)),
-            position
+            position,
+            Optional.empty()
         );
     }
 
@@ -102,7 +112,8 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
         (damage, map) -> map.entrySet()
         .stream()
         .collect(Collectors.toMap(m -> m.getKey(), m -> damage)),
-        position);
+        position,
+        Optional.empty());
     }
 
     /**
@@ -118,6 +129,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
         (damage, map) -> map.entrySet()
         .stream()
         .collect(Collectors.toMap(m -> m.getKey(), m -> damage)),
-        position);
+        position,
+        Optional.of(customPoint));
     }
 }
