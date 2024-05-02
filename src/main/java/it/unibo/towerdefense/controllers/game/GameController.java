@@ -48,6 +48,13 @@ public interface GameController extends Controller {
     void addMoney(int amount);
 
     /**
+     * Decrease the player's money by amount .
+     * @param amount quantity of money to be decreased
+     * @return true if the operation was successful
+     */
+    boolean purchase(int amount);
+
+    /**
      * Get lives of the player.
      * @return the amount of lives
      */
