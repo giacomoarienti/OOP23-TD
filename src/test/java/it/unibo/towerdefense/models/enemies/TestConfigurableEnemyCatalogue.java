@@ -65,7 +65,8 @@ public class TestConfigurableEnemyCatalogue {
         void testGetEnemyTypes2() {
             List<Predicate<EnemyType>> tests = List.of(
                 et -> et.level() == EnemyLevel.I && et.type() == EnemyArchetype.A,
-                et -> et.level() == EnemyLevel.I && et.type() == EnemyArchetype.B
+                et -> et.level() == EnemyLevel.I && et.type() == EnemyArchetype.B,
+                et -> (et.level() == EnemyLevel.II && et.type() == EnemyArchetype.B) || (et.level() == EnemyLevel.III && et.type() == EnemyArchetype.C)
             );
 
             tests.forEach(

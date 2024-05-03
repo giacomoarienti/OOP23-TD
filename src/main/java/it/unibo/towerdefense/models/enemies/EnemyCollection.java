@@ -3,12 +3,13 @@ package it.unibo.towerdefense.models.enemies;
 import java.util.List;
 import java.util.Set;
 
+import it.unibo.towerdefense.commons.Observer;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 
 /**
  * Class responsible for maintaining all the Enemy currently alive.
  */
-public interface EnemyCollection {
+public interface EnemyCollection extends Observer<Enemy> {
 
     /**
      * Moves the enemies.
@@ -27,7 +28,8 @@ public interface EnemyCollection {
      *
      * @param e the dead enemy
      */
-    void signalDeath(Enemy e);
+    @Override
+    void notify(Enemy e);
 
     /**
      * Gets the enemies.

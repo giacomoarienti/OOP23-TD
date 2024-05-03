@@ -1,16 +1,19 @@
 package it.unibo.towerdefense.models.enemies;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.Observer;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 import it.unibo.towerdefense.controllers.enemies.EnemyType;
 
 /**
  * {@inheritDoc}
  */
-public class SimpleEnemySpawner implements EnemySpawner{
+public class SimpleEnemyFactory implements EnemyFactory{
 
     private final LogicalPosition startingPos;
-    private final EnemyCollection enemies;
 
     /**
      * Constructor for the class.
@@ -18,16 +21,15 @@ public class SimpleEnemySpawner implements EnemySpawner{
      * @param startingPos the starting position for all enemies produced by the factory
      * @param enemies the class which holds information about the enemies
      */
-    SimpleEnemySpawner(final LogicalPosition startingPos, final EnemyCollection enemies){
+    SimpleEnemyFactory(final LogicalPosition startingPos){
         this.startingPos = startingPos;
-        this.enemies = enemies;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void spawn(RichEnemyType t){
-        enemies.add(new MinimalEnemy(t));
+    public Enemy spawn(RichEnemyType t){
+        return new MinimalEnemy(t);
     }
 
     /**
@@ -39,8 +41,9 @@ public class SimpleEnemySpawner implements EnemySpawner{
     private class MinimalEnemy implements Enemy{
 
         private record MinimalEnemyInfo(LogicalPosition pos, Integer hp, EnemyType type) implements EnemyInfo{};
-        private final RichEnemyType t;
         private final LogicalPosition pos = startingPos.clone();
+        private final Set<Observer<Enemy>> deathObservers;
+        private final RichEnemyType t;
         private int hp;
 
         /**
@@ -49,6 +52,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
          * @param t the type of the Enemy from which to retrieve hp and speed
          */
         MinimalEnemy(RichEnemyType t){
+            deathObservers = new HashSet<>();
             this.t = t;
             this.hp = t.getMaxHP();
         }
@@ -62,7 +66,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
                 throw new IllegalArgumentException("Tried to hurt an enemy by " + String.valueOf(amount));
             }else{
                 if ((hp-=amount) < 0) {
-                    enemies.signalDeath(this);
+                    die();
                 }
             }
         }
@@ -79,16 +83,8 @@ public class SimpleEnemySpawner implements EnemySpawner{
          * {@inheritDoc}
          */
         @Override
-        public void move(final int x, final int y) {
-            pos.set(x, y);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void move(final LogicalPosition pos) {
-            this.move(pos.getX(), pos.getY());
+        public void move(final LogicalPosition newPos) {
+            pos.set(newPos.getX(), newPos.getY());
         }
 
         /**
@@ -115,9 +111,28 @@ public class SimpleEnemySpawner implements EnemySpawner{
             return t.getSpeed();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getValue() {
             return t.getValue();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void addDeathObserver(Observer<Enemy> observer) {
+            deathObservers.add(observer);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void die() {
+            deathObservers.forEach( o -> o.notify(this));
         }
     }
 }

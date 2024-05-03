@@ -21,7 +21,7 @@ public class EnemiesImpl implements Enemies {
     private final static String WAVECONF = "waves.config";
     private final static String TYPESCONF = "types.json";
     private final EnemyCollection enemies;
-    private final EnemySpawner spawner;
+    private final EnemyFactory factory;
     private final Function<Integer, Wave> waveSupplier;
     private final GameController gc;
     private Optional<Wave> current = Optional.empty();
@@ -36,7 +36,7 @@ public class EnemiesImpl implements Enemies {
      */
     public EnemiesImpl(final MapController map, final GameController gc) {
         this.enemies = new EnemyCollectionImpl(gc, map);
-        this.spawner = new SimpleEnemySpawner(map.getSpawnPosition(), enemies);
+        this.factory = new SimpleEnemyFactory(map.getSpawnPosition());
         this.waveSupplier = new PredicateBasedRandomWaveGenerator(new WavePolicySupplierImpl(ROOT + WAVECONF),
                 new ConfigurableEnemyCatalogue(ROOT + TYPESCONF));
         this.gc = gc;
@@ -50,7 +50,7 @@ public class EnemiesImpl implements Enemies {
         enemies.move();
         if (current.isPresent()) {
             if (current.get().hasNext()) {
-                current.get().next().ifPresent(et -> spawner.spawn(et));
+                current.get().next().ifPresent(et -> enemies.add(factory.spawn(et)));
             } else {
                 current = Optional.empty();
             }

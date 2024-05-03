@@ -37,21 +37,21 @@ public class EnemyCollectionImpl implements EnemyCollection {
      */
     @Override
     public void move() {
-        for(Enemy e: enemies){
+        for (Enemy e : enemies) {
             Optional<LogicalPosition> next = map.getNextPosition(e.getPosition(), e.getSpeed());
-            if(next.isEmpty()){
-                this.signalDeath(e);
-            }else{
+            if (next.isEmpty()) {
+                e.die();
+            } else {
                 e.move(next.get());
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * Method called by the dying enemies to notify the collection of their death.
      */
     @Override
-    public void signalDeath(final Enemy which) {
+    public void notify(final Enemy which) {
         enemies.remove(which);
         gc.addMoney(which.getValue());
     }
@@ -78,13 +78,14 @@ public class EnemyCollectionImpl implements EnemyCollection {
     @Override
     public void add(Enemy e) {
         enemies.add(e);
+        e.addDeathObserver(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean areDead(){
+    public boolean areDead() {
         return enemies.isEmpty();
     }
 

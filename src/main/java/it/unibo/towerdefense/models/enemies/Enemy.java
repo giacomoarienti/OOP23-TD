@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.models.enemies;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.Observer;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 
 /**
@@ -25,12 +26,11 @@ public interface Enemy {
     void move(final LogicalPosition pos);
 
     /**
-     * Moves the enemy to the desired position.
+     * Kills the enemy.
      *
-     * @param x x
-     * @param y y
+     * Performs all the associated tasks and notifies all observers.
      */
-    void move(int x, int y);
+    void die();
 
     /**
      * Returns the HP.
@@ -53,7 +53,6 @@ public interface Enemy {
      */
     int getValue();
 
-
     /**
      * Returns the enemy's EnemyPosition.
      *
@@ -67,5 +66,11 @@ public interface Enemy {
      * @return the enemy's EnemyInfo.
      */
     EnemyInfo info();
+
+    /**
+     * Adds the given Observer to those
+     * that will be notified on the enemy's death.
+     */
+    void addDeathObserver(Observer<Enemy> observer);
 
 }
