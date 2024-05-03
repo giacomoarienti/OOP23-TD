@@ -135,7 +135,9 @@ public class DefenseFactoryImpl implements DefenseFactory {
     @Override
     public void upgrade(Defense current,int upgradeIndex, Optional<String> upgradesFileName) throws IOException {
         Optional<LogicalPosition> optionalCustomPos = current.getStrategy().getCustomPosition();
+        LogicalPosition defPosition = current.getPosition();
         current = current.getPossibleUpgrades().stream().toList().get(upgradeIndex);
+        current.setPosition(defPosition);
         setStrategyFor(current, optionalCustomPos);
         if(upgradesFileName.isPresent()) {
             current.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), current.getType(), current.getLevel()));
