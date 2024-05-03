@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.models.enemies;
 
-import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -12,7 +12,7 @@ public interface EnemyCatalogue {
      *
      * @return a list of all EnemyTypes in the game
      */
-    public List<RichEnemyType> getEnemyTypes();
+    public Set<RichEnemyType> getEnemyTypes();
 
     /**
      * Returns a list of all EnemyTypes in the game for which the predicate tests
@@ -21,5 +21,5 @@ public interface EnemyCatalogue {
      * @return a list of all EnemyTypes in the game for which the predicate tests
      *         true
      */
-    public List<RichEnemyType> getEnemyTypes(Predicate<? super RichEnemyType> test);
+    public Set<RichEnemyType> getEnemyTypes(Predicate<? super RichEnemyType> test);
 }

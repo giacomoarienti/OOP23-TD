@@ -75,8 +75,8 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
                                 });
                     });
             return Triple.of(p, l, r);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load waves configuration from " + configFile, e);
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to load waves configuration from " + configFile, t);
         }
     }
 

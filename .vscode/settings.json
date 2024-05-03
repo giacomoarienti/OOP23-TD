@@ -8,5 +8,6 @@
         "unibo"
     ],
     "files.eol": "\n",
-    "cSpell.enabled": true
+    "cSpell.enabled": true,
+    "java.debug.settings.onBuildFailureProceed": true
 }

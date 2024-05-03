@@ -4,10 +4,11 @@ import java.io.InputStream;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Set;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
     private final int valueFactor; //scaling factor to adjust value from powerlevel
     private final Map<EnemyArchetype, Integer> rateos; //speed = hp * rateo/100
     private final Map<EnemyLevel, Integer> powerlevels; //powerlevel = speed * hp
-    private final List<RichEnemyType> availableTypes;
+    private final Set<RichEnemyType> availableTypes;
 
     /**
      * Constructor for the class.
@@ -40,7 +41,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
         this.powerlevels = configValues.getRight();
         availableTypes = Arrays.stream(EnemyLevel.values())
                 .flatMap(l -> Arrays.stream(EnemyArchetype.values()).map(t -> build(l, t)))
-                .toList();
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -68,7 +69,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
                         JSONObject level = (JSONObject) o;
                         r.put(EnemyArchetype.valueOf(level.getString("archetype")), level.getInt("rateo"));
                     });
-            assert r.keySet().containsAll(List.of(EnemyArchetype.values()));
+            assert r.keySet().containsAll(Set.of(EnemyArchetype.values()));
 
             config.getJSONArray("levels").forEach(
                     (Object o) -> {
@@ -76,11 +77,11 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
                         JSONObject level = (JSONObject) o;
                         pl.put(EnemyLevel.valueOf(level.getString("level")), level.getInt("powerlevel"));
                     });
-            assert pl.keySet().containsAll(List.of(EnemyLevel.values()));
+            assert pl.keySet().containsAll(Set.of(EnemyLevel.values()));
 
             return Triple.of(vf, r, pl);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load enemy types configuration from " + configFile, e);
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to load enemy types configuration from " + configFile, t);
         }
     }
 
@@ -88,7 +89,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      * {@inheritDoc}
      */
     @Override
-    public List<RichEnemyType> getEnemyTypes() {
+    public Set<RichEnemyType> getEnemyTypes() {
         return getEnemyTypes(et -> true);
     }
 
@@ -96,8 +97,8 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      * {@inheritDoc}
      */
     @Override
-    public List<RichEnemyType> getEnemyTypes(Predicate<? super RichEnemyType> test) {
-        return availableTypes.stream().filter(test).toList();
+    public Set<RichEnemyType> getEnemyTypes(Predicate<? super RichEnemyType> test) {
+        return availableTypes.stream().filter(test).collect(Collectors.toUnmodifiableSet());
     }
 
     /**
