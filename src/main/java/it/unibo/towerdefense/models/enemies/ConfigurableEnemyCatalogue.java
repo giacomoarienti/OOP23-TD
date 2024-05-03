@@ -2,6 +2,7 @@ package it.unibo.towerdefense.models.enemies;
 
 import com.google.common.math.IntMath;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONObject;
 
 import java.io.InputStream;
@@ -25,30 +26,37 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue{
      * Constructor for the class.
      */
     ConfigurableEnemyCatalogue(final String configFile){
-        rateos = new HashMap<>();
-        powerlevels = new HashMap<>();
+        Pair<Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> configValues = loadConfig(configFile);
+        this.rateos = configValues.getLeft();
+        this.powerlevels = configValues.getRight();
+        availableTypes = Arrays.stream(EnemyLevel.values())
+                                .flatMap( l -> Arrays.stream(EnemyArchetype.values()).map( t -> build(l, t)) )
+                                .toList();
+    }
+
+    private Pair<Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> loadConfig(final String configFile) {
+        Map<EnemyArchetype, Integer> r = new HashMap<>();
+        Map<EnemyLevel, Integer> pl = new HashMap<>();
         try(InputStream configStream = ClassLoader.getSystemResourceAsStream(configFile)){
             JSONObject config = new JSONObject(new String(configStream.readAllBytes()));
             config.getJSONArray("levels").forEach(
                 (Object o) -> {
                     assert o instanceof JSONObject;
                     JSONObject level = (JSONObject)o;
-                    powerlevels.put(EnemyLevel.valueOf(level.getString("level")), level.getInt("powerlevel"));
+                    pl.put(EnemyLevel.valueOf(level.getString("level")), level.getInt("powerlevel"));
                 }
             );
             config.getJSONArray("archetypes").forEach(
                 (Object o) -> {
                     assert o instanceof JSONObject;
                     JSONObject level = (JSONObject)o;
-                    rateos.put(EnemyArchetype.valueOf(level.getString("archetype")), level.getInt("rateo"));
+                    r.put(EnemyArchetype.valueOf(level.getString("archetype")), level.getInt("rateo"));
                 }
             );
         }catch(Exception e){
             throw new RuntimeException("Failed to load enemy types configuration from " + configFile, e);
         }
-        availableTypes = Arrays.stream(EnemyLevel.values())
-                                .flatMap( l -> Arrays.stream(EnemyArchetype.values()).map( t -> build(l, t)) )
-                                .toList();
+        return Pair.of(r,pl);
     }
 
     public List<RichEnemyType> getEnemyTypes(){

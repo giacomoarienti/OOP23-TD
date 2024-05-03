@@ -10,8 +10,9 @@ import it.unibo.towerdefense.controllers.map.MapController;
 
 public class EnemiesImpl implements Enemies {
 
-    private final String waveConfigFile = "it/unibo/towerdefense/models/enemies/waves.config";
-    private final String typesConfigFile = "it/unibo/towerdefense/models/enemies/types.json";
+    private final static String ROOT = "it/unibo/towerdefense/models/enemies/";
+    private final static String WAVECONF = "waves.config";
+    private final static String TYPESCONF = "types.json";
     private final EnemyCollection enemies;
     private final EnemySpawner spawner;
     private final WaveSupplier supplier;
@@ -21,7 +22,7 @@ public class EnemiesImpl implements Enemies {
     public EnemiesImpl(final MapController map, final GameController gc){
         this.enemies = new EnemyCollectionImpl(map);
         this.spawner = new SimpleEnemySpawner(map.getSpawnPosition(), enemies);
-        this.supplier = new PredicateBasedRandomWaveGenerator(new WavePolicySupplierImpl(waveConfigFile), new ConfigurableEnemyCatalogue(typesConfigFile));
+        this.supplier = new PredicateBasedRandomWaveGenerator(new WavePolicySupplierImpl(ROOT+WAVECONF), new ConfigurableEnemyCatalogue(ROOT+TYPESCONF));
         this.gc = gc;
     }
 
