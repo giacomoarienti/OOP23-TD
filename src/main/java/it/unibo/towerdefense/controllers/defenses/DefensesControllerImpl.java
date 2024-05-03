@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
@@ -13,7 +14,7 @@ import it.unibo.towerdefense.models.defenses.Defense;
 import it.unibo.towerdefense.models.defenses.DefenseFactory;
 import it.unibo.towerdefense.models.defenses.DefenseFactoryImpl;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapFilePaths;
-import it.unibo.towerdefense.views.defenses.defenseDescription;
+import it.unibo.towerdefense.views.defenses.DefenseDescription;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 public class DefensesControllerImpl implements DefensesController {
@@ -28,10 +29,10 @@ public class DefensesControllerImpl implements DefensesController {
     /**finds a defense based on its position.
      * @return a defense id there is something on given position,a empty Optional otherwise.
     */
-    private Optional<Defense> find(LogicalPosition pos) {
-        for (Pair<Defense,Integer> pair : defenses) {
-            if (pair.getKey().getPosition() == pos) {
-                return Optional.of(pair.getKey());
+    private Optional<Pair<Integer,Defense>> find(LogicalPosition pos) {
+        for (int i =0;i <defenses.size(); i++) {
+            if (defenses.get(i).getKey().getPosition() == pos) {
+                return Optional.of(new ImmutablePair<>(i, defenses.get(i).getKey()));
             }
         }
         return Optional.empty();
@@ -42,8 +43,8 @@ public class DefensesControllerImpl implements DefensesController {
      * @return the defenseDescription of
      * @param def
      */
-    private defenseDescription getDescriptionFrom(Defense def) {
-        return new defenseDescription(def.getType().toString() + " lv. "+def.getLevel(),
+    private DefenseDescription getDescriptionFrom(Defense def) {
+        return new DefenseDescription(def.getType().toString() + " lv. "+def.getLevel(),
          def.getType().toString(),
          def.getBuildingCost());
     }
@@ -54,7 +55,7 @@ public class DefensesControllerImpl implements DefensesController {
      * @param buildPosition the current model to check.
     */
     private List<Defense> getModelsOfBuildables(LogicalPosition buildPosition) throws IOException {
-        Optional<Defense> currentDef = find(buildPosition);
+        Optional<Pair<Integer, Defense>> currentDef = find(buildPosition);
         if ( currentDef.isEmpty()) {
             return List.of(
                 factory.levelOneDefense(DefenseMapFilePaths.ARCHER_TOWER_LV1, buildPosition, Optional.empty()),
@@ -64,7 +65,7 @@ public class DefensesControllerImpl implements DefensesController {
                 buildPosition, endOfMap, Optional.empty())
             );
         }
-        return currentDef.get().getPossibleUpgrades().stream().toList();
+        return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
     }
 
     @Override
@@ -80,19 +81,28 @@ public class DefensesControllerImpl implements DefensesController {
     }
 
     @Override
-    public void buildDefense(int choice, LogicalPosition position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buildDefense'");
+    public void buildDefense(int choice, LogicalPosition position) throws IOException {
+        List<Defense> buildables = getModelsOfBuildables(position);
+        Optional<Pair<Integer, Defense>> upgradable = find(position);
+
+        if(upgradable.isEmpty()) {
+            defenses.add(new ImmutablePair<>(buildables.get(choice),0));
+        }
+        else {
+            defenses.set(upgradable.get().getKey(), new ImmutablePair<>(buildables.get(choice),0));
+        }
     }
 
     @Override
     public int disassembleDefense(LogicalPosition position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'disassembleDefense'");
+        Optional<Pair<Integer, Defense>> toDelete = find(position);
+        int returnValue = toDelete.get().getValue().getSellingValue();
+        defenses.remove(toDelete.get().getKey());
+        return returnValue;
     }
 
     @Override
-    public Map<Integer, defenseDescription> getBuildables(LogicalPosition position) {
+    public Map<Integer, DefenseDescription> getBuildables(LogicalPosition position) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'disassembleDefense'");
     }
@@ -102,5 +112,4 @@ public class DefensesControllerImpl implements DefensesController {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'attackEnemies'");
     }
-    
 }

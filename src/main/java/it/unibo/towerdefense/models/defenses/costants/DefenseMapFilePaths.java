@@ -20,6 +20,12 @@ public final class DefenseMapFilePaths {
     /**upgraded versions of bomb tower file paths.*/
     public static final String WIZARD_TOWER_UPGRADES =
     "src/main/resources/defenses/upgrades/wizard_tower_upgr.json";
+    /**base bomb tower file path.*/
+    public static final String THUNDER_INVOKER_LV1 =
+    "src/main/resources/defenses/base_defenses/thunder_invoker_level1.json";
+    /**upgraded versions of bomb tower file paths.*/
+    public static final String THUNDER_INVOKER_UPGRADES =
+    "src/main/resources/defenses/upgrades/thunder_invoker__upgr.json";
 
     /**Private constructor.*/
     private DefenseMapFilePaths() {

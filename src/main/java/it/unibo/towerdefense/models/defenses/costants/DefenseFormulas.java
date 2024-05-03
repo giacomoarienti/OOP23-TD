@@ -19,4 +19,7 @@ public final class DefenseFormulas {
     public static int BOMB_TOWER_DAMAGEAREA_FORMULA(Defense tower) {
         return tower.getRange()/2 + tower.getLevel() -1;
     }
+
+    /**momentum is the mechanic that allows the game to understand if a defense is ready to attack */
+    public static final int MOMENTUM_REQUIRED = 20;
 }
