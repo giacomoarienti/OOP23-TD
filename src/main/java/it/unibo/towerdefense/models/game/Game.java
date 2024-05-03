@@ -6,6 +6,12 @@ package it.unibo.towerdefense.models.game;
 public interface Game {
 
     /**
+     * Player name getter.
+     * @return the player's name
+     */
+    String getPlayerName();
+
+    /**
      * Lives getter.
      * @return the amount of lives of the player
      */

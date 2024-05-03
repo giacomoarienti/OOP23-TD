@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions;
  */
 class TestGameImpl {
 
+    private static final String PLAYER_NAME = "TestPlayer";
     private static final int INVALID_MONEY_AMOUNT = -1;
     private static final int VALID_MONEY_AMOUNT = 10;
     private static final int INITIAL_WAVE = 1;
@@ -28,7 +29,7 @@ class TestGameImpl {
      */
     @BeforeEach
     void setUp() throws IOException {
-        this.game = new GameImpl();
+        this.game = new GameImpl(PLAYER_NAME);
     }
 
     /**
@@ -89,7 +90,8 @@ class TestGameImpl {
      */
     @Test
     void testConstructor() {
-        final var game = new GameImpl(INITIAL_LIVES, INITIAL_MONEY, INITIAL_WAVE);
+        final var game = new GameImpl(PLAYER_NAME, INITIAL_LIVES, INITIAL_MONEY, INITIAL_WAVE);
+        Assertions.assertEquals(PLAYER_NAME, game.getPlayerName());
         Assertions.assertEquals(INITIAL_MONEY, game.getMoney());
         Assertions.assertEquals(INITIAL_MONEY, game.getLives());
         Assertions.assertEquals(INITIAL_WAVE, game.getWave());

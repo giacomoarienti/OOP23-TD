@@ -85,7 +85,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
         // instantiate the game window
         final Window window = new WindowImpl(RESOLUTIONS.get(this.resolution));
         // instantiate the app controller and run it
-        final AppController appController = new AppControllerImpl(window);
+        final AppController appController = new AppControllerImpl(playerName, window);
         appController.run();
     }
 }

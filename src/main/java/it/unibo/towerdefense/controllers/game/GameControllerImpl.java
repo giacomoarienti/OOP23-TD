@@ -25,7 +25,12 @@ public class GameControllerImpl implements GameController {
         this.game = game;
         // instantiate the view and set the previous state
         this.view = new GameInfoViewImpl();
-        this.prevState = new GameDTOImpl(DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_VALUE);
+        this.prevState = new GameDTOImpl(
+            game.getPlayerName(),
+            DEFAULT_VALUE,
+            DEFAULT_VALUE,
+            DEFAULT_VALUE
+        );
     }
 
     /**
@@ -37,10 +42,11 @@ public class GameControllerImpl implements GameController {
     }
 
     /**
-     * Zero-argument constructor, creates a new game instance.
+     * Constructor with playerName, it initializes a new game with default values.
+     * @param playerName the player name
      */
-    public GameControllerImpl() {
-        this(new GameImpl());
+    public GameControllerImpl(final String playerName) {
+        this(new GameImpl(playerName));
     }
 
     /**
@@ -63,28 +69,16 @@ public class GameControllerImpl implements GameController {
      * {@inheritDoc}
      */
     @Override
-    public boolean save() {
-        // TODO pass the game, map and defenses to the SavingImpl constructor
-        /*// create saving instance
-        final SavingImpl saving = new SavingImpl();
-        // write saving
-        try {
-            final SavingLoader savingLoader = new SavingLoaderImpl();
-            savingLoader.writeSaving(saving);
-            return true;
-        } catch (final IOException e) {
-            logger.error("Error saving game", e);
-            return false;
-        }*/
-        return true;
+    public void advanceWave() {
+        this.game.advanceWave();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void advanceWave() {
-        this.game.advanceWave();
+    public String getPlayerName() {
+        return this.game.getPlayerName();
     }
 
     /**
@@ -165,6 +159,14 @@ public class GameControllerImpl implements GameController {
         this.view.setGameInfo(this.prevState);
         // build the view and render it
         renderer.renderInfo(this.view.build());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toJSON() {
+        return this.game.toDTO().toJSON();
     }
 
 }

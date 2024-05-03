@@ -1,12 +1,12 @@
 package it.unibo.towerdefense.controllers.game;
 
-import it.unibo.towerdefense.controllers.Controller;
+import it.unibo.towerdefense.controllers.SerializableController;
 import it.unibo.towerdefense.models.game.GameState;
 
 /**
  * Interface that defines GameController methods.
  */
-public interface GameController extends Controller {
+public interface GameController extends SerializableController {
 
     /**
      * Sets gameState to PLAYING.
@@ -19,15 +19,15 @@ public interface GameController extends Controller {
     void pause();
 
     /**
-     * Save the current game.
-     * @return true if the game was saved
-     */
-    boolean save();
-
-    /**
      * Increase wave number.
      */
     void advanceWave();
+
+    /**
+     * Gets the player's name.
+     * @return the player's name
+     */
+    String getPlayerName();
 
     /**
      * Gets the current wave number.
