@@ -58,23 +58,30 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
         Map<EnemyLevel, Integer> pl = new HashMap<>();
         try (InputStream configStream = ClassLoader.getSystemResourceAsStream(configFile)) {
             JSONObject config = new JSONObject(new String(configStream.readAllBytes()));
+
             vf = config.getInt("vf");
-            config.getJSONArray("levels").forEach(
-                    (Object o) -> {
-                        assert o instanceof JSONObject;
-                        JSONObject level = (JSONObject) o;
-                        pl.put(EnemyLevel.valueOf(level.getString("level")), level.getInt("powerlevel"));
-                    });
+            assert vf > 0;
+
             config.getJSONArray("archetypes").forEach(
                     (Object o) -> {
                         assert o instanceof JSONObject;
                         JSONObject level = (JSONObject) o;
                         r.put(EnemyArchetype.valueOf(level.getString("archetype")), level.getInt("rateo"));
                     });
+            assert r.keySet().containsAll(List.of(EnemyArchetype.values()));
+
+            config.getJSONArray("levels").forEach(
+                    (Object o) -> {
+                        assert o instanceof JSONObject;
+                        JSONObject level = (JSONObject) o;
+                        pl.put(EnemyLevel.valueOf(level.getString("level")), level.getInt("powerlevel"));
+                    });
+            assert pl.keySet().containsAll(List.of(EnemyLevel.values()));
+
+            return Triple.of(vf, r, pl);
         } catch (Exception e) {
             throw new RuntimeException("Failed to load enemy types configuration from " + configFile, e);
         }
-        return Triple.of(vf, r, pl);
     }
 
     /**
