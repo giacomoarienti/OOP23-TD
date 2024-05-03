@@ -5,13 +5,13 @@ package it.unibo.towerdefense.controllers.defenses;
  */
 public enum DefenseType {
     /**No tower is currently built. */
-    NOTOWER, 
+    NOTOWER,
     /**Archer tower. */
-    ARCHERTOWER, 
+    ARCHERTOWER,
     /**Wizard tower. */
-    WIZARDTOWER, 
+    WIZARDTOWER,
     /**Bomb tower. */
     BOMBTOWER,
-    /**Boomerang tower.*/
-    BOOMERANGTOWER
+    /**thunder invoker.*/
+    THUNDERINVOKER
 }

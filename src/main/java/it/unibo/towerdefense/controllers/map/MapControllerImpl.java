@@ -20,6 +20,7 @@ import it.unibo.towerdefense.models.map.Direction;
 import it.unibo.towerdefense.models.map.GameMap;
 import it.unibo.towerdefense.models.map.GameMapImpl;
 import it.unibo.towerdefense.models.map.PathCell;
+import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**
  * Class to interact with map methods.
@@ -39,7 +40,11 @@ public class MapControllerImpl implements MapController {
      * @param gameController the game controller.
      */
     public MapControllerImpl(final Size size, final DefensesController defensesController, final GameController gameController) {
-        this.map = new GameMapImpl(size);
+        try {
+            this.map = new GameMapImpl(size);
+        } catch (Exception e) {
+            throw e;
+        }
         this.gameController = gameController;
         this.defensesController = defensesController;
     }
@@ -50,7 +55,11 @@ public class MapControllerImpl implements MapController {
      * @param defensesController the defenses controller.
      * @param gameController the game controller.
      */
-    public MapControllerImpl(final String jsondata, final DefensesController defensesController, final GameController gameController) {
+    public MapControllerImpl(
+        final String jsondata,
+        final DefensesController defensesController,
+        final GameController gameController
+    ) {
         this.map = GameMapImpl.fromJson(jsondata);
         this.gameController = gameController;
         this.defensesController = defensesController;
@@ -66,14 +75,19 @@ public class MapControllerImpl implements MapController {
     }
 
     /**
-     * Returns the midpoint of in-direction's cell side.
      * {@inheritDoc}
      */
     @Override
     public LogicalPosition getSpawnPosition() {
-        var spawn = map.getSpawnCell();
-        return new LogicalPosition(spawn.getCenter().getX() * Math.abs(spawn.getInDirection().vertical()),
-            spawn.getCenter().getY() * Math.abs(spawn.getInDirection().orizontal()));
+        return map.getSpawnCell().inSideMidpoint();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LogicalPosition getEndPosition() {
+        return map.getEndCell().inSideMidpoint();
     }
 
     /**
@@ -105,6 +119,9 @@ public class MapControllerImpl implements MapController {
     @Override
     public Optional<LogicalPosition> getNextPosition(final LogicalPosition pos, final int distanceToMove) {
 
+        if (map.getEndCell().contains(pos)) {
+            return Optional.empty();
+        }
         Position cellPos = new PositionImpl(pos.getCellX(), pos.getCellY());
         Cell cell = map.getCellAt(cellPos);
         if (cell == null || !(cell instanceof PathCell)) {
@@ -117,27 +134,25 @@ public class MapControllerImpl implements MapController {
 
         for (int i = 2; i > 0; i--) {
 
-            int positionInCell = (pos.getX() * dir.orizontal() + pos.getY() * dir.vertical()) % LogicalPosition.SCALING_FACTOR;
+            int positionInCell = realModule(
+                pos.getX() * dir.orizontal() + pos.getY() * dir.vertical(),
+                LogicalPosition.SCALING_FACTOR / 2 * i
+            );
             int factor = LogicalPosition.SCALING_FACTOR / i;
 
-            if (positionInCell <= factor) {
+            if (positionInCell < factor) {
                 int distanceToTravel = factor - positionInCell;
                 if (remaningDistance < distanceToTravel) {
-                    return Optional.of(new LogicalPosition(
-                        tempPos.getX() + remaningDistance * dir.orizontal(),
-                        tempPos.getY() + remaningDistance * dir.vertical())
-                    );
+                    tempPos = addDistance(tempPos, dir, remaningDistance);
+                    if (map.getEndCell().contains(tempPos)) {
+                        return Optional.empty();
+                    }
+                    return Optional.of(tempPos);
                 }
                 remaningDistance -=  distanceToTravel;
-                tempPos = new LogicalPosition(
-                    tempPos.getX() + distanceToTravel * dir.orizontal(),
-                    tempPos.getY() + distanceToTravel * dir.vertical()
-                );
-                dir = pCell.getOutDirection();
+                tempPos = addDistance(tempPos, dir, distanceToTravel);
             }
-        }
-        if (map.getEndCell().contains(tempPos)) {
-            return Optional.empty();
+            dir = pCell.getOutDirection();
         }
         return getNextPosition(tempPos, remaningDistance);
     }
@@ -147,17 +162,19 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public void build(final int optionNumber) {
-        if (selected == null || options.isEmpty()) {
-            throw new IllegalStateException("Can't build!");
+        if (selected == null || options.isEmpty() || optionNumber > options.size() - 1) {
+            throw new IllegalStateException("ERROR, can't build!");
         }
-        defensesController.buildDefense(options.get(optionNumber).getKey(), selected.getCenter());
-    }
-
-    private  List<Map.Entry<DefenseType, Integer>> requestBuildinOption() {
-        if (selected == null) {
-            return List.of();
+        var choice = options.get(optionNumber);
+        if (choice.getKey() == DefenseType.NOTOWER) {
+            defensesController.disassembleDefense(selected.getCenter());
+            gameController.addMoney(choice.getValue());
+            return;
         }
-        return defensesController.getBuildables(selected.getCenter()).entrySet().stream().toList();
+        if (!gameController.purchase(choice.getValue())) {
+            throw new IllegalArgumentException("Not enought money!");
+        }
+        defensesController.buildDefense(choice.getKey(), selected.getCenter());
     }
 
     /**
@@ -177,4 +194,33 @@ public class MapControllerImpl implements MapController {
         return map.toJSON();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void render(final GameRenderer renderer) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'render'");
+    }
+
+    private  List<Map.Entry<DefenseType, Integer>> requestBuildinOption() {
+        if (selected == null) {
+            return List.of();
+        }
+        return defensesController.getBuildables(selected.getCenter()).entrySet().stream().toList();
+    }
+
+    /**
+     * Do module operation as it should work, also if operand are negatives.
+     * @param a dividend
+     * @param b divisor
+     * @return rest of integer division
+     */
+    private static int realModule(final int a, final int b) {
+        return (a % b + b) % b;
+    }
+
+    private static LogicalPosition addDistance(final LogicalPosition pos, final Direction dir, final int distance) {
+        return new LogicalPosition(pos.getX() + distance * dir.orizontal(), pos.getY() + distance * dir.vertical());
+    }
 }

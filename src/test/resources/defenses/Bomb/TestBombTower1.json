@@ -1,0 +1,22 @@
+{
+    "level" : 1,
+    "type" : "BOMBTOWER",
+    "damage" : 8,
+    "speed" : 5,
+    "range" : 10,
+    "buildingCost" : 25,
+    "sellingValue" : 11,
+    "position":"{\"x\":15,\"y\":15}",
+    "upgrades" : [
+        {
+            "level" : 2,
+            "type" : "BOMBTOWER",
+            "damage" : 20,
+            "speed" : 11,
+            "range" : 15,
+            "buildingCost" : 35,
+            "sellingValue" : 21,
+            "upgrades" : []
+        }
+    ]
+}

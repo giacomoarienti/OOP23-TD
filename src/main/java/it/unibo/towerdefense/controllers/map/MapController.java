@@ -6,12 +6,13 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.models.engine.Position;
 
 /**
  *Interface that models controller of map.
  */
-public interface MapController {
+public interface MapController extends Controller {
 
     /**
      *
@@ -23,6 +24,12 @@ public interface MapController {
      * @return the centre of side of path-cell where enemies spawn.
      */
     LogicalPosition getSpawnPosition();
+
+    /**
+     * Enemies destination point getter.
+     * @return the centre of side of path-cell where enemies are directed.
+     */
+    LogicalPosition getEndPosition();
 
     /**
      * Returns the position where a enemy have to move next update.
