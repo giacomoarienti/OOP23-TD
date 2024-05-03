@@ -1,10 +1,8 @@
 package it.unibo.towerdefense.models.enemies;
 
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
 import java.util.Set;
 
 import it.unibo.towerdefense.commons.LogicalPosition;

@@ -3,8 +3,8 @@ package it.unibo.towerdefense.models.enemies;
 import java.util.List;
 import java.util.Set;
 
-import it.unibo.towerdefense.commons.Observer;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
+import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
  * Class responsible for maintaining all the Enemy currently alive.

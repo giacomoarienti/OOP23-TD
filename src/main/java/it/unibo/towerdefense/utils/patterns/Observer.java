@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.commons;
+package it.unibo.towerdefense.utils.patterns;
 
 /**
  * An interface for a simple Observer pattern.

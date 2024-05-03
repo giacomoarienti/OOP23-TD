@@ -1,8 +1,8 @@
 package it.unibo.towerdefense.models.enemies;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.commons.Observer;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
+import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
  * The single Enemy.
