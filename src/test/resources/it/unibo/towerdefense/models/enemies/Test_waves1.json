@@ -1,0 +1,21 @@
+[
+    {
+        "wave" : 1,
+        "rate" : 5,
+        "types" : [
+            "IB",
+            "IC"
+        ]
+    },
+    {
+        "wave" : 3,
+        "length" : 15,
+        "types" : [
+            "IA"
+        ]
+    },
+    {
+        "wave" : 4,
+        "rate" : 3
+    }
+]

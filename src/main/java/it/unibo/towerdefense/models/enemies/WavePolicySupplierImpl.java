@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
+import it.unibo.towerdefense.controllers.enemies.EnemyType;
 
 /**
  * {@inheritDoc}
@@ -24,7 +25,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * This data is stored in separate maps so that different
      * criteria can be specified independently.
      */
-    private final SortedMap<Integer, Predicate<RichEnemyType>> predicates;
+    private final SortedMap<Integer, Predicate<EnemyType>> predicates;
     private final SortedMap<Integer, Integer> lengths;
     private final SortedMap<Integer, Integer> rates;
 
@@ -34,7 +35,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * @param configFile the file from which to read the configuration.
      */
     WavePolicySupplierImpl(final String configFile) {
-        Triple<SortedMap<Integer, Predicate<RichEnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> configValues = loadConfig(
+        Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> configValues = loadConfig(
                 configFile);
         this.predicates = configValues.getLeft();
         this.lengths = configValues.getMiddle();
@@ -51,9 +52,9 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      *         information stored
      *         in the file.
      */
-    Triple<SortedMap<Integer, Predicate<RichEnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> loadConfig(
+    Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> loadConfig(
             final String configFile) {
-        SortedMap<Integer, Predicate<RichEnemyType>> p = new TreeMap<>();
+        SortedMap<Integer, Predicate<EnemyType>> p = new TreeMap<>();
         SortedMap<Integer, Integer> l = new TreeMap<>();
         SortedMap<Integer, Integer> r = new TreeMap<>();
         try (InputStream configStream = ClassLoader.getSystemResourceAsStream(configFile)) {
@@ -74,6 +75,8 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
                                                     .toList()));
                                 });
                     });
+
+            assert p.containsKey(1) && l.containsKey(1) && r.containsKey(1);
             return Triple.of(p, l, r);
         } catch (Throwable t) {
             throw new RuntimeException("Failed to load waves configuration from " + configFile, t);
@@ -87,8 +90,8 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * @param list the list containing String representation of accepted types
      * @return the corresponding predicate
      */
-    private static Predicate<RichEnemyType> translate(List<String> list) {
-        Predicate<RichEnemyType> ret = et -> false;
+    private static Predicate<EnemyType> translate(List<String> list) {
+        Predicate<EnemyType> ret = et -> false;
         for (String type : list) {
             EnemyLevel l = EnemyLevel.valueOf(type.substring(0, type.length() - 1));
             EnemyArchetype t = EnemyArchetype.valueOf(type.substring(type.length() - 1));
@@ -102,7 +105,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * {@inheritDoc}
      */
     @Override
-    public Predicate<RichEnemyType> getPredicate(Integer wave) {
+    public Predicate<EnemyType> getPredicate(Integer wave) {
         return predicates.headMap(wave + 1).values().stream().reduce(et -> false, (p1, p2) -> p1.or(p2));
     }
 

@@ -2,6 +2,8 @@ package it.unibo.towerdefense.models.enemies;
 
 import java.util.function.Predicate;
 
+import it.unibo.towerdefense.controllers.enemies.EnemyType;
+
 /**
  * Determines how waves are formed (what type and how many enemies they contain
  * and their position in time).
@@ -13,7 +15,7 @@ public interface WavePolicySupplier {
      * @param wave the wave about which information is asked
      * @return the predicate
      */
-    Predicate<RichEnemyType> getPredicate(final Integer wave);
+    Predicate<EnemyType> getPredicate(final Integer wave);
 
     /**
      * Returns how many enemies the wave should contain.

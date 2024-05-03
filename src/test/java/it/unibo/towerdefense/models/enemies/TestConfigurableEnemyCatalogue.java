@@ -18,7 +18,7 @@ import it.unibo.towerdefense.controllers.enemies.EnemyType;
 
 public class TestConfigurableEnemyCatalogue {
 
-    private final static String FOLDER = "it/unibo/towerdefense/models/enemies/";
+    private final static String FOLDER = "it/unibo/towerdefense/models/enemies/Test_";
 
     @Test
     void testFileRead() {
@@ -27,6 +27,7 @@ public class TestConfigurableEnemyCatalogue {
         Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(FOLDER + "types2.json"));
         Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(FOLDER + "types3.json"));
         Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(FOLDER + "types4.json"));
+        Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(FOLDER + "nonexistent"));
     }
 
     @Nested
