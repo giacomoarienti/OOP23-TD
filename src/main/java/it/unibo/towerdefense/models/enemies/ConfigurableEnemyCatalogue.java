@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.tuple.Triple;
@@ -15,6 +16,7 @@ import com.google.common.math.IntMath;
 
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
+import it.unibo.towerdefense.controllers.enemies.EnemyType;
 
 /**
  * {@inheritDoc}
@@ -96,6 +98,16 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      */
     private record BasicEnemyType(EnemyLevel level, EnemyArchetype type, int getMaxHP, int getSpeed, int getValue)
             implements RichEnemyType {
+                @Override
+                public final boolean equals(Object o) {
+                    return o instanceof EnemyType &&
+                        ((EnemyType)o).level() == this.level() &&
+                        ((EnemyType)o).type() == this.type();
+                }
+                @Override
+                public final int hashCode() {
+                    return Objects.hash(this.level(), this.type());
+                }
     };
 
     /**
