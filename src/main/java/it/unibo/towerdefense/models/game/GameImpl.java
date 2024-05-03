@@ -13,15 +13,18 @@ public class GameImpl implements Game {
     private static final int PLAYING_GAME_SPEED = 1;
     private static final int PAUSE_GAME_SPEED = 0;
 
+    private final String playerName;
     private int lives;
     private int money;
     private int wave;
     private GameState gameState;
 
     /**
-     * Zero-argument constructor, set default values.
+     * Constructor with playerName, it initializes a new game with default values.
+     * @param playerName the player name
      */
-    public GameImpl() {
+    public GameImpl(final String playerName) {
+        this.playerName = playerName;
         this.lives = START_LIVES;
         this.money = START_MONEY;
         this.wave = START_WAVE;
@@ -29,12 +32,19 @@ public class GameImpl implements Game {
     }
 
     /**
-     * Constructors a GameImpl with the given lives, money and wave.
+     * Constructors a GameImpl with the given playerName, lives, money and wave.
+     * @param playerName the player name
      * @param lives the amount of lives
      * @param money the amount of money
      * @param wave the wave number
      */
-    public GameImpl(final int lives, final int money, final int wave) {
+    public GameImpl(
+        final String playerName,
+        final int lives,
+        final int money,
+        final int wave
+    ) {
+        this.playerName = playerName;
         this.lives = lives;
         this.money = money;
         this.wave = wave;
@@ -46,7 +56,20 @@ public class GameImpl implements Game {
      * @param gameDTO the GameDTO object
      */
     public GameImpl(final GameDTO gameDTO) {
-        this(gameDTO.getLives(), gameDTO.getMoney(), gameDTO.getWave());
+        this(
+            gameDTO.getPlayerName(),
+            gameDTO.getLives(),
+            gameDTO.getMoney(),
+            gameDTO.getWave()
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getPlayerName() {
+        return this.playerName;
     }
 
     /**
@@ -160,7 +183,7 @@ public class GameImpl implements Game {
      */
     @Override
     public GameDTO toDTO() {
-        return new GameDTOImpl(this.lives, this.money, this.wave);
+        return new GameDTOImpl(this.playerName, this.lives, this.money, this.wave);
     }
 
 
@@ -171,7 +194,8 @@ public class GameImpl implements Game {
     public boolean equals(final Object obj) {
         if (obj instanceof GameImpl) {
             final GameImpl gameObject = (GameImpl) obj;
-            return this.getLives() == gameObject.getLives()
+            return this.getPlayerName().equals(gameObject.getPlayerName())
+                && this.getLives() == gameObject.getLives()
                 && this.getMoney() == gameObject.getMoney()
                 && this.getWave() == gameObject.getWave()
                 && this.getGameState() == gameObject.getGameState();
@@ -184,6 +208,12 @@ public class GameImpl implements Game {
      */
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.lives, this.money, this.wave, this.gameState);
+        return Objects.hashCode(
+            this.playerName,
+            this.lives,
+            this.money,
+            this.wave,
+            this.gameState
+        );
     }
 }

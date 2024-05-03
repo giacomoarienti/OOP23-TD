@@ -27,6 +27,12 @@ public interface GameDTO extends JsonSerializable, Copyable<GameDTO> {
     int getWave();
 
     /**
+     * Getter for the playerName.
+     * @return the player's name
+     */
+    String getPlayerName();
+
+    /**
      * Returns the GameDTO object from JSON string.
      * @param jsonData the JSON representation
      * @return the GameDTO object
@@ -34,4 +40,5 @@ public interface GameDTO extends JsonSerializable, Copyable<GameDTO> {
     static GameDTO fromJson(final String jsonData) {
         return GameDTOImpl.fromJson(jsonData);
     }
+
 }

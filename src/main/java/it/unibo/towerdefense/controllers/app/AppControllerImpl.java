@@ -23,14 +23,16 @@ public class AppControllerImpl implements AppController {
 
     /**
      * Constructor with Window.
+     * @param playerName the player name
      * @param window the interface's window
      */
-    public AppControllerImpl(final Window window) {
+    public AppControllerImpl(final String playerName, final Window window) {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.window = window;
         // instantiate controller
         this.menuController = new MenuControllerImpl(this);
         this.loopController = new GameLoopControllerImpl(
+            playerName,
             new GameRendererImpl(window)
         );
     }
