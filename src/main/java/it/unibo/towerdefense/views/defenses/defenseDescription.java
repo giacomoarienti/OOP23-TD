@@ -1,8 +1,7 @@
 package it.unibo.towerdefense.views.defenses;
 
 /**Contains data that can be visualized in the build menu about defenses.*/
-public class defenseDescription {
-    
+public class DefenseDescription {
     /**Description of defense.*/
     private String description;
     /**name.*/
@@ -15,9 +14,30 @@ public class defenseDescription {
      * @param name
      * @param cost
     */
-    public defenseDescription(String description, String name, int cost) {
+    public DefenseDescription(String description, String name, int cost) {
         this.description = description;
         this.name = name;
         this.cost = cost;
+    }
+
+    /**getter for description.
+     * @return the description.
+    */
+    public String getDescription() {
+        return this.description;
+    }
+
+    /**getter for name.
+     * @return the name.
+    */
+    public String getName() {
+        return this.name;
+    }
+
+    /**getter for description.
+     * @return the description.
+    */
+    public int getCost() {
+        return this.cost;
     }
 }
