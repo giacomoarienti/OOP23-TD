@@ -1,9 +1,6 @@
 package it.unibo.towerdefense.models.savingloader.saving;
 
-import java.util.List;
-
 import it.unibo.towerdefense.models.JsonSerializable;
-import it.unibo.towerdefense.models.game.GameDTO;
 
 /**
  * Interface that models a game saving.
@@ -22,22 +19,22 @@ public interface Saving extends JsonSerializable {
     String getName();
 
     /**
-     * Returns the game dto.
-     * @return the game dto
+     * Returns the game json presentation.
+     * @return the game json string
      */
-    GameDTO getGame();
+    String getGameJson();
 
     /**
-     * Returns the game map.
-     * @return the game map
+     * Returns the game map json presentation.
+     * @return the game map json string
      */
-    Object getMap();
+    String getMapJson();
 
     /**
-     * Returns the list of game defenses.
-     * @return the list of game defenses
+     * Returns the list of game defenses json presentation.
+     * @return the list of game defenses json string
      */
-    List<Object> getDefenses();
+    String getDefensesJson();
 
     /**
      * Returns the saving object from JSON string.

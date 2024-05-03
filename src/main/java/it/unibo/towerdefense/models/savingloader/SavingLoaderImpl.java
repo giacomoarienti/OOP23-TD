@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,23 +31,26 @@ public class SavingLoaderImpl implements SavingLoader {
     private final String folderPath;
 
     /**
-     * Constructor with file path.
+     * Constructor with player's name and file path.
+     * @param playerName the name of the player
      * @param path the path of the folder containing the saved games
      * @throws IOException if the path cannot be created
      */
-    public SavingLoaderImpl(final String path) throws IOException {
+    public SavingLoaderImpl(final String playerName, final String path) throws IOException {
         this.logger = LoggerFactory.getLogger(this.getClass());
-        this.folderPath = path;
+        this.folderPath = path + File.separator + playerName;
         // create the SAVED_GAMES_FOLDER if it does not exist
         FileUtils.createFolder(this.folderPath);
     }
 
     /**
-     * Zero-argument constructor.
+     * Constructor with player's name.
+     * The path is set to the default savings.
+     * @param playerName the name of the player
      * @throws IOExceptions if the SAVED_GAMES_FOLDER cannot be created
      */
-    public SavingLoaderImpl() throws IOException {
-        this(SAVED_GAMES_FOLDER);
+    public SavingLoaderImpl(final String playerName) throws IOException {
+        this(playerName, SAVED_GAMES_FOLDER);
     }
 
     /**
@@ -60,9 +64,8 @@ public class SavingLoaderImpl implements SavingLoader {
             return paths
                 .filter(Files::isRegularFile)
                 .map(FileUtils::readFileOptional)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .filter((jsonData) -> !jsonData.isEmpty())
+                .flatMap(Optional::stream)
+                .filter(StringUtils::isNotEmpty)
                 .map(Saving::fromJson)
                 .toList();
         } catch (final IOException e) {
@@ -77,11 +80,10 @@ public class SavingLoaderImpl implements SavingLoader {
      */
     @Override
     public boolean writeSaving(final Saving saving) {
-        // convert the Game object to a JSON string
+        // convert the Saving object to a JSON string
         final String jsonData = saving.toJSON();
-        // create game name from current timestamp
-        final String gameName = "game_" + System.currentTimeMillis() + ".json";
-        final String filePath = folderPath + File.separator + gameName;
+        // construct the file name
+        final String filePath = this.folderPath + File.separator + saving.getName();
         // save the JSON string to file
         try {
             FileUtils.writeFile(filePath, jsonData);
