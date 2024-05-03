@@ -1,8 +1,12 @@
 package it.unibo.towerdefense.models.savingloader.saving;
 
-import org.json.JSONObject;
-import java.text.SimpleDateFormat;
+import java.util.Map;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.text.SimpleDateFormat;
+
+import org.json.JSONObject;
 
 /**
  * Class implementing the Saving interface.
@@ -10,54 +14,38 @@ import java.util.Date;
 public class SavingImpl implements Saving {
 
     private static final String EXTENSION = ".json";
-    private static final String GAME_FIELD = "game";
-    private static final String MAP_FIELD = "map";
-    private static final String DEFENSES_FIELD = "defenses";
     private static final String DATE_FIELD = "date";
+    private static final String DATE_FORMAT = "yyyy.MM.dd.HH.mm.ss";
 
     private final String date;
-    private final String game;
-    private final String map;
-    private final String defenses;
+    private final Map<SavingFieldsEnum, String> json;
 
     /**
-     * SavingImpl constructor from the json representation of game, map and defenses.
-     * @param game the game json representation
-     * @param map the map json representation
-     * @param defenses the defenses json representation
-     */
-    public SavingImpl(
-        final String game,
-        final String map,
-        final String defenses
-    ) {
-        this.game = game;
-        this.map = map;
-        this.defenses = defenses;
-        // set the saving name
-        this.date = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss")
-            .format(new Date());
-    }
-
-
-    /**
-     * SavingImpl constructor from its name and
-     * the json representation of game, map and defenses.
-     * @param name the saving name
-     * @param game the game json representation
-     * @param map the map json representation
-     * @param defenses the defenses json representation
+     * SavingImpl constructor from the json representation of objects
+     * defined in SavingFieldsEnum.
+     * @param date the date of the saving
+     * @param json the json representation of the saving
      */
     public SavingImpl(
         final String date,
-        final String game,
-        final String map,
-        final String defenses
+        final Map<SavingFieldsEnum, String> json
     ) {
         this.date = date;
-        this.game = game;
-        this.map = map;
-        this.defenses = defenses;
+        this.json = json;
+    }
+
+    /**
+     * SavingImpl constructor from the json representation of objects
+     * defined in SavingFieldsEnum.
+     * @param json the json representation of the saving
+     */
+    public SavingImpl(
+        final Map<SavingFieldsEnum, String> json
+    ) {
+        this(
+            new SimpleDateFormat(DATE_FORMAT).format(new Date()),
+            json
+        );
     }
 
     /**
@@ -73,7 +61,7 @@ public class SavingImpl implements Saving {
      */
     @Override
     public String getGameJson() {
-        return this.game;
+        return this.json.get(SavingFieldsEnum.GAME);
     }
 
     /**
@@ -81,7 +69,7 @@ public class SavingImpl implements Saving {
      */
     @Override
     public String getMapJson() {
-        return this.map;
+        return this.json.get(SavingFieldsEnum.MAP);
     }
 
     /**
@@ -89,7 +77,7 @@ public class SavingImpl implements Saving {
      */
     @Override
     public String getDefensesJson() {
-        return this.defenses;
+        return this.json.get(SavingFieldsEnum.DEFENSES);
     }
 
     /**
@@ -97,12 +85,14 @@ public class SavingImpl implements Saving {
      */
     @Override
     public String toJSON() {
-        return new JSONObject()
-            .put(DATE_FIELD, this.date)
-            .put(GAME_FIELD, new JSONObject(this.game))
-            .put(MAP_FIELD, new JSONObject(map))
-            .put(DEFENSES_FIELD, new JSONObject(this.defenses))
-            .toString();
+        final JSONObject obj = new JSONObject()
+            .put(DATE_FIELD, this.date);
+        // Add all the fields to the JSON object
+        List.of(SavingFieldsEnum.values())
+            .forEach(field ->
+                obj.put(field.toString(), this.json.get(field)
+            ));
+        return obj.toString();
     }
 
     /**
@@ -112,11 +102,19 @@ public class SavingImpl implements Saving {
      */
     public static Saving fromJson(final String jsonData) {
         final JSONObject jsonObject = new JSONObject(jsonData);
+        // create the map from the JSON object
+        final Map<SavingFieldsEnum, String> json = List.of(SavingFieldsEnum.values())
+            .stream()
+            .collect(
+                Collectors.toMap(
+                    field -> field,
+                    field -> jsonObject.getString(field.toString())
+                )
+            );
+        // return the saving object
         return new SavingImpl(
             jsonObject.getString(DATE_FIELD),
-            jsonObject.getString(GAME_FIELD),
-            jsonObject.getString(MAP_FIELD),
-            jsonObject.getString(DEFENSES_FIELD)
+            json
         );
     }
 }

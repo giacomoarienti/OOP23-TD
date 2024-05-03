@@ -1,6 +1,9 @@
 package it.unibo.towerdefense.controllers.game;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -11,6 +14,7 @@ import it.unibo.towerdefense.controllers.SerializableController;
 import it.unibo.towerdefense.models.game.GameLoop;
 import it.unibo.towerdefense.models.game.GameState;
 import it.unibo.towerdefense.models.savingloader.SavingLoaderImpl;
+import it.unibo.towerdefense.models.savingloader.saving.SavingFieldsEnum;
 import it.unibo.towerdefense.models.savingloader.saving.SavingImpl;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
 
@@ -23,8 +27,7 @@ public class GameLoopControllerImpl implements GameLoopController {
     private final GameRenderer gameRenderer;
     private final List<Controller> controllers;
     private final GameController gameController;
-    private final SerializableController mapController;
-    private final SerializableController defensesController;
+    private final Map<SavingFieldsEnum, SerializableController> serializableControllers;
     private boolean terminated;
 
     /**
@@ -37,14 +40,21 @@ public class GameLoopControllerImpl implements GameLoopController {
         this.logger = LoggerFactory.getLogger(this.getClass());
         // instantiate controllers
         this.gameController = new GameControllerImpl(playerName);
-        this.defensesController = null; //new DefensesControllerImpl(this.game);
-        this.mapController = null; //new MapControllerImpl(null, defensesController, gameController);
-        // final EnemyControllerImpl enemyController = new EnemyControllerImpl(mapController, gameController);
+        final SerializableController defensesController = null; //new DefensesControllerImpl(this.game);
+        final SerializableController mapController = null; //new MapControllerImpl(null, defensesController, gameController);
+        final Controller enemyController = null;// = new EnemyControllerImpl(mapController, gameController);
+        // save controllers
         this.controllers = List.of(
             // mapController,
             gameController//,
             // defensesController,
             // enemyController
+        );
+        // save serializable controllers
+        this.serializableControllers = Map.of(
+            SavingFieldsEnum.GAME, gameController,
+            SavingFieldsEnum.MAP, mapController,
+            SavingFieldsEnum.DEFENSES, defensesController
         );
     }
 
@@ -93,10 +103,10 @@ public class GameLoopControllerImpl implements GameLoopController {
     @Override
     public void save() {
         // create saving instance
+        final var json = this.toJSON();
         final SavingImpl saving = new SavingImpl(
             this.gameController.toJSON(),
-            this.mapController.toJSON(),
-            this.defensesController.toJSON()
+            json
         );
         // write saving
         try {
@@ -155,5 +165,16 @@ public class GameLoopControllerImpl implements GameLoopController {
         );
         // force repaint
         this.gameRenderer.renderCanvas();
+    }
+
+    private Map<SavingFieldsEnum, String> toJSON() {
+        return this.serializableControllers.entrySet()
+            .stream()
+            .collect(
+                Collectors.toMap(
+                    Entry::getKey,
+                    entry -> entry.getValue().toJSON()
+                )
+            );
     }
 }
