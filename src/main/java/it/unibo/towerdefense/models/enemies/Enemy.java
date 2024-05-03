@@ -42,16 +42,17 @@ public interface Enemy {
     /**
      * Returns the speed.
      *
-     * @return th speed
+     * @return the speed
      */
     int getSpeed();
 
     /**
-     * Returns the enemy's EnemyInfo.
+     * Returns the value of the enemy.
      *
-     * @return the enemy's EnemyInfo.
+     * @return the value of the enemy
      */
-    EnemyInfo info();
+    int getValue();
+
 
     /**
      * Returns the enemy's EnemyPosition.
@@ -59,5 +60,12 @@ public interface Enemy {
      * @return the enemy's EnemyPosition.
      */
     LogicalPosition getPosition();
+
+    /**
+     * Returns the enemy's EnemyInfo.
+     *
+     * @return the enemy's EnemyInfo.
+     */
+    EnemyInfo info();
 
 }

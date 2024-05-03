@@ -35,7 +35,7 @@ public class EnemiesImpl implements Enemies {
      *            gaining of money following an enemy's death
      */
     public EnemiesImpl(final MapController map, final GameController gc) {
-        this.enemies = new EnemyCollectionImpl(map);
+        this.enemies = new EnemyCollectionImpl(gc, map);
         this.spawner = new SimpleEnemySpawner(map.getSpawnPosition(), enemies);
         this.waveSupplier = new PredicateBasedRandomWaveGenerator(new WavePolicySupplierImpl(ROOT + WAVECONF),
                 new ConfigurableEnemyCatalogue(ROOT + TYPESCONF));

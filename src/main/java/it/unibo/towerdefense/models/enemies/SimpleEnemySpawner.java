@@ -114,6 +114,11 @@ public class SimpleEnemySpawner implements EnemySpawner{
         public int getSpeed(){
             return t.getSpeed();
         }
+
+        @Override
+        public int getValue() {
+            return t.getValue();
+        }
     }
 }
 

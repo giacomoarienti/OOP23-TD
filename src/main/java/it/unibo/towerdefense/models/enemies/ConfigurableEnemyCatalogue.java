@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONObject;
 
 import com.google.common.math.IntMath;
@@ -21,6 +22,7 @@ import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
  */
 public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
 
+    private final int valueFactor;
     private final Map<EnemyArchetype, Integer> rateos;
     private final Map<EnemyLevel, Integer> powerlevels;
     private final List<RichEnemyType> availableTypes;
@@ -31,8 +33,9 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      * @param configFile name of the file from which to load configurations.
      */
     ConfigurableEnemyCatalogue(final String configFile) {
-        Pair<Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> configValues = loadConfig(configFile);
-        this.rateos = configValues.getLeft();
+        Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> configValues = loadConfig(configFile);
+        this.valueFactor = configValues.getLeft();
+        this.rateos = configValues.getMiddle();
         this.powerlevels = configValues.getRight();
         availableTypes = Arrays.stream(EnemyLevel.values())
                 .flatMap(l -> Arrays.stream(EnemyArchetype.values()).map(t -> build(l, t)))
@@ -48,11 +51,13 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      * @return a Pair containing the two maps which represent the information stored
      *         in the file.
      */
-    private Pair<Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> loadConfig(final String configFile) {
+    private Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> loadConfig(final String configFile) {
+        Integer vf;
         Map<EnemyArchetype, Integer> r = new HashMap<>();
         Map<EnemyLevel, Integer> pl = new HashMap<>();
         try (InputStream configStream = ClassLoader.getSystemResourceAsStream(configFile)) {
             JSONObject config = new JSONObject(new String(configStream.readAllBytes()));
+            vf = config.getInt("vf");
             config.getJSONArray("levels").forEach(
                     (Object o) -> {
                         assert o instanceof JSONObject;
@@ -68,7 +73,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
         } catch (Exception e) {
             throw new RuntimeException("Failed to load enemy types configuration from " + configFile, e);
         }
-        return Pair.of(r, pl);
+        return Triple.of(vf, r, pl);
     }
 
     /**
@@ -90,7 +95,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
     /**
      * {@inheritDoc}
      */
-    private record BasicEnemyType(EnemyLevel level, EnemyArchetype type, int getMaxHP, int getSpeed)
+    private record BasicEnemyType(EnemyLevel level, EnemyArchetype type, int getMaxHP, int getSpeed, int getValue)
             implements RichEnemyType {
     };
 
@@ -104,6 +109,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
     private RichEnemyType build(final EnemyLevel l, final EnemyArchetype t) {
         final int speed = IntMath.sqrt((powerlevels.get(l) * rateos.get(t)) / 100, RoundingMode.DOWN);
         final int hp = (speed * 100) / rateos.get(t);
-        return new BasicEnemyType(l, t, hp, speed);
+        final int value = powerlevels.get(l) * valueFactor;
+        return new BasicEnemyType(l, t, hp, speed, value);
     }
 }

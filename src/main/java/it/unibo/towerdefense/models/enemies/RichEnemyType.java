@@ -22,4 +22,11 @@ interface RichEnemyType extends EnemyType {
      *         1/LogicPosition.SCALING_FACTOR cells per cycle
      */
     int getSpeed();
+
+    /**
+     * Getter for the value to be added when an enemy of the given type is killed.
+     *
+     * @return the value
+     */
+    int getValue();
 }

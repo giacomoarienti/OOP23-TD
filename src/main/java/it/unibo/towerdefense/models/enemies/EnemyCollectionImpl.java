@@ -7,6 +7,7 @@ import java.util.Set;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
+import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.map.MapController;
 
 /**
@@ -15,6 +16,7 @@ import it.unibo.towerdefense.controllers.map.MapController;
 public class EnemyCollectionImpl implements EnemyCollection {
 
     private Set<Enemy> enemies;
+    private final GameController gc;
     private final MapController map;
 
     /**
@@ -24,9 +26,10 @@ public class EnemyCollectionImpl implements EnemyCollection {
      * @param height of the game area in cells
      * @param map    handle to get next positions
      */
-    public EnemyCollectionImpl(final MapController map) {
-        this.enemies = new HashSet<>();
+    public EnemyCollectionImpl(final GameController gc, final MapController map) {
+        this.gc = gc;
         this.map = map;
+        this.enemies = new HashSet<>();
     }
 
     /**
@@ -50,6 +53,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     @Override
     public void signalDeath(final Enemy which) {
         enemies.remove(which);
+        gc.addMoney(which.getValue());
     }
 
     /**
