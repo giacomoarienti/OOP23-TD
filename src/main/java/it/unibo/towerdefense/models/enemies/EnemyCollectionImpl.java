@@ -1,8 +1,10 @@
 package it.unibo.towerdefense.models.enemies;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Set;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
@@ -37,14 +39,18 @@ public class EnemyCollectionImpl implements EnemyCollection {
      */
     @Override
     public void move() {
-        for (Enemy e : enemies) {
-            Optional<LogicalPosition> next = map.getNextPosition(e.getPosition(), e.getSpeed());
-            if (next.isEmpty()) {
-                e.die();
-            } else {
-                e.move(next.get());
+        List<Enemy> dead = enemies.stream().filter(
+            e -> {
+                Optional<LogicalPosition> next = map.getNextPosition(e.getPosition(), e.getSpeed());
+                if (next.isEmpty()) {
+                    return true;
+                } else {
+                    e.move(next.get());
+                    return false;
+                }
             }
-        }
+        ).toList();
+        dead.forEach( e -> e.die() );
     }
 
     /**

@@ -11,8 +11,6 @@ import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 
 public class TestSimpleEnemyFactory {
 
-    private record TestEnemyType(EnemyLevel level, EnemyArchetype type, int getMaxHP, int getSpeed, int getValue) implements RichEnemyType{};
-
     private SimpleEnemyFactory tested;
 
     private static final LogicalPosition STARTING_POS = new LogicalPosition(0, 0);
