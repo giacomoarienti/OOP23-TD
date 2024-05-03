@@ -10,7 +10,7 @@ import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 import it.unibo.towerdefense.controllers.map.MapController;
 
 /**
- * @inheritDoc .
+ * {@inheritDoc}
  */
 public class EnemyCollectionImpl implements EnemyCollection {
 
@@ -30,7 +30,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public void move() {
@@ -45,7 +45,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public void signalDeath(final Enemy which) {
@@ -53,7 +53,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public Set<Enemy> getEnemies() {
@@ -61,7 +61,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public List<EnemyInfo> getEnemiesInfo() {
@@ -69,7 +69,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public void add(Enemy e) {
@@ -77,7 +77,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public boolean areDead(){

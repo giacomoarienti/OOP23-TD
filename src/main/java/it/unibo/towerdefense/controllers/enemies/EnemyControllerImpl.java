@@ -16,9 +16,9 @@ import it.unibo.towerdefense.models.enemies.Enemy;
 import it.unibo.towerdefense.views.window.Window;
 
 /**
- * @inheritDoc .
+ * {@inheritDoc}
+ * Il controller funge anche da [Pattern]Mediator con gli altri elementi dell'applicazione.
  */
-
 public class EnemyControllerImpl implements EnemyController {
 
     private final Enemies model;
@@ -81,7 +81,7 @@ public class EnemyControllerImpl implements EnemyController {
      * @inheritDoc .
      */
     @Override
-    public void spawn(int wave){
+    public void spawn(int wave) {
         model.spawn(wave);
     }
 

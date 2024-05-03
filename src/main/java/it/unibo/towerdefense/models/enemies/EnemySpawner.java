@@ -6,9 +6,11 @@ package it.unibo.towerdefense.models.enemies;
  */
 public interface EnemySpawner {
     /**
-     * Spawns an Enemy with the specified type.
+     * Spawns an Enemy with the specified type already linked to the right
+     * EnemyCollection.
+     *
      * @param t the type of the Enemy to spawn
-     * @return the spawn Enemy
+     * @return the spawned Enemy
      */
     void spawn(RichEnemyType t);
 }

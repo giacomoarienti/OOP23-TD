@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.controllers.enemies;
 
-
 /**
  * Enum containing the different EnemyLevels in the game.
  */

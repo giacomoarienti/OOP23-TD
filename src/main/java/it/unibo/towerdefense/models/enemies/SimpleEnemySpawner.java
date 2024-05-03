@@ -5,7 +5,7 @@ import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 import it.unibo.towerdefense.controllers.enemies.EnemyType;
 
 /**
- * @inheritDoc .
+ * {@inheritDoc}
  */
 public class SimpleEnemySpawner implements EnemySpawner{
 
@@ -24,7 +24,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     public void spawn(RichEnemyType t){
         enemies.add(new MinimalEnemy(t));
@@ -38,7 +38,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
      */
     private class MinimalEnemy implements Enemy{
 
-        private record MinimalEnemyInfo(LogicalPosition getPos, Integer getHp, EnemyType getType) implements EnemyInfo{};
+        private record MinimalEnemyInfo(LogicalPosition pos, Integer hp, EnemyType type) implements EnemyInfo{};
         private final RichEnemyType t;
         private final LogicalPosition pos = startingPos.clone();
         private int hp;
@@ -54,7 +54,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
         }
 
         /**
-         * @inheritDoc .
+         * {@inheritDoc}
          */
         @Override
         public void hurt(final int amount) {
@@ -68,7 +68,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
         }
 
         /**
-         * @inheritDoc
+         * {@inheritDoc}
          */
         @Override
         public int getHp() {
@@ -76,7 +76,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
         }
 
         /**
-         * @inheritDoc .
+         * {@inheritDoc}
          */
         @Override
         public void move(final int x, final int y) {
@@ -84,7 +84,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
         }
 
         /**
-         * @inheritDoc .
+         * {@inheritDoc}
          */
         @Override
         public void move(final LogicalPosition pos) {
@@ -92,7 +92,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
         }
 
         /**
-         * @inheritDoc .
+         * {@inheritDoc}
          */
         @Override
         public LogicalPosition getPosition() {
@@ -100,7 +100,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
         }
 
         /**
-         * @inheritDoc .
+         * {@inheritDoc}
          */
         @Override
         public EnemyInfo info() {
@@ -108,7 +108,7 @@ public class SimpleEnemySpawner implements EnemySpawner{
         }
 
         /**
-         * @inheritDoc .
+         * {@inheritDoc}
          */
         @Override
         public int getSpeed(){

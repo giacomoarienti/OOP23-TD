@@ -6,7 +6,7 @@ import java.util.Set;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 
 /**
- * Defines the interface to the enemies.
+ * Class responsible for maintaining all the Enemy currently alive.
  */
 public interface EnemyCollection {
 
@@ -24,12 +24,14 @@ public interface EnemyCollection {
 
     /**
      * Method called by enemies when they die.
+     *
      * @param e the dead enemy
      */
     void signalDeath(Enemy e);
 
     /**
      * Gets the enemies.
+     *
      * @return the enemies
      */
     Set<Enemy> getEnemies();
@@ -43,6 +45,7 @@ public interface EnemyCollection {
 
     /**
      * Method to know wheter any Enemy is still alive.
+     *
      * @return True if no Enemy is currently alive, False otherwise
      */
     boolean areDead();

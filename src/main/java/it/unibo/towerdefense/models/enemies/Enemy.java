@@ -4,16 +4,16 @@ import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 
 /**
- * Interface of Enemy.
- *
- * Can be observed to be signaled on death.
+ * The single Enemy.
  */
 public interface Enemy {
 
     /**
      * Hurts the enemy.
+     *
+     * Will throw a Runtime Exception if amount < 0.
+     *
      * @param amount how much
-     * @throws IllegalArgumentException if amount < 0
      */
     void hurt(int amount);
 
@@ -25,7 +25,7 @@ public interface Enemy {
     void move(final LogicalPosition pos);
 
     /**
-     *  Moves the enemy to the desired position.
+     * Moves the enemy to the desired position.
      *
      * @param x x
      * @param y y
@@ -34,12 +34,14 @@ public interface Enemy {
 
     /**
      * Returns the HP.
+     *
      * @return the hp
      */
     int getHp();
 
     /**
      * Returns the speed.
+     *
      * @return th speed
      */
     int getSpeed();
