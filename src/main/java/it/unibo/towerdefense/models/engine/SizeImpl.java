@@ -50,4 +50,12 @@ public class SizeImpl implements Size {
     public Size copy() {
         return new SizeImpl(this);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return this.getWidth() + "x" + this.getHeight();
+    }
 }

@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -117,8 +116,6 @@ public class GameLauncherViewImpl implements GameLauncherView {
     private List<String> getResolutionStrings() {
         // get the available resolutions
         final List<Size> resolutions = this.controller.getResolutions();
-        return resolutions.stream().map(
-            res -> res.getWidth() + "x" + res.getHeight()
-        ).collect(Collectors.toList());
+        return resolutions.stream().map(Object::toString).toList();
     }
 }
