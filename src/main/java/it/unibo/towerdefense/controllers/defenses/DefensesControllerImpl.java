@@ -95,8 +95,10 @@ public class DefensesControllerImpl implements DefensesController {
 
     @Override
     public int disassembleDefense(LogicalPosition position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'disassembleDefense'");
+        Optional<Pair<Integer, Defense>> toDelete = find(position);
+        int returnValue = toDelete.get().getValue().getSellingValue();
+        defenses.remove(toDelete.get().getKey());
+        return returnValue;
     }
 
     @Override

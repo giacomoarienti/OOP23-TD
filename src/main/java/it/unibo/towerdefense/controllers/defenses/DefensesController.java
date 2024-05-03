@@ -19,7 +19,7 @@ public interface DefensesController extends Controller {
      * Builds a tower of the given type.
      * @param choice index of buildable.
      * @param position the position of the defense.
-     * @throws IOException 
+     * @throws IOException
      */
     void buildDefense(int choice, LogicalPosition position) throws IOException;
 
