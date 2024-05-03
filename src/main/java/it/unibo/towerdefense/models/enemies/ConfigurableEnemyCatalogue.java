@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONObject;
 
@@ -22,9 +21,9 @@ import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
  */
 public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
 
-    private final int valueFactor;
-    private final Map<EnemyArchetype, Integer> rateos;
-    private final Map<EnemyLevel, Integer> powerlevels;
+    private final int valueFactor; //scaling factor to adjust value from powerlevel
+    private final Map<EnemyArchetype, Integer> rateos; //speed = hp * rateo/100
+    private final Map<EnemyLevel, Integer> powerlevels; //powerlevel = speed * hp
     private final List<RichEnemyType> availableTypes;
 
     /**
@@ -109,7 +108,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
     private RichEnemyType build(final EnemyLevel l, final EnemyArchetype t) {
         final int speed = IntMath.sqrt((powerlevels.get(l) * rateos.get(t)) / 100, RoundingMode.DOWN);
         final int hp = (speed * 100) / rateos.get(t);
-        final int value = powerlevels.get(l) * valueFactor;
+        final int value = powerlevels.get(l) * (valueFactor / 100);
         return new BasicEnemyType(l, t, hp, speed, value);
     }
 }
