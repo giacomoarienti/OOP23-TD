@@ -14,7 +14,7 @@ import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.game.GameState;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
 
-public class TestEnemyCollectionAndEnemySpawner {
+public class TestEnemyCollectionImpl {
 
     private EnemyCollectionImpl tested;
 

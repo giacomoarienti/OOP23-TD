@@ -11,36 +11,40 @@ import it.unibo.towerdefense.controllers.enemies.EnemyType;
 /**
  * {@inheritDoc}
  */
-public class SimpleEnemyFactory implements EnemyFactory{
+public class SimpleEnemyFactory implements EnemyFactory {
 
     private final LogicalPosition startingPos;
 
     /**
      * Constructor for the class.
      *
-     * @param startingPos the starting position for all enemies produced by the factory
-     * @param enemies the class which holds information about the enemies
+     * @param startingPos the starting position for all enemies produced by the
+     *                    factory
+     * @param enemies     the class which holds information about the enemies
      */
-    SimpleEnemyFactory(final LogicalPosition startingPos){
+    SimpleEnemyFactory(final LogicalPosition startingPos) {
         this.startingPos = startingPos;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Enemy spawn(RichEnemyType t){
+    public Enemy spawn(RichEnemyType t) {
         return new MinimalEnemy(t);
     }
 
     /**
      * Private class which implements Enemy storing the least possible information.
      *
-     * Used a flyweight pattern saving all common information in a single EnemyType object common
+     * Used a flyweight pattern saving all common information in a single EnemyType
+     * object common
      * to all instances of Enemy entities of that type
      */
-    private class MinimalEnemy implements Enemy{
+    private class MinimalEnemy implements Enemy {
 
-        private record MinimalEnemyInfo(LogicalPosition pos, Integer hp, EnemyType type) implements EnemyInfo{};
+        private record MinimalEnemyInfo(LogicalPosition pos, Integer hp, EnemyType type) implements EnemyInfo {
+        };
+
         private final LogicalPosition pos = startingPos.clone();
         private final Set<Observer<Enemy>> deathObservers;
         private final RichEnemyType t;
@@ -51,7 +55,7 @@ public class SimpleEnemyFactory implements EnemyFactory{
          *
          * @param t the type of the Enemy from which to retrieve hp and speed
          */
-        MinimalEnemy(RichEnemyType t){
+        MinimalEnemy(RichEnemyType t) {
             deathObservers = new HashSet<>();
             this.t = t;
             this.hp = t.getMaxHP();
@@ -64,8 +68,10 @@ public class SimpleEnemyFactory implements EnemyFactory{
         public void hurt(final int amount) {
             if (amount < 0) {
                 throw new IllegalArgumentException("Tried to hurt an enemy by " + String.valueOf(amount));
-            }else{
-                if ((hp-=amount) < 0) {
+            } else if (hp <= 0) {
+                throw new IllegalStateException("Tried to hurt a dead enemy");
+            } else {
+                if ((hp -= amount) <= 0) {
                     die();
                 }
             }
@@ -84,7 +90,11 @@ public class SimpleEnemyFactory implements EnemyFactory{
          */
         @Override
         public void move(final LogicalPosition newPos) {
-            pos.set(newPos.getX(), newPos.getY());
+            if (hp <= 0) {
+                throw new IllegalStateException("Tried to move a dead enemy");
+            }else{
+                pos.set(newPos.getX(), newPos.getY());
+            }
         }
 
         /**
@@ -107,7 +117,7 @@ public class SimpleEnemyFactory implements EnemyFactory{
          * {@inheritDoc}
          */
         @Override
-        public int getSpeed(){
+        public int getSpeed() {
             return t.getSpeed();
         }
 
@@ -132,9 +142,7 @@ public class SimpleEnemyFactory implements EnemyFactory{
          */
         @Override
         public void die() {
-            deathObservers.forEach( o -> o.notify(this));
+            deathObservers.forEach(o -> o.notify(this));
         }
     }
 }
-
-
