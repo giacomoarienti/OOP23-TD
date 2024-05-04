@@ -8,11 +8,14 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.models.defenses.Defense;
 import it.unibo.towerdefense.models.defenses.DefenseFactory;
 import it.unibo.towerdefense.models.defenses.DefenseFactoryImpl;
+import it.unibo.towerdefense.models.defenses.costants.DefenseFormulas;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapFilePaths;
 import it.unibo.towerdefense.views.defenses.DefenseDescription;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
@@ -70,8 +73,11 @@ public class DefensesControllerImpl implements DefensesController {
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        /**update momentum.*/
+        for (Pair<Defense,Integer> def : this.defenses) {
+            int speed = def.getKey().getAttackSpeed();
+            def.setValue(Math.max(def.getValue()+speed, DefenseFormulas.MOMENTUM_REQUIRED));
+        }
     }
 
     @Override
@@ -111,5 +117,17 @@ public class DefensesControllerImpl implements DefensesController {
     public Map<Integer, Integer> attackEnemies(List<Pair<LogicalPosition, Integer>> availableTargets) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'attackEnemies'");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toJSON() {
+        JSONArray result = new JSONArray();
+        for (Pair<Defense,Integer> def : this.defenses) {
+            result.put(new JSONObject(def.getKey().toJSON()));
+        }
+        return result.toString();
     }
 }
