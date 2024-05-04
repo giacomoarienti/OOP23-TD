@@ -2,6 +2,7 @@ package it.unibo.towerdefense.controllers.defenses;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.Controller;
+import it.unibo.towerdefense.controllers.SerializableController;
 import it.unibo.towerdefense.views.defenses.DefenseDescription;
 
 import java.util.Map;
@@ -14,7 +15,7 @@ import org.apache.commons.lang3.tuple.Pair;
 /**
  * Interface for the controller of the game defenses.
  */
-public interface DefensesController extends Controller {
+public interface DefensesController extends SerializableController {
     /**
      * Builds a tower of the given type.
      * @param choice index of buildable.
