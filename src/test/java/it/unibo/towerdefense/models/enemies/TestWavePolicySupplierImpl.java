@@ -51,7 +51,7 @@ public class TestWavePolicySupplierImpl {
             Assertions.assertEquals(10, tested.getLength(2));
             Assertions.assertEquals(15, tested.getLength(3));
             Assertions.assertEquals(200, tested.getLength(10));
-            Assertions.assertEquals(200, tested.getLength(2000));
+            Assertions.assertEquals(200, tested.getLength(20000));
         }
 
         @Test
