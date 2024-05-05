@@ -9,7 +9,7 @@ import it.unibo.towerdefense.controllers.enemies.EnemyType;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
- * {@inheritDoc}
+ * {@inheritDoc}.
  */
 public class SimpleEnemyFactory implements EnemyFactory {
 
@@ -20,14 +20,13 @@ public class SimpleEnemyFactory implements EnemyFactory {
      *
      * @param startingPos the starting position for all enemies produced by the
      *                    factory
-     * @param enemies     the class which holds information about the enemies
      */
     SimpleEnemyFactory(final LogicalPosition startingPos) {
         this.startingPos = startingPos;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     public Enemy spawn(final RichEnemyType t) {
         return new MinimalEnemy(t);
@@ -44,6 +43,10 @@ public class SimpleEnemyFactory implements EnemyFactory {
 
         /**
          * A record to keep track of the information about an Enemy.
+         *
+         * @param hp the current hp of the enemy
+         * @param pos the current position of the enemy
+         * @param type the EnemyType of the enemy
          */
         private record MinimalEnemyInfo(LogicalPosition pos, Integer hp, EnemyType type) implements EnemyInfo {
         };
@@ -65,7 +68,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
         }
 
         /**
-         * {@inheritDoc}
+         * {@inheritDoc}.
          */
         @Override
         public void hurt(final int amount) {
@@ -82,7 +85,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
         }
 
         /**
-         * {@inheritDoc}
+         * {@inheritDoc}.
          */
         @Override
         public int getHp() {
@@ -90,7 +93,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
         }
 
         /**
-         * {@inheritDoc}
+         * {@inheritDoc}.
          */
         @Override
         public void move(final LogicalPosition newPos) {
@@ -102,7 +105,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
         }
 
         /**
-         * {@inheritDoc}
+         * {@inheritDoc}.
          */
         @Override
         public LogicalPosition getPosition() {
@@ -110,7 +113,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
         }
 
         /**
-         * {@inheritDoc}
+         * {@inheritDoc}.
          */
         @Override
         public EnemyInfo info() {
@@ -118,7 +121,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
         }
 
         /**
-         * {@inheritDoc}
+         * {@inheritDoc}.
          */
         @Override
         public int getSpeed() {
@@ -126,7 +129,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
         }
 
         /**
-         * {@inheritDoc}
+         * {@inheritDoc}.
          */
         @Override
         public int getValue() {
@@ -134,7 +137,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
         }
 
         /**
-         * {@inheritDoc}
+         * {@inheritDoc}.
          */
         @Override
         public void addDeathObserver(final Observer<Enemy> observer) {
@@ -142,7 +145,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
         }
 
         /**
-         * {@inheritDoc}
+         * {@inheritDoc}.
          */
         @Override
         public void die() {

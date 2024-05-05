@@ -3,20 +3,25 @@ package it.unibo.towerdefense.commons;
 import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.engine.PositionImpl;
 
+/**
+ * A class which extends Position adding cell-based logic.
+ * A cell is SCALING_FACTOR positions long.
+ */
 public class LogicalPosition extends PositionImpl implements Cloneable {
 
     /**
      * 1/scalingFactor of a cell is the smallest variation registered
-     * a cell is scalingFactor positions long
+     * a cell is scalingFactor positions long.
      */
-    public final static int SCALING_FACTOR = 3600;
+    public static final int SCALING_FACTOR = 3600;
 
     /**
      * Constructor for the class.
+     * 
      * @param x the x
      * @param y the y
      */
-    public LogicalPosition(int x, int y) {
+    public LogicalPosition(final int x, final int y) {
         super(x, y);
     }
 
@@ -40,10 +45,11 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
 
     /**
      * Test if this and an other position are in the same Cell.
+     * 
      * @param pos position to compare to this.
      * @return true if they are in the same Cell, false if not
      */
-    public boolean equalsCell (final LogicalPosition pos) {
+    public boolean equalsCell(final LogicalPosition pos) {
         return this.getCellX() == pos.getCellX() && this.getCellY() == pos.getCellY();
     }
 
@@ -57,10 +63,11 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
 
     /**
      * Compact setter.
+     *
      * @param x the new x
      * @param y the new y
      */
-    public void set(int x, int y){
+    public void set(final int x, final int y) {
         this.setX(x);
         this.setY(y);
     }
@@ -68,8 +75,8 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
     /**
      * overload for fromJson method.
      */
-    public static LogicalPosition fromJson(String jsonData) {
-        Position result = Position.fromJson(jsonData);
+    public static LogicalPosition fromJson(final String jsonData) {
+        final Position result = Position.fromJson(jsonData);
         return new LogicalPosition(result.getX(), result.getY());
     }
 
@@ -82,17 +89,20 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
 
     /**
      * Returns an immutable LogicalPosition with the same x and y as the argument.
+     *
+     * @param pos the position to copy
      * @return an immutable LogicalPosition with the same x and y as the argument
      */
-    public static LogicalPosition copyOf(LogicalPosition pos) {
-        return new LogicalPosition(pos.getX(), pos.getY()){
+    public static LogicalPosition copyOf(final LogicalPosition pos) {
+        return new LogicalPosition(pos.getX(), pos.getY()) {
             /**
              * {@inheritDoc}
              */
             @Override
-            public void set(int x, int y){
+            public void set(final int x, final int y) {
                 throw new UnsupportedOperationException("Tried to modify an immutable position.");
             }
+
             /**
              * {@inheritDoc}
              */
@@ -100,6 +110,7 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
             public void setX(final int x) {
                 throw new UnsupportedOperationException("Tried to modify an immutable position.");
             }
+
             /**
              * {@inheritDoc}
              */
@@ -107,6 +118,7 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
             public void setY(final int y) {
                 throw new UnsupportedOperationException("Tried to modify an immutable position.");
             }
+
             /**
              * {@inheritDoc}
              */
@@ -114,6 +126,7 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
             public void add(final Position position) {
                 throw new UnsupportedOperationException("Tried to modify an immutable position.");
             }
+
             /**
              * {@inheritDoc}
              */

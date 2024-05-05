@@ -16,8 +16,9 @@ import it.unibo.towerdefense.models.enemies.Enemy;
 import it.unibo.towerdefense.views.window.Window;
 
 /**
- * {@inheritDoc}
- * Il controller funge anche da [Pattern]Mediator con gli altri elementi dell'applicazione.
+ * {@inheritDoc}.
+ * Il controller funge anche da [Pattern]Mediator con gli altri elementi
+ * dell'applicazione.
  */
 public class EnemyControllerImpl implements EnemyController {
 
@@ -28,10 +29,9 @@ public class EnemyControllerImpl implements EnemyController {
     /**
      * Constructor for the controller.
      *
-     * @param width  of the game area in cells
-     * @param height of the game area in cells
      * @param window handle to be passed to the renderer
      * @param map    to know where to move enemies
+     * @param gc     to signal wave advancement and money attribution
      */
     EnemyControllerImpl(final Window window, final MapController map, final GameController gc) {
         model = new EnemiesImpl(map, gc);
@@ -50,7 +50,7 @@ public class EnemyControllerImpl implements EnemyController {
      */
     @Override
     public void render() {
-        //renderer.render(model.getEnemiesInfo());
+        // renderer.render(model.getEnemiesInfo());
         throw new UnsupportedOperationException();
     }
 
@@ -70,7 +70,7 @@ public class EnemyControllerImpl implements EnemyController {
     public void hurtEnemies(final Map<Integer, Integer> which) {
         if (lastGivenEnemies.isEmpty()) {
             throw new IllegalStateException("getEnemies has not been called yet");
-        }else{
+        } else {
             for (Entry<Integer, Integer> element : which.entrySet()) {
                 lastGivenEnemies.get().get(element.getKey()).hurt(element.getValue());
             }

@@ -2,6 +2,8 @@ package it.unibo.towerdefense.utils.patterns;
 
 /**
  * An interface for a simple Observer pattern.
+ *
+ * @param <T> the type of the source of a possible event
  */
 public interface Observer<T> {
     /**

@@ -5,7 +5,9 @@ import java.util.Iterator;
 
 /**
  * [Pattern]Decorator for an iterator which returns the next item of the
- * decorated iterator only every "skip" calls on next()
+ * decorated iterator only every "skip" calls on next().
+ *
+ * @param <T> the type of the decorated iterator
  */
 public class SkipIterator<T> implements Iterator<Optional<T>> {
     private final Iterator<T> base;
@@ -18,8 +20,8 @@ public class SkipIterator<T> implements Iterator<Optional<T>> {
      * @param base the iterator to decorate
      * @param skip how many calls to next constitute a cycle (must be > 0)
      */
-    public SkipIterator(final Iterator<T> base, int skip) {
-        if(skip < 0){
+    public SkipIterator(final Iterator<T> base, final int skip) {
+        if (skip < 0) {
             throw new IllegalArgumentException("skip must be > 0");
         }
         this.base = base;

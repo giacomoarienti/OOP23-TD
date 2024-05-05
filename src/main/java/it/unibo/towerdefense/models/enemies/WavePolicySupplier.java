@@ -15,7 +15,7 @@ public interface WavePolicySupplier {
      * @param wave the wave about which information is asked
      * @return the predicate
      */
-    Predicate<EnemyType> getPredicate(final Integer wave);
+    Predicate<EnemyType> getPredicate(Integer wave);
 
     /**
      * Returns how many enemies the wave should contain.
@@ -23,7 +23,7 @@ public interface WavePolicySupplier {
      * @param wave the wave about which information is asked
      * @return the number of enemies
      */
-    Integer getLength(final Integer wave);
+    Integer getLength(Integer wave);
 
     /**
      * Returns how many cycles pass between two spawns (counting the cycle in which
@@ -32,5 +32,5 @@ public interface WavePolicySupplier {
      * @param wave the wave about which information is asked
      * @return the number of cycles
      */
-    Integer getCyclesPerSpawn(final Integer wave);
+    Integer getCyclesPerSpawn(Integer wave);
 }

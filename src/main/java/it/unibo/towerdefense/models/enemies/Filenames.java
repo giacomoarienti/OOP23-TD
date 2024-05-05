@@ -6,7 +6,7 @@ package it.unibo.towerdefense.models.enemies;
  * Stored this way to access them from test classes.
  */
 abstract class Filenames {
-    final static String ROOT = "it/unibo/towerdefense/models/enemies/";
-    final static String WAVECONF = "waves.json";
-    final static String TYPESCONF = "types.json";
+    static final String ROOT = "it/unibo/towerdefense/models/enemies/";
+    static final String WAVECONF = "waves.json";
+    static final String TYPESCONF = "types.json";
 }

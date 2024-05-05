@@ -10,5 +10,5 @@ public interface EnemyFactory {
      * @param t the type of the Enemy to spawn
      * @return the spawned Enemy
      */
-    Enemy spawn(final RichEnemyType t);
+    Enemy spawn(RichEnemyType t);
 }

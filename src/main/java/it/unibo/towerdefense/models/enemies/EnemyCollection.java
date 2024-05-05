@@ -21,7 +21,7 @@ public interface EnemyCollection extends Observer<Enemy> {
      *
      * @param e the new Enemy.
      */
-    void add(final Enemy e);
+    void add(Enemy e);
 
     /**
      * Method called by enemies when they die.
@@ -29,7 +29,7 @@ public interface EnemyCollection extends Observer<Enemy> {
      * @param e the dead enemy
      */
     @Override
-    void notify(final Enemy e);
+    void notify(Enemy e);
 
     /**
      * Gets the enemies.

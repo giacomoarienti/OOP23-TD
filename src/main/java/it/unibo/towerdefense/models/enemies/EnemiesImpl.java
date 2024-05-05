@@ -41,7 +41,7 @@ public class EnemiesImpl implements Enemies {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public void update() {
@@ -62,7 +62,7 @@ public class EnemiesImpl implements Enemies {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public Set<Enemy> getEnemies() {
@@ -70,7 +70,7 @@ public class EnemiesImpl implements Enemies {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public List<EnemyInfo> getEnemiesInfo() {
@@ -78,7 +78,7 @@ public class EnemiesImpl implements Enemies {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public void spawn(final int wave) {

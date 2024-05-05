@@ -16,14 +16,14 @@ public interface Enemy {
      *
      * @param amount how much
      */
-    void hurt(final int amount);
+    void hurt(int amount);
 
     /**
      * Sets the enemy's position to be the same of the one passed as an argument.
      *
      * @param pos the new position
      */
-    void move(final LogicalPosition pos);
+    void move(LogicalPosition pos);
 
     /**
      * Kills the enemy.
@@ -77,7 +77,9 @@ public interface Enemy {
     /**
      * Adds the given Observer to those
      * that will be notified on the enemy's death.
+     *
+     * @param observer the Observer to add to the collection
      */
-    void addDeathObserver(final Observer<Enemy> observer);
+    void addDeathObserver(Observer<Enemy> observer);
 
 }

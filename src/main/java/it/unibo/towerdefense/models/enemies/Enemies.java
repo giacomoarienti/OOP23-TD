@@ -24,7 +24,7 @@ public interface Enemies {
      *
      * @param wave the number of the wave to start
      */
-    void spawn(final int wave);
+    void spawn(int wave);
 
     /**
      * Returns a Set of all Enemies currently alive.

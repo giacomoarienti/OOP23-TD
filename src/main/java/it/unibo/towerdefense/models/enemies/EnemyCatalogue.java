@@ -12,14 +12,15 @@ public interface EnemyCatalogue {
      *
      * @return a list of all EnemyTypes in the game
      */
-    public Set<RichEnemyType> getEnemyTypes();
+    Set<RichEnemyType> getEnemyTypes();
 
     /**
      * Returns a list of all EnemyTypes in the game for which the predicate tests
      * true.
      *
+     * @param test the predicate to test on all EnemyTypes
      * @return a list of all EnemyTypes in the game for which the predicate tests
      *         true
      */
-    public Set<RichEnemyType> getEnemyTypes(final Predicate<? super RichEnemyType> test);
+    Set<RichEnemyType> getEnemyTypes(Predicate<? super RichEnemyType> test);
 }

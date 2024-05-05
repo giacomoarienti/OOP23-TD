@@ -17,7 +17,7 @@ import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 import it.unibo.towerdefense.controllers.enemies.EnemyType;
 
 /**
- * {@inheritDoc}
+ * {@inheritDoc}.
  */
 public class WavePolicySupplierImpl implements WavePolicySupplier {
 
@@ -35,8 +35,9 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * @param configFile the file from which to read the configuration.
      */
     WavePolicySupplierImpl(final String configFile) {
-        Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> configValues = loadConfig(
-                configFile);
+        Triple<SortedMap<Integer, Predicate<EnemyType>>,
+            SortedMap<Integer, Integer>,
+            SortedMap<Integer, Integer>> configValues = loadConfig(configFile);
         checkConstraints(configValues);
         this.predicates = configValues.getLeft();
         this.lengths = configValues.getMiddle();
@@ -53,11 +54,13 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      *         information stored
      *         in the file.
      */
-    Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> loadConfig(
-            final String configFile) {
+    Triple<SortedMap<Integer, Predicate<EnemyType>>,
+                SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> loadConfig(final String configFile) {
+
         SortedMap<Integer, Predicate<EnemyType>> p = new TreeMap<>();
         SortedMap<Integer, Integer> l = new TreeMap<>();
         SortedMap<Integer, Integer> r = new TreeMap<>();
+
         try (InputStream configStream = ClassLoader.getSystemResourceAsStream(configFile)) {
             JSONArray config = new JSONArray(new String(configStream.readAllBytes()));
             config.forEach(
@@ -90,8 +93,9 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      *
      * @param values the triple containing the configuration to check.
      */
-    private void checkConstraints(
-            final Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> values) {
+    private void checkConstraints(final Triple<SortedMap<Integer, Predicate<EnemyType>>,
+                        SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> values) {
+
         final SortedMap<Integer, Predicate<EnemyType>> p = values.getLeft();
         final SortedMap<Integer, Integer> l = values.getMiddle();
         final SortedMap<Integer, Integer> r = values.getRight();
@@ -140,7 +144,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public Predicate<EnemyType> getPredicate(final Integer wave) {
@@ -148,7 +152,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public Integer getLength(final Integer wave) {
@@ -156,7 +160,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public Integer getCyclesPerSpawn(final Integer wave) {

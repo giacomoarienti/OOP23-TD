@@ -11,7 +11,7 @@ import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.map.MapController;
 
 /**
- * {@inheritDoc}
+ * {@inheritDoc}.
  */
 public class EnemyCollectionImpl implements EnemyCollection {
 
@@ -22,9 +22,8 @@ public class EnemyCollectionImpl implements EnemyCollection {
     /**
      * Constructor for the class.
      *
-     * @param width  of the game area in cells
-     * @param height of the game area in cells
-     * @param map    handle to get next positions
+     * @param gc  GameController to advance wave and add money on enemy defeat
+     * @param map handle to get next positions
      */
     public EnemyCollectionImpl(final GameController gc, final MapController map) {
         this.gc = gc;
@@ -33,22 +32,21 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public void move() {
         final List<Enemy> dead = enemies.stream().filter(
-            e -> {
-                Optional<LogicalPosition> next = map.getNextPosition(e.getPosition(), e.getSpeed());
-                if (next.isEmpty()) {
-                    return true;
-                } else {
-                    e.move(next.get());
-                    return false;
-                }
-            }
-        ).toList();
-        dead.forEach( e -> e.die() );
+                e -> {
+                    Optional<LogicalPosition> next = map.getNextPosition(e.getPosition(), e.getSpeed());
+                    if (next.isEmpty()) {
+                        return true;
+                    } else {
+                        e.move(next.get());
+                        return false;
+                    }
+                }).toList();
+        dead.forEach(e -> e.die());
     }
 
     /**
@@ -61,7 +59,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public Set<Enemy> getEnemies() {
@@ -69,7 +67,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public List<EnemyInfo> getEnemiesInfo() {
@@ -77,11 +75,11 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public void add(final Enemy e) {
-        if(e.isDead()){
+        if (e.isDead()) {
             throw new IllegalArgumentException("Can't add a dead enemy to the collection");
         }
         enemies.add(e);
@@ -89,7 +87,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public boolean areDead() {
