@@ -33,6 +33,13 @@ public interface Enemy {
     void die();
 
     /**
+     * Returns wheter the enemy is dead or not.
+     *
+     * @return wheter the enemy is dead or not
+     */
+    boolean isDead();
+
+    /**
      * Returns the HP.
      *
      * @return the hp

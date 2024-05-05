@@ -15,8 +15,14 @@ import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.game.GameState;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
 
+/**
+ * Tests for EnemiesImpl.
+ */
 public class TestEnemiesImpl {
 
+    /**
+     * Arbitrary starting position.
+     */
     private static final LogicalPosition STARTING_POSITION = new LogicalPosition(0, 0);
     private GameController testing_gc;
     private MapController testing_mp;
@@ -24,11 +30,18 @@ public class TestEnemiesImpl {
     private EnemiesImpl tested;
     private boolean advanced_wave = false;
 
+    /**
+     * Initializes the class to be tested along with some helper classes which we
+     * presume already work as intended (see other tests).
+     * Also instantiates some "fake" controllers which only implement the function
+     * needed for testing EnemiesImpl.
+     */
     @BeforeEach
-    void init(){
-        testing_wp = new WavePolicySupplierImpl("it/unibo/towerdefense/models/enemies/waves.json");
+    void init() {
+        testing_wp = new WavePolicySupplierImpl(Filenames.ROOT + Filenames.WAVECONF);
         testing_gc = new GameController() {
             private int money = 0;
+
             @Override
             public void update() {
                 // TODO Auto-generated method stub
@@ -167,13 +180,19 @@ public class TestEnemiesImpl {
         tested = new EnemiesImpl(testing_mp, testing_gc);
     }
 
+    /**
+     * Tests the class behaves correctly right after initialization.
+     */
     @Test
-    void testEmpty(){
+    void testEmpty() {
         Assertions.assertTrue(tested.getEnemies().isEmpty());
         Assertions.assertTrue(tested.getEnemiesInfo().isEmpty());
         Assertions.assertDoesNotThrow(() -> tested.update());
     }
 
+    /**
+     * Tests the class behaves correctly when asked to start a new wave.
+     */
     @Test
     void testSpawn() {
         Assertions.assertThrows(RuntimeException.class, () -> tested.spawn(0));
@@ -181,6 +200,9 @@ public class TestEnemiesImpl {
         Assertions.assertThrows(RuntimeException.class, () -> tested.spawn(2));
     }
 
+    /**
+     * Tests the class behaves correctly on updates.
+     */
     @Test
     void testUpdate() {
         tested.spawn(1);
@@ -188,13 +210,16 @@ public class TestEnemiesImpl {
         Assertions.assertTrue(tested.getEnemies().size() == 1);
         Assertions.assertTrue(tested.getEnemiesInfo().size() == 1);
         tested.update();
-        //Enemy should have died since no further position is available.
+        // Enemy should have died since no further position is available.
         Assertions.assertTrue(tested.getEnemies().size() == 0);
         Assertions.assertTrue(tested.getEnemiesInfo().size() == 0);
     }
 
+    /**
+     * Tests the collection is correctly updated after a contained enemy dies.
+     */
     @Test
-    void testDied(){
+    void testDied() {
         tested.spawn(1);
         tested.update();
         Enemy onlyEnemy = tested.getEnemies().stream().findAny().get();
@@ -203,20 +228,25 @@ public class TestEnemiesImpl {
         Assertions.assertTrue(tested.getEnemiesInfo().size() == 0);
     }
 
+    /**
+     * Tests the wave behaves as it should and update() calls advanceWave the first
+     * time it's called after no enemy is alive anymore and no wave is active.
+     */
     @Test
-    void testWaveEnd(){
+    void testWaveEnd() {
         int wave = 1;
         int l = testing_wp.getLength(wave);
         int r = testing_wp.getCyclesPerSpawn(wave);
         tested.spawn(wave);
-        for(int i = 0; i < l*r - (r-1); i++){
+        for (int i = 0; i < l * r - (r - 1); i++) {
             tested.update();
             System.out.println(tested.getEnemies());
         }
         Assertions.assertTrue(tested.getEnemies().size() == 1);
+        Assertions.assertFalse(advanced_wave); //An enemy is still alive
+        Assertions.assertThrows(RuntimeException.class, () -> tested.spawn(2));
         tested.update();
         Assertions.assertTrue(tested.getEnemies().size() == 0);
-        tested.update(); //the wave is advanced on the first update after every enemy is dead.
         Assertions.assertTrue(advanced_wave);
         Assertions.assertDoesNotThrow(() -> tested.spawn(2));
     }

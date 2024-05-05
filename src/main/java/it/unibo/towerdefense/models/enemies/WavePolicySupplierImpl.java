@@ -37,6 +37,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
     WavePolicySupplierImpl(final String configFile) {
         Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> configValues = loadConfig(
                 configFile);
+        checkConstraints(configValues);
         this.predicates = configValues.getLeft();
         this.lengths = configValues.getMiddle();
         this.rates = configValues.getRight();
@@ -75,11 +76,47 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
                                                     .toList()));
                                 });
                     });
-
-            assert p.containsKey(1) && l.containsKey(1) && r.containsKey(1);
             return Triple.of(p, l, r);
         } catch (Throwable t) {
             throw new RuntimeException("Failed to load waves configuration from " + configFile, t);
+        }
+    }
+
+    /**
+     * Method which incapsulates all the constraints a given configuration has to
+     * respect.
+     *
+     * Will throw a RuntimeException if constraints are not respected.
+     *
+     * @param values the triple containing the configuration to check.
+     */
+    private void checkConstraints(
+            final Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> values) {
+        final SortedMap<Integer, Predicate<EnemyType>> p = values.getLeft();
+        final SortedMap<Integer, Integer> l = values.getMiddle();
+        final SortedMap<Integer, Integer> r = values.getRight();
+
+        try {
+            /*
+             * Wave 1 is mandatory.
+             */
+            assert p.containsKey(1) && l.containsKey(1) && r.containsKey(1);
+
+            /*
+             * Cant have length <= 0.
+             */
+            l.values().forEach(i -> {
+                assert i > 0;
+            });
+
+            /*
+             * Cant have rate <= 0.
+             */
+            r.values().forEach(i -> {
+                assert i > 0;
+            });
+        } catch (Throwable t) {
+            throw new RuntimeException("Values contained in configuration file for wave policies are not permitted.", t);
         }
     }
 

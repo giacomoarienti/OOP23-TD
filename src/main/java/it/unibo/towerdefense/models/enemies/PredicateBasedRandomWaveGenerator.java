@@ -9,6 +9,7 @@ import it.unibo.towerdefense.utils.patterns.SkipIterator;
 
 /**
  * A class responsible of producing a new wave given its ordinal number.
+ * A wave cannot be produced empty!
  *
  * @see Function
  */
@@ -37,12 +38,19 @@ public class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave
     @Override
     public Wave apply(final Integer wave) {
         List<RichEnemyType> availableTypes = List.copyOf(ec.getEnemyTypes(wp.getPredicate(wave)));
-        return new SkipWave(
+        if(availableTypes.isEmpty()){
+            throw new RuntimeException("No available types for wave " + wave);
+        }else{
+            return new SkipWave(
                 r.ints(wp.getLength(wave), 0, availableTypes.size())
                         .mapToObj(i -> availableTypes.get(i)).iterator(),
                 wp.getCyclesPerSpawn(wave));
+        }
     }
 
+    /**
+     * Class created so as to inherit both from SkipIterator and Wave.
+     */
     private class SkipWave extends SkipIterator<RichEnemyType> implements Wave{
         SkipWave(Iterator<RichEnemyType> base, int skip) {
             super(base, skip);

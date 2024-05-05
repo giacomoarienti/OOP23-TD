@@ -38,7 +38,7 @@ public class EnemyControllerImpl implements EnemyController {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public void update() {
@@ -46,7 +46,7 @@ public class EnemyControllerImpl implements EnemyController {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public void render() {
@@ -55,16 +55,16 @@ public class EnemyControllerImpl implements EnemyController {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public List<Pair<LogicalPosition, Integer>> getEnemies() {
-        lastGivenEnemies = Optional.of(model.getEnemies().stream().toList());
+        lastGivenEnemies = Optional.of(List.copyOf(model.getEnemies()));
         return lastGivenEnemies.get().stream().map(e -> Pair.of(e.getPosition(), e.getHp())).toList();
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public void hurtEnemies(final Map<Integer, Integer> which) {
@@ -78,7 +78,7 @@ public class EnemyControllerImpl implements EnemyController {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public void spawn(int wave) {

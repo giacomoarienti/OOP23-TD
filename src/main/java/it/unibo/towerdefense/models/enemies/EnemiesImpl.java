@@ -17,9 +17,6 @@ import it.unibo.towerdefense.controllers.map.MapController;
  */
 public class EnemiesImpl implements Enemies {
 
-    private final static String ROOT = "it/unibo/towerdefense/models/enemies/";
-    private final static String WAVECONF = "waves.json";
-    private final static String TYPESCONF = "types.json";
     private final EnemyCollection enemies;
     private final EnemyFactory factory;
     private final Function<Integer, Wave> waveSupplier;
@@ -37,8 +34,9 @@ public class EnemiesImpl implements Enemies {
     public EnemiesImpl(final MapController map, final GameController gc) {
         this.enemies = new EnemyCollectionImpl(gc, map);
         this.factory = new SimpleEnemyFactory(map.getSpawnPosition());
-        this.waveSupplier = new PredicateBasedRandomWaveGenerator(new WavePolicySupplierImpl(ROOT + WAVECONF),
-                new ConfigurableEnemyCatalogue(ROOT + TYPESCONF));
+        this.waveSupplier = new PredicateBasedRandomWaveGenerator(
+                new WavePolicySupplierImpl(Filenames.ROOT + Filenames.WAVECONF),
+                new ConfigurableEnemyCatalogue(Filenames.ROOT + Filenames.TYPESCONF));
         this.gc = gc;
     }
 
@@ -49,15 +47,17 @@ public class EnemiesImpl implements Enemies {
     public void update() {
         enemies.move();
         if (current.isPresent()) {
-            if (current.get().hasNext()) {
-                current.get().next().ifPresent(et -> enemies.add(factory.spawn(et)));
-            } else {
+            current.get().next().ifPresent(et -> enemies.add(factory.spawn(et)));
+            if (!current.get().hasNext()) {
                 current = Optional.empty();
             }
-        } else {
-            if (enemies.areDead()) {
-                gc.advanceWave();
-            }
+        }
+        /*
+         * Enclosing this in an else clause would prevent the wave from
+         * advancing during the first cycle after a wave !hasNext.
+         */
+        if (current.isEmpty() && enemies.areDead()) {
+            gc.advanceWave();
         }
     }
 
@@ -82,10 +82,13 @@ public class EnemiesImpl implements Enemies {
      */
     @Override
     public void spawn(int wave) {
-        if (current.isPresent()) {
+        if (current.isPresent() || !enemies.areDead()) {
             throw new IllegalStateException("A wave is already being spawned.");
         } else {
             current = Optional.of(waveSupplier.apply(wave));
+            if (!current.get().hasNext()) {
+                throw new RuntimeException("A new wave cannot be empty.");
+            }
         }
     }
 }

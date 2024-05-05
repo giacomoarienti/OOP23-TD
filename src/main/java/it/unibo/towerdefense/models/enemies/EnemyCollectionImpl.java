@@ -15,7 +15,7 @@ import it.unibo.towerdefense.controllers.map.MapController;
  */
 public class EnemyCollectionImpl implements EnemyCollection {
 
-    private Set<Enemy> enemies;
+    private final Set<Enemy> enemies;
     private final GameController gc;
     private final MapController map;
 
@@ -37,7 +37,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
      */
     @Override
     public void move() {
-        List<Enemy> dead = enemies.stream().filter(
+        final List<Enemy> dead = enemies.stream().filter(
             e -> {
                 Optional<LogicalPosition> next = map.getNextPosition(e.getPosition(), e.getSpeed());
                 if (next.isEmpty()) {
@@ -80,7 +80,10 @@ public class EnemyCollectionImpl implements EnemyCollection {
      * {@inheritDoc}
      */
     @Override
-    public void add(Enemy e) {
+    public void add(final Enemy e) {
+        if(e.isDead()){
+            throw new IllegalArgumentException("Can't add a dead enemy to the collection");
+        }
         enemies.add(e);
         e.addDeathObserver(this);
     }

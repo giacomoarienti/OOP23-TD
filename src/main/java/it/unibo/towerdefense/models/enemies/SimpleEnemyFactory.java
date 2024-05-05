@@ -152,7 +152,8 @@ public class SimpleEnemyFactory implements EnemyFactory {
          *
          * @return whether the enemy is dead or not
          */
-        private boolean isDead(){
+        @Override
+        public boolean isDead(){
             return hp<=0;
         }
     }

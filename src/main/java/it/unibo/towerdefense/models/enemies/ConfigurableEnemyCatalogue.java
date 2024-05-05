@@ -37,6 +37,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      */
     ConfigurableEnemyCatalogue(final String configFile) {
         Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> configValues = loadConfig(configFile);
+        checkConstraints(configValues);
         this.valueFactor = configValues.getLeft();
         this.rateos = configValues.getMiddle();
         this.powerlevels = configValues.getRight();
@@ -62,8 +63,6 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
             JSONObject config = new JSONObject(new String(configStream.readAllBytes()));
 
             vf = config.getInt("vf");
-            assert vf > 0;
-
             config.getJSONArray("archetypes").forEach(
                     (Object o) -> {
                         assert o instanceof JSONObject;
@@ -85,6 +84,35 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
         } catch (Throwable t) {
             throw new RuntimeException("Failed to load enemy types configuration from " + configFile, t);
         }
+    }
+
+    /**
+     * Method which incapsulates all the constraints a given configuration has to
+     * respect.
+     *
+     * Will throw a RuntimeException if constraints are not respected.
+     *
+     * @param values the triple containing the configuration to check.
+     */
+    private void checkConstraints(Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> config){
+        final int valueFactor = config.getLeft();
+        final Map<EnemyArchetype, Integer> r = config.getMiddle();
+        final Map<EnemyLevel, Integer> pl = config.getRight();
+
+        try{
+            assert valueFactor > 0;
+            r.values().forEach( i -> {
+                    assert i > 0;
+                }
+            );
+            pl.values().forEach( i -> {
+                    assert i > 0;
+                }
+            );
+        }catch(Throwable t){
+            throw new RuntimeException("Values contained in configuration file for enemy catalogue are not permitted.", t);
+        }
+
     }
 
     /**
