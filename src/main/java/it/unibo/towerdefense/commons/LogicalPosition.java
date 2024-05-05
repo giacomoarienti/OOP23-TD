@@ -39,7 +39,7 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
     }
 
     /**
-     * @inheritDoc .
+     * {@inheritDoc}
      */
     @Override
     public LogicalPosition clone() {
@@ -69,5 +69,49 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
             return (posCoord + 1) / SCALING_FACTOR - 1;
         }
         return posCoord / SCALING_FACTOR;
+    }
+
+    /**
+     * Returns an immutable LogicalPosition with the same x and y as the argument.
+     * @return an immutable LogicalPosition with the same x and y as the argument
+     */
+    public static LogicalPosition copyOf(LogicalPosition pos) {
+        return new LogicalPosition(pos.getX(), pos.getY()){
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void set(int x, int y){
+                throw new UnsupportedOperationException("Tried to modify an immutable position.");
+            }
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void setX(final int x) {
+                throw new UnsupportedOperationException("Tried to modify an immutable position.");
+            }
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void setY(final int y) {
+                throw new UnsupportedOperationException("Tried to modify an immutable position.");
+            }
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void add(final Position position) {
+                throw new UnsupportedOperationException("Tried to modify an immutable position.");
+            }
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void subtract(final Position position) {
+                throw new UnsupportedOperationException("Tried to modify an immutable position.");
+            }
+        };
     }
 }

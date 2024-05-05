@@ -42,6 +42,9 @@ public class SimpleEnemyFactory implements EnemyFactory {
      */
     private class MinimalEnemy implements Enemy {
 
+        /**
+         * A record to keep track of the information about an Enemy.
+         */
         private record MinimalEnemyInfo(LogicalPosition pos, Integer hp, EnemyType type) implements EnemyInfo {
         };
 
@@ -101,7 +104,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
          */
         @Override
         public LogicalPosition getPosition() {
-            return pos.clone();
+            return LogicalPosition.copyOf(pos);
         }
 
         /**

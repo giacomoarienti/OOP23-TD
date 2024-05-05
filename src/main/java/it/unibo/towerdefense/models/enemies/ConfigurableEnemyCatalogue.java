@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONObject;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.math.IntMath;
 
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
@@ -79,7 +80,8 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
                     });
             assert pl.keySet().containsAll(Set.of(EnemyLevel.values()));
 
-            return Triple.of(vf, r, pl);
+            return Triple.of(vf, ImmutableMap.copyOf(r), ImmutableMap.copyOf(pl));
+
         } catch (Throwable t) {
             throw new RuntimeException("Failed to load enemy types configuration from " + configFile, t);
         }
@@ -97,7 +99,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      * {@inheritDoc}
      */
     @Override
-    public Set<RichEnemyType> getEnemyTypes(Predicate<? super RichEnemyType> test) {
+    public Set<RichEnemyType> getEnemyTypes(final Predicate<? super RichEnemyType> test) {
         return availableTypes.stream().filter(test).collect(Collectors.toUnmodifiableSet());
     }
 
@@ -106,12 +108,18 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      */
     private record BasicEnemyType(EnemyLevel level, EnemyArchetype type, int getMaxHP, int getSpeed, int getValue)
             implements RichEnemyType {
+                /**
+                 * Two enemy types are the same if they have same level and type.
+                */
                 @Override
                 public final boolean equals(Object o) {
                     return o instanceof EnemyType &&
                         ((EnemyType)o).level() == this.level() &&
                         ((EnemyType)o).type() == this.type();
                 }
+                /**
+                 * Overridden to support the new equals definition.
+                 */
                 @Override
                 public final int hashCode() {
                     return Objects.hash(this.level(), this.type());
