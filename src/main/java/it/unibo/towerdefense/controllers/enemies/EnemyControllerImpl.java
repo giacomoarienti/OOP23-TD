@@ -81,7 +81,7 @@ public class EnemyControllerImpl implements EnemyController {
      * {@inheritDoc}
      */
     @Override
-    public void spawn(int wave) {
+    public void spawn(final int wave) {
         model.spawn(wave);
     }
 

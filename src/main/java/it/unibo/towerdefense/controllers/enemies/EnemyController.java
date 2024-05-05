@@ -40,7 +40,7 @@ public interface EnemyController {
      *
      * @param indexes enemies to hurt
      */
-    void hurtEnemies(Map<Integer, Integer> indexes);
+    void hurtEnemies(final Map<Integer, Integer> indexes);
 
     /**
      * Starts spawning the enemies for the wave given as argument.

@@ -29,7 +29,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
     /**
      * {@inheritDoc}
      */
-    public Enemy spawn(RichEnemyType t) {
+    public Enemy spawn(final RichEnemyType t) {
         return new MinimalEnemy(t);
     }
 
@@ -58,7 +58,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
          *
          * @param t the type of the Enemy from which to retrieve hp and speed
          */
-        MinimalEnemy(RichEnemyType t) {
+        MinimalEnemy(final RichEnemyType t) {
             deathObservers = new HashSet<>();
             this.t = t;
             this.hp = t.getMaxHP();
@@ -75,7 +75,9 @@ public class SimpleEnemyFactory implements EnemyFactory {
                 throw new IllegalStateException("Tried to hurt a dead enemy");
             } else {
                 hp -= amount;
-                if(isDead()) die();
+                if (isDead()) {
+                    die();
+                }
             }
         }
 
@@ -94,7 +96,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
         public void move(final LogicalPosition newPos) {
             if (isDead()) {
                 throw new IllegalStateException("Tried to move a dead enemy");
-            }else{
+            } else {
                 pos.set(newPos.getX(), newPos.getY());
             }
         }
@@ -135,7 +137,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
          * {@inheritDoc}
          */
         @Override
-        public void addDeathObserver(Observer<Enemy> observer) {
+        public void addDeathObserver(final Observer<Enemy> observer) {
             deathObservers.add(observer);
         }
 
@@ -153,8 +155,8 @@ public class SimpleEnemyFactory implements EnemyFactory {
          * @return whether the enemy is dead or not
          */
         @Override
-        public boolean isDead(){
-            return hp<=0;
+        public boolean isDead() {
+            return hp <= 0;
         }
     }
 }

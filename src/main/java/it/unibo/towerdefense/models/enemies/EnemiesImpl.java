@@ -81,7 +81,7 @@ public class EnemiesImpl implements Enemies {
      * {@inheritDoc}
      */
     @Override
-    public void spawn(int wave) {
+    public void spawn(final int wave) {
         if (current.isPresent() || !enemies.areDead()) {
             throw new IllegalStateException("A wave is already being spawned.");
         } else {

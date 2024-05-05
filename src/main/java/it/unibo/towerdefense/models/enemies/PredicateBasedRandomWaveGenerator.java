@@ -37,7 +37,7 @@ public class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave
      */
     @Override
     public Wave apply(final Integer wave) {
-        List<RichEnemyType> availableTypes = List.copyOf(ec.getEnemyTypes(wp.getPredicate(wave)));
+        final List<RichEnemyType> availableTypes = List.copyOf(ec.getEnemyTypes(wp.getPredicate(wave)));
         if(availableTypes.isEmpty()){
             throw new RuntimeException("No available types for wave " + wave);
         }else{
@@ -52,7 +52,7 @@ public class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave
      * Class created so as to inherit both from SkipIterator and Wave.
      */
     private class SkipWave extends SkipIterator<RichEnemyType> implements Wave{
-        SkipWave(Iterator<RichEnemyType> base, int skip) {
+        SkipWave(final Iterator<RichEnemyType> base, final int skip) {
             super(base, skip);
         }
     }

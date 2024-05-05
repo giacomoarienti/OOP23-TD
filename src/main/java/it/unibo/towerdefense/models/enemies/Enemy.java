@@ -16,7 +16,7 @@ public interface Enemy {
      *
      * @param amount how much
      */
-    void hurt(int amount);
+    void hurt(final int amount);
 
     /**
      * Sets the enemy's position to be the same of the one passed as an argument.
@@ -78,6 +78,6 @@ public interface Enemy {
      * Adds the given Observer to those
      * that will be notified on the enemy's death.
      */
-    void addDeathObserver(Observer<Enemy> observer);
+    void addDeathObserver(final Observer<Enemy> observer);
 
 }

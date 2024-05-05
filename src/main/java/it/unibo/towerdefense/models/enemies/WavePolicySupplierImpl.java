@@ -116,7 +116,8 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
                 assert i > 0;
             });
         } catch (Throwable t) {
-            throw new RuntimeException("Values contained in configuration file for wave policies are not permitted.", t);
+            throw new RuntimeException("Values contained in configuration file for wave policies are not permitted.",
+                    t);
         }
     }
 
@@ -127,7 +128,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * @param list the list containing String representation of accepted types
      * @return the corresponding predicate
      */
-    private static Predicate<EnemyType> translate(List<String> list) {
+    private static Predicate<EnemyType> translate(final List<String> list) {
         Predicate<EnemyType> ret = et -> false;
         for (String type : list) {
             EnemyLevel l = EnemyLevel.valueOf(type.substring(0, type.length() - 1));
@@ -142,7 +143,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * {@inheritDoc}
      */
     @Override
-    public Predicate<EnemyType> getPredicate(Integer wave) {
+    public Predicate<EnemyType> getPredicate(final Integer wave) {
         return predicates.headMap(wave + 1).values().stream().reduce(et -> false, (p1, p2) -> p1.or(p2));
     }
 
@@ -150,7 +151,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * {@inheritDoc}
      */
     @Override
-    public Integer getLength(Integer wave) {
+    public Integer getLength(final Integer wave) {
         return lengths.get(lengths.headMap(wave + 1).lastKey());
     }
 
@@ -158,7 +159,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * {@inheritDoc}
      */
     @Override
-    public Integer getCyclesPerSpawn(Integer wave) {
+    public Integer getCyclesPerSpawn(final Integer wave) {
         return rates.get(rates.headMap(wave + 1).lastKey());
     }
 

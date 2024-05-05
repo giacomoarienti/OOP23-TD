@@ -21,5 +21,5 @@ public interface EnemyCatalogue {
      * @return a list of all EnemyTypes in the game for which the predicate tests
      *         true
      */
-    public Set<RichEnemyType> getEnemyTypes(Predicate<? super RichEnemyType> test);
+    public Set<RichEnemyType> getEnemyTypes(final Predicate<? super RichEnemyType> test);
 }

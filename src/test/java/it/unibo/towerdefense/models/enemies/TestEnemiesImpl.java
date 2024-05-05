@@ -13,6 +13,7 @@ import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.game.GameState;
+import it.unibo.towerdefense.views.defenses.DefenseDescription;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**
@@ -166,15 +167,15 @@ public class TestEnemiesImpl {
             }
 
             @Override
-            public List<Pair<String, Integer>> getBuildingOptions() {
+            public String toJSON() {
                 // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getBuildingOptions'");
+                throw new UnsupportedOperationException("Unimplemented method 'toJSON'");
             }
 
             @Override
-            public String getMapJSON() {
+            public List<DefenseDescription> getBuildingOptions() {
                 // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getMapJSON'");
+                throw new UnsupportedOperationException("Unimplemented method 'getBuildingOptions'");
             }
         };
         tested = new EnemiesImpl(testing_mp, testing_gc);

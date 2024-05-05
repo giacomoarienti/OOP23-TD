@@ -36,11 +36,13 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      * @param configFile name of the file from which to load configurations.
      */
     ConfigurableEnemyCatalogue(final String configFile) {
-        Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> configValues = loadConfig(configFile);
+        final Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> configValues = loadConfig(configFile);
         checkConstraints(configValues);
+
         this.valueFactor = configValues.getLeft();
         this.rateos = configValues.getMiddle();
         this.powerlevels = configValues.getRight();
+
         availableTypes = Arrays.stream(EnemyLevel.values())
                 .flatMap(l -> Arrays.stream(EnemyArchetype.values()).map(t -> build(l, t)))
                 .collect(Collectors.toSet());
@@ -56,9 +58,9 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      *         in the file.
      */
     private Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> loadConfig(final String configFile) {
-        Integer vf;
-        Map<EnemyArchetype, Integer> r = new HashMap<>();
-        Map<EnemyLevel, Integer> pl = new HashMap<>();
+        final Integer vf;
+        final Map<EnemyArchetype, Integer> r = new HashMap<>();
+        final Map<EnemyLevel, Integer> pl = new HashMap<>();
         try (InputStream configStream = ClassLoader.getSystemResourceAsStream(configFile)) {
             JSONObject config = new JSONObject(new String(configStream.readAllBytes()));
 
@@ -69,15 +71,12 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
                         JSONObject level = (JSONObject) o;
                         r.put(EnemyArchetype.valueOf(level.getString("archetype")), level.getInt("rateo"));
                     });
-            assert r.keySet().containsAll(Set.of(EnemyArchetype.values()));
-
             config.getJSONArray("levels").forEach(
                     (Object o) -> {
                         assert o instanceof JSONObject;
                         JSONObject level = (JSONObject) o;
                         pl.put(EnemyLevel.valueOf(level.getString("level")), level.getInt("powerlevel"));
                     });
-            assert pl.keySet().containsAll(Set.of(EnemyLevel.values()));
 
             return Triple.of(vf, ImmutableMap.copyOf(r), ImmutableMap.copyOf(pl));
 
@@ -101,10 +100,12 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
 
         try{
             assert valueFactor > 0;
+            assert r.keySet().containsAll(Set.of(EnemyArchetype.values()));
             r.values().forEach( i -> {
                     assert i > 0;
                 }
             );
+            assert pl.keySet().containsAll(Set.of(EnemyLevel.values()));
             pl.values().forEach( i -> {
                     assert i > 0;
                 }
