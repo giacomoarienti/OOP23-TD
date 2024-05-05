@@ -68,12 +68,11 @@ public class SimpleEnemyFactory implements EnemyFactory {
         public void hurt(final int amount) {
             if (amount < 0) {
                 throw new IllegalArgumentException("Tried to hurt an enemy by " + String.valueOf(amount));
-            } else if (hp <= 0) {
+            } else if (isDead()) {
                 throw new IllegalStateException("Tried to hurt a dead enemy");
             } else {
-                if ((hp -= amount) <= 0) {
-                    die();
-                }
+                hp -= amount;
+                if(isDead()) die();
             }
         }
 
@@ -90,7 +89,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
          */
         @Override
         public void move(final LogicalPosition newPos) {
-            if (hp <= 0) {
+            if (isDead()) {
                 throw new IllegalStateException("Tried to move a dead enemy");
             }else{
                 pos.set(newPos.getX(), newPos.getY());
@@ -143,6 +142,15 @@ public class SimpleEnemyFactory implements EnemyFactory {
         @Override
         public void die() {
             deathObservers.forEach(o -> o.notify(this));
+        }
+
+        /**
+         * An enemy is dead when its hp is <= 0.
+         *
+         * @return whether the enemy is dead or not
+         */
+        private boolean isDead(){
+            return hp<=0;
         }
     }
 }

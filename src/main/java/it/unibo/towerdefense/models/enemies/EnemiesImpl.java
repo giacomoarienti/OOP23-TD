@@ -18,7 +18,7 @@ import it.unibo.towerdefense.controllers.map.MapController;
 public class EnemiesImpl implements Enemies {
 
     private final static String ROOT = "it/unibo/towerdefense/models/enemies/";
-    private final static String WAVECONF = "waves.config";
+    private final static String WAVECONF = "waves.json";
     private final static String TYPESCONF = "types.json";
     private final EnemyCollection enemies;
     private final EnemyFactory factory;
