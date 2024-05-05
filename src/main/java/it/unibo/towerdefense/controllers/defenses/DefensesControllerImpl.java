@@ -108,9 +108,8 @@ public class DefensesControllerImpl implements DefensesController {
     }
 
     @Override
-    public Map<Integer, DefenseDescription> getBuildables(LogicalPosition position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'disassembleDefense'");
+    public List<DefenseDescription> getBuildables(LogicalPosition position) throws IOException {
+        return getModelsOfBuildables(position).stream().map(x -> getDescriptionFrom(x)).toList();
     }
 
     @Override

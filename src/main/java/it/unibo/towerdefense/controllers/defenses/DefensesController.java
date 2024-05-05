@@ -1,7 +1,6 @@
 package it.unibo.towerdefense.controllers.defenses;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.controllers.SerializableController;
 import it.unibo.towerdefense.views.defenses.DefenseDescription;
 
@@ -37,7 +36,7 @@ public interface DefensesController extends SerializableController {
      * @param position the position where to build.
      * @return the possibles types of buildable defenses and their mapped cost.
      */
-    Map<Integer, DefenseDescription> getBuildables(LogicalPosition position);
+    List<DefenseDescription> getBuildables(LogicalPosition position) throws IOException;
 
     /**
      * makes the current ready defenses attack the available enemies.
