@@ -29,5 +29,6 @@ public class TestMap {
         }
         Assertions.assertTrue(pos.getY() < ITERATION_MOVEMENT);
         Assertions.assertTrue(pos.getY() >= 0);
+        Assertions.assertTrue(map.getEndPosition().equalsCell(pos));
     }
 }

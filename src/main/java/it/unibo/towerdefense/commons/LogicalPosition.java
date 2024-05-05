@@ -39,6 +39,15 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
     }
 
     /**
+     * Test if this and an other position are in the same Cell.
+     * @param pos position to compare to this.
+     * @return true if they are in the same Cell, false if not
+     */
+    public boolean equalsCell (final LogicalPosition pos) {
+        return this.getCellX() == pos.getCellX() && this.getCellY() == pos.getCellY();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

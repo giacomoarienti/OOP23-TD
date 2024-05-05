@@ -1,18 +1,18 @@
 package it.unibo.towerdefense.controllers.map;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.controllers.Controller;
+import it.unibo.towerdefense.controllers.SerializableController;
 import it.unibo.towerdefense.models.engine.Position;
+import it.unibo.towerdefense.views.defenses.DefenseDescription;
 
 /**
  *Interface that models controller of map.
  */
-public interface MapController extends Controller {
+public interface MapController extends SerializableController {
 
     /**
      *
@@ -55,18 +55,12 @@ public interface MapController extends Controller {
      * Build a tower in the selected Cell.
      * @param optionNumber the index of tower to build in the option list.
      */
-    void build(int optionNumber);
+    void build (int optionNumber) throws IOException;
 
     /**
      * Returns the building options in the selected cell.
-     * @return a list of pairs <defense name, cost>
+     * @return a list of DefenseDescripions
      */
-    List<Pair<String, Integer>> getBuildingOptions();
-
-    /**
-     * Returns a String in JSON with all map information needed.
-     * @return JSON String of game map
-     */
-    String getMapJSON();
+    List<DefenseDescription> getBuildingOptions();
 
 }
