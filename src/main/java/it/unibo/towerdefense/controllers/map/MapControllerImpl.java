@@ -1,11 +1,8 @@
 package it.unibo.towerdefense.controllers.map;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.defenses.DefenseType;
@@ -20,6 +17,7 @@ import it.unibo.towerdefense.models.map.Direction;
 import it.unibo.towerdefense.models.map.GameMap;
 import it.unibo.towerdefense.models.map.GameMapImpl;
 import it.unibo.towerdefense.models.map.PathCell;
+import it.unibo.towerdefense.views.defenses.DefenseDescription;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**
@@ -31,7 +29,7 @@ public class MapControllerImpl implements MapController {
     private final GameController gameController;
     private final DefensesController defensesController;
     private BuildableCell selected = null;
-    private List<Entry<DefenseType, Integer>> options;
+    private List<DefenseDescription> options;
 
     /**
      *Constructor from size of map in two unit of measure.
@@ -99,7 +97,7 @@ public class MapControllerImpl implements MapController {
         if (c.equals(selected)) {
             selected = null;
         } else {
-            if (c instanceof BuildableCell && ((BuildableCell) c).isBuildable()) {
+            if (c instanceof BuildableCell) {
                 selected = (BuildableCell) c;
             }
         }
@@ -161,36 +159,37 @@ public class MapControllerImpl implements MapController {
      * {@inheritDoc}
      */
     @Override
-    public void build(final int optionNumber) {
+    public void build(final int optionNumber) throws IOException {
         if (selected == null || options.isEmpty() || optionNumber > options.size() - 1) {
             throw new IllegalStateException("ERROR, can't build!");
         }
         var choice = options.get(optionNumber);
-        if (choice.getKey() == DefenseType.NOTOWER) {
-            defensesController.disassembleDefense(selected.getCenter());
-            gameController.addMoney(choice.getValue());
+        if (choice.getName().equals(DefenseType.NOTOWER.name())) {
+            gameController.addMoney(defensesController.disassembleDefense(selected.getCenter()));
             return;
         }
-        if (!gameController.purchase(choice.getValue())) {
+        if (!gameController.purchase(choice.getCost())) {
             throw new IllegalArgumentException("Not enought money!");
         }
-        defensesController.buildDefense(choice.getKey(), selected.getCenter());
+        defensesController.buildDefense(optionNumber, selected.getCenter());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Pair<String, Integer>> getBuildingOptions() {
-        options = requestBuildinOption();
-        return options.stream().map(e -> Pair.of(e.getKey().toString(), e.getValue())).toList();
+    public List<DefenseDescription> getBuildingOptions() {
+        if (updateBuildinOption()) {
+            return List.copyOf(options);
+        }
+        return List.of();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getMapJSON() {
+    public String toJSON() {
         return map.toJSON();
     }
 
@@ -203,11 +202,16 @@ public class MapControllerImpl implements MapController {
         throw new UnsupportedOperationException("Unimplemented method 'render'");
     }
 
-    private  List<Map.Entry<DefenseType, Integer>> requestBuildinOption() {
+    private boolean updateBuildinOption() {
         if (selected == null) {
-            return List.of();
+            return false;
         }
-        return defensesController.getBuildables(selected.getCenter()).entrySet().stream().toList();
+        try {
+            this.options = defensesController.getBuildables(selected.getCenter());
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     /**

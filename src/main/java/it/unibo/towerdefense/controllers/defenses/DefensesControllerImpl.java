@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Optional;
 
+import org.apache.commons.lang3.IntegerRange;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
@@ -82,8 +84,7 @@ public class DefensesControllerImpl implements DefensesController {
 
     @Override
     public void render(GameRenderer renderer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'render'");
+
     }
 
     @Override
@@ -108,15 +109,29 @@ public class DefensesControllerImpl implements DefensesController {
     }
 
     @Override
-    public Map<Integer, DefenseDescription> getBuildables(LogicalPosition position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'disassembleDefense'");
+    public List<DefenseDescription> getBuildables(LogicalPosition position) throws IOException {
+        return getModelsOfBuildables(position).stream().map(x -> getDescriptionFrom(x)).toList();
     }
 
     @Override
     public Map<Integer, Integer> attackEnemies(List<Pair<LogicalPosition, Integer>> availableTargets) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'attackEnemies'");
+        Map<Integer, Integer> result = new HashMap<>();
+        for (Pair<Defense,Integer> def : this.defenses) {
+            /**execute only if momentum is reached.*/
+            if(def.getValue() >= DefenseFormulas.MOMENTUM_REQUIRED) {
+                Map<Integer, Integer> attackResult = def.getKey().getStrategy()
+                .execute(availableTargets, def.getKey().getDamage());
+
+                /**merge map with result.*/
+                if(attackResult.size() > 0) {
+                    def.setValue(0); /**reset only if there was an actual action.*/
+                    attackResult.entrySet().stream().forEach(x ->
+                        result.merge(x.getKey(), x.getValue(), Integer::sum)
+                    );
+                }
+            }
+        }
+        return result;
     }
 
     /**
