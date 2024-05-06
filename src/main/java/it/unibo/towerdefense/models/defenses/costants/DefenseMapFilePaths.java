@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.defenses.costants;
 
+import it.unibo.towerdefense.controllers.defenses.DefenseType;
+
 /**file paths used by factories.*/
 public final class DefenseMapFilePaths {
     /**base archer tower file path.*/
@@ -26,6 +28,25 @@ public final class DefenseMapFilePaths {
     /**upgraded versions of bomb tower file paths.*/
     public static final String THUNDER_INVOKER_UPGRADES =
     "src/main/resources/defenses/upgrades/thunder_invoker__upgr.json";
+
+    /**
+     * @return a file path based on a type.
+     * @param type
+     */
+    public static String pathFromType(final DefenseType type) {
+        switch (type) {
+            case ARCHERTOWER:
+                return ARCHER_TOWER_UPGRADES;
+            case BOMBTOWER:
+                return ARCHER_TOWER_UPGRADES;
+            case WIZARDTOWER:
+                return WIZARD_TOWER_UPGRADES;
+            case THUNDERINVOKER:
+                return THUNDER_INVOKER_UPGRADES;
+            default:
+                return null;
+        }
+    }
 
     /**Private constructor.*/
     private DefenseMapFilePaths() {

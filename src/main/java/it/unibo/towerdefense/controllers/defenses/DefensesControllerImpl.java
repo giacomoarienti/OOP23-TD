@@ -106,7 +106,8 @@ public class DefensesControllerImpl implements DefensesController {
         } else {
             /**@TODO: create paths for upgrades.*/
             defenses.set(upgradable.get().getKey(),
-            new ImmutablePair<>(factory.upgrade(buildables.get(choice), choice, Optional.empty()), 0));
+            new ImmutablePair<>(factory.upgrade(buildables.get(choice), choice,
+            Optional.of(DefenseMapFilePaths.pathFromType(buildables.get(choice).getType()))), 0));
         }
     }
 

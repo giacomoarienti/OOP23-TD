@@ -135,7 +135,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
      * {@inheritDoc}
      */
     @Override
-    public Defense upgrade(final Defense current, final int upgradeIndex, final Optional<String> upgradesFileName) 
+    public Defense upgrade(final Defense current, final int upgradeIndex, final Optional<String> upgradesFileName)
     throws IOException {
         Optional<LogicalPosition> optionalCustomPos = current.getStrategy().getCustomPosition();
         LogicalPosition defPosition = current.getPosition();
