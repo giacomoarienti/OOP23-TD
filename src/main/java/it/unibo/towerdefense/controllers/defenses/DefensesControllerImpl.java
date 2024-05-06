@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Optional;
 
-import org.apache.commons.lang3.IntegerRange;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
@@ -22,20 +21,22 @@ import it.unibo.towerdefense.models.defenses.costants.DefenseMapFilePaths;
 import it.unibo.towerdefense.views.defenses.DefenseDescription;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
 
+/**Implementation of DefenseController.*/
 public class DefensesControllerImpl implements DefensesController {
 
-    /**Defense builder*/
-    DefenseFactory factory = new DefenseFactoryImpl();
+    /**Defense builder.*/
+    private DefenseFactory factory = new DefenseFactoryImpl();
     /**All current existing defenses with their respective cooldown.*/
-    private List<Pair<Defense,Integer>> defenses = new LinkedList<>();
+    private List<Pair<Defense, Integer>> defenses = new LinkedList<>();
     /**The current custom position to be used by defenses.*/
-    LogicalPosition endOfMap;
+    private LogicalPosition endOfMap;
 
     /**finds a defense based on its position.
-     * @return a defense id there is something on given position,a empty Optional otherwise.
+     * @return a defense if there is something on given position,a empty Optional otherwise.
+     * @param pos the position to check.
     */
-    private Optional<Pair<Integer,Defense>> find(LogicalPosition pos) {
-        for (int i =0;i <defenses.size(); i++) {
+    private Optional<Pair<Integer, Defense>> find(final LogicalPosition pos) {
+        for (int i = 0; i < defenses.size(); i++) {
             if (defenses.get(i).getKey().getPosition() == pos) {
                 return Optional.of(new ImmutablePair<>(i, defenses.get(i).getKey()));
             }
@@ -46,10 +47,10 @@ public class DefensesControllerImpl implements DefensesController {
     /**
      * gives a defenseDescription for a given defense.
      * @return the defenseDescription of
-     * @param def
+     * @param def the defense to get description for.
      */
-    private DefenseDescription getDescriptionFrom(Defense def) {
-        return new DefenseDescription(def.getType().toString() + " lv. "+def.getLevel(),
+    private DefenseDescription getDescriptionFrom(final Defense def) {
+        return new DefenseDescription(def.getType().toString() + " lv. " + def.getLevel(),
          def.getType().toString(),
          def.getBuildingCost());
     }
@@ -59,9 +60,9 @@ public class DefensesControllerImpl implements DefensesController {
      * @return a list of defenses.
      * @param buildPosition the current model to check.
     */
-    private List<Defense> getModelsOfBuildables(LogicalPosition buildPosition) throws IOException {
+    private List<Defense> getModelsOfBuildables(final LogicalPosition buildPosition) throws IOException {
         Optional<Pair<Integer, Defense>> currentDef = find(buildPosition);
-        if ( currentDef.isEmpty()) {
+        if (currentDef.isEmpty()) {
             return List.of(
                 factory.levelOneDefense(DefenseMapFilePaths.ARCHER_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition, Optional.empty()),
@@ -72,58 +73,74 @@ public class DefensesControllerImpl implements DefensesController {
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
     }
-
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public void update() {
         /**update momentum.*/
-        for (Pair<Defense,Integer> def : this.defenses) {
+        for (Pair<Defense, Integer> def : this.defenses) {
             int speed = def.getKey().getAttackSpeed();
-            def.setValue(Math.max(def.getValue()+speed, DefenseFormulas.MOMENTUM_REQUIRED));
+            def.setValue(Math.max(def.getValue() + speed, DefenseFormulas.MOMENTUM_REQUIRED));
         }
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
-    public void render(GameRenderer renderer) {
+    public void render(final GameRenderer renderer) {
 
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
-    public void buildDefense(int choice, LogicalPosition position) throws IOException {
+    public void buildDefense(final int choice, final LogicalPosition position) throws IOException {
         List<Defense> buildables = getModelsOfBuildables(position);
         Optional<Pair<Integer, Defense>> upgradable = find(position);
 
-        if(upgradable.isEmpty()) {
-            defenses.add(new ImmutablePair<>(buildables.get(choice),0));
-        }
-        else {
-            defenses.set(upgradable.get().getKey(), new ImmutablePair<>(buildables.get(choice),0));
+        if (upgradable.isEmpty()) {
+            defenses.add(new ImmutablePair<>(buildables.get(choice), 0));
+        } else {
+            defenses.set(upgradable.get().getKey(), new ImmutablePair<>(buildables.get(choice), 0));
         }
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
-    public int disassembleDefense(LogicalPosition position) {
+    public int disassembleDefense(final LogicalPosition position) {
         Optional<Pair<Integer, Defense>> toDelete = find(position);
         int returnValue = toDelete.get().getValue().getSellingValue();
         defenses.remove(toDelete.get().getKey());
         return returnValue;
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
-    public List<DefenseDescription> getBuildables(LogicalPosition position) throws IOException {
+    public List<DefenseDescription> getBuildables(final LogicalPosition position) throws IOException {
         return getModelsOfBuildables(position).stream().map(x -> getDescriptionFrom(x)).toList();
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
-    public Map<Integer, Integer> attackEnemies(List<Pair<LogicalPosition, Integer>> availableTargets) {
+    public Map<Integer, Integer> attackEnemies(final List<Pair<LogicalPosition, Integer>> availableTargets) {
         Map<Integer, Integer> result = new HashMap<>();
-        for (Pair<Defense,Integer> def : this.defenses) {
+        for (Pair<Defense, Integer> def : this.defenses) {
             /**execute only if momentum is reached.*/
-            if(def.getValue() >= DefenseFormulas.MOMENTUM_REQUIRED) {
+            if (def.getValue() >= DefenseFormulas.MOMENTUM_REQUIRED) {
                 Map<Integer, Integer> attackResult = def.getKey().getStrategy()
                 .execute(availableTargets, def.getKey().getDamage());
 
                 /**merge map with result.*/
-                if(attackResult.size() > 0) {
+                if (attackResult.size() > 0) {
                     def.setValue(0); /**reset only if there was an actual action.*/
                     attackResult.entrySet().stream().forEach(x ->
                         result.merge(x.getKey(), x.getValue(), Integer::sum)
@@ -140,7 +157,7 @@ public class DefensesControllerImpl implements DefensesController {
     @Override
     public String toJSON() {
         JSONArray result = new JSONArray();
-        for (Pair<Defense,Integer> def : this.defenses) {
+        for (Pair<Defense, Integer> def : this.defenses) {
             result.put(new JSONObject(def.getKey().toJSON()));
         }
         return result.toString();

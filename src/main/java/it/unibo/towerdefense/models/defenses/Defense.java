@@ -73,9 +73,12 @@ public interface Defense extends JsonSerializable {
     /**Adds new upgrades to the defense.
      * @param newUpgrades the upgrades to Add.
     */
-    public void addUpgrades(final Set<Defense> newUpgrades);
+    void addUpgrades(Set<Defense> newUpgrades);
 
-    /**Gets from json.*/
+    /**Gets from json.
+     * @return a defense from the json like string.
+     * @param jsonData the json string.
+    */
     static Defense fromJson(String jsonData) {
         return DefenseImpl.fromJson(jsonData);
     }

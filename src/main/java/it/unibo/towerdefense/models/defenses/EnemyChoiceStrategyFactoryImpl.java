@@ -63,11 +63,12 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
         };
     }
 
-    /**returns the closest entitie to a defined position.
+    /**@return the closest entitie to a defined position.
      * @param entities the entities to check.
      * @param point the position we want to see distance to.
     */
-    private LogicalPosition getClosestTo(Map<Integer, Pair<LogicalPosition, Integer>> entities, LogicalPosition point) {
+    private LogicalPosition getClosestTo(final Map<Integer, Pair<LogicalPosition, Integer>> entities,
+    final LogicalPosition point) {
         return entities.entrySet()
         .stream()
         .sorted((p1, p2) ->
@@ -102,7 +103,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
      *{@inheritDoc}
      */
     @Override
-    public EnemyChoiceStrategy closestTargetWithAreaDamage(final int damageRange, final int range, 
+    public EnemyChoiceStrategy closestTargetWithAreaDamage(final int damageRange, final int range,
     final LogicalPosition position) {
         return genericModel((x1, x2) -> x1.distanceTo(x2) <= range,
         map -> map.entrySet()
@@ -120,8 +121,9 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
      *{@inheritDoc}
      */
     @Override
-    public EnemyChoiceStrategy closestToCustomPointNotInRange(int range, LogicalPosition customPoint, LogicalPosition position) {
-        return genericModel((x1,x2) -> x1.distanceTo(x2) > range,
+    public EnemyChoiceStrategy closestToCustomPointNotInRange(final int range,
+    final LogicalPosition customPoint, final LogicalPosition position) {
+        return genericModel((x1, x2) -> x1.distanceTo(x2) > range,
         map -> map.entrySet()
         .stream()
         .filter(ent -> ent.getValue().getKey().distanceTo(getClosestTo(map, customPoint)) == 0)

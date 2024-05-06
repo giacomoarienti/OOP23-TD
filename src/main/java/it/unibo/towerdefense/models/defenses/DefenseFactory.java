@@ -30,7 +30,7 @@ public interface DefenseFactory {
      * @param customPosition the custom position.
      * @throws IOException if errors occur during file reading.
     */
-    Defense defenseFromSaveFileWithCustomPoint(String saveFile,LogicalPosition customPosition) throws IOException;
+    Defense defenseFromSaveFileWithCustomPoint(String saveFile, LogicalPosition customPosition) throws IOException;
 
     /**
      * @return a defense from pre-built stat file that uses a customPosition in its strategy.
@@ -50,5 +50,5 @@ public interface DefenseFactory {
      * @param upgradesFileName used for getting the upgrades of the upgrade.
      * @throws IOException if errors occur during file reading.
      */
-    void upgrade(Defense current,int upgradeIndex, Optional<String> upgradesFileName) throws IOException;
+    void upgrade(Defense current, int upgradeIndex, Optional<String> upgradesFileName) throws IOException;
 }

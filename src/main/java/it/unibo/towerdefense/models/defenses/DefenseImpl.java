@@ -35,7 +35,7 @@ public class DefenseImpl implements Defense {
     /**A private constructor that copies another defense.
      *@param copy the defense to copy.
     */
-    private DefenseImpl(Defense copy) {
+    private DefenseImpl(final Defense copy) {
         this.type = copy.getType();
         this.level = copy.getLevel();
         this.damage = copy.getDamage();
@@ -50,6 +50,8 @@ public class DefenseImpl implements Defense {
     /**
      * This constructor builds the defense from scratch,passing all the required fields from the interface.
      * @param damage
+     * @param type
+     * @param range
      * @param attackSpeed
      * @param cost
      * @param sellValue
@@ -210,6 +212,10 @@ public class DefenseImpl implements Defense {
         return parser.toString();
     }
 
+    /**
+     * @param jsonData the json string.
+     * @return a defense from a json string, strategy is to be set.
+     */
     public static Defense fromJson(final String jsonData) {
         JSONObject json = new JSONObject(jsonData);
         /**Obtain upgrades.*/
