@@ -13,6 +13,7 @@ public class GameDTOImpl implements GameDTO {
     private static final String WAVE_FIELD = "wave";
     private static final String LIVES_FIELD = "lives";
     private static final String MONEY_FIELD = "money";
+    private static final int DEFAULT_VALUE = 0;
 
     private final String playerName;
     private final int lives;
@@ -36,6 +37,19 @@ public class GameDTOImpl implements GameDTO {
         this.lives = lives;
         this.money = money;
         this.wave = wave;
+    }
+
+    /**
+     * Constructor with playerName, it initializes a new game with default values.
+     * @param playerName the player name
+     */
+    public GameDTOImpl(final String playerName) {
+        this(
+            playerName,
+            DEFAULT_VALUE,
+            DEFAULT_VALUE,
+            DEFAULT_VALUE
+        );
     }
 
     /**
