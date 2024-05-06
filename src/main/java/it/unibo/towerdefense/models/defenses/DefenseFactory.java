@@ -44,11 +44,11 @@ public interface DefenseFactory {
     LogicalPosition customPosition, Optional<String> upgradesFileName) throws IOException;
 
     /**
-     * Upgrades the given defense.
+     * @return an upgraded version of a defense.
      * @param current the defense to upgrade.
      * @param upgradeIndex indicates wich upgrade to use.
      * @param upgradesFileName used for getting the upgrades of the upgrade.
      * @throws IOException if errors occur during file reading.
      */
-    void upgrade(Defense current, int upgradeIndex, Optional<String> upgradesFileName) throws IOException;
+    Defense upgrade(Defense current, int upgradeIndex, Optional<String> upgradesFileName) throws IOException;
 }

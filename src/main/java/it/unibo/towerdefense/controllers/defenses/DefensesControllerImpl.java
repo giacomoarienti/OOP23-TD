@@ -104,7 +104,9 @@ public class DefensesControllerImpl implements DefensesController {
         if (upgradable.isEmpty()) {
             defenses.add(new ImmutablePair<>(buildables.get(choice), 0));
         } else {
-            defenses.set(upgradable.get().getKey(), new ImmutablePair<>(buildables.get(choice), 0));
+            /**@TODO: create paths for upgrades.*/
+            defenses.set(upgradable.get().getKey(),
+            new ImmutablePair<>(factory.upgrade(buildables.get(choice), choice, Optional.empty()), 0));
         }
     }
 

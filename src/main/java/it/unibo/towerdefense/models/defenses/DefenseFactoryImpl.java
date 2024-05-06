@@ -135,14 +135,19 @@ public class DefenseFactoryImpl implements DefenseFactory {
      * {@inheritDoc}
      */
     @Override
-    public void upgrade(Defense current, final int upgradeIndex, final Optional<String> upgradesFileName) throws IOException {
+    public Defense upgrade(final Defense current, final int upgradeIndex, final Optional<String> upgradesFileName) 
+    throws IOException {
         Optional<LogicalPosition> optionalCustomPos = current.getStrategy().getCustomPosition();
         LogicalPosition defPosition = current.getPosition();
-        current = current.getPossibleUpgrades().stream().toList().get(upgradeIndex);
-        current.setPosition(defPosition);
-        setStrategyFor(current, optionalCustomPos);
+        Defense upgradedVersion = current.getPossibleUpgrades().stream().toList().get(upgradeIndex);
+        upgradedVersion.setPosition(defPosition);
+        setStrategyFor(upgradedVersion, optionalCustomPos);
         if (upgradesFileName.isPresent()) {
-            current.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), current.getType(), current.getLevel()));
+            upgradedVersion.addUpgrades(getDefensesOfLevel(
+            upgradesFileName.get(),
+            upgradedVersion.getType(),
+            upgradedVersion.getLevel()));
         }
+        return upgradedVersion;
     }
 }
