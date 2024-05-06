@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controllers.game;
+package it.unibo.towerdefense.controllers.gameloop;
 
 /**
  * Interface that defines GameController methods.
