@@ -2,6 +2,7 @@ package it.unibo.towerdefense.models.defenses;
 
 import java.io.IOException;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,9 +31,10 @@ public class TestDefenseController {
     @Test
     /**Test for "toJson" method.*/
     public void testToJson() throws IOException {
+        /**Nothing must throw exceptions.*/
         controller.buildDefense(0, new LogicalPosition(0, 0));
         controller.buildDefense(1, new LogicalPosition(5, 5));
-        controller.buildDefense(0, new LogicalPosition(5, 5));
+        controller.buildDefense(2, new LogicalPosition(10, 10));
     }
 
     @Test
@@ -49,8 +51,13 @@ public class TestDefenseController {
 
     @Test
     /**Test for "disassembleDefense" method.*/
-    public void testDisassembleDefense() {
-
+    public void testDisassembleDefense() throws IOException {
+        /**expected sell value and position.*/
+        final int expectedSellValue = 25;
+        final LogicalPosition pos = new LogicalPosition(0, 0);
+        /**Build and scrap.*/
+        controller.buildDefense(0, pos);
+        Assertions.assertEquals(controller.disassembleDefense(pos), expectedSellValue);
     }
 
     @Test

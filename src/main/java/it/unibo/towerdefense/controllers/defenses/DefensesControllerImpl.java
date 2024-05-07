@@ -66,9 +66,9 @@ public class DefensesControllerImpl implements DefensesController {
             return List.of(
                 factory.levelOneDefense(DefenseMapFilePaths.ARCHER_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition, Optional.empty()),
-                factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty()),
-                factory.levelOneDefenseWithCustomPosition(DefenseMapFilePaths.WIZARD_TOWER_LV1,
-                buildPosition, endOfMap, Optional.empty())
+                factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty())
+                /**factory.levelOneDefenseWithCustomPosition(DefenseMapFilePaths.WIZARD_TOWER_LV1,
+                buildPosition, endOfMap, Optional.empty())*/
             );
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
