@@ -53,7 +53,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      *
      * Changes to configuration file format only affect this part of the class.
      *
-     * @param config String containing configurations.
+     * @param configString String containing configurations.
      * @return a Pair containing the two maps which represent the information stored
      *         in the file.
      */

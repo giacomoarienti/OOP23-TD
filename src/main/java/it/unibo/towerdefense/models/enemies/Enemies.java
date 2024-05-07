@@ -23,7 +23,7 @@ public interface Enemies {
      *
      * @param o the new observer
      */
-    public void addDeathObserver(Observer<Enemy> o);
+    void addDeathObserver(Observer<Enemy> o);
 
     /**
      * Starts a new wave if one is not currently active and no enemy is alive.
@@ -42,7 +42,7 @@ public interface Enemies {
      *
      * @return true when there is an active wave false otherwise
      */
-    public boolean isWaveActive();
+    boolean isWaveActive();
 
     /**
      * Returns a Set of all Enemies currently alive.

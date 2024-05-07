@@ -34,9 +34,8 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * @param configFile the file from which to read the configuration.
      */
     WavePolicySupplierImpl(final String configFile) {
-        Triple<SortedMap<Integer, Predicate<EnemyType>>,
-            SortedMap<Integer, Integer>,
-            SortedMap<Integer, Integer>> configValues = loadConfig(configFile);
+        Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> configValues = loadConfig(
+                configFile);
         checkConstraints(configValues);
         this.predicates = configValues.getLeft();
         this.lengths = configValues.getMiddle();
@@ -53,8 +52,8 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      *         information stored
      *         in the file.
      */
-    Triple<SortedMap<Integer, Predicate<EnemyType>>,
-                SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> loadConfig(final String configString) {
+    Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> loadConfig(
+            final String configString) {
 
         SortedMap<Integer, Predicate<EnemyType>> p = new TreeMap<>();
         SortedMap<Integer, Integer> l = new TreeMap<>();
@@ -91,8 +90,8 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      *
      * @param values the triple containing the configuration to check.
      */
-    private void checkConstraints(final Triple<SortedMap<Integer, Predicate<EnemyType>>,
-                        SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> values) {
+    private void checkConstraints(
+            final Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> values) {
 
         final SortedMap<Integer, Predicate<EnemyType>> p = values.getLeft();
         final SortedMap<Integer, Integer> l = values.getMiddle();
@@ -182,8 +181,8 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      *
      * @param wave the integer to check, must be > 1
      */
-    private void check(final Integer wave){
-        if(wave < 1){
+    private void check(final Integer wave) {
+        if (wave < 1) {
             throw new IllegalArgumentException("Wave numbers < 1 are not allowed.");
         }
     }
