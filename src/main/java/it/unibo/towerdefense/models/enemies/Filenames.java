@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.models.enemies;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Class containing the names of configuration files used by the classes which
@@ -12,9 +13,17 @@ abstract class Filenames {
     static final String WAVECONF = "waves.json";
     static final String TYPESCONF = "types.json";
     static Path wavesConfig(){
-        return Path.of(ClassLoader.getSystemResource(ROOT + WAVECONF).getPath());
+        try {
+            return Paths.get(ClassLoader.getSystemResource(ROOT + WAVECONF).toURI());
+        }catch(Throwable t){
+            throw new RuntimeException("Could not find file " + ROOT + WAVECONF);
+        }
     }
     static Path typesConfig(){
-        return Path.of(ClassLoader.getSystemResource(ROOT + TYPESCONF).getPath());
+        try {
+            return Paths.get(ClassLoader.getSystemResource(ROOT + TYPESCONF).toURI());
+        }catch(Throwable t){
+            throw new RuntimeException("Could not find file " + ROOT + TYPESCONF);
+        }
     }
 }

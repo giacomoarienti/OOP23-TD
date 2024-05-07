@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.models.enemies;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -8,12 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.controllers.game.GameController;
-import it.unibo.towerdefense.controllers.map.MapController;
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.game.GameState;
-import it.unibo.towerdefense.views.defenses.DefenseDescription;
-import it.unibo.towerdefense.views.graphics.GameRenderer;
+import it.unibo.towerdefense.utils.file.FileUtils;
 
 /**
  * Tests for EnemiesImpl.
@@ -24,11 +19,9 @@ public class TestEnemiesImpl {
      * Arbitrary starting position.
      */
     private static final LogicalPosition STARTING_POSITION = new LogicalPosition(0, 0);
-    private GameController testing_gc;
-    private MapController testing_mp;
     private WavePolicySupplierImpl testing_wp;
     private EnemiesImpl tested;
-    private boolean advanced_wave = false;
+    private int dead;
 
     /**
      * Initializes the class to be tested along with some helper classes which we
@@ -37,147 +30,11 @@ public class TestEnemiesImpl {
      * needed for testing EnemiesImpl.
      */
     @BeforeEach
-    void init() {
-        testing_wp = new WavePolicySupplierImpl(Filenames.ROOT + Filenames.WAVECONF);
-        testing_gc = new GameController() {
-            private int money = 0;
-
-            @Override
-            public void update() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'update'");
-            }
-
-            @Override
-            public void render(GameRenderer renderer) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'render'");
-            }
-
-            @Override
-            public void resume() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'resume'");
-            }
-
-            @Override
-            public void pause() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'pause'");
-            }
-
-            @Override
-            public void advanceWave() {
-                TestEnemiesImpl.this.advanced_wave = true;
-            }
-
-            @Override
-            public int getWave() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getWave'");
-            }
-
-            @Override
-            public int getMoney() {
-                return money;
-            }
-
-            @Override
-            public void addMoney(int amount) {
-                money += amount;
-            }
-
-            @Override
-            public boolean purchase(int amount) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'purchase'");
-            }
-
-            @Override
-            public int getLives() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getLives'");
-            }
-
-            @Override
-            public GameState getGameState() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getGameState'");
-            }
-
-            @Override
-            public String toJSON() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'toJSON'");
-            }
-
-            @Override
-            public String getPlayerName() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getPlayerName'");
-            }
-        };
-        testing_mp = new MapController() {
-
-            @Override
-            public void render(GameRenderer renderer) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'render'");
-            }
-
-            @Override
-            public void update() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'update'");
-            }
-
-            @Override
-            public LogicalPosition getSpawnPosition() {
-                return STARTING_POSITION;
-            }
-
-            @Override
-            public LogicalPosition getEndPosition() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getEndPosition'");
-            }
-
-            @Override
-            public Optional<LogicalPosition> getNextPosition(LogicalPosition pos, int distanceToMove) {
-                return Optional.empty();
-            }
-
-            @Override
-            public void select(Position position) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'select'");
-            }
-
-            @Override
-            public Optional<Position> getSelected() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getSelected'");
-            }
-
-            @Override
-            public void build(int optionNumber) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'build'");
-            }
-
-            @Override
-            public String toJSON() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'toJSON'");
-            }
-
-            @Override
-            public List<DefenseDescription> getBuildingOptions() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getBuildingOptions'");
-            }
-        };
-        tested = new EnemiesImpl(testing_mp, testing_gc);
+    void init() throws IOException {
+        testing_wp = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
+        tested = new EnemiesImpl((pos, speed) -> Optional.empty(), STARTING_POSITION);
+        dead = 0;
+        tested.addDeathObserver(e -> dead += 1);
     }
 
     /**
@@ -195,9 +52,13 @@ public class TestEnemiesImpl {
      */
     @Test
     void testSpawn() {
+        Assertions.assertFalse(tested.isWaveActive());
         Assertions.assertThrows(RuntimeException.class, () -> tested.spawn(0));
         Assertions.assertDoesNotThrow(() -> tested.spawn(1));
+        Assertions.assertTrue(tested.isWaveActive());
         Assertions.assertThrows(RuntimeException.class, () -> tested.spawn(2));
+        Assertions.assertTrue(tested.isWaveActive());
+
     }
 
     /**
@@ -223,14 +84,14 @@ public class TestEnemiesImpl {
         tested.spawn(1);
         tested.update();
         Enemy onlyEnemy = tested.getEnemies().stream().findAny().get();
-        onlyEnemy.hurt(onlyEnemy.getHp());
+        onlyEnemy.die();
         Assertions.assertTrue(tested.getEnemies().size() == 0);
         Assertions.assertTrue(tested.getEnemiesInfo().size() == 0);
+        Assertions.assertEquals(1, dead);
     }
 
     /**
-     * Tests the wave behaves as it should and update() calls advanceWave the first
-     * time it's called after no enemy is alive anymore and no wave is active.
+     * Tests the wave behaves as it should.
      */
     @Test
     void testWaveEnd() {
@@ -243,11 +104,11 @@ public class TestEnemiesImpl {
             System.out.println(tested.getEnemies());
         }
         Assertions.assertTrue(tested.getEnemies().size() == 1);
-        Assertions.assertFalse(advanced_wave); // An enemy is still alive
+        Assertions.assertTrue(tested.isWaveActive()); // An enemy is still alive
         Assertions.assertThrows(RuntimeException.class, () -> tested.spawn(2));
         tested.update();
         Assertions.assertTrue(tested.getEnemies().size() == 0);
-        Assertions.assertTrue(advanced_wave);
+        Assertions.assertFalse(tested.isWaveActive());
         Assertions.assertDoesNotThrow(() -> tested.spawn(2));
     }
 }

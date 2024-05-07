@@ -1,5 +1,8 @@
 package it.unibo.towerdefense.models.enemies;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -15,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.utils.file.FileUtils;
 
 /**
  * Test for ConfigurableEnemyCataloge.
@@ -32,13 +36,19 @@ public class TestConfigurableEnemyCatalogue {
      * throw an exception if the file is ill-formatted.
      */
     @Test
-    void testFileRead() {
-        Assertions.assertDoesNotThrow(() -> new ConfigurableEnemyCatalogue(ROOT + "types.json"));
-        Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(ROOT + "types1.json"));
-        Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(ROOT + "types2.json"));
-        Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(ROOT + "types3.json"));
-        Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(ROOT + "types4.json"));
-        Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(ROOT + "nonexistent"));
+    void testFileRead() throws URISyntaxException, IOException {
+        List<String> goodFilenames = List.of("types.json");
+        List<String> evilFilenames = List.of("types1.json", "types2.json", "types3.json", "types4.json");
+        for (String s : goodFilenames) {
+            String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
+            Assertions.assertDoesNotThrow(() -> new ConfigurableEnemyCatalogue(config));
+        }
+        ;
+        for (String s : evilFilenames) {
+            String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
+            Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(config));
+        }
+        ;
     }
 
     /**
@@ -64,6 +74,7 @@ public class TestConfigurableEnemyCatalogue {
             }
         };
 
+        private final static String TEST_FILE = "types.json";
         private ConfigurableEnemyCatalogue tested;
         private Set<EnemyType> types;
 
@@ -72,8 +83,9 @@ public class TestConfigurableEnemyCatalogue {
          * the game.
          */
         @BeforeEach
-        void init() {
-            tested = new ConfigurableEnemyCatalogue(ROOT + "types.json");
+        void init() throws URISyntaxException, IOException {
+            tested = new ConfigurableEnemyCatalogue(
+                    FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + TEST_FILE).toURI())));
             types = Arrays.stream(EnemyLevel.values())
                     .flatMap((EnemyLevel l) -> Arrays.stream(EnemyArchetype.values())
                             .map((EnemyArchetype t) -> new SimpleEnemyType(l, t)))

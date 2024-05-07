@@ -1,5 +1,10 @@
 package it.unibo.towerdefense.models.enemies;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -8,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.utils.file.FileUtils;
 
 /**
  * Tests for WavePolicySupplierImpl.
@@ -17,32 +23,44 @@ public class TestWavePolicySupplierImpl {
     private final static String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
 
     /**
-     * Tests the class can correctly load a configuration from a well formatted file and throw an exception when provided an ill-formatted one.
+     * Tests the class can correctly load a configuration from a well formatted file
+     * and throw an exception when provided an ill-formatted one.
      */
     @Test
-    void testLoadConfig(){
-        Assertions.assertDoesNotThrow(() -> new WavePolicySupplierImpl(ROOT + "waves.json"));
-        Assertions.assertThrows(RuntimeException.class, () -> new WavePolicySupplierImpl(ROOT + "waves1.json"));
-        Assertions.assertThrows(RuntimeException.class, () -> new WavePolicySupplierImpl(ROOT + "waves2.json"));
-        Assertions.assertThrows(RuntimeException.class, () -> new WavePolicySupplierImpl("nonexistent"));
+    void testLoadConfig() throws URISyntaxException, IOException {
+        List<String> goodFilenames = List.of("waves.json");
+        List<String> evilFilenames = List.of("waves1.json", "waves2.json");
+        for (String s : goodFilenames) {
+            String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
+            Assertions.assertDoesNotThrow(() -> new WavePolicySupplierImpl(config));
+        }
+        ;
+        for (String s : evilFilenames) {
+            String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
+            Assertions.assertThrows(RuntimeException.class, () -> new WavePolicySupplierImpl(config));
+        }
+        ;
     }
 
     /**
      * Tests which require an initialized class.
      */
     @Nested
-    class NestedTestBlock{
+    class NestedTestBlock {
 
-        private record QuickEnemyType(EnemyLevel level, EnemyArchetype type) implements EnemyType{};
+        private record QuickEnemyType(EnemyLevel level, EnemyArchetype type) implements EnemyType {
+        }
 
+        private final static String TEST_FILE = "waves.json";
         private WavePolicySupplierImpl tested;
 
         /**
          * Initializes the class for testing.
          */
         @BeforeEach
-        void init(){
-            tested = new WavePolicySupplierImpl(ROOT + "waves.json");
+        void init() throws URISyntaxException, IOException {
+            tested = new WavePolicySupplierImpl(
+                    FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + TEST_FILE).toURI())));
         }
 
         /**

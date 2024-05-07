@@ -10,15 +10,12 @@ import it.unibo.towerdefense.views.window.Window;
  */
 public class EnemiesRendererImpl implements EnemiesRenderer {
 
-    private final Window window;
-
     /**
      * Constructor for the class.
      *
      * @param window handle to graphics
      */
     public EnemiesRendererImpl(final Window window) {
-        this.window = window;
     }
 
     /**

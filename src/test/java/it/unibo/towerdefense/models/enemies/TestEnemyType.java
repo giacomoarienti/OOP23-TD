@@ -6,4 +6,6 @@ import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 /**
  * Simple record which implements richenemytype for testing.
  */
-record TestEnemyType(EnemyLevel level, EnemyArchetype type, int getMaxHP, int getSpeed, int getValue) implements RichEnemyType{};
+record TestEnemyType(EnemyLevel level, EnemyArchetype type, int getMaxHP, int getSpeed, int getValue)
+        implements RichEnemyType {
+};
