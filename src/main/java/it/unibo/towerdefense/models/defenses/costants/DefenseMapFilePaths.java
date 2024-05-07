@@ -27,7 +27,7 @@ public final class DefenseMapFilePaths {
     "src/main/resources/defenses/base_defenses/thunder_invoker_level1.json";
     /**upgraded versions of bomb tower file paths.*/
     public static final String THUNDER_INVOKER_UPGRADES =
-    "src/main/resources/defenses/upgrades/thunder_invoker__upgr.json";
+    "src/main/resources/defenses/upgrades/thunder_invoker_upgr.json";
 
     /**
      * @return a file path based on a type.
