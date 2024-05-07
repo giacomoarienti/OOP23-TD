@@ -17,9 +17,12 @@ public class TestDefenseFactoryImpl {
     private DefenseFactory factory = new DefenseFactoryImpl();
 
     /**Files paths.*/
-    private static final String ARCHER_TEST_PATH = "src/test/resources/defenses/Archer/TestArcherTower1.json";
-    private static final String BOMB_TEST_PATH = "src/test/resources/defenses/Bomb/TestBombTower1.json";
-    private static final String WIZARD_TEST_PATH = "src/test/resources/defenses/Wizard/TestWizardTower1.json";
+    private static final String ARCHER_TEST_PATH =
+    "src/test/resources/it/unibo/towerdefense/models/defenses/Archer/TestArcherTower.json";
+    private static final String BOMB_TEST_PATH =
+    "src/test/resources/it/unibo/towerdefense/models/defenses/Bomb/TestBombTower.json";
+    private static final String WIZARD_TEST_PATH =
+    "src/test/resources/it/unibo/towerdefense/models/defenses/Wizard/TestWizardTower.json";
 
     @BeforeEach
     /**set up some collections.*/

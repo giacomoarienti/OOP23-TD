@@ -1,0 +1,9 @@
+{
+    "level" : 1,
+    "type" : "WIZARDTOWER",
+    "damage" : 7,
+    "speed" : 6,
+    "range" : 7,
+    "buildingCost" : 90,
+    "sellingValue" : 50
+}

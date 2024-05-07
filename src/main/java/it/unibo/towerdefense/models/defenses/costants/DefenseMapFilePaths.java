@@ -6,28 +6,28 @@ import it.unibo.towerdefense.controllers.defenses.DefenseType;
 public final class DefenseMapFilePaths {
     /**base archer tower file path.*/
     public static final String ARCHER_TOWER_LV1 =
-    "src/main/resources/defenses/base_defenses/archer_tower_lv1.json";
+    "src/main/resources/it/unibo/towerdefense/models/defenses/lv1Builds/Archer.json";
     /**upgraded versions of archer tower file paths.*/
     public static final String ARCHER_TOWER_UPGRADES =
-    "src/main/resources/defenses/upgrades/archer_tower_upgr.json";
+    "src/main/resources/it/unibo/towerdefense/models/defenses/upgradeBuilds/Archer.json";
     /**base bomb tower file path.*/
     public static final String BOMB_TOWER_LV1 =
-    "src/main/resources/defenses/base_defenses/bomb_tower_lv1.json";
+    "src/main/resources/it/unibo/towerdefense/models/defenses/lv1Builds/Bomb.json";
     /**upgraded versions of bomb tower file paths.*/
     public static final String BOMB_TOWER_UPGRADES =
-    "src/main/resources/defenses/upgrades/bomb_tower_upgr.json";
+    "src/main/resources/it/unibo/towerdefense/models/defenses/upgradeBuilds/Bomb.json";
     /**base bomb tower file path.*/
     public static final String WIZARD_TOWER_LV1 =
-    "src/main/resources/defenses/base_defenses/wizard_tower_lv1.json";
+    "src/main/resources/it/unibo/towerdefense/models/defenses/lv1Builds/Wizard.json";
     /**upgraded versions of bomb tower file paths.*/
     public static final String WIZARD_TOWER_UPGRADES =
-    "src/main/resources/defenses/upgrades/wizard_tower_upgr.json";
+    "src/main/resources/it/unibo/towerdefense/models/defenses/upgradeBuilds/Wizard.json";
     /**base bomb tower file path.*/
     public static final String THUNDER_INVOKER_LV1 =
-    "src/main/resources/defenses/base_defenses/thunder_invoker_level1.json";
+    "src/main/resources/it/unibo/towerdefense/models/defenses/lv1Builds/Invoker.json";
     /**upgraded versions of bomb tower file paths.*/
     public static final String THUNDER_INVOKER_UPGRADES =
-    "src/main/resources/defenses/upgrades/thunder_invoker_upgr.json";
+    "src/main/resources/it/unibo/towerdefense/models/defenses/upgradeBuilds/Invoker.json";
 
     /**
      * @return a file path based on a type.

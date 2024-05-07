@@ -1,0 +1,9 @@
+{
+    "level" : 1,
+    "type" : "ARCHERTOWER",
+    "damage" : 10,
+    "speed" : 5,
+    "range" : 15,
+    "buildingCost" : 50,
+    "sellingValue" : 25
+}
