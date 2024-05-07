@@ -189,5 +189,4 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
             throw new IllegalArgumentException("Wave numbers < 1 are not allowed.");
         }
     }
-
 }

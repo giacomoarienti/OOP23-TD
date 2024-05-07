@@ -1,13 +1,15 @@
 package it.unibo.towerdefense.models.enemies;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
-import it.unibo.towerdefense.controllers.game.GameController;
-import it.unibo.towerdefense.controllers.map.MapController;
+import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
  * The main class for the model of enemies.
@@ -20,7 +22,7 @@ public class EnemiesImpl implements Enemies {
     private final EnemyCollection enemies;
     private final EnemyFactory factory;
     private final Function<Integer, Wave> waveSupplier;
-    private final GameController gc;
+    private final Set<Observer<Enemy>> enemyDeathObservers;
     private Optional<Wave> current = Optional.empty();
 
     /**
@@ -31,13 +33,20 @@ public class EnemiesImpl implements Enemies {
      * @param gc  the GameController, for communicating the end of a wave, and the
      *            gaining of money following an enemy's death
      */
-    public EnemiesImpl(final MapController map, final GameController gc) {
-        this.enemies = new EnemyCollectionImpl(gc, map);
-        this.factory = new SimpleEnemyFactory(map.getSpawnPosition());
+    public EnemiesImpl(final BiFunction<LogicalPosition,Integer,Optional<LogicalPosition>> posFunction, final LogicalPosition startingPos) {
+        this.enemies = new EnemyCollectionImpl(posFunction);
+        this.factory = new SimpleEnemyFactory(startingPos);
         this.waveSupplier = new PredicateBasedRandomWaveGenerator(
                 new WavePolicySupplierImpl(Filenames.ROOT + Filenames.WAVECONF),
                 new ConfigurableEnemyCatalogue(Filenames.ROOT + Filenames.TYPESCONF));
-        this.gc = gc;
+        this.enemyDeathObservers = new HashSet<>();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    public void addDeathObserver(Observer<Enemy> o) {
+        enemyDeathObservers.add(o);
     }
 
     /**
@@ -47,18 +56,22 @@ public class EnemiesImpl implements Enemies {
     public void update() {
         enemies.move();
         if (current.isPresent()) {
-            current.get().next().ifPresent(et -> enemies.add(factory.spawn(et)));
+            current.get().next().ifPresent(et -> this.spawn(et));
             if (!current.get().hasNext()) {
                 current = Optional.empty();
             }
         }
-        /*
-         * Enclosing this in an else clause would prevent the wave from
-         * advancing during the first cycle after a wave !hasNext.
-         */
-        if (current.isEmpty() && enemies.areDead()) {
-            gc.advanceWave();
-        }
+    }
+
+    /**
+     * Spawns an enemy of enemy type et.
+     *
+     * @param et the type of the enemy to spawn.
+     */
+    private void spawn(RichEnemyType et) {
+        Enemy spawned = factory.spawn(et);
+        enemies.add(spawned);
+        enemyDeathObservers.forEach(o -> spawned.addDeathObserver(o));
     }
 
     /**
@@ -80,9 +93,16 @@ public class EnemiesImpl implements Enemies {
     /**
      * {@inheritDoc}.
      */
+    public boolean isWaveActive() {
+        return current.isPresent() || !enemies.areDead();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public void spawn(final int wave) {
-        if (current.isPresent() || !enemies.areDead()) {
+        if (isWaveActive()) {
             throw new IllegalStateException("A wave is already being spawned.");
         } else {
             current = Optional.of(waveSupplier.apply(wave));

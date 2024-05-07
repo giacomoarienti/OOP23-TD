@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
+import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
  * The main interface for the model of this part of the program.
@@ -18,6 +19,13 @@ public interface Enemies {
     void update();
 
     /**
+     * Registers an observer to be notified on the death of every enemy.
+     *
+     * @param o the new observer
+     */
+    public void addDeathObserver(Observer<Enemy> o);
+
+    /**
      * Starts a new wave if one is not currently active and no enemy is alive.
      *
      * Will throw a RuntimeException if a wave is already active or any enemy is alive.
@@ -25,6 +33,16 @@ public interface Enemies {
      * @param wave the number of the wave to start
      */
     void spawn(int wave);
+
+    /**
+     * Retuns true when there is an active wave.
+     *
+     * A wave is active when it still has enemies to spawn or not all the spawned
+     * enemies are dead.
+     *
+     * @return true when there is an active wave false otherwise
+     */
+    public boolean isWaveActive();
 
     /**
      * Returns a Set of all Enemies currently alive.

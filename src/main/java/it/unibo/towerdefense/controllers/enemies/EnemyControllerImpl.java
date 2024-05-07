@@ -34,7 +34,13 @@ public class EnemyControllerImpl implements EnemyController {
      * @param gc     to signal wave advancement and money attribution
      */
     EnemyControllerImpl(final Window window, final MapController map, final GameController gc) {
-        model = new EnemiesImpl(map, gc);
+        model = new EnemiesImpl((pos, speed) -> map.getNextPosition(pos, speed), map.getSpawnPosition());
+        model.addDeathObserver(e -> {
+            gc.addMoney(e.getValue());
+            if (!model.isWaveActive()) {
+                gc.advanceWave();
+            }
+        });
     }
 
     /**

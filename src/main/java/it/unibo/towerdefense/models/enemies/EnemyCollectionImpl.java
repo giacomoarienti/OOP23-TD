@@ -4,11 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
-import it.unibo.towerdefense.controllers.game.GameController;
-import it.unibo.towerdefense.controllers.map.MapController;
 
 /**
  * {@inheritDoc}.
@@ -16,18 +15,18 @@ import it.unibo.towerdefense.controllers.map.MapController;
 public class EnemyCollectionImpl implements EnemyCollection {
 
     private final Set<Enemy> enemies;
-    private final GameController gc;
-    private final MapController map;
+    private final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction;
 
     /**
      * Constructor for the class.
      *
-     * @param gc  GameController to advance wave and add money on enemy defeat
-     * @param map handle to get next positions
+     * @param posFunction a function that takes as argument the current position of
+     *                    an enemy and how much it should adance and gives back an
+     *                    optional containing the new position or an empty optional
+     *                    if the enemy has reached the end of the map
      */
-    public EnemyCollectionImpl(final GameController gc, final MapController map) {
-        this.gc = gc;
-        this.map = map;
+    public EnemyCollectionImpl(final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction) {
+        this.posFunction = posFunction;
         this.enemies = new HashSet<>();
     }
 
@@ -38,7 +37,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
     public void move() {
         final List<Enemy> dead = enemies.stream().filter(
                 e -> {
-                    Optional<LogicalPosition> next = map.getNextPosition(e.getPosition(), e.getSpeed());
+                    Optional<LogicalPosition> next = posFunction.apply(e.getPosition(), e.getSpeed());
                     if (next.isEmpty()) {
                         return true;
                     } else {
@@ -55,7 +54,6 @@ public class EnemyCollectionImpl implements EnemyCollection {
     @Override
     public void notify(final Enemy which) {
         enemies.remove(which);
-        gc.addMoney(which.getValue());
     }
 
     /**
