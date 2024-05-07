@@ -32,7 +32,7 @@ public class MapControllerImpl implements MapController {
     private List<DefenseDescription> options;
 
     /**
-     *Constructor from size of map in two unit of measure.
+     *Constructor from size of map and others controller.
      * @param size size of map in terms of game cells.
      * @param defensesController the defenses controller.
      * @param gameController the game controller.
@@ -40,7 +40,7 @@ public class MapControllerImpl implements MapController {
     public MapControllerImpl(final Size size, final DefensesController defensesController, final GameController gameController) {
         try {
             this.map = new GameMapImpl(size);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             throw e;
         }
         this.gameController = gameController;
@@ -215,7 +215,7 @@ public class MapControllerImpl implements MapController {
     }
 
     /**
-     * Do module operation as it should work, also if operand are negatives.
+     * Do module operation as it should work, also if operands are negatives.
      * @param a dividend
      * @param b divisor
      * @return rest of integer division

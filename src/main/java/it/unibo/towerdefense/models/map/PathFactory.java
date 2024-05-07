@@ -3,13 +3,9 @@ package it.unibo.towerdefense.models.map;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
-
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.PositionImpl;
+import it.unibo.towerdefense.models.engine.Size;
 
 
 /**
@@ -17,40 +13,14 @@ import it.unibo.towerdefense.models.engine.PositionImpl;
  */
 public class PathFactory {
 
-    class Limit {
-
-        private final BiPredicate<Integer, Integer> predicate;
-        private final Function<Position, Integer> coord;
-        private int value;
-
-        Limit(final Function<Position, Integer> coord, final BiPredicate<Integer, Integer> predicate) {
-            this.predicate = predicate;
-            this.coord = coord;
-        }
-
-        public boolean update(final Position pos) {
-            if (predicate.test(coord.apply(pos), value)) {
-                value = coord.apply(pos);
-                return true;
-            }
-            return false;
-        }
-
-        public int get() {
-            return value;
-        }
-
-        public void set(final int value) {
-            this.value = value;
-        }
-    }
+    private final static List<Direction> D_LIST = List.of(Direction.values());
 
     private int turnRight(final int ind) {
         return turnLeft(turnLeft(turnLeft(ind)));
     }
 
     private int turnLeft(final int ind) {
-        return (ind + 1) % Direction.values().length;
+        return (ind + 1) % D_LIST.size();
     }
 
 
@@ -70,35 +40,27 @@ public class PathFactory {
         return repeatPattern(List.of(Direction.E, Direction.S));
     }
 
-    public Iterator<Direction> generate() {
-
-        return Stream.iterate(0, new UnaryOperator<Integer>() {
+    public Iterator<Direction> generate(Size size, Direction direciton) {
+        return Stream.iterate(D_LIST.indexOf(direciton), new UnaryOperator<Integer>() {
 
             private final Random random = new Random();
-            private final List<Limit> limits = List.of(
-                new Limit(p -> p.getX(), (p,v) -> p > v),
-                new Limit(p -> p.getX(), (p,v) -> p < v && p > 0),
-                new Limit(p -> p.getY(), (p,v) -> p > v && p < 20),
-                new Limit(p -> p.getY(), (p,v) -> p < v && p > 0)
-            );
-            Position pos = new PositionImpl(0, 0);
-            Direction currentDirection;
-            int sameDirectionCounter = 0;
+            int n = random.nextInt(2) * 2;
+            int counter = 0;
 
             @Override
             public Integer apply(Integer d) {
-                int dir = d;
-                Position newPos = pos;
-                currentDirection = Direction.values()[dir];
-                newPos.add(Direction.values()[dir].asPosition());
-                while (!limits.get(dir).update(newPos) ) {
-                    dir = turnLeft(dir);
+                if (counter < random.nextInt(
+                    Math.abs(direciton.orizontal() * size.getHeight() + direciton.vertical() * size.getWidth()) / 4
+                    )) {
+                    counter++;
+                    return d;
                 }
-                //TODO
-                return dir;
+                counter = 0;
+                n = (n + 1) % 4;
+                return n < 2 ? turnLeft(d) : turnRight(d);
             }
 
-        }).map(i -> Direction.values()[i]).iterator();
+        }).map(i -> D_LIST.get(i)).peek(d -> System.out.println(d)).iterator();
     }
 
     private Iterator<Direction> repeatPattern(final List<Direction> list) {

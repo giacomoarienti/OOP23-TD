@@ -19,7 +19,6 @@ public enum Direction {
 
     private final int orizontal;
     private final int vertical;
-    static final String JSON_KEY = "dir";
 
     /**
      * Constructor from versor component.
