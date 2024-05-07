@@ -20,7 +20,6 @@ public class TestDefenseFactoryImpl {
     private static final String ARCHER_TEST_PATH = "src/test/resources/defenses/Archer/TestArcherTower1.json";
     private static final String BOMB_TEST_PATH = "src/test/resources/defenses/Bomb/TestBombTower1.json";
     private static final String WIZARD_TEST_PATH = "src/test/resources/defenses/Wizard/TestWizardTower1.json";
-    private static final String TEST_UPGRADES_PATH = "src/test/resources/defenses/Wizard/TestWizardTowerUp.json";
 
     @BeforeEach
     /**set up some collections.*/
@@ -104,13 +103,36 @@ public class TestDefenseFactoryImpl {
 
 
         /**Test exception thrown.*/
-        Assertions.assertThrowsExactly(NoSuchFileException.class, () -> 
+        Assertions.assertThrowsExactly(NoSuchFileException.class, () ->
         factory.levelOneDefense("src/unexistent", null, Optional.empty()));
     }
 
     /**Test upgrade method.*/
     @Test
     void testUpgrade() throws IOException {
+        /**Expected values for getters.*/
+        final int expectedLevel = 2;
+        final DefenseType expectedType = DefenseType.WIZARDTOWER;
+        final int expectedDamage = 10;
+        final int expectedSpeed = 4;
+        final int expectedRange = 8;
+        final int expectedBuildCost = 31;
+        final int expectedSellCost = 18;
 
+        /**Build upgrade.*/
+        final LogicalPosition testPosition = new LogicalPosition(8, 5);
+        Defense baseDef = factory.levelOneDefense(WIZARD_TEST_PATH, testPosition, Optional.empty());
+        Defense up  = factory.upgrade(baseDef, 0, Optional.empty());
+
+        /**Test getters.*/
+        Assertions.assertEquals(expectedLevel, up.getLevel());
+        Assertions.assertEquals(expectedType, up.getType());
+        Assertions.assertEquals(expectedDamage, up.getDamage());
+        Assertions.assertEquals(expectedRange, up.getRange());
+        Assertions.assertEquals(expectedSpeed, up.getAttackSpeed());
+        Assertions.assertEquals(expectedBuildCost, up.getBuildingCost());
+        Assertions.assertEquals(expectedSellCost, up.getSellingValue());
+        Assertions.assertEquals(baseDef.getPosition(), up.getPosition());
+        Assertions.assertNotNull(up.getStrategy());
     }
 }
