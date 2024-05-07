@@ -14,7 +14,7 @@ public class DefenseDescription {
      * @param name
      * @param cost
     */
-    public DefenseDescription(String description, String name, int cost) {
+    public DefenseDescription(final String description, final String name, final int cost) {
         this.description = description;
         this.name = name;
         this.cost = cost;

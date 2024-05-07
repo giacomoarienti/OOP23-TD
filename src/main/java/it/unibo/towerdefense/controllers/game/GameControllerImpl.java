@@ -14,8 +14,6 @@ import it.unibo.towerdefense.views.graphics.GameRenderer;
  */
 public class GameControllerImpl implements GameController {
 
-    private static final int DEFAULT_VALUE = 0;
-
     private final Game game;
     private final GameInfoView view;
     private GameDTO prevState;
@@ -25,12 +23,7 @@ public class GameControllerImpl implements GameController {
         this.game = game;
         // instantiate the view and set the previous state
         this.view = new GameInfoViewImpl();
-        this.prevState = new GameDTOImpl(
-            game.getPlayerName(),
-            DEFAULT_VALUE,
-            DEFAULT_VALUE,
-            DEFAULT_VALUE
-        );
+        this.prevState = new GameDTOImpl(game.getPlayerName());
     }
 
     /**
