@@ -9,6 +9,7 @@ import java.util.function.Function;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
+import it.unibo.towerdefense.utils.file.FileUtils;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
@@ -28,17 +29,29 @@ public class EnemiesImpl implements Enemies {
     /**
      * Contstructor for the class.
      *
-     * @param map the MapController, for retrieval of spawn and advancement
-     *            positions
-     * @param gc  the GameController, for communicating the end of a wave, and the
-     *            gaining of money following an enemy's death
+     * @param posFunction a function that takes as argument the current position of
+     *                    an enemy and how much it should adance and gives back an
+     *                    optional containing the new position or an empty optional
+     *                    if the enemy has reached the end of the map
+     * @param startingPos the starting position of enemies
      */
-    public EnemiesImpl(final BiFunction<LogicalPosition,Integer,Optional<LogicalPosition>> posFunction, final LogicalPosition startingPos) {
+    public EnemiesImpl(final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction,
+            final LogicalPosition startingPos) {
         this.enemies = new EnemyCollectionImpl(posFunction);
         this.factory = new SimpleEnemyFactory(startingPos);
-        this.waveSupplier = new PredicateBasedRandomWaveGenerator(
-                new WavePolicySupplierImpl(Filenames.ROOT + Filenames.WAVECONF),
-                new ConfigurableEnemyCatalogue(Filenames.ROOT + Filenames.TYPESCONF));
+        WavePolicySupplier wp;
+        EnemyCatalogue ec;
+        try {
+            wp = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to load wave policy configuration from file.", t);
+        }
+        try {
+            ec = new ConfigurableEnemyCatalogue(FileUtils.readFile(Filenames.typesConfig()));
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to load enemy types configuration from file.", t);
+        }
+        this.waveSupplier = new PredicateBasedRandomWaveGenerator(wp, ec);
         this.enemyDeathObservers = new HashSet<>();
     }
 

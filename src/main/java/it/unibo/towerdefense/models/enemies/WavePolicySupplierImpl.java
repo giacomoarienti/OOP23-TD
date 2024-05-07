@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.models.enemies;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.SortedMap;
@@ -49,20 +48,19 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      *
      * Changes to configuration file format only affect this part of the class.
      *
-     * @param configFile name of the file from which to load configurations.
+     * @param configString String containing configuration values.
      * @return a Triple containing the three sorted maps which represent the
      *         information stored
      *         in the file.
      */
     Triple<SortedMap<Integer, Predicate<EnemyType>>,
-                SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> loadConfig(final String configFile) {
+                SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> loadConfig(final String configString) {
 
         SortedMap<Integer, Predicate<EnemyType>> p = new TreeMap<>();
         SortedMap<Integer, Integer> l = new TreeMap<>();
         SortedMap<Integer, Integer> r = new TreeMap<>();
-
-        try (InputStream configStream = ClassLoader.getSystemResourceAsStream(configFile)) {
-            JSONArray config = new JSONArray(new String(configStream.readAllBytes()));
+        try {
+            JSONArray config = new JSONArray(configString);
             config.forEach(
                     (Object o) -> {
                         assert o instanceof JSONObject;
@@ -81,7 +79,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
                     });
             return Triple.of(p, l, r);
         } catch (Throwable t) {
-            throw new RuntimeException("Failed to load waves configuration from " + configFile, t);
+            throw new RuntimeException("Failed to load waves configuration from given String", t);
         }
     }
 

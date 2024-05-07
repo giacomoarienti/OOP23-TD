@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.models.enemies;
 
-import java.io.InputStream;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -54,18 +53,17 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      *
      * Changes to configuration file format only affect this part of the class.
      *
-     * @param configFile name of the file from which to load configurations.
+     * @param config String containing configurations.
      * @return a Pair containing the two maps which represent the information stored
      *         in the file.
      */
     private Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> loadConfig(
-            final String configFile) {
+            final String configString) {
         final Integer vf;
         final Map<EnemyArchetype, Integer> r = new HashMap<>();
         final Map<EnemyLevel, Integer> pl = new HashMap<>();
-        try (InputStream configStream = ClassLoader.getSystemResourceAsStream(configFile)) {
-            JSONObject config = new JSONObject(new String(configStream.readAllBytes()));
-
+        try {
+            JSONObject config = new JSONObject(configString);
             vf = config.getInt("vf");
             config.getJSONArray("archetypes").forEach(
                     (Object o) -> {
@@ -83,7 +81,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
             return Triple.of(vf, ImmutableMap.copyOf(r), ImmutableMap.copyOf(pl));
 
         } catch (Throwable t) {
-            throw new RuntimeException("Failed to load enemy types configuration from " + configFile, t);
+            throw new RuntimeException("Failed to load enemy types configuration from given string", t);
         }
     }
 
@@ -137,7 +135,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
 
     /**
      * {@inheritDoc}.
-     * 
+     *
      * @param level    the level
      * @param type     the archetype
      * @param getMaxHP the max hp
