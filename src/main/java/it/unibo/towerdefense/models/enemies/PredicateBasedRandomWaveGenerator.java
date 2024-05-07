@@ -37,15 +37,17 @@ public class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave
      */
     @Override
     public Wave apply(final Integer wave) {
+        if (wave < 1) {
+            throw new IllegalArgumentException("Wave numbers < 1 are not defined.");
+        }
         final List<RichEnemyType> availableTypes = List.copyOf(ec.getEnemyTypes(wp.getPredicate(wave)));
         if (availableTypes.isEmpty()) {
             throw new RuntimeException("No available types for wave " + wave);
-        } else {
-            return new SkipWave(
-                    r.ints(wp.getLength(wave), 0, availableTypes.size())
-                            .mapToObj(i -> availableTypes.get(i)).iterator(),
-                    wp.getCyclesPerSpawn(wave));
         }
+        return new SkipWave(
+                r.ints(wp.getLength(wave), 0, availableTypes.size())
+                        .mapToObj(i -> availableTypes.get(i)).iterator(),
+                wp.getCyclesPerSpawn(wave));
     }
 
     /**

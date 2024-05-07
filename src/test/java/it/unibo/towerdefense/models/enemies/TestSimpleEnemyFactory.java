@@ -9,17 +9,26 @@ import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
+/**
+ * Tests for SimpleEnemyFactory.
+ */
 public class TestSimpleEnemyFactory {
 
     private SimpleEnemyFactory tested;
 
     private static final LogicalPosition STARTING_POS = new LogicalPosition(0, 0);
 
+    /**
+     * Initializes the class for testing.
+     */
     @BeforeEach
     void init(){
         tested = new SimpleEnemyFactory(STARTING_POS);
     }
 
+    /**
+     * Tests the spawned enemies behave as they should.
+     */
     @Test
     void testSpawn() {
         RichEnemyType t = new TestEnemyType(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
@@ -31,6 +40,9 @@ public class TestSimpleEnemyFactory {
         Assertions.assertEquals(t.type(), created.info().type().type());
     }
 
+    /**
+     * Tests hurt throws when provided a negative integer.
+     */
     @Test
     void testNegativeHurt(){
         RichEnemyType t = new TestEnemyType(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
@@ -38,6 +50,9 @@ public class TestSimpleEnemyFactory {
         Assertions.assertThrows(RuntimeException.class, () -> created.hurt(-1));
     }
 
+    /**
+     * Tests enemies correctly report their death and will not allow to be hurt or moved when dead.
+     */
     @Test
     void testDeath(){
         RichEnemyType t = new TestEnemyType(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
@@ -65,5 +80,6 @@ public class TestSimpleEnemyFactory {
         created.hurt(t.getMaxHP()/2 + 1);
         Assertions.assertTrue(o.getFlag());
         Assertions.assertThrows(IllegalStateException.class, () -> created.hurt(1));
+        Assertions.assertThrows(IllegalStateException.class, () -> created.move(new LogicalPosition(1, 1)));
     }
 }

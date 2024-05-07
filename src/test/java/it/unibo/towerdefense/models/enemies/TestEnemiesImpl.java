@@ -3,7 +3,6 @@ package it.unibo.towerdefense.models.enemies;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -244,7 +243,7 @@ public class TestEnemiesImpl {
             System.out.println(tested.getEnemies());
         }
         Assertions.assertTrue(tested.getEnemies().size() == 1);
-        Assertions.assertFalse(advanced_wave); //An enemy is still alive
+        Assertions.assertFalse(advanced_wave); // An enemy is still alive
         Assertions.assertThrows(RuntimeException.class, () -> tested.spawn(2));
         tested.update();
         Assertions.assertTrue(tested.getEnemies().size() == 0);

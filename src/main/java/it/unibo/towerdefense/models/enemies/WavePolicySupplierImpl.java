@@ -107,17 +107,26 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
             assert p.containsKey(1) && l.containsKey(1) && r.containsKey(1);
 
             /*
+             * Waves cant be < 1.
+             */
+            p.keySet().forEach(i -> {
+                assert i > 0;
+            });
+
+            /*
              * Cant have length <= 0.
              */
-            l.values().forEach(i -> {
-                assert i > 0;
+            l.entrySet().forEach(e -> {
+                assert e.getKey() > 0;
+                assert e.getValue() > 0;
             });
 
             /*
              * Cant have rate <= 0.
              */
-            r.values().forEach(i -> {
-                assert i > 0;
+            r.entrySet().forEach(e -> {
+                assert e.getKey() > 0;
+                assert e.getValue() > 0;
             });
         } catch (Throwable t) {
             throw new RuntimeException("Values contained in configuration file for wave policies are not permitted.",
@@ -148,6 +157,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      */
     @Override
     public Predicate<EnemyType> getPredicate(final Integer wave) {
+        check(wave);
         return predicates.headMap(wave + 1).values().stream().reduce(et -> false, (p1, p2) -> p1.or(p2));
     }
 
@@ -156,6 +166,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      */
     @Override
     public Integer getLength(final Integer wave) {
+        check(wave);
         return lengths.get(lengths.headMap(wave + 1).lastKey());
     }
 
@@ -164,7 +175,19 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      */
     @Override
     public Integer getCyclesPerSpawn(final Integer wave) {
+        check(wave);
         return rates.get(rates.headMap(wave + 1).lastKey());
+    }
+
+    /**
+     * Checks for the correctness of wave parameter.
+     *
+     * @param wave the integer to check, must be > 1
+     */
+    private void check(final Integer wave){
+        if(wave < 1){
+            throw new IllegalArgumentException("Wave numbers < 1 are not allowed.");
+        }
     }
 
 }
