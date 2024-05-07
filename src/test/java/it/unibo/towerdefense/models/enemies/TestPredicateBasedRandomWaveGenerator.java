@@ -1,5 +1,8 @@
 package it.unibo.towerdefense.models.enemies;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -9,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.utils.file.FileUtils;
 
 /**
  * Tests for Predic
@@ -25,9 +29,9 @@ public class TestPredicateBasedRandomWaveGenerator {
      * Initializes the classes needed for testing.
      */
     @BeforeEach
-    void init() {
-        wps = new WavePolicySupplierImpl(ROOT + "waves.json");
-        catalogue = new ConfigurableEnemyCatalogue(ROOT + "types.json");
+    void init() throws URISyntaxException, IOException {
+        wps = new WavePolicySupplierImpl(FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "waves.json").toURI())));
+        catalogue = new ConfigurableEnemyCatalogue(FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "types.json").toURI())));
         rwg = new PredicateBasedRandomWaveGenerator(wps, catalogue);
     }
 
