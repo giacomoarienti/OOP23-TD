@@ -81,6 +81,18 @@ public class DefenseFactoryImpl implements DefenseFactory {
     }
 
     /**
+     * Some data is not serializable in the json file,this
+     * method clones such data.
+     * @param defense the defense to pass data to.
+     */
+    private void cloneNonSerializableDataInUpdates(Defense defense) {
+        for(Defense def : defense.getPossibleUpgrades()) {
+            def.setPosition(defense.getPosition());
+            def.setStrategy(defense.getStrategy());
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -102,6 +114,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
         if (upgradesFileName.isPresent()) {
             result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), result.getType(), result.getLevel()));
         }
+        cloneNonSerializableDataInUpdates(result);
         return result;
     }
 
@@ -128,6 +141,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
                 if (upgradesFileName.isPresent()) {
                     result.addUpgrades(getDefensesOfLevel(statFile, result.getType(), result.getLevel()));
                 }
+                cloneNonSerializableDataInUpdates(result);
                 return result;
     }
 

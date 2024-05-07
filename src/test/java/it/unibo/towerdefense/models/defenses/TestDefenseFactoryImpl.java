@@ -3,14 +3,9 @@ package it.unibo.towerdefense.models.defenses;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.Set;
-
-import javax.swing.text.html.Option;
-
-import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,14 +17,10 @@ public class TestDefenseFactoryImpl {
     private DefenseFactory factory = new DefenseFactoryImpl();
 
     /**Files paths.*/
-    private static final String ARCHER_TEST_PATH1 = "src/test/resources/defenses/Archer/TestArcherTower1.json";
-    private static final String ARCHER_TEST_PATH2 = "src/test/resources/defenses/Archer/TestArcherTowerUp.json";
-    private static final String BOMB_TEST_PATH1 = "src/test/resources/defenses/Bomb/TestBombTower1.json";
-    private static final String BOMB_TEST_PATH2 = "src/test/resources/defenses/Bomb/TestBombTower2.json";
-    private static final String BOMB_TEST_PATH3 = "src/test/resources/defenses/Bomb/TestBombTowerUp.json";
-    private static final String WIZARD_TEST_PATH1 = "src/test/resources/defenses/Wizard/TestWizardTower1.json";
-    private static final String WIZARD_TEST_PATH2 = "src/test/resources/defenses/Wizard/TestWizardTower2.json";
-    private static final String WIZARD_TEST_PATH3 = "src/test/resources/defenses/Wizard/TestWizardTowerUp.json";
+    private static final String ARCHER_TEST_PATH = "src/test/resources/defenses/Archer/TestArcherTower1.json";
+    private static final String BOMB_TEST_PATH = "src/test/resources/defenses/Bomb/TestBombTower1.json";
+    private static final String WIZARD_TEST_PATH = "src/test/resources/defenses/Wizard/TestWizardTower1.json";
+    private static final String TEST_UPGRADES_PATH = "src/test/resources/defenses/Wizard/TestWizardTowerUp.json";
 
     @BeforeEach
     /**set up some collections.*/
@@ -51,7 +42,7 @@ public class TestDefenseFactoryImpl {
         final LogicalPosition expectedPosition = new LogicalPosition(10, 10);
 
         /**Test getters using save file constructor.*/
-        Defense tower = factory.defenseFromSaveFile(ARCHER_TEST_PATH1);
+        Defense tower = factory.defenseFromSaveFile(ARCHER_TEST_PATH);
         Assertions.assertEquals(expectedLevel, tower.getLevel());
         Assertions.assertEquals(expectedType, tower.getType());
         Assertions.assertEquals(expectedDamage, tower.getDamage());
@@ -86,10 +77,10 @@ public class TestDefenseFactoryImpl {
         final int expectedRangeUp = 15;
         final int expectedBuildCostUp = 35;
         final int expectedSellCostUp = 21;
-        final LogicalPosition expectedPositionUp = new LogicalPosition(15, 15);     
+        final LogicalPosition expectedPositionUp = new LogicalPosition(15, 15);
 
         /**Test getters using save file constructor.*/
-        Defense tower = factory.levelOneDefense(BOMB_TEST_PATH1, expectedPosition, Optional.empty());
+        Defense tower = factory.levelOneDefense(BOMB_TEST_PATH, expectedPosition, Optional.empty());
         Assertions.assertEquals(expectedLevel, tower.getLevel());
         Assertions.assertEquals(expectedType, tower.getType());
         Assertions.assertEquals(expectedDamage, tower.getDamage());
@@ -114,7 +105,7 @@ public class TestDefenseFactoryImpl {
 
         /**Test exception thrown.*/
         Assertions.assertThrowsExactly(NoSuchFileException.class, () -> 
-        factory.levelOneDefense("src/unexistent", null, Optional.of(null)));
+        factory.levelOneDefense("src/unexistent", null, Optional.empty()));
     }
 
     /**Test upgrade method.*/
