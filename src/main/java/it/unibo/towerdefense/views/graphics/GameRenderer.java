@@ -38,7 +38,7 @@ public interface GameRenderer {
      * Adds a list of drawable objects to the canvas.
      * @param drawables the drawable objects list to paint
      */
-    void submitAllToCanvas(List<Drawable> drawables);
+    void submitAllToCanvas(List<? extends Drawable> drawables);
 
     /**
      * Forces the canvas to be rendered.

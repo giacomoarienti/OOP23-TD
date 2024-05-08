@@ -17,7 +17,7 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
 
     /**
      * Constructor for the class.
-     * 
+     *
      * @param x the x
      * @param y the y
      */
@@ -45,7 +45,7 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
 
     /**
      * Test if this and an other position are in the same Cell.
-     * 
+     *
      * @param pos position to compare to this.
      * @return true if they are in the same Cell, false if not
      */
