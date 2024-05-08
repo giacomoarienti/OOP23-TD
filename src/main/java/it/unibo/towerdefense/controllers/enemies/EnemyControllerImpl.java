@@ -10,6 +10,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.map.MapController;
+import it.unibo.towerdefense.controllers.mastercontroller.MasterController;
+import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.enemies.Enemies;
 import it.unibo.towerdefense.models.enemies.EnemiesImpl;
 import it.unibo.towerdefense.models.enemies.Enemy;
@@ -28,19 +30,18 @@ public class EnemyControllerImpl implements EnemyController {
     private Optional<List<Enemy>> lastGivenEnemies = Optional.empty();
 
     /**
-     * Constructor for the controller.
+     * Constructor for the class.
      *
-     * @param window handle to be passed to the renderer
-     * @param map    to know where to move enemies
-     * @param gc     to signal wave advancement and money attribution
+     * @param mc the class which acts as a mediator between all different parts of
+     *           the application.
      */
-    EnemyControllerImpl(final MapController map, final GameController gc) {
+    EnemyControllerImpl(final ControllerMediator mc) {
         enemyRenderer = new EnemyRendererImpl();
-        model = new EnemiesImpl((pos, speed) -> map.getNextPosition(pos, speed), map.getSpawnPosition());
+        model = new EnemiesImpl((pos, speed) -> mc.getNextPosition(pos, speed), mc.getSpawnPosition());
         model.addDeathObserver(e -> {
-            gc.addMoney(e.getValue());
+            mc.addMoney(e.getValue());
             if (!model.isWaveActive()) {
-                gc.advanceWave();
+                mc.advanceWave();
             }
         });
     }
