@@ -5,23 +5,14 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.controllers.Controller;
 
 /**
  * The only interface to communicate with the enemies model.
  * Acts as mediator with other parts of the game and decouples
  * model and view.
  */
-public interface EnemyController {
-
-    /**
-     * Called on each cycle, updates the model.
-     */
-    void update();
-
-    /**
-     * Called on each cycle, updates the view.
-     */
-    void render();
+public interface EnemyController extends Controller {
 
     /**
      * Returns a list of all currently alive enemies' position and hp.
