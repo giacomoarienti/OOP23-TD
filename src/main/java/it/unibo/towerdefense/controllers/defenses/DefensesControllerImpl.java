@@ -14,9 +14,7 @@ import org.json.JSONObject;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
-import it.unibo.towerdefense.controllers.enemies.EnemyController;
-import it.unibo.towerdefense.controllers.map.MapController;
-import it.unibo.towerdefense.controllers.mastercontroller.MasterController;
+import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.defenses.Defense;
 import it.unibo.towerdefense.models.defenses.DefenseFactory;
 import it.unibo.towerdefense.models.defenses.DefenseFactoryImpl;
@@ -32,13 +30,13 @@ public class DefensesControllerImpl implements DefensesController {
     /**All current existing defenses with their respective cooldown.*/
     private List<Pair<Defense, Integer>> defenses = new LinkedList<>();
     /**for getting end of map and entities.*/
-    private MasterController master;
+    private ControllerMediator master;
 
     /**Constructor that gives this controller access to other necessary controller methods.
      * @param mapController to get end of map.
      * @param enemyController to hurt enemies.
     */
-    public DefensesControllerImpl(final MasterController master) {
+    public DefensesControllerImpl(final ControllerMediator master) {
         this.master = master;
     }
 
