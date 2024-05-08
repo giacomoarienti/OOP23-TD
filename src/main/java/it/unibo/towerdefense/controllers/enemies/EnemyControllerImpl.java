@@ -8,9 +8,6 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.controllers.game.GameController;
-import it.unibo.towerdefense.controllers.map.MapController;
-import it.unibo.towerdefense.controllers.mastercontroller.MasterController;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.enemies.Enemies;
 import it.unibo.towerdefense.models.enemies.EnemiesImpl;
