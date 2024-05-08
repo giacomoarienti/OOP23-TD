@@ -14,6 +14,8 @@ import org.json.JSONObject;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
+import it.unibo.towerdefense.controllers.enemies.EnemyController;
+import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.models.defenses.Defense;
 import it.unibo.towerdefense.models.defenses.DefenseFactory;
 import it.unibo.towerdefense.models.defenses.DefenseFactoryImpl;
@@ -30,6 +32,24 @@ public class DefensesControllerImpl implements DefensesController {
     private List<Pair<Defense, Integer>> defenses = new LinkedList<>();
     /**The current custom position to be used by defenses.*/
     private LogicalPosition endOfMap;
+    /**reference to enemy controller to hurt enemies.*/
+    private EnemyController enemyController;
+
+    /**Constructor that gives this controller access to other necessary controller methods.
+     * @param mapController to get end of map.
+     * @param enemyController to hurt enemies.
+    */
+    public DefensesControllerImpl(final MapController mapController,
+    final EnemyController enemyController) {
+        this.endOfMap = mapController.getEndPosition();
+        this.enemyController = enemyController;
+    }
+
+    /**Empty default constructor.*/
+    public DefensesControllerImpl () {
+        /**placeholder to not make game crash.*/
+        this.endOfMap = new LogicalPosition(0, 0);
+    }
 
     /**finds a defense based on its position.
      * @return a defense if there is something on given position,a empty Optional otherwise.
@@ -66,9 +86,9 @@ public class DefensesControllerImpl implements DefensesController {
             return List.of(
                 factory.levelOneDefense(DefenseMapFilePaths.ARCHER_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition, Optional.empty()),
-                factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty())
-                /**factory.levelOneDefenseWithCustomPosition(DefenseMapFilePaths.WIZARD_TOWER_LV1,
-                buildPosition, endOfMap, Optional.empty())*/
+                factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty()),
+                factory.levelOneDefenseWithCustomPosition(DefenseMapFilePaths.THUNDER_INVOKER_LV1,
+                buildPosition, endOfMap, Optional.empty())
             );
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
