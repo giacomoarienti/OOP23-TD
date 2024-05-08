@@ -50,7 +50,7 @@ public class WindowImpl implements Window {
         // create base frame
         this.frame = new JFrame(WINDOW_TITLE);
         this.frame.setLayout(new BorderLayout());
-        this.frame.setSize(new Dimension(w, h));
+        this.frame.setPreferredSize(new Dimension(w, h));
         // create canvas
         this.canvas = new CanvasImpl(w / CANVAS_PROPORTION, h);
         // create panels
@@ -86,6 +86,7 @@ public class WindowImpl implements Window {
         // set frame not resizable
         this.frame.setResizable(false);
         // push frame on screen
+        this.frame.pack();
         this.frame.setVisible(true);
         this.logger.info("Window displayed");
     }
@@ -166,7 +167,7 @@ public class WindowImpl implements Window {
      * {@inheritDoc}
      */
     @Override
-    public void submitAllToCanvas(final List<Drawable> drawables) {
+    public void submitAllToCanvas(final List<? extends Drawable> drawables) {
         this.canvas.submitAll(drawables);
     }
 
