@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.controllers.map.MapController;
+import it.unibo.towerdefense.utils.images.ImageLoader;
 import it.unibo.towerdefense.controllers.enemies.EnemyController;
 import it.unibo.towerdefense.controllers.game.GameController;
 
@@ -39,6 +40,12 @@ public interface ControllerMediator extends Controller {
     boolean isRunning();
 
     /**
+     * Returns the singleton instance of imageLoader.
+     * @return the imageLoader.
+     */
+    ImageLoader getImageLoader();
+
+    /**
      * Function wrapper for the {@link MapController#getEndPosition()}.
      * @return the final position of the map
      */
@@ -66,7 +73,14 @@ public interface ControllerMediator extends Controller {
     LogicalPosition getSpawnPosition();
 
     /**
-     * Function wrapper for the {@link MapController#select()}.
+     * Function wrapper for the {@link GameController#isPurchasable()}.
+     * @param amount the amount of money to be checked
+     * @return true if the player has enough money
+     */
+    boolean isPurchasable(int amount);
+
+    /**
+     * Function wrapper for the {@link GameController#addMoney()}.
      * @param amount quantity of money to be increased
      */
     void addMoney(int amount);

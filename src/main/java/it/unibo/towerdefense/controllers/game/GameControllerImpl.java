@@ -94,6 +94,14 @@ public class GameControllerImpl implements GameController {
      * {@inheritDoc}
      */
     @Override
+    public boolean isPurchasable(final int amount) {
+        return this.game.getMoney() >= amount;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void addMoney(final int amount) {
         this.game.addMoney(amount);
     }
