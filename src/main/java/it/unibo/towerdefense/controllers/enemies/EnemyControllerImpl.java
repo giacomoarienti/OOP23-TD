@@ -33,7 +33,7 @@ public class EnemyControllerImpl implements EnemyController {
      *           the application.
      */
     EnemyControllerImpl(final ControllerMediator mc) {
-        enemyRenderer = new EnemyRendererImpl();
+        enemyRenderer = new EnemyRendererImpl(mc.getImageLoader());
         model = new EnemiesImpl((pos, speed) -> mc.getNextPosition(pos, speed), mc.getSpawnPosition());
         model.addDeathObserver(e -> {
             mc.addMoney(e.getValue());
