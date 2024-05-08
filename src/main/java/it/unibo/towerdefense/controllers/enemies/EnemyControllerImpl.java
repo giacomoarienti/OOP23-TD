@@ -13,16 +13,17 @@ import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.models.enemies.Enemies;
 import it.unibo.towerdefense.models.enemies.EnemiesImpl;
 import it.unibo.towerdefense.models.enemies.Enemy;
-import it.unibo.towerdefense.views.window.Window;
+import it.unibo.towerdefense.views.enemies.EnemyRenderer;
+import it.unibo.towerdefense.views.enemies.EnemyRendererImpl;
+import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**
  * {@inheritDoc}.
- * Il controller funge anche da [Pattern]Mediator con gli altri elementi
- * dell'applicazione.
  */
 public class EnemyControllerImpl implements EnemyController {
 
     private final Enemies model;
+    private final EnemyRenderer enemyRenderer;
 
     private Optional<List<Enemy>> lastGivenEnemies = Optional.empty();
 
@@ -33,7 +34,8 @@ public class EnemyControllerImpl implements EnemyController {
      * @param map    to know where to move enemies
      * @param gc     to signal wave advancement and money attribution
      */
-    EnemyControllerImpl(final Window window, final MapController map, final GameController gc) {
+    EnemyControllerImpl(final MapController map, final GameController gc) {
+        enemyRenderer = new EnemyRendererImpl();
         model = new EnemiesImpl((pos, speed) -> map.getNextPosition(pos, speed), map.getSpawnPosition());
         model.addDeathObserver(e -> {
             gc.addMoney(e.getValue());
@@ -49,15 +51,6 @@ public class EnemyControllerImpl implements EnemyController {
     @Override
     public void update() {
         model.update();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void render() {
-        // renderer.render(model.getEnemiesInfo());
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -91,4 +84,11 @@ public class EnemyControllerImpl implements EnemyController {
         model.spawn(wave);
     }
 
+    /**
+     * {@inhertDoc}
+     */
+    @Override
+    public void render(GameRenderer renderer) {
+        enemyRenderer.render(renderer, model.getEnemiesInfo());
+    }
 }
