@@ -93,15 +93,24 @@ public class DefensesControllerImpl implements DefensesController {
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
     }
+
+    /**updates momentum on every defense.*/
+    private void updateMomentum() {
+        for (Pair<Defense, Integer> def : this.defenses) {
+            int speed = def.getKey().getAttackSpeed();
+            def.setValue(Math.max(def.getValue() + speed, DefenseFormulas.MOMENTUM_REQUIRED));
+        }
+    }
+
     /**
      *{@inheritDoc}
      */
     @Override
     public void update() {
-        /**update momentum.*/
-        for (Pair<Defense, Integer> def : this.defenses) {
-            int speed = def.getKey().getAttackSpeed();
-            def.setValue(Math.max(def.getValue() + speed, DefenseFormulas.MOMENTUM_REQUIRED));
+        updateMomentum();
+        Map<Integer,Integer> damage = attackEnemies(enemyController.getEnemies());
+        if (damage.size() != 0) {
+            enemyController.hurtEnemies(damage);
         }
     }
 
