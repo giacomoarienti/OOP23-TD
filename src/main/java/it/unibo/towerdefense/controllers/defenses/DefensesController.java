@@ -1,8 +1,8 @@
 package it.unibo.towerdefense.controllers.defenses;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.controllers.SerializableController;
-import it.unibo.towerdefense.views.defenses.DefenseDescription;
 
 import java.util.Map;
 import java.io.IOException;

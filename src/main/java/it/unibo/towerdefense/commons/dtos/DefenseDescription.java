@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.views.defenses;
+package it.unibo.towerdefense.commons.dtos;
 
 /**Contains data that can be visualized in the build menu about defenses.*/
 public class DefenseDescription {

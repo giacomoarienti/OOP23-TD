@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.controllers.defenses.DefenseType;
 import it.unibo.towerdefense.controllers.defenses.DefensesController;
 import it.unibo.towerdefense.controllers.game.GameController;
@@ -17,7 +18,6 @@ import it.unibo.towerdefense.models.map.Direction;
 import it.unibo.towerdefense.models.map.GameMap;
 import it.unibo.towerdefense.models.map.GameMapImpl;
 import it.unibo.towerdefense.models.map.PathCell;
-import it.unibo.towerdefense.views.defenses.DefenseDescription;
 import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**

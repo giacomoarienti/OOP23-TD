@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.controllers.SerializableController;
 import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.views.defenses.DefenseDescription;
 
 /**
  *Interface that models controller of map.
