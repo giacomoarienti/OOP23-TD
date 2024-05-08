@@ -15,11 +15,6 @@ import it.unibo.towerdefense.models.engine.Position;
 public interface MapController extends SerializableController {
 
     /**
-     *
-     */
-    void update();
-
-    /**
      * Enemies spawn point getter.
      * @return the centre of side of path-cell where enemies spawn.
      */
