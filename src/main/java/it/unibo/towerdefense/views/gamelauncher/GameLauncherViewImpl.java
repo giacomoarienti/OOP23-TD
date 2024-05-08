@@ -86,13 +86,15 @@ public class GameLauncherViewImpl implements GameLauncherView {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int width = (int) screen.getWidth() / WIDTH_PROPORTION;
         final int height = (int) screen.getHeight() / HEIGHT_PROPORTION;
-        this.frame.setSize(width, height);
+        this.frame.setPreferredSize(new Dimension(width, height));
         // set default closing operation
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // center the frame
-        frame.setLocationRelativeTo(null);
         // set frame not resizable
         this.frame.setResizable(false);
+        // pack frame
+        this.frame.pack();
+        // center the frame
+        frame.setLocationRelativeTo(null);
         // push frame on screen
         this.frame.setVisible(true);
     }
