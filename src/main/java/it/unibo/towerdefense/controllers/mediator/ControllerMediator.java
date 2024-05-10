@@ -1,32 +1,15 @@
 package it.unibo.towerdefense.controllers.mediator;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import org.apache.commons.lang3.tuple.Pair;
-
-import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.controllers.Controller;
-import it.unibo.towerdefense.controllers.map.MapController;
-import it.unibo.towerdefense.utils.images.ImageLoader;
+import it.unibo.towerdefense.controllers.defenses.DefensesController;
 import it.unibo.towerdefense.controllers.enemies.EnemyController;
 import it.unibo.towerdefense.controllers.game.GameController;
+import it.unibo.towerdefense.controllers.map.MapController;
+import it.unibo.towerdefense.utils.images.ImageLoader;
 
 /**
  * Interface that models a mediator between controllers.
  */
-public interface ControllerMediator extends Controller {
-
-    /**
-     * Sets gameState to PLAYING.
-     */
-    void resume();
-
-    /**
-     * Sets gameState to PAUSE.
-     */
-    void pause();
+public interface ControllerMediator {
 
     /**
      * Saves the game.
@@ -34,65 +17,38 @@ public interface ControllerMediator extends Controller {
     void save();
 
     /**
-     * Returns if the game loop should run.
-     * @return true if game is running
-     */
-    boolean isRunning();
-
-    /**
-     * Returns the singleton instance of imageLoader.
+     * Returns the singleton instance of {@link ImageLoader}.
      * @return the imageLoader.
      */
     ImageLoader getImageLoader();
 
     /**
-     * Function wrapper for the {@link MapController#getEndPosition()}.
-     * @return the final position of the map
+     * Returns the instance of {@link GameController}.
      */
-    LogicalPosition getEndPosition();
+    GameController getGameController();
 
     /**
-     * Function wrapper for the {@link EnemyController#getEnemies()}.
-     * @return a list of position and health of the enemies
+     * Returns the instance of {@link MapController}.
      */
-    List<Pair<LogicalPosition, Integer>> getEnemies();
+    MapController getMapController();
 
     /**
-     * Function wrapper for the {@link MapController#getNextPosition()}.
-     * @param pos current position
-     * @param distanceToMove the distance an enemy travels each update
-     * @return the position where the enemy will be located, empty if it reached the end
+     * Returns the instance of {@link DefensesController}.
      */
-    Optional<LogicalPosition> getNextPosition(LogicalPosition pos, int distanceToMove);
+    DefensesController getDefensesController();
 
     /**
-     * Function wrapper for the {@link MapController#getSpawnPosition()}.
-     * Enemies spawn point getter.
-     * @return the centre of side of path-cell where enemies spawn.
+     * Returns the instance of {@link EnemyController}.
      */
-    LogicalPosition getSpawnPosition();
+    EnemyController getEnemyController();
 
     /**
-     * Function wrapper for the {@link GameController#isPurchasable()}.
-     * @param amount the amount of money to be checked
-     * @return true if the player has enough money
+     * alls update() on each controller.
      */
-    boolean isPurchasable(int amount);
+    void update();
 
     /**
-     * Function wrapper for the {@link GameController#addMoney()}.
-     * @param amount quantity of money to be increased
+     * Calls render() on each controller.
      */
-    void addMoney(int amount);
-
-    /**
-     * Function wrapper for the {@link GameController#advanceWave()}.
-     */
-    void advanceWave();
-
-    /**
-     * Function wrapper for the {@link EnemyController#hurtEnemies()}
-     * @param enemies a map of enemies and the damage they take
-     */
-    void hurtEnemies(Map<Integer,Integer> enemies);
+    void render();
 }
