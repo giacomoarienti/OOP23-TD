@@ -1,25 +1,28 @@
 package it.unibo.towerdefense.utils.images;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
+
+import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
 
-import it.unibo.towerdefense.models.engine.Size;
-
+/**
+ * A class for loading an image from a filename, already scaled to the desired
+ * size relative to the size of a cell.
+ */
 public class ImageLoader {
-
     /*
-     * saved as doubles to preserve as much information as possible
-     * conversion to integer is posponed.
+     * Size of a square cell in pixels.
      */
-    private final double cellWidth;
-    private final double cellHeigth;
+    private final int cellSize;
 
-    ImageLoader(Size pixelSize, int cellWidth, int cellHeigth){
-        this.cellWidth = pixelSize.getWidth() / (double)cellWidth;
-        this.cellHeigth = pixelSize.getHeight() / (double)cellHeigth;
+    public ImageLoader(int cellSize) {
+        if(cellSize <= 0){
+            throw new IllegalArgumentException("Cell size must be > 0");
+        }
+        this.cellSize = cellSize;
     }
 
     /**
@@ -32,18 +35,16 @@ public class ImageLoader {
      *             the image will be the same length as a cell.
      * @return the loaded image
      */
-    BufferedImage loadImage(String name, double size) throws IOException {
+    public BufferedImage loadImage(String name, double size) throws IOException {
+        if (size <= 0) {
+            throw new IllegalArgumentException("size can't be <= 0");
+        }
         try {
-            BufferedImage baseImage = ImageIO.read(ClassLoader.getSystemResourceAsStream(name));
-            int desiredWidth = (int)(size * cellWidth);
-            int desiredHeight = (int)(size * cellHeigth);
-            BufferedImage resizedImage = new BufferedImage(desiredWidth, desiredHeight, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2d = resizedImage.createGraphics();
-            g2d.drawImage(baseImage, 0, 0, desiredWidth, desiredHeight, null);
-            g2d.dispose();
-            return resizedImage;
-        } catch (Exception e){
-            throw new IOException("Couldn't load image with name " + name);
+            InputStream image = ClassLoader.getSystemResourceAsStream(name);
+            BufferedImage baseImage = ImageIO.read(image);
+            return Scalr.resize(baseImage, (int)(cellSize * size));
+        } catch (Exception e) {
+            throw new IOException("Couldn't load image with name " + name, e);
         }
     }
 }
