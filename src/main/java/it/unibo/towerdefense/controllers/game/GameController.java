@@ -49,6 +49,12 @@ public interface GameController extends SerializableController {
     boolean isPurchasable(int amount);
 
     /**
+     * Check if the game is playing.
+     * @return true if the game is RUNNING
+     */
+    boolean isPlaying();
+
+    /**
      * Increases the amount of money by amount .
      * @param amount quantity of money to be increased
      */
