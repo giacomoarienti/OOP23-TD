@@ -84,9 +84,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
     @Override
     public void update() {
         // calls update on each controller
-        this.controllers.forEach(
-            controller -> controller.update()
-        );
+        this.controllers.forEach(Controller::update);
     }
 
     /**
