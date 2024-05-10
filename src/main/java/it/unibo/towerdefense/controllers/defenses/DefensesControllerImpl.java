@@ -188,4 +188,10 @@ public class DefensesControllerImpl implements DefensesController {
         }
         return result.toString();
     }
+
+    @Override
+    public DefenseDescription getDescriptionFor(LogicalPosition at) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDescriptionFor'");
+    }
 }

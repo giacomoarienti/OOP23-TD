@@ -15,6 +15,12 @@ import org.apache.commons.lang3.tuple.Pair;
  * Interface for the controller of the game defenses.
  */
 public interface DefensesController extends SerializableController {
+
+    /**returns description for build at given position.
+     * @param at position to check
+     * @return DefenseDescription for given pos.
+    */
+    DefenseDescription getDescriptionFor(LogicalPosition at);
     /**
      * Builds a tower of the given type.
      * @param choice index of buildable.
