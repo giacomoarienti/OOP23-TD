@@ -33,11 +33,18 @@ public class DefensesControllerImpl implements DefensesController {
     private ControllerMediator master;
 
     /**Constructor that gives this controller access to other necessary controller methods.
-     * @param mapController to get end of map.
-     * @param enemyController to hurt enemies.
+    *
     */
     public DefensesControllerImpl(final ControllerMediator master) {
         this.master = master;
+    }
+
+    /**A constructor that recovers defense state from a json file.
+     * @param master the mediator.
+     * @param jsonString the json content.
+    */
+    public DefensesControllerImpl(final ControllerMediator master, final String jsonString) {
+        this(master);
     }
 
     /**Empty default constructor.*/
@@ -82,7 +89,7 @@ public class DefensesControllerImpl implements DefensesController {
                 factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefenseWithCustomPosition(DefenseMapFilePaths.THUNDER_INVOKER_LV1,
-                buildPosition, master.getEndPosition(), Optional.empty())
+                buildPosition, master.getMapController().getEndPosition(), Optional.empty())
             );
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
@@ -102,9 +109,9 @@ public class DefensesControllerImpl implements DefensesController {
     @Override
     public void update() {
         updateMomentum();
-        Map<Integer,Integer> damage = attackEnemies(master.getEnemies());
+        Map<Integer,Integer> damage = attackEnemies(master.getEnemyController().getEnemies());
         if (damage.size() != 0) {
-            master.hurtEnemies(damage);
+            master.getEnemyController().hurtEnemies(damage);
         }
     }
 
