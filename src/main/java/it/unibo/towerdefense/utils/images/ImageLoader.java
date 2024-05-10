@@ -18,6 +18,11 @@ public class ImageLoader {
      */
     private final int cellSize;
 
+    /**
+     * Constructor for the class.
+     *
+     * @param cellSize the side of a cell
+     */
     public ImageLoader(int cellSize) {
         if(cellSize <= 0){
             throw new IllegalArgumentException("Cell size must be > 0");
