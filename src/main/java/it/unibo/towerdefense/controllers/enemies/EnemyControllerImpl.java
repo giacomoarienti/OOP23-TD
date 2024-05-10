@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.controllers.game.GameController;
+import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.enemies.Enemies;
 import it.unibo.towerdefense.models.enemies.EnemiesImpl;
@@ -33,16 +35,16 @@ public class EnemyControllerImpl implements EnemyController {
      *           the application.
      */
     public EnemyControllerImpl(final ControllerMediator mc) {
-        model = null;
-        enemyRenderer = null;
-        /*enemyRenderer = new EnemyRendererImpl(mc.getImageLoader());
-        model = new EnemiesImpl((pos, speed) -> mc.getNextPosition(pos, speed), mc.getSpawnPosition());
+        final MapController map = mc.getMapController();
+        final GameController game = mc.getGameController();
+        enemyRenderer = new EnemyRendererImpl(mc.getImageLoader());
+        model = new EnemiesImpl((pos, speed) -> map.getNextPosition(pos, speed), map.getSpawnPosition());
         model.addDeathObserver(e -> {
-            mc.addMoney(e.getValue());
+            game.addMoney(e.getValue());
             if (!model.isWaveActive()) {
-                mc.advanceWave();
+                game.advanceWave();
             }
-        });*/
+        });
     }
 
     /**

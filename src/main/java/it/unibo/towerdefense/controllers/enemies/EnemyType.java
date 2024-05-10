@@ -50,7 +50,7 @@ public abstract class EnemyType {
      */
     @Override
     public final String toString() {
-        return this.level().toString() + this.level().toString();
+        return this.level().toString() + this.type().toString();
     }
 
     /**
