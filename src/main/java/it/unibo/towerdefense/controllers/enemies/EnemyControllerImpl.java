@@ -32,15 +32,17 @@ public class EnemyControllerImpl implements EnemyController {
      * @param mc the class which acts as a mediator between all different parts of
      *           the application.
      */
-    EnemyControllerImpl(final ControllerMediator mc) {
-        enemyRenderer = new EnemyRendererImpl(mc.getImageLoader());
+    public EnemyControllerImpl(final ControllerMediator mc) {
+        model = null;
+        enemyRenderer = null;
+        /*enemyRenderer = new EnemyRendererImpl(mc.getImageLoader());
         model = new EnemiesImpl((pos, speed) -> mc.getNextPosition(pos, speed), mc.getSpawnPosition());
         model.addDeathObserver(e -> {
             mc.addMoney(e.getValue());
             if (!model.isWaveActive()) {
                 mc.advanceWave();
             }
-        });
+        });*/
     }
 
     /**
