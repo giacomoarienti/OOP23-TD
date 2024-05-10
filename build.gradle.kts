@@ -28,6 +28,7 @@ dependencies {
     implementation("org.json:json:20240205")
     implementation("org.apache.commons:commons-lang3:3.14.0")
     implementation("com.google.guava:guava:33.1.0-jre")
+    implementation("org.imgscalr:imgscalr-lib:4.2")
 
     /*
      * Simple Logging Facade for Java (SLF4J) with Apache Log4j
