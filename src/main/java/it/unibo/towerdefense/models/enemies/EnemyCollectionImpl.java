@@ -25,7 +25,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
      *                    optional containing the new position or an empty optional
      *                    if the enemy has reached the end of the map
      */
-    public EnemyCollectionImpl(final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction) {
+    EnemyCollectionImpl(final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction) {
         this.posFunction = posFunction;
         this.enemies = new HashSet<>();
     }

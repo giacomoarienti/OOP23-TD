@@ -69,7 +69,7 @@ public class EnemiesImpl implements Enemies {
     public void update() {
         enemies.move();
         if (current.isPresent()) {
-            current.get().next().ifPresent(et -> this.spawn(et));
+            current.get().next().ifPresent(et -> this.spawnEnemy(et));
             if (!current.get().hasNext()) {
                 current = Optional.empty();
             }
@@ -81,7 +81,7 @@ public class EnemiesImpl implements Enemies {
      *
      * @param et the type of the enemy to spawn.
      */
-    private void spawn(RichEnemyType et) {
+    private void spawnEnemy(RichEnemyType et) {
         Enemy spawned = factory.spawn(et);
         enemies.add(spawned);
         enemyDeathObservers.forEach(o -> spawned.addDeathObserver(o));
