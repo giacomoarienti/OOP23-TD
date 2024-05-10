@@ -22,7 +22,7 @@ public interface Canvas {
      * Submit a list of drawables to the canvas queue.
      * @param drawables the list of drawables to submit
      */
-    void submitAll(List<Drawable> drawables);
+    void submitAll(List<? extends Drawable> drawables);
 
     /**
      * Submit a drawable to the canvas to be drawn as
@@ -36,6 +36,6 @@ public interface Canvas {
      * as first elements.
      * @param drawables the list of drawables to submit
      */
-    void submitBackgroundAll(List<Drawable> drawables);
+    void submitBackgroundAll(List<? extends Drawable> drawables);
 
 }

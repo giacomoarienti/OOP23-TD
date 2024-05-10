@@ -14,8 +14,7 @@ import org.json.JSONObject;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
-import it.unibo.towerdefense.controllers.enemies.EnemyController;
-import it.unibo.towerdefense.controllers.map.MapController;
+import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.defenses.Defense;
 import it.unibo.towerdefense.models.defenses.DefenseFactory;
 import it.unibo.towerdefense.models.defenses.DefenseFactoryImpl;
@@ -30,25 +29,20 @@ public class DefensesControllerImpl implements DefensesController {
     private DefenseFactory factory = new DefenseFactoryImpl();
     /**All current existing defenses with their respective cooldown.*/
     private List<Pair<Defense, Integer>> defenses = new LinkedList<>();
-    /**The current custom position to be used by defenses.*/
-    private LogicalPosition endOfMap;
-    /**reference to enemy controller to hurt enemies.*/
-    private EnemyController enemyController;
+    /**for getting end of map and entities.*/
+    private ControllerMediator master;
 
     /**Constructor that gives this controller access to other necessary controller methods.
      * @param mapController to get end of map.
      * @param enemyController to hurt enemies.
     */
-    public DefensesControllerImpl(final MapController mapController,
-    final EnemyController enemyController) {
-        this.endOfMap = mapController.getEndPosition();
-        this.enemyController = enemyController;
+    public DefensesControllerImpl(final ControllerMediator master) {
+        this.master = master;
     }
 
     /**Empty default constructor.*/
     public DefensesControllerImpl () {
-        /**placeholder to not make game crash.*/
-        this.endOfMap = new LogicalPosition(0, 0);
+
     }
 
     /**finds a defense based on its position.
@@ -88,7 +82,7 @@ public class DefensesControllerImpl implements DefensesController {
                 factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefenseWithCustomPosition(DefenseMapFilePaths.THUNDER_INVOKER_LV1,
-                buildPosition, endOfMap, Optional.empty())
+                buildPosition, master.getEndPosition(), Optional.empty())
             );
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
@@ -108,9 +102,9 @@ public class DefensesControllerImpl implements DefensesController {
     @Override
     public void update() {
         updateMomentum();
-        Map<Integer,Integer> damage = attackEnemies(enemyController.getEnemies());
+        Map<Integer,Integer> damage = attackEnemies(master.getEnemies());
         if (damage.size() != 0) {
-            enemyController.hurtEnemies(damage);
+            master.hurtEnemies(damage);
         }
     }
 
@@ -193,5 +187,11 @@ public class DefensesControllerImpl implements DefensesController {
             result.put(new JSONObject(def.getKey().toJSON()));
         }
         return result.toString();
+    }
+
+    @Override
+    public DefenseDescription getDescriptionFor(LogicalPosition at) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDescriptionFor'");
     }
 }

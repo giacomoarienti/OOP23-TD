@@ -17,4 +17,5 @@ public class ImageLoader {
     Image loadImage(Path path, LogicalPosition upperCorner){
         throw new UnsupportedOperationException();
     }
+
 }

@@ -13,13 +13,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * Main canvas of the game.
  */
-public class CanvasImpl extends JPanel implements Canvas, MouseListener {
+public class CanvasImpl extends JPanel implements Canvas {
 
     private static final long serialVersionUID = 1000L;
     private static final int FIRST_INDEX = 0;
@@ -40,6 +40,12 @@ public class CanvasImpl extends JPanel implements Canvas, MouseListener {
         this.setPreferredSize(new Dimension(width, height));
         // create the logger
         this.logger = LoggerFactory.getLogger(this.getClass());
+        // bind on click event
+        this.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(final MouseEvent e) {
+                CanvasImpl.this.onClick(e);
+            }
+        });
     }
 
     /**
@@ -53,7 +59,7 @@ public class CanvasImpl extends JPanel implements Canvas, MouseListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         // clear the canvas
-        g2d.clearRect(START_X, START_Y, getWidth(), getHeight());
+        g2d.clearRect(START_X, START_Y, this.getWidth(), this.getHeight());
         // draw all the elements in queue
         for (final Drawable drawable: this.queue) {
             drawable.paint(g2d);
@@ -83,7 +89,7 @@ public class CanvasImpl extends JPanel implements Canvas, MouseListener {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void submitAll(final List<Drawable> drawables) {
+    public synchronized void submitAll(final List<? extends Drawable> drawables) {
         this.queue.addAll(Collections.unmodifiableCollection(drawables));
     }
 
@@ -99,41 +105,13 @@ public class CanvasImpl extends JPanel implements Canvas, MouseListener {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void submitBackgroundAll(final List<Drawable> drawables) {
+    public synchronized void submitBackgroundAll(final List<? extends Drawable> drawables) {
        this.queue.addAll(FIRST_INDEX, drawables);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void mouseClicked(final MouseEvent e) {
+    private void onClick(final MouseEvent e) {
         this.logger.debug("Mouse clicked at: " + e.getX() + ", " + e.getY());
         // call selected cell on MapController
         // this.mapController.selectedCell(new PositionImpl(e.getX(), e.getY()));
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void mouseEntered(final MouseEvent e) { }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void mouseExited(final MouseEvent e) { }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void mousePressed(final MouseEvent e) { }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void mouseReleased(final MouseEvent e) { }
 }

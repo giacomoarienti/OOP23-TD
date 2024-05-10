@@ -9,6 +9,7 @@ import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.controllers.defenses.DefenseType;
 import it.unibo.towerdefense.controllers.defenses.DefensesController;
 import it.unibo.towerdefense.controllers.game.GameController;
+import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.engine.Position;
 import it.unibo.towerdefense.models.engine.PositionImpl;
 import it.unibo.towerdefense.models.engine.Size;
@@ -26,10 +27,11 @@ import it.unibo.towerdefense.views.graphics.GameRenderer;
 public class MapControllerImpl implements MapController {
 
     private final GameMap map;
-    private final GameController gameController;
-    private final DefensesController defensesController;
+    private final ControllerMediator masterController;
+    //private final GameRenderer gameRenderer;
     private BuildableCell selected = null;
     private List<DefenseDescription> options;
+
 
     /**
      *Constructor from size of map and others controller.
@@ -37,14 +39,13 @@ public class MapControllerImpl implements MapController {
      * @param defensesController the defenses controller.
      * @param gameController the game controller.
      */
-    public MapControllerImpl(final Size size, final DefensesController defensesController, final GameController gameController) {
+    public MapControllerImpl(Size size, final ControllerMediator masterController) {
         try {
             this.map = new GameMapImpl(size);
         } catch (IllegalArgumentException e) {
             throw e;
         }
-        this.gameController = gameController;
-        this.defensesController = defensesController;
+        this.masterController = masterController;
     }
 
     /**
@@ -55,12 +56,10 @@ public class MapControllerImpl implements MapController {
      */
     public MapControllerImpl(
         final String jsondata,
-        final DefensesController defensesController,
-        final GameController gameController
+        final ControllerMediator masterController
     ) {
         this.map = GameMapImpl.fromJson(jsondata);
-        this.gameController = gameController;
-        this.defensesController = defensesController;
+        this.masterController = masterController;
     }
 
     /**
@@ -165,13 +164,13 @@ public class MapControllerImpl implements MapController {
         }
         var choice = options.get(optionNumber);
         if (choice.getName().equals(DefenseType.NOTOWER.name())) {
-            gameController.addMoney(defensesController.disassembleDefense(selected.getCenter()));
+            masterController.addMoney(masterController.disassembleDefense(selected.getCenter()));
             return;
         }
-        if (!gameController.purchase(choice.getCost())) {
+        if (!masterController.purchase(choice.getCost())) {
             throw new IllegalArgumentException("Not enought money!");
         }
-        defensesController.buildDefense(optionNumber, selected.getCenter());
+        masterController.buildDefense(optionNumber, selected.getCenter());
     }
 
     /**
@@ -198,8 +197,7 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public void render(final GameRenderer renderer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'render'");
+        / ;
     }
 
     private boolean updateBuildinOption() {
@@ -207,7 +205,7 @@ public class MapControllerImpl implements MapController {
             return false;
         }
         try {
-            this.options = defensesController.getBuildables(selected.getCenter());
+            this.options = masterController.getBuildables(selected.getCenter());
             return true;
         } catch (IOException e) {
             return false;

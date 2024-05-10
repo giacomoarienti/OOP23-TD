@@ -70,7 +70,7 @@ public interface Window {
      * Adds a list of drawable objects to the canvas.
      * @param drawables the drawable objects list to add
      */
-    void submitAllToCanvas(List<Drawable> drawables);
+    void submitAllToCanvas(List<? extends Drawable> drawables);
 
     /**
      * Forces the canvas to rerender.
