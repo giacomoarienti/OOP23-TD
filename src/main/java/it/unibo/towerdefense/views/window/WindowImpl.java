@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.views.modal.ModalContent;
 import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.models.engine.SizeImpl;
 import it.unibo.towerdefense.views.graphics.Canvas;
 import it.unibo.towerdefense.views.graphics.CanvasImpl;
 import it.unibo.towerdefense.views.graphics.Drawable;
@@ -38,6 +39,7 @@ public class WindowImpl implements Window {
     private final JPanel upgradeMenu;
     private final JPanel buyMenu;
     private final JPanel infoPanel;
+    private final Size canvasSize;
 
     /**
      * Creates a window with the specified size.
@@ -52,7 +54,10 @@ public class WindowImpl implements Window {
         this.frame.setLayout(new BorderLayout());
         this.frame.setPreferredSize(new Dimension(w, h));
         // create canvas
-        this.canvas = new CanvasImpl(w / CANVAS_PROPORTION, h);
+        final int canvasWidth = w / CANVAS_PROPORTION;
+        final int canvasHeight = h;
+        this.canvasSize = new SizeImpl(canvasWidth, canvasHeight);
+        this.canvas = new CanvasImpl(canvasWidth, canvasHeight);
         // create panels
         this.upgradeMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
         final var rightMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
@@ -65,7 +70,6 @@ public class WindowImpl implements Window {
         this.frame.add((JPanel) this.canvas, BorderLayout.CENTER);
         this.frame.add(this.upgradeMenu, BorderLayout.WEST);
         this.frame.add(rightMenu, BorderLayout.EAST);
-        // this.frame.add(this.buyMenu, BorderLayout.EAST);
     }
 
     /**
@@ -106,6 +110,14 @@ public class WindowImpl implements Window {
     @Override
     public Size getSize() {
         return this.size.copy();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Size getCanvasSize() {
+        return this.canvasSize.copy();
     }
 
     /**

@@ -1,11 +1,10 @@
 package it.unibo.towerdefense.models.savingloader.saving;
 
 import java.util.Map;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.text.SimpleDateFormat;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 
 /**
@@ -13,25 +12,24 @@ import org.json.JSONObject;
  */
 public class SavingImpl implements Saving {
 
+    private static final int FILE_NAME_LENGTH = 16;
+    private static final String NAME_FIELD = "name";
     private static final String EXTENSION = ".json";
-    private static final String DATE_FIELD = "date";
-    private static final String DATE_FORMAT = "yyyy.MM.dd.HH.mm.ss";
 
-    private final String date;
+    private final String name;
     private final Map<SavingFieldsEnum, String> json;
 
     /**
      * SavingImpl constructor from the json representation of objects
      * defined in SavingFieldsEnum.
-     * @param date the date of the saving
      * @param json the json representation of the saving
      */
     public SavingImpl(
-        final String date,
         final Map<SavingFieldsEnum, String> json
     ) {
-        this.date = date;
         this.json = json;
+        // random generated name
+        this.name = RandomStringUtils.randomAlphanumeric(FILE_NAME_LENGTH);
     }
 
     /**
@@ -40,12 +38,11 @@ public class SavingImpl implements Saving {
      * @param json the json representation of the saving
      */
     public SavingImpl(
-        final Map<SavingFieldsEnum, String> json
+        final Map<SavingFieldsEnum, String> json,
+        final String name
     ) {
-        this(
-            new SimpleDateFormat(DATE_FORMAT).format(new Date()),
-            json
-        );
+        this.json = json;
+        this.name = name;
     }
 
     /**
@@ -53,7 +50,11 @@ public class SavingImpl implements Saving {
      */
     @Override
     public String getName() {
-        return this.date + EXTENSION;
+        return String.format(
+            "%s.%s",
+            this.name,
+            SavingImpl.EXTENSION
+        );
     }
 
     /**
@@ -86,7 +87,7 @@ public class SavingImpl implements Saving {
     @Override
     public String toJSON() {
         final JSONObject obj = new JSONObject()
-            .put(DATE_FIELD, this.date);
+            .put(NAME_FIELD, this.name);
         // Add all the fields to the JSON object
         List.of(SavingFieldsEnum.values())
             .forEach(field ->
@@ -102,6 +103,7 @@ public class SavingImpl implements Saving {
      */
     public static Saving fromJson(final String jsonData) {
         final JSONObject jsonObject = new JSONObject(jsonData);
+        final String name = jsonObject.getString(NAME_FIELD);
         // create the map from the JSON object
         final Map<SavingFieldsEnum, String> json = List.of(SavingFieldsEnum.values())
             .stream()
@@ -113,8 +115,8 @@ public class SavingImpl implements Saving {
             );
         // return the saving object
         return new SavingImpl(
-            jsonObject.getString(DATE_FIELD),
-            json
+            json,
+            name
         );
     }
 }

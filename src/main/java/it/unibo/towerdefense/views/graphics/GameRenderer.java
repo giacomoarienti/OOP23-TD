@@ -4,11 +4,19 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import it.unibo.towerdefense.utils.images.ImageLoader;
+
 /**
  * Interface that models the game renderer.
  * It acts as a Proxy for the Window class.
  */
 public interface GameRenderer {
+
+    /**
+     * Returns the singleton instance of imageLoader.
+     * @return the imageLoader.
+     */
+    ImageLoader getImageLoader();
 
     /**
      * Adds view contents to the info panel.

@@ -30,6 +30,12 @@ public interface Window {
     Size getSize();
 
     /**
+     * Get canvas size.
+     * @return the size of the canvas
+     */
+    Size getCanvasSize();
+
+    /**
      * Display a error message.
      * @param message the message to display
      */

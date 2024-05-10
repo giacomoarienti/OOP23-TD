@@ -24,31 +24,7 @@ public class GameImpl implements Game {
      * @param playerName the player name
      */
     public GameImpl(final String playerName) {
-        this.playerName = playerName;
-        this.lives = START_LIVES;
-        this.money = START_MONEY;
-        this.wave = START_WAVE;
-        this.gameState = GameState.PAUSE;
-    }
-
-    /**
-     * Constructors a GameImpl with the given playerName, lives, money and wave.
-     * @param playerName the player name
-     * @param lives the amount of lives
-     * @param money the amount of money
-     * @param wave the wave number
-     */
-    public GameImpl(
-        final String playerName,
-        final int lives,
-        final int money,
-        final int wave
-    ) {
-        this.playerName = playerName;
-        this.lives = lives;
-        this.money = money;
-        this.wave = wave;
-        this.gameState = GameState.PAUSE;
+        this(playerName, START_LIVES, START_MONEY, START_WAVE);
     }
 
     /**
@@ -62,6 +38,19 @@ public class GameImpl implements Game {
             gameDTO.getMoney(),
             gameDTO.getWave()
         );
+    }
+
+    private GameImpl(
+        final String playerName,
+        final int lives,
+        final int money,
+        final int wave
+    ) {
+        this.playerName = playerName;
+        this.lives = lives;
+        this.money = money;
+        this.wave = wave;
+        this.gameState = GameState.PAUSE;
     }
 
     /**

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.utils.images.ImageLoader;
 import it.unibo.towerdefense.views.window.Window;
 
 /**
@@ -12,13 +14,27 @@ import it.unibo.towerdefense.views.window.Window;
 public class GameRendererImpl implements GameRenderer {
 
     private final Window window;
+    private final ImageLoader imageLoader;
 
     /**
-     * Constructor with Window instance.
+     * Constructor with the map's Size, Window instance.
+     * @param mapSize the size of the map
      * @param window the window instance
      */
-    public GameRendererImpl(final Window window) {
+    public GameRendererImpl(final Size mapSize, final Window window) {
         this.window = window;
+        // initialize the image loader
+        this.imageLoader = new ImageLoader(
+            mapSize.getWidth() / window.getCanvasSize().getWidth()
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ImageLoader getImageLoader() {
+        return this.imageLoader;
     }
 
     /**

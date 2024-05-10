@@ -3,8 +3,11 @@ package it.unibo.towerdefense.controllers.app;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.controllers.gameloop.GameLoopController;
 import it.unibo.towerdefense.controllers.gameloop.GameLoopControllerImpl;
+import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
+import it.unibo.towerdefense.controllers.mediator.ControllerMediatorImpl;
 import it.unibo.towerdefense.controllers.menu.MenuController;
 import it.unibo.towerdefense.controllers.menu.MenuControllerImpl;
 import it.unibo.towerdefense.views.graphics.GameRendererImpl;
@@ -19,6 +22,7 @@ public class AppControllerImpl implements AppController {
     private final Logger logger;
     private final MenuController menuController;
     private final GameLoopController loopController;
+    private final ControllerMediator masterController;
     private final Window window;
 
     /**
@@ -29,12 +33,15 @@ public class AppControllerImpl implements AppController {
     public AppControllerImpl(final String playerName, final Window window) {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.window = window;
-        // instantiate controller
+        final var mapSize = Constants.MAP_SIZE; // might be a variable in the future
+        // instantiate controllers
         this.menuController = new MenuControllerImpl(this);
-        this.loopController = new GameLoopControllerImpl(
+        this.masterController = new ControllerMediatorImpl(
             playerName,
-            new GameRendererImpl(window)
+            mapSize,
+            new GameRendererImpl(mapSize, window)
         );
+        this.loopController = new GameLoopControllerImpl(masterController);
     }
 
     /**
@@ -63,7 +70,7 @@ public class AppControllerImpl implements AppController {
      */
     @Override
     public void pause() {
-        this.loopController.pause();
+        this.masterController.getGameController().pause();
     }
 
     /**
@@ -71,7 +78,7 @@ public class AppControllerImpl implements AppController {
      */
     @Override
     public void resume() {
-        this.loopController.resume();
+        this.masterController.getGameController().resume();
     }
 
     /**
@@ -80,7 +87,7 @@ public class AppControllerImpl implements AppController {
     @Override
     public void saveAndExit() {
         logger.info("saveAndExit()");
-        this.loopController.save();
+        this.masterController.save();
         this.exit();
     }
 

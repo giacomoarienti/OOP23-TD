@@ -42,6 +42,19 @@ public interface GameController extends SerializableController {
     int getMoney();
 
     /**
+     * Check if the player has enough money to buy something.
+     * @param amount the amount of money to be checked
+     * @return true if the player has enough money
+     */
+    boolean isPurchasable(int amount);
+
+    /**
+     * Check if the game is playing.
+     * @return true if the game is RUNNING
+     */
+    boolean isPlaying();
+
+    /**
      * Increases the amount of money by amount .
      * @param amount quantity of money to be increased
      */
