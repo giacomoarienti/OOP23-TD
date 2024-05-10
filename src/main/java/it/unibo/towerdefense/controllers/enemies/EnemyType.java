@@ -1,6 +1,9 @@
 package it.unibo.towerdefense.controllers.enemies;
 
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * At the highest level of abstraction an enemy type is defined by its level and
@@ -46,7 +49,30 @@ public abstract class EnemyType {
      * {@inheritDoc}.
      */
     @Override
-    public final String toString(){
+    public final String toString() {
         return this.level().toString() + this.level().toString();
+    }
+
+    /**
+     * The EnemyTypes present in the game are the cartesian product between the
+     * defined levels and types.
+     *
+     * @return a Set containing all the EnemyTypes in the game.
+     */
+    public static Set<EnemyType> getEnemyTypes() {
+        return Arrays.stream(EnemyLevel.values())
+                .flatMap(l -> Arrays.stream(EnemyArchetype.values())
+                .map(t -> new EnemyType() {
+                    @Override
+                    public EnemyLevel level() {
+                        return l;
+                    }
+
+                    @Override
+                    public EnemyArchetype type() {
+                        return t;
+                    }
+                }))
+                .collect(Collectors.toSet());
     }
 }

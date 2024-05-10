@@ -1,7 +1,6 @@
 package it.unibo.towerdefense.models.enemies;
 
 import java.math.RoundingMode;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
@@ -16,6 +15,7 @@ import com.google.common.math.IntMath;
 
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
+import it.unibo.towerdefense.controllers.enemies.EnemyType;
 
 /**
  * {@inheritDoc}.
@@ -41,9 +41,8 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
         this.rateos = configValues.getMiddle();
         this.powerlevels = configValues.getRight();
 
-        availableTypes = Arrays.stream(EnemyLevel.values())
-                .flatMap(l -> Arrays.stream(EnemyArchetype.values()).map(t -> build(l, t)))
-                .collect(Collectors.toSet());
+        availableTypes = EnemyType.getEnemyTypes().stream()
+                    .map((EnemyType et) -> build(et.level(), et.type())).collect(Collectors.toSet());
     }
 
     /**
