@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.List;
@@ -57,23 +56,6 @@ public class TestConfigurableEnemyCatalogue {
     @Nested
     public class NestedTestBlock {
 
-        /**
-         * EnemyType composed of level and type.
-         */
-        record SimpleEnemyType(EnemyLevel level, EnemyArchetype type) implements EnemyType {
-            @Override
-            public final boolean equals(Object o) {
-                return o instanceof EnemyType &&
-                        ((EnemyType) o).level() == this.level() &&
-                        ((EnemyType) o).type() == this.type();
-            }
-
-            @Override
-            public final int hashCode() {
-                return Objects.hash(this.level(), this.type());
-            }
-        };
-
         private final static String TEST_FILE = "types.json";
         private ConfigurableEnemyCatalogue tested;
         private Set<EnemyType> types;
@@ -88,7 +70,17 @@ public class TestConfigurableEnemyCatalogue {
                     FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + TEST_FILE).toURI())));
             types = Arrays.stream(EnemyLevel.values())
                     .flatMap((EnemyLevel l) -> Arrays.stream(EnemyArchetype.values())
-                            .map((EnemyArchetype t) -> new SimpleEnemyType(l, t)))
+                            .map((EnemyArchetype t) -> new EnemyType() {
+                                @Override
+                                public EnemyLevel level() {
+                                    return l;
+                                }
+
+                                @Override
+                                public EnemyArchetype type() {
+                                    return t;
+                                }
+                            }))
                     .collect(Collectors.toSet());
         }
 

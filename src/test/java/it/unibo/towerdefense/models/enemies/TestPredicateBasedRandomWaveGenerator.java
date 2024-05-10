@@ -30,8 +30,10 @@ public class TestPredicateBasedRandomWaveGenerator {
      */
     @BeforeEach
     void init() throws URISyntaxException, IOException {
-        wps = new WavePolicySupplierImpl(FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "waves.json").toURI())));
-        catalogue = new ConfigurableEnemyCatalogue(FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "types.json").toURI())));
+        wps = new WavePolicySupplierImpl(
+                FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "waves.json").toURI())));
+        catalogue = new ConfigurableEnemyCatalogue(
+                FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "types.json").toURI())));
         rwg = new PredicateBasedRandomWaveGenerator(wps, catalogue);
     }
 
@@ -52,9 +54,6 @@ public class TestPredicateBasedRandomWaveGenerator {
      */
     private void testWave(int wave) {
 
-        record QuickEnemyType(EnemyLevel level, EnemyArchetype type) implements EnemyType {
-        };
-
         if (wave < 1) {
             Assertions.assertThrows(RuntimeException.class, () -> rwg.apply(wave));
         } else {
@@ -68,7 +67,17 @@ public class TestPredicateBasedRandomWaveGenerator {
                     Assertions.assertTrue(current.isPresent(), () -> "Was not present");
                     Assertions.assertTrue(
                             wps.getPredicate(wave)
-                                    .test(new QuickEnemyType(current.get().level(), current.get().type())),
+                                    .test(new EnemyType() {
+                                        @Override
+                                        public EnemyLevel level() {
+                                            return current.get().level();
+                                        }
+
+                                        @Override
+                                        public EnemyArchetype type() {
+                                            return current.get().type();
+                                        }
+                                    }),
                             () -> "Was not right type");
                 } else {
                     Assertions.assertTrue(generated.next().isEmpty(), () -> "Was present");

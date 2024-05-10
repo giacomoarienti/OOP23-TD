@@ -31,7 +31,7 @@ public class TestSimpleEnemyFactory {
      */
     @Test
     void testSpawn() {
-        RichEnemyType t = new TestEnemyType(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
+        RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
         Enemy created = tested.spawn(t);
         Assertions.assertEquals(STARTING_POS, created.getPosition());
         Assertions.assertEquals(t.getMaxHP(), created.getHp());
@@ -45,7 +45,7 @@ public class TestSimpleEnemyFactory {
      */
     @Test
     void testNegativeHurt() {
-        RichEnemyType t = new TestEnemyType(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
+        RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
         Enemy created = tested.spawn(t);
         Assertions.assertThrows(RuntimeException.class, () -> created.hurt(-1));
     }
@@ -56,7 +56,7 @@ public class TestSimpleEnemyFactory {
      */
     @Test
     void testDeath() {
-        RichEnemyType t = new TestEnemyType(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
+        RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
         Enemy created = tested.spawn(t);
 
         interface TestObserver<T> extends Observer<T> {

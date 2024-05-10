@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,6 @@ import com.google.common.math.IntMath;
 
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
-import it.unibo.towerdefense.controllers.enemies.EnemyType;
 
 /**
  * {@inheritDoc}.
@@ -134,36 +132,6 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
     }
 
     /**
-     * {@inheritDoc}.
-     *
-     * @param level    the level
-     * @param type     the archetype
-     * @param getMaxHP the max hp
-     * @param getSpeed the speed
-     * @param getValue the value to be attributed to the player on defeat
-     */
-    private record BasicEnemyType(EnemyLevel level, EnemyArchetype type, int getMaxHP, int getSpeed, int getValue)
-            implements RichEnemyType {
-        /**
-         * Two enemy types are the same if they have same level and type.
-         */
-        @Override
-        public final boolean equals(final Object o) {
-            return o instanceof EnemyType
-                    && ((EnemyType) o).level() == this.level()
-                    && ((EnemyType) o).type() == this.type();
-        }
-
-        /**
-         * Overridden to support the new equals definition.
-         */
-        @Override
-        public final int hashCode() {
-            return Objects.hash(this.level(), this.type());
-        }
-    };
-
-    /**
      * Builds an EnemyType of given Level and Archetype.
      *
      * @param l the Level of the enemy, determines total stats
@@ -174,6 +142,49 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
         final int speed = IntMath.sqrt((powerlevels.get(l) * rateos.get(t)) / 100, RoundingMode.DOWN);
         final int hp = (speed * 100) / rateos.get(t);
         final int value = powerlevels.get(l) * (valueFactor / 100);
-        return new BasicEnemyType(l, t, hp, speed, value);
+        /**
+         * Anonymous class which implements a RichEnemyType.
+         */
+        return new RichEnemyType() {
+            /**
+             * {@inheritDoc}.
+             */
+            @Override
+            public EnemyLevel level() {
+                return l;
+            }
+
+            /**
+             * {@inheritDoc}.
+             */
+            @Override
+            public EnemyArchetype type() {
+                return t;
+            }
+
+            /**
+             * {@inheritDoc}.
+             */
+            @Override
+            int getMaxHP() {
+                return hp;
+            }
+
+            /**
+             * {@inheritDoc}.
+             */
+            @Override
+            int getSpeed() {
+                return speed;
+            }
+
+            /**
+             * {@inheritDoc}.
+             */
+            @Override
+            int getValue() {
+                return value;
+            }
+        };
     }
 }

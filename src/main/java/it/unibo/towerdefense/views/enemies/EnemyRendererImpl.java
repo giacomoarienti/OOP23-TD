@@ -1,8 +1,8 @@
 package it.unibo.towerdefense.views.enemies;
 
-import java.awt.Image;
-
+import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Map;
 
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 import it.unibo.towerdefense.controllers.enemies.EnemyType;
@@ -15,6 +15,8 @@ import it.unibo.towerdefense.views.graphics.ImageDrawable;
  */
 public class EnemyRendererImpl implements EnemyRenderer {
 
+    private Map<EnemyType, BufferedImage> images;
+
     public EnemyRendererImpl(final ImageLoader loader){
     }
 
@@ -24,10 +26,6 @@ public class EnemyRendererImpl implements EnemyRenderer {
     }
 
     private ImageDrawable getDrawable(EnemyInfo enemy){
-        return new ImageDrawable(getImage(enemy.type()), enemy.pos());
-    }
-
-    private Image getImage(EnemyType t){
-        throw new UnsupportedOperationException();
+        return new ImageDrawable(images.get(enemy.type()), enemy.pos());
     }
 }

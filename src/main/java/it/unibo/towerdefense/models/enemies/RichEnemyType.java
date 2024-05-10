@@ -7,13 +7,13 @@ import it.unibo.towerdefense.controllers.enemies.EnemyType;
  *
  * @see EnemyType
  */
-interface RichEnemyType extends EnemyType {
+abstract class RichEnemyType extends EnemyType {
     /**
      * Getter for the max HP.
      *
      * @return the initial HP for the EnemyType
      */
-    int getMaxHP();
+    abstract int getMaxHP();
 
     /**
      * Getter for the speed.
@@ -21,12 +21,12 @@ interface RichEnemyType extends EnemyType {
      * @return the speed for the EnemyType expressed in
      *         1/LogicPosition.SCALING_FACTOR cells per cycle
      */
-    int getSpeed();
+    abstract int getSpeed();
 
     /**
      * Getter for the value to be added when an enemy of the given type is killed.
      *
      * @return the value
      */
-    int getValue();
+    abstract int getValue();
 }
