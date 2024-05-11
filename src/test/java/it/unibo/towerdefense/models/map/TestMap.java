@@ -16,7 +16,7 @@ import it.unibo.towerdefense.models.engine.SizeImpl;
 public class TestMap {
     private final static Size TEST_SIZE = new SizeImpl(20, 20);
     private final static int ITERATION_MOVEMENT = 500;  //TODO test with SCALING_FACTOR
-    private MapController map = new MapControllerImpl(TEST_SIZE, null, null);
+    private MapController map = new MapControllerImpl(TEST_SIZE, null);
     private LogicalPosition pos = map.getSpawnPosition();
 
     @Test

@@ -13,7 +13,7 @@ import it.unibo.towerdefense.models.engine.Size;
  */
 public class PathFactory {
 
-    private final static List<Direction> D_LIST = List.of(Direction.values());
+    private static final List<Direction> D_LIST = List.of(Direction.values());
 
     private int turnRight(final int ind) {
         return turnLeft(turnLeft(turnLeft(ind)));
@@ -40,15 +40,21 @@ public class PathFactory {
         return repeatPattern(List.of(Direction.E, Direction.S));
     }
 
-    public Iterator<Direction> generate(Size size, Direction direciton) {
+    /**
+     * Returns a random generate path that never go back or cross itself.
+     * @param size size of map.
+     * @param direciton initial direction of path.
+     * @return the path as list of directions, where first is direction.
+     */
+    public Iterator<Direction> generate(final Size size, final Direction direciton) {
         return Stream.iterate(D_LIST.indexOf(direciton), new UnaryOperator<Integer>() {
 
             private final Random random = new Random();
-            int n = random.nextInt(2) * 2;
-            int counter = 0;
+            private int n = random.nextInt(2) * 2;
+            private int counter = 0;
 
             @Override
-            public Integer apply(Integer d) {
+            public Integer apply(final Integer d) {
                 if (counter < random.nextInt(
                     Math.abs(direciton.orizontal() * size.getHeight() + direciton.vertical() * size.getWidth()) / 4
                     )) {

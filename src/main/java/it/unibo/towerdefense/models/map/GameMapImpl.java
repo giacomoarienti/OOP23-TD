@@ -40,7 +40,7 @@ public class GameMapImpl implements GameMap {
         this.size = size;
         map = new Cell[size.getHeight()][size.getWidth()];
         final Iterator<Direction> path = new PathFactory().generate(size, Direction.E);
-        Position pos = new PositionImpl(0, random.nextInt(size.getHeight() / 4, size.getHeight()/ 4 * 3));
+        Position pos = new PositionImpl(0, random.nextInt(size.getHeight() / 4, size.getHeight() / 4 * 3));
         spawn = new PathCellImpl(pos, path.next(), path.next());
         PathCell newCell = spawn;
         System.out.println(newCell);
