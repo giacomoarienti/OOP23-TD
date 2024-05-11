@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import it.unibo.towerdefense.commons.Constants;
+import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controllers.gamelauncher.GameLauncherController;
-import it.unibo.towerdefense.models.engine.Size;
 
 /**
  * Implementation of the GameLauncherView interface.

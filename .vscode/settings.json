@@ -2,6 +2,7 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "java.compile.nullAnalysis.mode": "automatic",
     "cSpell.words": [
+        "dtos",
         "gamelauncher",
         "savingloader",
         "towerdefense",

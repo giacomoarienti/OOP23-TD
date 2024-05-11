@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.models.map;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.models.engine.Position;
+import it.unibo.towerdefense.commons.engine.Position;
 
 /**
  * Interface that model a Cell, the square spatial unit of game.

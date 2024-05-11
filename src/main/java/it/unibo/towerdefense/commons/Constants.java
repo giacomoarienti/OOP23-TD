@@ -2,8 +2,8 @@ package it.unibo.towerdefense.commons;
 
 import java.io.File;
 
-import it.unibo.towerdefense.models.engine.Size;
-import it.unibo.towerdefense.models.engine.SizeImpl;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.engine.SizeImpl;
 
 /**
  * Class containing common constants values.

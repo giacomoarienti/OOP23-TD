@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.models.engine;
+package it.unibo.towerdefense.commons.engine;
 
 /**
  * Class that implements the Size interface.

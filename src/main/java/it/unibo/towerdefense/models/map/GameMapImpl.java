@@ -8,10 +8,10 @@ import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.PositionImpl;
-import it.unibo.towerdefense.models.engine.Size;
-import it.unibo.towerdefense.models.engine.SizeImpl;
+import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.PositionImpl;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.engine.SizeImpl;
 
 /**
  * Class that implements GameMap methods, and generate the map.
