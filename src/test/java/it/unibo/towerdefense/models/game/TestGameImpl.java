@@ -3,6 +3,9 @@ package it.unibo.towerdefense.models.game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
+
 import java.io.IOException;
 import java.util.stream.IntStream;
 

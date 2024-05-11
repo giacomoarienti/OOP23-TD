@@ -4,13 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.Constants;
+import it.unibo.towerdefense.commons.graphics.GameRendererImpl;
 import it.unibo.towerdefense.controllers.gameloop.GameLoopController;
 import it.unibo.towerdefense.controllers.gameloop.GameLoopControllerImpl;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediatorImpl;
 import it.unibo.towerdefense.controllers.menu.MenuController;
 import it.unibo.towerdefense.controllers.menu.MenuControllerImpl;
-import it.unibo.towerdefense.views.graphics.GameRendererImpl;
 import it.unibo.towerdefense.views.modal.ModalContent;
 import it.unibo.towerdefense.views.window.Window;
 

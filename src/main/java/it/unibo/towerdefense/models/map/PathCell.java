@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.models.map;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 /**
  * Cell where enemyes can move, and where the player can't build defenses.

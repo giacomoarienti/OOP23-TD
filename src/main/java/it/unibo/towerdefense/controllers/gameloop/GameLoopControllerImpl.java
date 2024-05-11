@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
-import it.unibo.towerdefense.models.game.GameLoop;
+import it.unibo.towerdefense.models.gameloop.GameLoop;
 
 /**
  * Game controller implementation.

@@ -4,22 +4,20 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.controllers.defenses.DefenseType;
-import it.unibo.towerdefense.controllers.defenses.DefensesController;
-import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.PositionImpl;
-import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.PositionImpl;
+import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.models.map.BuildableCell;
 import it.unibo.towerdefense.models.map.Cell;
 import it.unibo.towerdefense.models.map.Direction;
 import it.unibo.towerdefense.models.map.GameMap;
 import it.unibo.towerdefense.models.map.GameMapImpl;
 import it.unibo.towerdefense.models.map.PathCell;
-import it.unibo.towerdefense.views.graphics.GameRenderer;
+import it.unibo.towerdefense.commons.graphics.GameRenderer;
 
 /**
  * Class to interact with map methods.
@@ -27,17 +25,16 @@ import it.unibo.towerdefense.views.graphics.GameRenderer;
 public class MapControllerImpl implements MapController {
 
     private final GameMap map;
-    private final ControllerMediator masterController;
+    private final ControllerMediator master;
     //private final GameRenderer gameRenderer;
     private BuildableCell selected = null;
     private List<DefenseDescription> options;
 
 
     /**
-     *Constructor from size of map and others controller.
+     *Constructor from size of map and the mediator.
      * @param size size of map in terms of game cells.
-     * @param defensesController the defenses controller.
-     * @param gameController the game controller.
+     * @param masterController the mediator controller.
      */
     public MapControllerImpl(Size size, final ControllerMediator masterController) {
         try {
@@ -45,21 +42,20 @@ public class MapControllerImpl implements MapController {
         } catch (IllegalArgumentException e) {
             throw e;
         }
-        this.masterController = masterController;
+        this.master = masterController;
     }
 
     /**
-     *Constructor from size of map in two unit of measure.
+     *Constructor from jasondata of map and the mediator.
      * @param jsondata JSON representation of GameMap Object.
-     * @param defensesController the defenses controller.
-     * @param gameController the game controller.
+     * @param masterController the mediator controller.
      */
     public MapControllerImpl(
         final String jsondata,
         final ControllerMediator masterController
     ) {
         this.map = GameMapImpl.fromJson(jsondata);
-        this.masterController = masterController;
+        this.master = masterController;
     }
 
     /**
@@ -164,13 +160,13 @@ public class MapControllerImpl implements MapController {
         }
         var choice = options.get(optionNumber);
         if (choice.getName().equals(DefenseType.NOTOWER.name())) {
-            masterController.addMoney(masterController.disassembleDefense(selected.getCenter()));
+            master.getGameController().addMoney(master.getDefensesController().disassembleDefense(selected.getCenter()));
             return;
         }
-        if (!masterController.purchase(choice.getCost())) {
+        if (!master.getGameController().purchase(choice.getCost())) {
             throw new IllegalArgumentException("Not enought money!");
         }
-        masterController.buildDefense(optionNumber, selected.getCenter());
+        master.getDefensesController().buildDefense(optionNumber, selected.getCenter());
     }
 
     /**
@@ -197,7 +193,7 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public void render(final GameRenderer renderer) {
-        / ;
+        //TODO;
     }
 
     private boolean updateBuildinOption() {
@@ -205,7 +201,7 @@ public class MapControllerImpl implements MapController {
             return false;
         }
         try {
-            this.options = masterController.getBuildables(selected.getCenter());
+            this.options = master.getDefensesController().getBuildables(selected.getCenter());
             return true;
         } catch (IOException e) {
             return false;

@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 import it.unibo.towerdefense.utils.file.FileUtils;
 import it.unibo.towerdefense.utils.patterns.Observer;

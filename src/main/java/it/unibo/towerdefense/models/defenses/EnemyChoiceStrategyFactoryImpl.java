@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
-import it.unibo.towerdefense.commons.LogicalPosition;
+
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 /**
  * Implementation of EnemyChoiceStrategyFactory.

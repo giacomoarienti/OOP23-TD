@@ -3,8 +3,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import it.unibo.towerdefense.models.game.GameDTO;
-import it.unibo.towerdefense.models.game.GameDTOImpl;
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
 
 /**
  * Game info view implementation.

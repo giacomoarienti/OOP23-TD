@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.models.engine;
+package it.unibo.towerdefense.commons.engine;
 
 import it.unibo.towerdefense.models.Copyable;
 

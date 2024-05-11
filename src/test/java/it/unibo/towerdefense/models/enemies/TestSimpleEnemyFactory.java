@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
 import it.unibo.towerdefense.utils.patterns.Observer;

@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.models.defenses;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 /**
  * A factory for the strategies used by the defenses for selection of enemies and damage calculation.

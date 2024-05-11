@@ -3,7 +3,7 @@ package it.unibo.towerdefense.models.enemies;
 import java.util.HashSet;
 import java.util.Set;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 import it.unibo.towerdefense.controllers.enemies.EnemyType;
 import it.unibo.towerdefense.utils.patterns.Observer;

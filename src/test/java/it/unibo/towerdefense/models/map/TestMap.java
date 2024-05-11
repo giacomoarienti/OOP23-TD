@@ -3,12 +3,11 @@ package it.unibo.towerdefense.models.map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.engine.SizeImpl;
 import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.controllers.map.MapControllerImpl;
-
-import it.unibo.towerdefense.models.engine.Size;
-import it.unibo.towerdefense.models.engine.SizeImpl;
 
 /**
  * Map tester with "diagonal" path.
@@ -16,7 +15,7 @@ import it.unibo.towerdefense.models.engine.SizeImpl;
 public class TestMap {
     private final static Size TEST_SIZE = new SizeImpl(20, 20);
     private final static int ITERATION_MOVEMENT = 500;  //TODO test with SCALING_FACTOR
-    private MapController map = new MapControllerImpl(TEST_SIZE, null, null);
+    private MapController map = new MapControllerImpl(TEST_SIZE, null);
     private LogicalPosition pos = map.getSpawnPosition();
 
     @Test

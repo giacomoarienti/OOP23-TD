@@ -8,10 +8,10 @@ import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.PositionImpl;
-import it.unibo.towerdefense.models.engine.Size;
-import it.unibo.towerdefense.models.engine.SizeImpl;
+import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.PositionImpl;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.engine.SizeImpl;
 
 /**
  * Class that implements GameMap methods, and generate the map.
@@ -40,7 +40,7 @@ public class GameMapImpl implements GameMap {
         this.size = size;
         map = new Cell[size.getHeight()][size.getWidth()];
         final Iterator<Direction> path = new PathFactory().generate(size, Direction.E);
-        Position pos = new PositionImpl(0, random.nextInt(size.getHeight() / 4, size.getHeight()/ 4 * 3));
+        Position pos = new PositionImpl(0, random.nextInt(size.getHeight() / 4, size.getHeight() / 4 * 3));
         spawn = new PathCellImpl(pos, path.next(), path.next());
         PathCell newCell = spawn;
         System.out.println(newCell);

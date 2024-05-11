@@ -4,8 +4,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.controllers.SerializableController;
 import it.unibo.towerdefense.controllers.defenses.DefensesController;
@@ -16,25 +23,25 @@ import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.game.GameControllerImpl;
 import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.controllers.map.MapControllerImpl;
-import it.unibo.towerdefense.models.engine.Size;
-import it.unibo.towerdefense.models.game.GameDTO;
 import it.unibo.towerdefense.models.savingloader.SavingLoaderImpl;
 import it.unibo.towerdefense.models.savingloader.saving.Saving;
 import it.unibo.towerdefense.models.savingloader.saving.SavingFieldsEnum;
 import it.unibo.towerdefense.models.savingloader.saving.SavingImpl;
 import it.unibo.towerdefense.utils.images.ImageLoader;
-import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**
  * Class that implements the ControllerMediator interface.
  */
 public class ControllerMediatorImpl implements ControllerMediator {
 
+    private final static Logger logger =
+        LoggerFactory.getLogger(ControllerMediatorImpl.class);
+
     private final GameRenderer gameRenderer;
     private final GameController gameController;
     private final MapController mapController;
     private final DefensesController defensesController;
-    private final EnemyController enemiesController;
+    private final EnemyController enemyController;
     private List<Controller> controllers;
     private Map<SavingFieldsEnum, SerializableController> serializableControllers;
 
@@ -54,7 +61,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
         this.gameController = new GameControllerImpl(playerName);
         this.mapController = new MapControllerImpl(mapSize, this);
         this.defensesController = new DefensesControllerImpl(this);
-        this.enemiesController = new EnemyControllerImpl(this);
+        this.enemyController = new EnemyControllerImpl(this);
         // add controllers to the list
         this.addControllersToLists();
     }
@@ -67,13 +74,16 @@ public class ControllerMediatorImpl implements ControllerMediator {
      */
     public ControllerMediatorImpl(final Saving saving, final GameRenderer renderer) {
         this.gameRenderer = renderer;
-        // initialize controllers
+        // initialize controllers from saving
         this.gameController = new GameControllerImpl(
             GameDTO.fromJson(saving.getGameJson())
         );
         this.mapController = new MapControllerImpl(saving.getMapJson(), this);
-        this.defensesController = null; //new DefensesControllerImpl(saving, this);
-        this.enemiesController = new EnemyControllerImpl(this);
+        this.defensesController = new DefensesControllerImpl(
+            this,
+            saving.getDefensesJson()
+        );
+        this.enemyController = new EnemyControllerImpl(this);
         // add controllers to the list
         this.addControllersToLists();
     }
@@ -115,10 +125,12 @@ public class ControllerMediatorImpl implements ControllerMediator {
             );
 
             if(!savingLoader.writeSaving(saving)) {
-                // TODO handle error
+                throw new IOException("Failed to write saving");
             }
         } catch (final IOException e) {
-            // TODO handle error
+            // throw runtime exception
+            logger.error("Error while saving the game", e);
+            throw new RuntimeException("Error while saving the game");
         }
     }
 
@@ -135,6 +147,9 @@ public class ControllerMediatorImpl implements ControllerMediator {
      */
     @Override
     public GameController getGameController() {
+        if (Objects.isNull(this.gameController)) {
+            throw new IllegalStateException("GameController not initialized");
+        }
         return this.gameController;
     }
 
@@ -143,6 +158,9 @@ public class ControllerMediatorImpl implements ControllerMediator {
      */
     @Override
     public MapController getMapController() {
+        if (Objects.isNull(this.mapController)) {
+            throw new IllegalStateException("MapController not initialized");
+        }
         return this.mapController;
     }
 
@@ -151,6 +169,9 @@ public class ControllerMediatorImpl implements ControllerMediator {
      */
     @Override
     public DefensesController getDefensesController() {
+        if (Objects.isNull(this.defensesController)) {
+            throw new IllegalStateException("DefensesController not initialized");
+        }
         return this.defensesController;
     }
 
@@ -159,7 +180,10 @@ public class ControllerMediatorImpl implements ControllerMediator {
      */
     @Override
     public EnemyController getEnemyController() {
-        return this.enemiesController;
+        if (Objects.isNull(this.enemyController)) {
+            throw new IllegalStateException("EnemyController not initialized");
+        }
+        return this.enemyController;
     }
 
     private Map<SavingFieldsEnum, String> toJSON() {
@@ -179,7 +203,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
             this.gameController,
             this.mapController,
             this.defensesController,
-            this.enemiesController
+            this.enemyController
         );
         // save serializable controllers
         this.serializableControllers = Map.of(

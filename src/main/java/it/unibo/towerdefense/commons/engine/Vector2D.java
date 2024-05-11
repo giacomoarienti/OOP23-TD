@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.models.engine;
+package it.unibo.towerdefense.commons.engine;
 
 /**
  * Interface representing a vector in a 2D space.

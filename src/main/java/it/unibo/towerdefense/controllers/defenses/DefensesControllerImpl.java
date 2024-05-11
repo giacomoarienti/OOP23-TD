@@ -12,15 +12,15 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.defenses.Defense;
 import it.unibo.towerdefense.models.defenses.DefenseFactory;
 import it.unibo.towerdefense.models.defenses.DefenseFactoryImpl;
 import it.unibo.towerdefense.models.defenses.costants.DefenseFormulas;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapFilePaths;
-import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**Implementation of DefenseController.*/
 public class DefensesControllerImpl implements DefensesController {
@@ -28,21 +28,35 @@ public class DefensesControllerImpl implements DefensesController {
     /**Defense builder.*/
     private DefenseFactory factory = new DefenseFactoryImpl();
     /**All current existing defenses with their respective cooldown.*/
-    private List<Pair<Defense, Integer>> defenses = new LinkedList<>();
+    private List<Pair<Defense, Integer>> defenses;
     /**for getting end of map and entities.*/
     private ControllerMediator master;
 
     /**Constructor that gives this controller access to other necessary controller methods.
-     * @param mapController to get end of map.
-     * @param enemyController to hurt enemies.
+    *
     */
     public DefensesControllerImpl(final ControllerMediator master) {
+        this();
         this.master = master;
+    }
+
+    /**A constructor that recovers defense state from a json file.
+     * @param master the mediator.
+     * @param jsonString the json content.
+    */
+    public DefensesControllerImpl(final ControllerMediator master, final String jsonString) {
+        this(master);
+        JSONArray serializedDefenses = new JSONArray(jsonString);
+        for(Object def: serializedDefenses) {
+            this.defenses.add(new ImmutablePair<Defense,Integer>
+            (Defense.fromJson(def.toString()), 0)
+            );
+        }
     }
 
     /**Empty default constructor.*/
     public DefensesControllerImpl () {
-
+        this.defenses = new LinkedList<>();
     }
 
     /**finds a defense based on its position.
@@ -82,7 +96,7 @@ public class DefensesControllerImpl implements DefensesController {
                 factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefenseWithCustomPosition(DefenseMapFilePaths.THUNDER_INVOKER_LV1,
-                buildPosition, master.getEndPosition(), Optional.empty())
+                buildPosition, master.getMapController().getEndPosition(), Optional.empty())
             );
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
@@ -102,9 +116,9 @@ public class DefensesControllerImpl implements DefensesController {
     @Override
     public void update() {
         updateMomentum();
-        Map<Integer,Integer> damage = attackEnemies(master.getEnemies());
+        Map<Integer,Integer> damage = attackEnemies(master.getEnemyController().getEnemies());
         if (damage.size() != 0) {
-            master.hurtEnemies(damage);
+            master.getEnemyController().hurtEnemies(damage);
         }
     }
 
@@ -191,7 +205,10 @@ public class DefensesControllerImpl implements DefensesController {
 
     @Override
     public DefenseDescription getDescriptionFor(LogicalPosition at) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDescriptionFor'");
+        Optional<Pair<Integer,Defense>> def = find(at);
+        if(def.isPresent()) {
+            return getDescriptionFrom(def.get().getValue());
+        }
+        return DefenseDescription.nonBuiltDefense();
     }
 }

@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.models.engine;
+package it.unibo.towerdefense.commons.engine;
 
 /**
  * Implementation of the concept of CollisionBox
