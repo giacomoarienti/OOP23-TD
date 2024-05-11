@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.controllers.defenses.DefenseType;
 import it.unibo.towerdefense.controllers.defenses.DefensesController;
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
 import it.unibo.towerdefense.commons.engine.Size;

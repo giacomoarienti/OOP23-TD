@@ -1,7 +1,4 @@
-package it.unibo.towerdefense.commons;
-
-import it.unibo.towerdefense.commons.engine.Position;
-import it.unibo.towerdefense.commons.engine.PositionImpl;
+package it.unibo.towerdefense.commons.engine;
 
 /**
  * A class which extends Position adding cell-based logic.

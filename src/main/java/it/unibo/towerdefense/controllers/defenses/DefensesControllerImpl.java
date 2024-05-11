@@ -12,8 +12,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.defenses.Defense;

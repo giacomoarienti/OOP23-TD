@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.controllers.SerializableController;
 

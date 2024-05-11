@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.controllers.enemies;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 /**
  * Data about an Enemy to be passed around (DTO).

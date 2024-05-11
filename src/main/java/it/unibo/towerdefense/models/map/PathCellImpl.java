@@ -2,7 +2,7 @@ package it.unibo.towerdefense.models.map;
 
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 
 /**
