@@ -6,9 +6,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo.Direction;
 
 /**
  * {@inheritDoc}.

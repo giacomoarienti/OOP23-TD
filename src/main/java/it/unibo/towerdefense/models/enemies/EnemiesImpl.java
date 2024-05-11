@@ -7,9 +7,9 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo.Direction;
 import it.unibo.towerdefense.utils.file.FileUtils;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
@@ -48,7 +48,7 @@ public class EnemiesImpl implements Enemies {
             throw new RuntimeException("Failed to load wave policy configuration from file.", t);
         }
         try {
-            ec = new ConfigurableEnemyCatalogue(FileUtils.readFile(Filenames.typesConfig()));
+            ec = new EnemyCatalogueFactory(FileUtils.readFile(Filenames.typesConfig())).compile();
         } catch (Throwable t) {
             throw new RuntimeException("Failed to load enemy types configuration from file.", t);
         }

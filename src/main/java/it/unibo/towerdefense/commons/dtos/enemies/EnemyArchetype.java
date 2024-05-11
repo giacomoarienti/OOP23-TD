@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controllers.enemies;
+package it.unibo.towerdefense.commons.dtos.enemies;
 
 /**
  * Enum containing the different EnemyArchetypes in the game.

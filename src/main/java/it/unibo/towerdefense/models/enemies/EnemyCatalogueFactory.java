@@ -13,26 +13,25 @@ import org.json.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.math.IntMath;
 
-import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
-import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
-import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 
 /**
  * {@inheritDoc}.
  */
-public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
+public class EnemyCatalogueFactory {
 
     private final int valueFactor; // scaling factor to adjust value from powerlevel
     private final Map<EnemyArchetype, Integer> rateos; // speed = hp * rateo/100
     private final Map<EnemyLevel, Integer> powerlevels; // powerlevel = speed * hp
-    private final Set<RichEnemyType> availableTypes;
 
     /**
      * Constructor for the class.
      *
      * @param configFile name of the file from which to load configurations.
      */
-    ConfigurableEnemyCatalogue(final String configFile) {
+    EnemyCatalogueFactory(final String configFile) {
         final Triple<Integer,
             Map<EnemyArchetype, Integer>,
             Map<EnemyLevel, Integer>> configValues = loadConfig(configFile);
@@ -42,10 +41,33 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
         this.valueFactor = configValues.getLeft();
         this.rateos = configValues.getMiddle();
         this.powerlevels = configValues.getRight();
-
-        availableTypes = EnemyType.getEnemyTypes().stream()
-                    .map((EnemyType et) -> build(et.level(), et.type())).collect(Collectors.toSet());
     }
+
+    /**
+     * Compiles a Catalogue with the information and returns it.
+     *
+     * @return the created EnemyCatalogue.
+     */
+    public EnemyCatalogue compile(){
+        return new EnemyCatalogue() {
+            private final Set<RichEnemyType> types = EnemyType.getEnemyTypes().stream().map(et -> build(et)).collect(Collectors.toUnmodifiableSet());
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public Set<RichEnemyType> getEnemyTypes() {
+                return getEnemyTypes(et -> true);
+            }
+            /**
+             * {@inheritDoc}.
+             */
+            @Override
+            public Set<RichEnemyType> getEnemyTypes(final Predicate<? super RichEnemyType> test) {
+                return types.stream().filter(test).collect(Collectors.toUnmodifiableSet());
+            }
+        };
+    }
+
 
     /**
      * Method which separates the loading logic from the rest of the class.
@@ -118,29 +140,16 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<RichEnemyType> getEnemyTypes() {
-        return getEnemyTypes(et -> true);
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public Set<RichEnemyType> getEnemyTypes(final Predicate<? super RichEnemyType> test) {
-        return availableTypes.stream().filter(test).collect(Collectors.toUnmodifiableSet());
-    }
-
-    /**
      * Builds an EnemyType of given Level and Archetype.
      *
      * @param l the Level of the enemy, determines total stats
      * @param t the Archetype of the enemy, determines stats rateo
      * @return the built EnemyType
      */
-    private RichEnemyType build(final EnemyLevel l, final EnemyArchetype t) {
+    private RichEnemyType build(final EnemyType enemyType) {
+        final EnemyLevel l = enemyType.level();
+        final EnemyArchetype t = enemyType.type();
+        final int powerLevel = powerlevels.get(l);
         final int speed = IntMath.sqrt((powerlevels.get(l) * rateos.get(t)) / 100, RoundingMode.DOWN);
         final int hp = (speed * 100) / rateos.get(t);
         final int value = powerlevels.get(l) * (valueFactor / 100);
@@ -155,7 +164,6 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
             public EnemyLevel level() {
                 return l;
             }
-
             /**
              * {@inheritDoc}.
              */
@@ -163,7 +171,6 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
             public EnemyArchetype type() {
                 return t;
             }
-
             /**
              * {@inheritDoc}.
              */
@@ -171,7 +178,6 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
             int getMaxHP() {
                 return hp;
             }
-
             /**
              * {@inheritDoc}.
              */
@@ -179,13 +185,19 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
             int getSpeed() {
                 return speed;
             }
-
             /**
              * {@inheritDoc}.
              */
             @Override
             int getValue() {
                 return value;
+            }
+            /**
+             * {@inheritDoc}.
+             */
+            @Override
+            int getPowerLevel() {
+                return powerLevel;
             }
         };
     }

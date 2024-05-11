@@ -2,8 +2,8 @@ package it.unibo.towerdefense.views.enemies;
 
 import java.util.List;
 
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.graphics.GameRenderer;
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 
 /**
  * Renders enemies on the screen.

@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controllers.enemies;
+package it.unibo.towerdefense.commons.dtos.enemies;
 
 import java.util.Arrays;
 import java.util.Objects;

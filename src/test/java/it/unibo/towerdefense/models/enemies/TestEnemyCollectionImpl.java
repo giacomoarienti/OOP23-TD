@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
-import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo.Direction;
 
 /**
  * Tests for EnemyCollectionImpl.

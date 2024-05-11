@@ -14,9 +14,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
-import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
-import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 import it.unibo.towerdefense.utils.file.FileUtils;
 
 /**

@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controllers.enemies;
+package it.unibo.towerdefense.commons.dtos.enemies;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
@@ -15,7 +15,6 @@ public interface EnemyInfo {
         EAST,
         SOUTH,
         WEST;
-
         /**
          * Returns the direction faced after having gone from point A to B, assuming A
          * and B share one and only one coordinate, if not, returned Direction is
@@ -49,7 +48,7 @@ public interface EnemyInfo {
     Direction direction();
 
     /**
-     * Getter for the Enemy's hp.
+     * Getter for the Enemy's current hp.
      *
      * @return the hp
      */

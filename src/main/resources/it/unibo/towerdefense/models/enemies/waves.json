@@ -1,7 +1,7 @@
 [
     {
         "wave" : 1,
-        "length" : 10,
+        "power" : 10000,
         "rate" : 5,
         "types" : [
             "IB",
@@ -10,7 +10,7 @@
     },
     {
         "wave" : 3,
-        "length" : 15,
+        "power" : 15000,
         "types" : [
             "IA"
         ]

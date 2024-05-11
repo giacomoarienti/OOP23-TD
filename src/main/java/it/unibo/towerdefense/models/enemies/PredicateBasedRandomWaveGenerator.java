@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import it.unibo.towerdefense.utils.patterns.SkipIterator;
 
@@ -40,13 +41,28 @@ public class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave
         if (wave < 1) {
             throw new IllegalArgumentException("Wave numbers < 1 are not defined.");
         }
+
         final List<RichEnemyType> availableTypes = List.copyOf(ec.getEnemyTypes(wp.getPredicate(wave)));
         if (availableTypes.isEmpty()) {
             throw new RuntimeException("No available types for wave " + wave);
         }
+
+        /*
+         * randomly generates a wave with the permitted types until the sum of the
+         * powerlevels of the enemy which compose the wave surpass the limit for the
+         * given wave
+         */
         return new SkipWave(
-                r.ints(wp.getLength(wave), 0, availableTypes.size())
-                        .mapToObj(i -> availableTypes.get(i)).iterator(),
+                r.ints(0, availableTypes.size()).mapToObj(i -> availableTypes.get(i))
+                        .takeWhile(new Predicate<RichEnemyType>() {
+                            int power = 0;
+
+                            @Override
+                            public boolean test(RichEnemyType t) {
+                                power += t.getPowerLevel();
+                                return power <= wp.getPower(wave);
+                            }
+                        }).iterator(),
                 wp.getCyclesPerSpawn(wave));
     }
 

@@ -11,9 +11,9 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
-import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
-import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 
 /**
  * {@inheritDoc}.
@@ -25,7 +25,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * criteria can be specified independently.
      */
     private final SortedMap<Integer, Predicate<EnemyType>> predicates;
-    private final SortedMap<Integer, Integer> lengths;
+    private final SortedMap<Integer, Integer> powers;
     private final SortedMap<Integer, Integer> rates;
 
     /**
@@ -34,11 +34,14 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * @param configFile the file from which to read the configuration.
      */
     WavePolicySupplierImpl(final String configFile) {
-        Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> configValues = loadConfig(
-                configFile);
+        Triple<SortedMap<Integer, Predicate<EnemyType>>,
+            SortedMap<Integer, Integer>,
+            SortedMap<Integer, Integer>> configValues = loadConfig(configFile);
+
         checkConstraints(configValues);
+
         this.predicates = configValues.getLeft();
-        this.lengths = configValues.getMiddle();
+        this.powers = configValues.getMiddle();
         this.rates = configValues.getRight();
     }
 
@@ -65,7 +68,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
                         assert o instanceof JSONObject;
                         JSONObject wave = (JSONObject) o;
                         int waveNumber = wave.getInt("wave");
-                        Optional.ofNullable(wave.optIntegerObject("length", null))
+                        Optional.ofNullable(wave.optIntegerObject("power", null))
                                 .ifPresent((Integer i) -> l.put(waveNumber, i));
                         Optional.ofNullable(wave.optIntegerObject("rate", null))
                                 .ifPresent((Integer i) -> r.put(waveNumber, i));
@@ -104,7 +107,7 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
             assert p.containsKey(1) && l.containsKey(1) && r.containsKey(1);
 
             /*
-             * Waves cant be < 1.
+             * Powerlevels can't be < 0.
              */
             p.keySet().forEach(i -> {
                 assert i > 0;
@@ -162,9 +165,9 @@ public class WavePolicySupplierImpl implements WavePolicySupplier {
      * {@inheritDoc}.
      */
     @Override
-    public Integer getLength(final Integer wave) {
+    public Integer getPower(final Integer wave) {
         check(wave);
-        return lengths.get(lengths.headMap(wave + 1).lastKey());
+        return powers.get(powers.headMap(wave + 1).lastKey());
     }
 
     /**

@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.models.enemies;
 
-import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 
 /**
  * Subinterface of EnemyType which also stores model-related statistics.
@@ -29,4 +29,11 @@ abstract class RichEnemyType extends EnemyType {
      * @return the value
      */
     abstract int getValue();
+
+    /**
+     * Getter for the powerlevel (roughly hp * speed).
+     *
+     * @return the powerlevel
+     */
+    abstract int getPowerLevel();
 }
