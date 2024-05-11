@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.controllers.defenses.DefenseType;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.PositionImpl;
-import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.PositionImpl;
+import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.models.map.BuildableCell;
 import it.unibo.towerdefense.models.map.Cell;
 import it.unibo.towerdefense.models.map.Direction;

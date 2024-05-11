@@ -2,6 +2,9 @@ package it.unibo.towerdefense.models.game;
 
 import com.google.common.base.Objects;
 
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
+
 /**
  * Base implementation of the Game interface.
  */

@@ -2,7 +2,7 @@ package it.unibo.towerdefense.controllers.gamelauncher;
 
 import java.util.List;
 
-import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.commons.engine.Size;
 
 /**
  * Interface that defines the GameLauncher controller methods.

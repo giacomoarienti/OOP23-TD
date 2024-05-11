@@ -2,8 +2,8 @@ package it.unibo.towerdefense.models.map;
 
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.PositionImpl;
+import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.PositionImpl;
 
 /**
  * Class that implements BuildableCell.

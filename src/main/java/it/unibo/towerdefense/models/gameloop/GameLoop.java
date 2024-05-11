@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.models.game;
+package it.unibo.towerdefense.models.gameloop;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

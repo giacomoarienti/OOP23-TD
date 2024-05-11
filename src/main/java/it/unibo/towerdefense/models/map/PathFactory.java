@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
-import it.unibo.towerdefense.models.engine.Size;
+
+import it.unibo.towerdefense.commons.engine.Size;
 
 
 /**

@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.views.game;
 
-import it.unibo.towerdefense.models.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.views.View;
 
 /**

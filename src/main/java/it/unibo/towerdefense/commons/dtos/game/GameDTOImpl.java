@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.models.game;
+package it.unibo.towerdefense.commons.dtos.game;
 
 import org.json.JSONObject;
 

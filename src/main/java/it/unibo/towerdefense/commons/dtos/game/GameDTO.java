@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.models.game;
+package it.unibo.towerdefense.commons.dtos.game;
 
 import it.unibo.towerdefense.models.Copyable;
 import it.unibo.towerdefense.models.JsonSerializable;

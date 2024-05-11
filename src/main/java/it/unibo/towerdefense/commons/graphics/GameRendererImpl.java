@@ -1,10 +1,10 @@
-package it.unibo.towerdefense.views.graphics;
+package it.unibo.towerdefense.commons.graphics;
 
 import java.util.List;
 
 import javax.swing.JPanel;
 
-import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.utils.images.ImageLoader;
 import it.unibo.towerdefense.views.window.Window;
 

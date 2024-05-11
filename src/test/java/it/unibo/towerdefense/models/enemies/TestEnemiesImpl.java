@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.utils.file.FileUtils;
 
 /**

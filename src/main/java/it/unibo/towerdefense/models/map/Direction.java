@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.models.map;
 
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.PositionImpl;
+import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.PositionImpl;
 
 /**
  * 4 cardinal directions as 2D verosr.

@@ -1,9 +1,9 @@
-package it.unibo.towerdefense.views.graphics;
+package it.unibo.towerdefense.commons.graphics;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
 
-import it.unibo.towerdefense.models.engine.Position;
+import it.unibo.towerdefense.commons.engine.Position;
 
 /**
  * Class that represents a drawable image.

@@ -7,7 +7,8 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
@@ -16,7 +17,6 @@ import it.unibo.towerdefense.models.enemies.EnemiesImpl;
 import it.unibo.towerdefense.models.enemies.Enemy;
 import it.unibo.towerdefense.views.enemies.EnemyRenderer;
 import it.unibo.towerdefense.views.enemies.EnemyRendererImpl;
-import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**
  * {@inheritDoc}.

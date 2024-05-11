@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import it.unibo.towerdefense.models.engine.Size;
-import it.unibo.towerdefense.views.graphics.Drawable;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.graphics.Drawable;
 import it.unibo.towerdefense.views.modal.ModalContent;
 
 /**
