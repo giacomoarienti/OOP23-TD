@@ -8,5 +8,5 @@ import java.util.Optional;
  * advanced each cycle, the wave is considered over when !Iterator.hasNext().
  * If the returned optional is empty no enemy should spawn for that cycle.
  */
-public interface Wave extends Iterator<Optional<RichEnemyType>> {
+interface Wave extends Iterator<Optional<RichEnemyType>> {
 }

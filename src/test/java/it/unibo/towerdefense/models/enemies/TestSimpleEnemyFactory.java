@@ -33,7 +33,7 @@ public class TestSimpleEnemyFactory {
     @Test
     void testSpawn() {
         RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Enemy created = tested.spawn(t);
+        RichEnemy created = tested.spawn(t);
         Assertions.assertEquals(STARTING_POS, created.getPosition());
         Assertions.assertEquals(t.getMaxHP(), created.getHp());
         Assertions.assertEquals(t.getSpeed(), created.getSpeed());
@@ -47,7 +47,7 @@ public class TestSimpleEnemyFactory {
     @Test
     void testNegativeHurt() {
         RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Enemy created = tested.spawn(t);
+        RichEnemy created = tested.spawn(t);
         Assertions.assertThrows(RuntimeException.class, () -> created.hurt(-1));
     }
 
@@ -58,17 +58,17 @@ public class TestSimpleEnemyFactory {
     @Test
     void testDeath() {
         RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Enemy created = tested.spawn(t);
+        RichEnemy created = tested.spawn(t);
 
         interface TestObserver<T> extends Observer<T> {
             public boolean getFlag();
         }
         ;
-        TestObserver<Enemy> o = new TestObserver<Enemy>() {
+        TestObserver<RichEnemy> o = new TestObserver<RichEnemy>() {
             boolean flag = false;
 
             @Override
-            public void notify(Enemy source) {
+            public void notify(RichEnemy source) {
                 if (source == created) {
                     flag = true;
                 }

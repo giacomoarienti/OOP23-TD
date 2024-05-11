@@ -20,7 +20,7 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 /**
  * {@inheritDoc}.
  */
-public class EnemyCatalogueFactory {
+class EnemyCatalogueFactory {
 
     private final int valueFactor; // scaling factor to adjust value from powerlevel
     private final Map<EnemyArchetype, Integer> rateos; // speed = hp * rateo/100
@@ -48,7 +48,7 @@ public class EnemyCatalogueFactory {
      *
      * @return the created EnemyCatalogue.
      */
-    public EnemyCatalogue compile(){
+    EnemyCatalogue compile(){
         return new EnemyCatalogue() {
             private final Set<RichEnemyType> types = EnemyType.getEnemyTypes().stream().map(et -> build(et)).collect(Collectors.toUnmodifiableSet());
             /**

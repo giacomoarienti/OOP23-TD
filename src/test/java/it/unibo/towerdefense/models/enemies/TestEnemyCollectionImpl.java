@@ -42,7 +42,7 @@ public class TestEnemyCollectionImpl {
     @Test
     void testAdd() {
         RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Enemy spawned = helper.spawn(t);
+        RichEnemy spawned = helper.spawn(t);
         tested.add(spawned);
         Assertions.assertTrue(tested.getEnemies().contains(spawned));
         Assertions.assertTrue(tested.getEnemiesInfo().contains(spawned.info()));
@@ -54,7 +54,7 @@ public class TestEnemyCollectionImpl {
     @Test
     void testAreDead() {
         RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Enemy spawned = helper.spawn(t);
+        RichEnemy spawned = helper.spawn(t);
         tested.add(spawned);
         spawned.die();
         Assertions.assertTrue(tested.areDead());
@@ -68,8 +68,8 @@ public class TestEnemyCollectionImpl {
     void testMultipleEnemies() {
         int number = 100;
         RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Set<Enemy> spawned = IntStream.range(0, number).mapToObj(i -> {
-            Enemy e = helper.spawn(t);
+        Set<RichEnemy> spawned = IntStream.range(0, number).mapToObj(i -> {
+            RichEnemy e = helper.spawn(t);
             tested.add(e);
             return e;
         }).collect(Collectors.toSet());
@@ -85,8 +85,8 @@ public class TestEnemyCollectionImpl {
     @Test
     void testMove() {
         RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Set<Enemy> spawned = IntStream.range(0, 100).mapToObj(i -> {
-            Enemy e = helper.spawn(t);
+        Set<RichEnemy> spawned = IntStream.range(0, 100).mapToObj(i -> {
+            RichEnemy e = helper.spawn(t);
             tested.add(e);
             return e;
         }).collect(Collectors.toSet());

@@ -7,7 +7,7 @@ import java.util.function.Predicate;
  * Responsible of maintaining implementation-related infos about EnemyTypes
  * currently in the game.
  */
-public interface EnemyCatalogue {
+interface EnemyCatalogue {
     /**
      * Returns a list of all RichEnemyTypes in the game.
      *

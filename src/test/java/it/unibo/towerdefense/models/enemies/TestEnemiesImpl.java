@@ -83,7 +83,7 @@ public class TestEnemiesImpl {
     void testDied() {
         tested.spawn(1);
         tested.update();
-        Enemy onlyEnemy = tested.getEnemies().stream().findAny().get();
+        RichEnemy onlyEnemy = tested.getEnemies().stream().findAny().get();
         onlyEnemy.die();
         Assertions.assertTrue(tested.getEnemies().size() == 0);
         Assertions.assertTrue(tested.getEnemiesInfo().size() == 0);

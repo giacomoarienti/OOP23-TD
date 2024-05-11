@@ -91,6 +91,7 @@ public class EnemyControllerImpl implements EnemyController {
      */
     @Override
     public void render(GameRenderer renderer) {
-        enemyRenderer.render(renderer, model.getEnemiesInfo());
+        //aggiungere .sorted() in base alla distanza dalla fine
+        enemyRenderer.render(renderer, model.getEnemies().stream().map(e -> e.info()).toList());
     }
 }

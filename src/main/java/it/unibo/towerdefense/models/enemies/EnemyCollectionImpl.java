@@ -6,16 +6,15 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 /**
  * {@inheritDoc}.
  */
-public class EnemyCollectionImpl implements EnemyCollection {
+class EnemyCollectionImpl implements EnemyCollection {
 
-    private final Set<Enemy> enemies;
+    private final Set<RichEnemy> enemies;
     private final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction;
 
     /**
@@ -36,7 +35,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
      */
     @Override
     public void move() {
-        final List<Enemy> dead = enemies.stream().filter(
+        final List<RichEnemy> dead = enemies.stream().filter(
                 e -> {
                     Optional<LogicalPosition> next = posFunction.apply(e.getPosition(), e.getSpeed());
                     if (next.isEmpty()) {
@@ -63,7 +62,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
      * Method called by the dying enemies to notify the collection of their death.
      */
     @Override
-    public void notify(final Enemy which) {
+    public void notify(final RichEnemy which) {
         enemies.remove(which);
     }
 
@@ -71,7 +70,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
      * {@inheritDoc}.
      */
     @Override
-    public Set<Enemy> getEnemies() {
+    public Set<RichEnemy> getEnemies() {
         return Set.copyOf(enemies);
     }
 
@@ -79,15 +78,7 @@ public class EnemyCollectionImpl implements EnemyCollection {
      * {@inheritDoc}.
      */
     @Override
-    public List<EnemyInfo> getEnemiesInfo() {
-        return enemies.stream().map(e -> e.info()).toList();
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public void add(final Enemy e) {
+    public void add(final RichEnemy e) {
         if (e.isDead()) {
             throw new IllegalArgumentException("Can't add a dead enemy to the collection");
         }

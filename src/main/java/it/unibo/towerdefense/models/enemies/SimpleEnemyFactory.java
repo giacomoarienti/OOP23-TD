@@ -11,7 +11,7 @@ import it.unibo.towerdefense.utils.patterns.Observer;
 /**
  * {@inheritDoc}.
  */
-public class SimpleEnemyFactory implements EnemyFactory {
+class SimpleEnemyFactory implements EnemyFactory {
 
     private final LogicalPosition startingPos;
     private final EnemyInfo.Direction startingDir;
@@ -30,7 +30,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
     /**
      * {@inheritDoc}.
      */
-    public Enemy spawn(final RichEnemyType t) {
+    public RichEnemy spawn(final RichEnemyType t) {
         return new MinimalEnemy(t);
     }
 
@@ -41,7 +41,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
      * object common
      * to all instances of Enemy entities of that type
      */
-    private class MinimalEnemy implements Enemy {
+    private class MinimalEnemy implements RichEnemy {
 
         /**
          * A record to keep track of the information about an Enemy.
@@ -56,7 +56,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
 
         private final LogicalPosition pos = startingPos.clone();
         private EnemyInfo.Direction dir = startingDir;
-        private final Set<Observer<Enemy>> deathObservers;
+        private final Set<Observer<RichEnemy>> deathObservers;
         private final RichEnemyType t;
         private int hp;
 
@@ -149,7 +149,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
          * {@inheritDoc}.
          */
         @Override
-        public void addDeathObserver(final Observer<Enemy> observer) {
+        public void addDeathObserver(final Observer<RichEnemy> observer) {
             deathObservers.add(observer);
         }
 

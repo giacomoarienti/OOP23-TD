@@ -1,13 +1,11 @@
 package it.unibo.towerdefense.models.enemies;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.utils.file.FileUtils;
@@ -39,7 +37,8 @@ public class EnemiesImpl implements Enemies {
     public EnemiesImpl(final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction,
             final LogicalPosition startingPos) {
         this.enemies = new EnemyCollectionImpl(posFunction);
-        this.factory = new SimpleEnemyFactory(startingPos, Direction.fromAToB(startingPos, posFunction.apply(startingPos, 1).orElse(startingPos)));
+        this.factory = new SimpleEnemyFactory(startingPos,
+                Direction.fromAToB(startingPos, posFunction.apply(startingPos, 1).orElse(startingPos)));
         WavePolicySupplier wp;
         EnemyCatalogue ec;
         try {
@@ -78,21 +77,10 @@ public class EnemiesImpl implements Enemies {
     }
 
     /**
-     * Spawns an enemy of enemy type et.
-     *
-     * @param et the type of the enemy to spawn.
-     */
-    private void spawnEnemy(RichEnemyType et) {
-        Enemy spawned = factory.spawn(et);
-        enemies.add(spawned);
-        enemyDeathObservers.forEach(o -> spawned.addDeathObserver(o));
-    }
-
-    /**
      * {@inheritDoc}.
      */
     @Override
-    public Set<Enemy> getEnemies() {
+    public Set<? extends Enemy> getEnemies() {
         return enemies.getEnemies();
     }
 
@@ -100,13 +88,6 @@ public class EnemiesImpl implements Enemies {
      * {@inheritDoc}.
      */
     @Override
-    public List<EnemyInfo> getEnemiesInfo() {
-        return enemies.getEnemiesInfo();
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
     public boolean isWaveActive() {
         return current.isPresent() || !enemies.areDead();
     }
@@ -124,5 +105,16 @@ public class EnemiesImpl implements Enemies {
                 throw new RuntimeException("A new wave cannot be empty.");
             }
         }
+    }
+
+    /**
+     * Spawns an enemy of enemy type et.
+     *
+     * @param et the type of the enemy to spawn.
+     */
+    private void spawnEnemy(RichEnemyType et) {
+        RichEnemy spawned = factory.spawn(et);
+        enemies.add(spawned);
+        enemyDeathObservers.forEach(o -> spawned.addDeathObserver(o));
     }
 }

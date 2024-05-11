@@ -8,7 +8,7 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
  * Determines how waves are formed (what type and how many enemies they contain
  * and their position in time).
  */
-public interface WavePolicySupplier {
+interface WavePolicySupplier {
     /**
      * Returns a predicate which tests true for admitted Types.
      *

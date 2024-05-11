@@ -18,7 +18,7 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 /**
  * {@inheritDoc}.
  */
-public class WavePolicySupplierImpl implements WavePolicySupplier {
+class WavePolicySupplierImpl implements WavePolicySupplier {
 
     /**
      * This data is stored in separate maps so that different

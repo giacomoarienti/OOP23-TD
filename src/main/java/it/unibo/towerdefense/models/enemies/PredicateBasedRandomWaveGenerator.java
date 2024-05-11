@@ -14,7 +14,7 @@ import it.unibo.towerdefense.utils.patterns.SkipIterator;
  *
  * @see Function
  */
-public class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave> {
+class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave> {
 
     private final WavePolicySupplier wp;
     private final EnemyCatalogue ec;
@@ -67,7 +67,7 @@ public class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave
     }
 
     /**
-     * Class created so as to inherit both from SkipIterator and Wave.
+     * Class created to inherit both from SkipIterator and Wave.
      */
     private class SkipWave extends SkipIterator<RichEnemyType> implements Wave {
         SkipWave(final Iterator<RichEnemyType> base, final int skip) {
