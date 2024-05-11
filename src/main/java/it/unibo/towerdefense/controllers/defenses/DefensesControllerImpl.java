@@ -28,7 +28,7 @@ public class DefensesControllerImpl implements DefensesController {
     /**Defense builder.*/
     private DefenseFactory factory = new DefenseFactoryImpl();
     /**All current existing defenses with their respective cooldown.*/
-    private List<Pair<Defense, Integer>> defenses = new LinkedList<>();
+    private List<Pair<Defense, Integer>> defenses;
     /**for getting end of map and entities.*/
     private ControllerMediator master;
 
@@ -36,6 +36,7 @@ public class DefensesControllerImpl implements DefensesController {
     *
     */
     public DefensesControllerImpl(final ControllerMediator master) {
+        this();
         this.master = master;
     }
 
@@ -45,11 +46,17 @@ public class DefensesControllerImpl implements DefensesController {
     */
     public DefensesControllerImpl(final ControllerMediator master, final String jsonString) {
         this(master);
+        JSONArray serializedDefenses = new JSONArray(jsonString);
+        for(Object def: serializedDefenses) {
+            this.defenses.add(new ImmutablePair<Defense,Integer>
+            (Defense.fromJson(def.toString()), 0)
+            );
+        }
     }
 
     /**Empty default constructor.*/
     public DefensesControllerImpl () {
-
+        this.defenses = new LinkedList<>();
     }
 
     /**finds a defense based on its position.
@@ -198,7 +205,10 @@ public class DefensesControllerImpl implements DefensesController {
 
     @Override
     public DefenseDescription getDescriptionFor(LogicalPosition at) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDescriptionFor'");
+        Optional<Pair<Integer,Defense>> def = find(at);
+        if(def.isPresent()) {
+            return getDescriptionFrom(def.get().getValue());
+        }
+        return DefenseDescription.nonBuiltDefense();
     }
 }

@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.commons.dtos;
 
+import it.unibo.towerdefense.models.defenses.Defense;
+
 /**Contains data that can be visualized in the build menu about defenses.*/
 public class DefenseDescription {
     /**Description of defense.*/
@@ -39,5 +41,12 @@ public class DefenseDescription {
     */
     public int getCost() {
         return this.cost;
+    }
+
+    /**Returns the description for empty zones.*/
+    public static DefenseDescription nonBuiltDefense() {
+        final String desc = "Nothing is here";
+        final String name = "empty zone";
+        return new DefenseDescription(desc, name, 0);
     }
 }
