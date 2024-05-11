@@ -7,6 +7,11 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.controllers.SerializableController;
 import it.unibo.towerdefense.controllers.defenses.DefensesController;
@@ -17,8 +22,6 @@ import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.game.GameControllerImpl;
 import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.controllers.map.MapControllerImpl;
-import it.unibo.towerdefense.models.engine.Size;
-import it.unibo.towerdefense.models.game.GameDTO;
 import it.unibo.towerdefense.models.savingloader.SavingLoaderImpl;
 import it.unibo.towerdefense.models.savingloader.saving.Saving;
 import it.unibo.towerdefense.models.savingloader.saving.SavingFieldsEnum;
@@ -30,6 +33,9 @@ import it.unibo.towerdefense.views.graphics.GameRenderer;
  * Class that implements the ControllerMediator interface.
  */
 public class ControllerMediatorImpl implements ControllerMediator {
+
+    private final static Logger logger =
+        LoggerFactory.getLogger(ControllerMediatorImpl.class);
 
     private final GameRenderer gameRenderer;
     private final GameController gameController;
@@ -119,10 +125,12 @@ public class ControllerMediatorImpl implements ControllerMediator {
             );
 
             if(!savingLoader.writeSaving(saving)) {
-                // TODO handle error
+                throw new IOException("Failed to write saving");
             }
         } catch (final IOException e) {
-            // TODO handle error
+            // throw runtime exception
+            logger.error("Error while saving the game", e);
+            throw new RuntimeException("Error while saving the game");
         }
     }
 
