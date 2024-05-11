@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import it.unibo.towerdefense.views.modal.ModalContent;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.engine.SizeImpl;
-import it.unibo.towerdefense.views.graphics.Canvas;
-import it.unibo.towerdefense.views.graphics.CanvasImpl;
-import it.unibo.towerdefense.views.graphics.Drawable;
+import it.unibo.towerdefense.commons.graphics.Canvas;
+import it.unibo.towerdefense.commons.graphics.CanvasImpl;
+import it.unibo.towerdefense.commons.graphics.Drawable;
 import it.unibo.towerdefense.views.modal.Modal;
 import it.unibo.towerdefense.views.modal.ModalImpl;
 

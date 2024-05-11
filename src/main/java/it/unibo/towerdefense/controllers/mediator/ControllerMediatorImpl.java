@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.controllers.Controller;
 import it.unibo.towerdefense.controllers.SerializableController;
 import it.unibo.towerdefense.controllers.defenses.DefensesController;
@@ -27,7 +28,6 @@ import it.unibo.towerdefense.models.savingloader.saving.Saving;
 import it.unibo.towerdefense.models.savingloader.saving.SavingFieldsEnum;
 import it.unibo.towerdefense.models.savingloader.saving.SavingImpl;
 import it.unibo.towerdefense.utils.images.ImageLoader;
-import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**
  * Class that implements the ControllerMediator interface.

@@ -2,12 +2,12 @@ package it.unibo.towerdefense.controllers.game;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
+import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameState;
 import it.unibo.towerdefense.models.game.GameImpl;
 import it.unibo.towerdefense.views.game.GameInfoView;
 import it.unibo.towerdefense.views.game.GameInfoViewImpl;
-import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**
  * Game info controller implementation.

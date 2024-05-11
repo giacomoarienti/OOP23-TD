@@ -14,13 +14,13 @@ import org.json.JSONObject;
 
 import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
+import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.defenses.Defense;
 import it.unibo.towerdefense.models.defenses.DefenseFactory;
 import it.unibo.towerdefense.models.defenses.DefenseFactoryImpl;
 import it.unibo.towerdefense.models.defenses.costants.DefenseFormulas;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapFilePaths;
-import it.unibo.towerdefense.views.graphics.GameRenderer;
 
 /**Implementation of DefenseController.*/
 public class DefensesControllerImpl implements DefensesController {

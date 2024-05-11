@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.views.graphics;
+package it.unibo.towerdefense.commons.graphics;
 
 import java.awt.Graphics2D;
 

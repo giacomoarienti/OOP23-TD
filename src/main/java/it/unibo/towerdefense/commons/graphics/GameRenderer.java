@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.views.graphics;
+package it.unibo.towerdefense.commons.graphics;
 
 import java.util.List;
 
