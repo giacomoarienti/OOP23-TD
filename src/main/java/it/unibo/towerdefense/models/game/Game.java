@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.models.game;
 
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+
 /**
  * Model containing base game's statistics and info.
  */
