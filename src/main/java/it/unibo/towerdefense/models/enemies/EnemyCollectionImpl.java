@@ -8,6 +8,7 @@ import java.util.function.BiFunction;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
+import it.unibo.towerdefense.controllers.enemies.EnemyInfo.Direction;
 
 /**
  * {@inheritDoc}.
@@ -41,7 +42,17 @@ public class EnemyCollectionImpl implements EnemyCollection {
                     if (next.isEmpty()) {
                         return true;
                     } else {
-                        e.move(next.get());
+                        /*
+                         * the new enemy direction will be that of the last movement it had to do to get
+                         * to the new position
+                         *
+                         * if the enemy can move e.getSpeed it should be able to move e.getSpeed - 1,
+                         * orElse added for more robustness
+                         */
+                        e.move(next.get(),
+                                Direction.fromAToB(
+                                        posFunction.apply(e.getPosition(), e.getSpeed() - 1).orElse(next.get()),
+                                        next.get()));
                         return false;
                     }
                 }).toList();

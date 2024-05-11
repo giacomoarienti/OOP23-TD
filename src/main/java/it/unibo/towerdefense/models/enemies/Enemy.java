@@ -19,11 +19,12 @@ public interface Enemy {
     void hurt(int amount);
 
     /**
-     * Sets the enemy's position to be the same of the one passed as an argument.
+     * Sets the enemy's position and facing direction to be the same of those passed
+     * as an argument.
      *
      * @param pos the new position
      */
-    void move(LogicalPosition pos);
+    void move(LogicalPosition pos, EnemyInfo.Direction facingDirection);
 
     /**
      * Kills the enemy.

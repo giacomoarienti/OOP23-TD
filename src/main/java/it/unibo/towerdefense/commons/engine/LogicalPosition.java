@@ -96,14 +96,6 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
              * {@inheritDoc}
              */
             @Override
-            public void set(final int x, final int y) {
-                throw new UnsupportedOperationException("Tried to modify an immutable position.");
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
             public void setX(final int x) {
                 throw new UnsupportedOperationException("Tried to modify an immutable position.");
             }
@@ -113,22 +105,6 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
              */
             @Override
             public void setY(final int y) {
-                throw new UnsupportedOperationException("Tried to modify an immutable position.");
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void add(final Position position) {
-                throw new UnsupportedOperationException("Tried to modify an immutable position.");
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void subtract(final Position position) {
                 throw new UnsupportedOperationException("Tried to modify an immutable position.");
             }
         };

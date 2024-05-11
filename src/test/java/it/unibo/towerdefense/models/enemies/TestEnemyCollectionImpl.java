@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
+import it.unibo.towerdefense.controllers.enemies.EnemyInfo.Direction;
 
 /**
  * Tests for EnemyCollectionImpl.
@@ -32,7 +33,7 @@ public class TestEnemyCollectionImpl {
     @BeforeEach
     void init() {
         tested = new EnemyCollectionImpl((pos, speed) -> Optional.empty());
-        helper = new SimpleEnemyFactory(STARTING_POSITION);
+        helper = new SimpleEnemyFactory(STARTING_POSITION, Direction.EAST);
     }
 
     /**

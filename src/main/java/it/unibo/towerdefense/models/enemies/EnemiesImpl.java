@@ -9,6 +9,7 @@ import java.util.function.Function;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
+import it.unibo.towerdefense.controllers.enemies.EnemyInfo.Direction;
 import it.unibo.towerdefense.utils.file.FileUtils;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
@@ -38,7 +39,7 @@ public class EnemiesImpl implements Enemies {
     public EnemiesImpl(final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction,
             final LogicalPosition startingPos) {
         this.enemies = new EnemyCollectionImpl(posFunction);
-        this.factory = new SimpleEnemyFactory(startingPos);
+        this.factory = new SimpleEnemyFactory(startingPos, Direction.fromAToB(startingPos, posFunction.apply(startingPos, 1).orElse(startingPos)));
         WavePolicySupplier wp;
         EnemyCatalogue ec;
         try {

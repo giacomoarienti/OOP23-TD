@@ -68,8 +68,8 @@ public class PositionImpl implements Position {
      */
     @Override
     public void add(final Position position) {
-        x += position.getX();
-        y += position.getY();
+        setX(getX() + position.getX());
+        setY(getY() + position.getY());
     }
 
     /**
@@ -77,8 +77,8 @@ public class PositionImpl implements Position {
      */
     @Override
     public void subtract(final Position position) {
-        x -= position.getX();
-        y -= position.getY();
+        setX(getX() - position.getX());
+        setY(getY() - position.getY());
     }
 
     /**

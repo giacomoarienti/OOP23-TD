@@ -33,8 +33,10 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
      * @param configFile name of the file from which to load configurations.
      */
     ConfigurableEnemyCatalogue(final String configFile) {
-        final Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> configValues = loadConfig(
-                configFile);
+        final Triple<Integer,
+            Map<EnemyArchetype, Integer>,
+            Map<EnemyLevel, Integer>> configValues = loadConfig(configFile);
+
         checkConstraints(configValues);
 
         this.valueFactor = configValues.getLeft();
@@ -78,7 +80,7 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
             return Triple.of(vf, ImmutableMap.copyOf(r), ImmutableMap.copyOf(pl));
 
         } catch (Throwable t) {
-            throw new RuntimeException("Failed to load enemy types configuration from given string", t);
+            throw new RuntimeException("Configuration string for enemy catalogue is syntactically incorrect.", t);
         }
     }
 
@@ -108,8 +110,9 @@ public class ConfigurableEnemyCatalogue implements EnemyCatalogue {
                 assert i > 0;
             });
         } catch (Throwable t) {
-            throw new RuntimeException("Values contained in configuration file for enemy catalogue are not permitted.",
-                    t);
+            throw new RuntimeException(
+                "Configuration string for enemy catalogue is semantically incorrect.",
+                t);
         }
 
     }

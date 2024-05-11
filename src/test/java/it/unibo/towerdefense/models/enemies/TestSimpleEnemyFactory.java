@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
 import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
+import it.unibo.towerdefense.controllers.enemies.EnemyInfo.Direction;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
@@ -23,7 +24,7 @@ public class TestSimpleEnemyFactory {
      */
     @BeforeEach
     void init() {
-        tested = new SimpleEnemyFactory(STARTING_POS);
+        tested = new SimpleEnemyFactory(STARTING_POS, Direction.EAST);
     }
 
     /**
@@ -84,6 +85,6 @@ public class TestSimpleEnemyFactory {
         created.hurt(t.getMaxHP() / 2 + 1);
         Assertions.assertTrue(o.getFlag());
         Assertions.assertThrows(IllegalStateException.class, () -> created.hurt(1));
-        Assertions.assertThrows(IllegalStateException.class, () -> created.move(new LogicalPosition(1, 1)));
+        Assertions.assertThrows(IllegalStateException.class, () -> created.move(new LogicalPosition(1, 1), Direction.EAST));
     }
 }

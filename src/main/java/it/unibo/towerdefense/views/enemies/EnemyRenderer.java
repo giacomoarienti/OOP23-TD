@@ -10,9 +10,10 @@ import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
  */
 public interface EnemyRenderer {
     /**
-     * Renders the enemies given as argument.
+     * Renders the enemies given as argument in the order they appear in the list.
+     *
      * @param gameRenderer the renderer on which to render
-     * @param enemies the enemies to render
+     * @param enemies      the enemies to render
      */
     void render(GameRenderer gameRenderer, List<EnemyInfo> enemies);
 }

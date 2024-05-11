@@ -14,6 +14,7 @@ import it.unibo.towerdefense.utils.patterns.Observer;
 public class SimpleEnemyFactory implements EnemyFactory {
 
     private final LogicalPosition startingPos;
+    private final EnemyInfo.Direction startingDir;
 
     /**
      * Constructor for the class.
@@ -21,8 +22,9 @@ public class SimpleEnemyFactory implements EnemyFactory {
      * @param startingPos the starting position for all enemies produced by the
      *                    factory
      */
-    SimpleEnemyFactory(final LogicalPosition startingPos) {
-        this.startingPos = startingPos;
+    SimpleEnemyFactory(final LogicalPosition startingPos, final EnemyInfo.Direction startingDir) {
+        this.startingPos = startingPos.clone();
+        this.startingDir = startingDir;
     }
 
     /**
@@ -44,14 +46,16 @@ public class SimpleEnemyFactory implements EnemyFactory {
         /**
          * A record to keep track of the information about an Enemy.
          *
-         * @param hp the current hp of the enemy
-         * @param pos the current position of the enemy
+         * @param hp   the current hp of the enemy
+         * @param pos  the current position of the enemy
          * @param type the EnemyType of the enemy
          */
-        private record MinimalEnemyInfo(LogicalPosition pos, Integer hp, EnemyType type) implements EnemyInfo {
+        private record EnemyInfoImpl(LogicalPosition pos, EnemyInfo.Direction direction, Integer hp, EnemyType type)
+                implements EnemyInfo {
         };
 
         private final LogicalPosition pos = startingPos.clone();
+        private EnemyInfo.Direction dir = startingDir;
         private final Set<Observer<Enemy>> deathObservers;
         private final RichEnemyType t;
         private int hp;
@@ -96,11 +100,16 @@ public class SimpleEnemyFactory implements EnemyFactory {
          * {@inheritDoc}.
          */
         @Override
-        public void move(final LogicalPosition newPos) {
+        public void move(final LogicalPosition newPos, final EnemyInfo.Direction newDir) {
             if (isDead()) {
                 throw new IllegalStateException("Tried to move a dead enemy");
+            } else if (newPos == null) {
+                throw new NullPointerException("newPos can't be null");
+            } else if (newDir == null) {
+                throw new NullPointerException("newDir can't be null");
             } else {
                 pos.set(newPos.getX(), newPos.getY());
+                dir = newDir;
             }
         }
 
@@ -117,7 +126,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
          */
         @Override
         public EnemyInfo info() {
-            return new MinimalEnemyInfo(this.getPosition(), this.getHp(), t);
+            return new EnemyInfoImpl(this.getPosition(), this.dir, this.getHp(), t);
         }
 
         /**

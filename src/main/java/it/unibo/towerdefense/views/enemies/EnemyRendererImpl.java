@@ -40,6 +40,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
     }
 
     private ImageDrawable getDrawable(EnemyInfo enemy) {
+        //aggiungere rotazione
         return new ImageDrawable(images.get(enemy.type()), enemy.pos());
     }
 }
