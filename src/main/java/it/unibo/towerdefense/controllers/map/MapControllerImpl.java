@@ -17,7 +17,7 @@ import it.unibo.towerdefense.models.map.Direction;
 import it.unibo.towerdefense.models.map.GameMap;
 import it.unibo.towerdefense.models.map.GameMapImpl;
 import it.unibo.towerdefense.models.map.PathCell;
-import it.unibo.towerdefense.views.graphics.GameRenderer;
+import it.unibo.towerdefense.commons.graphics.GameRenderer;
 
 /**
  * Class to interact with map methods.
