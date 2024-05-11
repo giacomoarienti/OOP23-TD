@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import it.unibo.towerdefense.controllers.Controller;
@@ -34,7 +35,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
     private final GameController gameController;
     private final MapController mapController;
     private final DefensesController defensesController;
-    private final EnemyController enemiesController;
+    private final EnemyController enemyController;
     private List<Controller> controllers;
     private Map<SavingFieldsEnum, SerializableController> serializableControllers;
 
@@ -54,7 +55,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
         this.gameController = new GameControllerImpl(playerName);
         this.mapController = new MapControllerImpl(mapSize, this);
         this.defensesController = new DefensesControllerImpl(this);
-        this.enemiesController = new EnemyControllerImpl(this);
+        this.enemyController = new EnemyControllerImpl(this);
         // add controllers to the list
         this.addControllersToLists();
     }
@@ -67,13 +68,16 @@ public class ControllerMediatorImpl implements ControllerMediator {
      */
     public ControllerMediatorImpl(final Saving saving, final GameRenderer renderer) {
         this.gameRenderer = renderer;
-        // initialize controllers
+        // initialize controllers from saving
         this.gameController = new GameControllerImpl(
             GameDTO.fromJson(saving.getGameJson())
         );
         this.mapController = new MapControllerImpl(saving.getMapJson(), this);
-        this.defensesController = null; //new DefensesControllerImpl(saving, this);
-        this.enemiesController = new EnemyControllerImpl(this);
+        this.defensesController = new DefensesControllerImpl(
+            this,
+            saving.getDefensesJson()
+        );
+        this.enemyController = new EnemyControllerImpl(this);
         // add controllers to the list
         this.addControllersToLists();
     }
@@ -135,6 +139,9 @@ public class ControllerMediatorImpl implements ControllerMediator {
      */
     @Override
     public GameController getGameController() {
+        if (Objects.isNull(this.gameController)) {
+            throw new IllegalStateException("GameController not initialized");
+        }
         return this.gameController;
     }
 
@@ -143,6 +150,9 @@ public class ControllerMediatorImpl implements ControllerMediator {
      */
     @Override
     public MapController getMapController() {
+        if (Objects.isNull(this.mapController)) {
+            throw new IllegalStateException("MapController not initialized");
+        }
         return this.mapController;
     }
 
@@ -151,6 +161,9 @@ public class ControllerMediatorImpl implements ControllerMediator {
      */
     @Override
     public DefensesController getDefensesController() {
+        if (Objects.isNull(this.defensesController)) {
+            throw new IllegalStateException("DefensesController not initialized");
+        }
         return this.defensesController;
     }
 
@@ -159,7 +172,10 @@ public class ControllerMediatorImpl implements ControllerMediator {
      */
     @Override
     public EnemyController getEnemyController() {
-        return this.enemiesController;
+        if (Objects.isNull(this.enemyController)) {
+            throw new IllegalStateException("EnemyController not initialized");
+        }
+        return this.enemyController;
     }
 
     private Map<SavingFieldsEnum, String> toJSON() {
@@ -179,7 +195,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
             this.gameController,
             this.mapController,
             this.defensesController,
-            this.enemiesController
+            this.enemyController
         );
         // save serializable controllers
         this.serializableControllers = Map.of(
