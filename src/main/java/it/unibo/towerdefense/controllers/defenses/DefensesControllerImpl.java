@@ -45,6 +45,12 @@ public class DefensesControllerImpl implements DefensesController {
     */
     public DefensesControllerImpl(final ControllerMediator master, final String jsonString) {
         this(master);
+        JSONArray serializedDefenses = new JSONArray(jsonString);
+        for(Object def: serializedDefenses) {
+            this.defenses.add(new ImmutablePair<Defense,Integer>
+            (Defense.fromJson(def.toString()), 0)
+            );
+        }
     }
 
     /**Empty default constructor.*/
