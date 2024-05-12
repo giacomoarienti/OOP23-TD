@@ -7,10 +7,12 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.map.MapController;
+import it.unibo.towerdefense.controllers.map.PathVector;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.enemies.Enemies;
 import it.unibo.towerdefense.models.enemies.EnemiesImpl;
@@ -38,13 +40,32 @@ public class EnemyControllerImpl implements EnemyController {
         final MapController map = mc.getMapController();
         final GameController game = mc.getGameController();
         enemyRenderer = new EnemyRendererImpl(mc.getImageLoader());
-        model = new EnemiesImpl((pos, speed) -> map.getNextPosition(pos, speed), map.getSpawnPosition());
+
+        model = new EnemiesImpl(
+                (pos, speed) -> convert(map.getNextPosition(LogicalPosition.copyOf(pos), speed)),
+                convert(map.getSpawnPosition()).get());
+
         model.addDeathObserver(e -> {
             game.addMoney(e.getValue());
             if (!model.isWaveActive()) {
                 game.advanceWave();
             }
         });
+    }
+
+    /**
+     * Converts the PathVector given as input to an Optional of an enemyposition
+     * which will be empty if pv's distance to end is 0, meaning the enemy has
+     * reached the end.
+     *
+     * @param pv the pathvector to convert
+     * @return the corresponding Optional EnemyPosition
+     */
+    private Optional<EnemyPosition> convert(PathVector pv) {
+        return pv.distanceToEnd() > 0
+                ? Optional.of(new EnemyPosition(pv.position().getX(), pv.position().getY(), pv.direction(),
+                        pv.distanceToEnd()))
+                : Optional.empty();
     }
 
     /**
@@ -61,7 +82,9 @@ public class EnemyControllerImpl implements EnemyController {
     @Override
     public List<Pair<LogicalPosition, Integer>> getEnemies() {
         lastGivenEnemies = Optional.of(List.copyOf(model.getEnemies()));
-        return lastGivenEnemies.get().stream().map(e -> Pair.of(e.getPosition(), e.getHp())).toList();
+        return lastGivenEnemies.get().stream()
+            .map(e -> Pair.of(LogicalPosition.copyOf(e.getPosition()), e.getHp()))
+            .toList();
     }
 
     /**
@@ -91,7 +114,12 @@ public class EnemyControllerImpl implements EnemyController {
      */
     @Override
     public void render(GameRenderer renderer) {
-        //aggiungere .sorted() in base alla distanza dalla fine
-        enemyRenderer.render(renderer, model.getEnemies().stream().map(e -> e.info()).toList());
+        /*
+         * Enemies are sorted so as to be rendered nicely when overlapping.
+         */
+        enemyRenderer.render(renderer, model.getEnemies().stream()
+            .map(e -> e.info())
+            .sorted((e1, e2) -> e2.pos().getDistance() - e1.pos().getDistance())
+            .toList());
     }
 }

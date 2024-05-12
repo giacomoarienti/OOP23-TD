@@ -6,8 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo.Direction;
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 
 /**
  * {@inheritDoc}.
@@ -15,7 +14,7 @@ import it.unibo.towerdefense.commons.engine.LogicalPosition;
 class EnemyCollectionImpl implements EnemyCollection {
 
     private final Set<RichEnemy> enemies;
-    private final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction;
+    private final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction;
 
     /**
      * Constructor for the class.
@@ -25,7 +24,7 @@ class EnemyCollectionImpl implements EnemyCollection {
      *                    optional containing the new position or an empty optional
      *                    if the enemy has reached the end of the map
      */
-    EnemyCollectionImpl(final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction) {
+    EnemyCollectionImpl(final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction) {
         this.posFunction = posFunction;
         this.enemies = new HashSet<>();
     }
@@ -37,7 +36,7 @@ class EnemyCollectionImpl implements EnemyCollection {
     public void move() {
         final List<RichEnemy> dead = enemies.stream().filter(
                 e -> {
-                    Optional<LogicalPosition> next = posFunction.apply(e.getPosition(), e.getSpeed());
+                    Optional<EnemyPosition> next = posFunction.apply(e.getPosition(), e.getSpeed());
                     if (next.isEmpty()) {
                         return true;
                     } else {
@@ -48,10 +47,7 @@ class EnemyCollectionImpl implements EnemyCollection {
                          * if the enemy can move e.getSpeed it should be able to move e.getSpeed - 1,
                          * orElse added for more robustness
                          */
-                        e.move(next.get(),
-                                Direction.fromAToB(
-                                        posFunction.apply(e.getPosition(), e.getSpeed() - 1).orElse(next.get()),
-                                        next.get()));
+                        e.move(next.get());
                         return false;
                     }
                 }).toList();

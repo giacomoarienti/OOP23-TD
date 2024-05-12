@@ -6,8 +6,8 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo.Direction;
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
+
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.utils.file.FileUtils;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
@@ -34,11 +34,10 @@ public class EnemiesImpl implements Enemies {
      *                    if the enemy has reached the end of the map
      * @param startingPos the starting position of enemies
      */
-    public EnemiesImpl(final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction,
-            final LogicalPosition startingPos) {
+    public EnemiesImpl(final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction,
+            final EnemyPosition startingPos) {
         this.enemies = new EnemyCollectionImpl(posFunction);
-        this.factory = new SimpleEnemyFactory(startingPos,
-                Direction.fromAToB(startingPos, posFunction.apply(startingPos, 1).orElse(startingPos)));
+        this.factory = new SimpleEnemyFactory(startingPos);
         WavePolicySupplier wp;
         EnemyCatalogue ec;
         try {

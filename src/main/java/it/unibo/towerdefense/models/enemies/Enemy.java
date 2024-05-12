@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.models.enemies;
 
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 
 /**
  * The single Enemy.
@@ -39,11 +39,11 @@ public interface Enemy {
     int getValue();
 
     /**
-     * Returns the enemy's EnemyPosition.
+     * Returns the enemy's LogicalPosition.
      *
-     * @return the enemy's EnemyPosition.
+     * @return the enemy's LogicalPosition.
      */
-    LogicalPosition getPosition();
+    EnemyPosition getPosition();
 
     /**
      * Returns the enemy's EnemyInfo.

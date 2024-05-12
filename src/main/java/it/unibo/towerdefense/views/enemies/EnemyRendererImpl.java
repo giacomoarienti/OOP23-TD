@@ -37,10 +37,10 @@ public class EnemyRendererImpl implements EnemyRenderer {
             try {
                 BufferedImage source = loader.loadImage(ROOT + et.toString() + EXTENSION, sizes.get(et));
                 images.put(et, List.of(
-                    source,
-                    Scalr.rotate(source, Rotation.CW_90),
-                    Scalr.rotate(source, Rotation.CW_180),
-                    Scalr.rotate(source, Rotation.CW_270)
+                    Scalr.rotate(source, Rotation.CW_90), //E
+                    source, //N
+                    Scalr.rotate(source, Rotation.CW_270), //W
+                    Scalr.rotate(source, Rotation.CW_180) //S
                 ));
             } catch (Exception e) {
                 throw new RuntimeException("Failed to initialize the image for type " + et.toString(), e);
@@ -60,6 +60,6 @@ public class EnemyRendererImpl implements EnemyRenderer {
      * Returns the correct image to render for a given enemy.
      */
     private ImageDrawable getDrawable(EnemyInfo enemy) {
-        return new ImageDrawable(images.get(enemy.type()).get(enemy.direction().ordinal()), enemy.pos());
+        return new ImageDrawable(images.get(enemy.type()).get(enemy.pos().getDir().ordinal()), enemy.pos());
     }
 }

@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
@@ -13,8 +13,7 @@ import it.unibo.towerdefense.utils.patterns.Observer;
  */
 class SimpleEnemyFactory implements EnemyFactory {
 
-    private final LogicalPosition startingPos;
-    private final EnemyInfo.Direction startingDir;
+    private final EnemyPosition startingPos;
 
     /**
      * Constructor for the class.
@@ -22,9 +21,8 @@ class SimpleEnemyFactory implements EnemyFactory {
      * @param startingPos the starting position for all enemies produced by the
      *                    factory
      */
-    SimpleEnemyFactory(final LogicalPosition startingPos, final EnemyInfo.Direction startingDir) {
+    SimpleEnemyFactory(final EnemyPosition startingPos) {
         this.startingPos = startingPos.clone();
-        this.startingDir = startingDir;
     }
 
     /**
@@ -50,12 +48,11 @@ class SimpleEnemyFactory implements EnemyFactory {
          * @param pos  the current position of the enemy
          * @param type the EnemyType of the enemy
          */
-        private record EnemyInfoImpl(LogicalPosition pos, EnemyInfo.Direction direction, Integer hp, EnemyType type)
+        private record EnemyInfoImpl(EnemyPosition pos, Integer hp, EnemyType type)
                 implements EnemyInfo {
         };
 
-        private final LogicalPosition pos = startingPos.clone();
-        private EnemyInfo.Direction dir = startingDir;
+        private final EnemyPosition pos = startingPos.clone();
         private final Set<Observer<? super RichEnemy>> deathObservers;
         private final RichEnemyType t;
         private int hp;
@@ -100,16 +97,13 @@ class SimpleEnemyFactory implements EnemyFactory {
          * {@inheritDoc}.
          */
         @Override
-        public void move(final LogicalPosition newPos, final EnemyInfo.Direction newDir) {
+        public void move(final EnemyPosition newPos) {
             if (isDead()) {
                 throw new IllegalStateException("Tried to move a dead enemy");
             } else if (newPos == null) {
                 throw new NullPointerException("newPos can't be null");
-            } else if (newDir == null) {
-                throw new NullPointerException("newDir can't be null");
             } else {
-                pos.set(newPos.getX(), newPos.getY());
-                dir = newDir;
+                pos.setTo(newPos);
             }
         }
 
@@ -117,8 +111,8 @@ class SimpleEnemyFactory implements EnemyFactory {
          * {@inheritDoc}.
          */
         @Override
-        public LogicalPosition getPosition() {
-            return LogicalPosition.copyOf(pos);
+        public EnemyPosition getPosition() {
+            return this.pos.clone();
         }
 
         /**
@@ -126,7 +120,7 @@ class SimpleEnemyFactory implements EnemyFactory {
          */
         @Override
         public EnemyInfo info() {
-            return new EnemyInfoImpl(this.getPosition(), this.dir, this.getHp(), t);
+            return new EnemyInfoImpl(this.getPosition(), this.getHp(), t);
         }
 
         /**
