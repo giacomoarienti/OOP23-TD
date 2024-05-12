@@ -13,7 +13,7 @@ import it.unibo.towerdefense.commons.engine.PositionImpl;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.models.map.BuildableCell;
 import it.unibo.towerdefense.models.map.Cell;
-import it.unibo.towerdefense.models.map.Direction;
+import it.unibo.towerdefense.models.map.MapDirection;
 import it.unibo.towerdefense.models.map.GameMap;
 import it.unibo.towerdefense.models.map.GameMapImpl;
 import it.unibo.towerdefense.models.map.PathCell;
@@ -73,7 +73,7 @@ public class MapControllerImpl implements MapController {
     @Override
     public PathVector getSpawnPosition() {
         final PathCell spawCell = map.getSpawnCell();
-        return new PathVector(spawCell.inSideMidpoint(), spawCell.getInDirection(), spawCell.distanceToEnd());
+        return new PathVector(spawCell.inSideMidpoint(), spawCell.getInDirection().asDirection(), spawCell.distanceToEnd());
     }
 
     /**
@@ -120,7 +120,7 @@ public class MapControllerImpl implements MapController {
         }
         LogicalPosition tempPos = pos;
         PathCell pCell = (PathCell) cell;
-        Direction dir = pCell.getInDirection();
+        MapDirection dir = pCell.getInDirection();
         int remaningDistance = distanceToMove;
         int distanceToEnd = pCell.distanceToEnd() * LogicalPosition.SCALING_FACTOR;
 
@@ -134,13 +134,13 @@ public class MapControllerImpl implements MapController {
 
             distanceToEnd -= positionInCell;
             if (distanceToEnd < distanceToMove) {
-                return new PathVector(getEndPosition(), map.getEndCell().getOutDirection(), 0);
+                return new PathVector(getEndPosition(), map.getEndCell().getOutDirection().asDirection(), 0);
             }
             if (positionInCell < factor) {
                 int distanceToTravel = factor - positionInCell;
                 if (remaningDistance < distanceToTravel) {
                     tempPos = addDistance(tempPos, dir, remaningDistance);
-                    return new PathVector(tempPos, dir, distanceToEnd - remaningDistance);
+                    return new PathVector(tempPos, dir.asDirection(), distanceToEnd - remaningDistance);
                 }
                 remaningDistance -=  distanceToTravel;
                 tempPos = addDistance(tempPos, dir, distanceToTravel);
@@ -218,7 +218,7 @@ public class MapControllerImpl implements MapController {
         return (a % b + b) % b;
     }
 
-    private static LogicalPosition addDistance(final LogicalPosition pos, final Direction dir, final int distance) {
+    private static LogicalPosition addDistance(final LogicalPosition pos, final MapDirection dir, final int distance) {
         return new LogicalPosition(pos.getX() + distance * dir.orizontal(), pos.getY() + distance * dir.vertical());
     }
 }

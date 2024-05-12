@@ -10,8 +10,8 @@ import it.unibo.towerdefense.commons.engine.Position;
  */
 public class PathCellImpl extends CellAbs implements PathCell {
 
-    private final Direction in;
-    private final Direction out;
+    private final MapDirection in;
+    private final MapDirection out;
     private final int distanceToEnd;
 
     /**
@@ -20,7 +20,7 @@ public class PathCellImpl extends CellAbs implements PathCell {
      * @param in direction to enter the cell.
      * @param out direction to exit the cell.
      */
-    public PathCellImpl(final Position coords, final Direction in, final Direction out, int distanceToEnd) {
+    public PathCellImpl(final Position coords, final MapDirection in, final MapDirection out, int distanceToEnd) {
         super(coords);
         this.in = in;
         this.out = out;
@@ -31,7 +31,7 @@ public class PathCellImpl extends CellAbs implements PathCell {
      * {@inheritDoc}
      */
     @Override
-    public Direction getInDirection() {
+    public MapDirection getInDirection() {
         return in;
     }
 
@@ -39,7 +39,7 @@ public class PathCellImpl extends CellAbs implements PathCell {
      * {@inheritDoc}
      */
     @Override
-    public Direction getOutDirection() {
+    public MapDirection getOutDirection() {
         return out;
     }
 
@@ -79,8 +79,8 @@ public class PathCellImpl extends CellAbs implements PathCell {
         final JSONObject jsonObject = new JSONObject(jsonData);
         return new PathCellImpl(
             Position.fromJson(jsonObject.getString("pos")),
-            jsonObject.getEnum(Direction.class, "in"),
-            jsonObject.getEnum(Direction.class, "out"),
+            jsonObject.getEnum(MapDirection.class, "in"),
+            jsonObject.getEnum(MapDirection.class, "out"),
             jsonObject.getInt("distance")
         );
     }

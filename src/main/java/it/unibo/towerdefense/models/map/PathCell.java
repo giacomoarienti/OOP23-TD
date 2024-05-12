@@ -11,13 +11,13 @@ public interface PathCell extends Cell {
      * Entry Direction  getter.
      * @return Direction from which enemies enter the cell
      */
-    Direction getInDirection();
+    MapDirection getInDirection();
 
     /**
      * Exit Direction  getter.
      * @return Direction from which enemies exit the cell
      */
-    Direction getOutDirection();
+    MapDirection getOutDirection();
 
     /**
      * Distance from end of path.

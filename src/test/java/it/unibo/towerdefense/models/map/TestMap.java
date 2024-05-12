@@ -11,11 +11,11 @@ import it.unibo.towerdefense.controllers.map.MapControllerImpl;
 import it.unibo.towerdefense.controllers.map.PathVector;
 
 /**
- * Map tester with "diagonal" path.
+ * Map tester with "generate" path.
  */
 public class TestMap {
     private final static Size TEST_SIZE = new SizeImpl(20, 20);
-    private final static int ITERATION_MOVEMENT = 500;  //TODO test with SCALING_FACTOR
+    private final static int ITERATION_MOVEMENT = 1;
     private MapController map = new MapControllerImpl(TEST_SIZE, null);
     private PathVector spawn = map.getSpawnPosition();
     private LogicalPosition pos = spawn.position();

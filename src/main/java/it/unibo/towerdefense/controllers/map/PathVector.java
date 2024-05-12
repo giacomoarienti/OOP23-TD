@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.controllers.map;
 
+import it.unibo.towerdefense.commons.engine.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.models.map.Direction;
 
 /**
  * Record that describes a position of a enemy on the path.

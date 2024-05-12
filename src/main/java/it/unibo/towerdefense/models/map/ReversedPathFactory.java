@@ -14,22 +14,22 @@ import it.unibo.towerdefense.commons.engine.Size;
  */
 public class ReversedPathFactory {
 
-    private static final List<Direction> D_LIST = List.of(Direction.values());
+    private static final List<MapDirection> D_LIST = List.of(MapDirection.values());
 
     /**
      *Return a path corresponding to an orizontal line from left to right.
      * @return the path
      */
-    public Iterator<Direction> line() {
-        return repeatPattern(List.of(Direction.E));
+    public Iterator<MapDirection> line() {
+        return repeatPattern(List.of(MapDirection.E));
     }
 
     /**
      *Return a path corresponding to a topLeft-downRight diagonal.
      * @return the path
      */
-    public Iterator<Direction> diagonal() {
-        return repeatPattern(List.of(Direction.E, Direction.S));
+    public Iterator<MapDirection> diagonal() {
+        return repeatPattern(List.of(MapDirection.E, MapDirection.S));
     }
 
     /**
@@ -38,15 +38,15 @@ public class ReversedPathFactory {
      * @param direciton initial direction of path.
      * @return the path as list of directions, where first is direction.
      */
-    public Iterator<Direction> generate(final Size size, final Direction direciton) {
-        return Stream.iterate(opposite(direciton), new UnaryOperator<Direction>() {
+    public Iterator<MapDirection> generate(final Size size, final MapDirection direciton) {
+        return Stream.iterate(opposite(direciton), new UnaryOperator<MapDirection>() {
 
             private final Random random = new Random();
             private int n = random.nextInt(2) * 2;
             private int counter = 0;
 
             @Override
-            public Direction apply(final Direction d) {
+            public MapDirection apply(final MapDirection d) {
                 if (counter < random.nextInt(
                     Math.abs(direciton.orizontal() * size.getHeight() + direciton.vertical() * size.getWidth()) / 4
                     )) {
@@ -61,19 +61,19 @@ public class ReversedPathFactory {
         }).map(d -> opposite(d)).peek(d -> System.out.println(d)).iterator();
     }
 
-    private Iterator<Direction> repeatPattern(final List<Direction> list) {
+    private Iterator<MapDirection> repeatPattern(final List<MapDirection> list) {
         return Stream.generate(() -> list).flatMap(l -> l.stream().map(d -> opposite(d))).iterator();
     }
 
-    private Direction turnLeft(final Direction d) {
+    private MapDirection turnLeft(final MapDirection d) {
         return D_LIST.get((D_LIST.indexOf(d) + 1) % D_LIST.size());
     }
 
-    private Direction turnRight(final Direction d) {
+    private MapDirection turnRight(final MapDirection d) {
         return turnLeft(turnLeft(turnLeft(d)));
     }
 
-    private Direction opposite(Direction d) {
+    private MapDirection opposite(MapDirection d) {
         return turnLeft(turnLeft(d));
     }
 
