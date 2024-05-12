@@ -16,6 +16,8 @@ import it.unibo.towerdefense.utils.patterns.Observer;
 public class TestSimpleEnemyFactory {
 
     private SimpleEnemyFactory tested;
+    private RichEnemyType t;
+    private RichEnemy created;
 
     private static final LogicalPosition STARTING_POS = new LogicalPosition(0, 0);
 
@@ -25,6 +27,8 @@ public class TestSimpleEnemyFactory {
     @BeforeEach
     void init() {
         tested = new SimpleEnemyFactory(STARTING_POS, Direction.EAST);
+        t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100, 10000);
+        created = tested.spawn(t);
     }
 
     /**
@@ -32,13 +36,26 @@ public class TestSimpleEnemyFactory {
      */
     @Test
     void testSpawn() {
-        RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        RichEnemy created = tested.spawn(t);
         Assertions.assertEquals(STARTING_POS, created.getPosition());
         Assertions.assertEquals(t.getMaxHP(), created.getHp());
+        Assertions.assertEquals(t.getMaxHP(), created.info().hp());
         Assertions.assertEquals(t.getSpeed(), created.getSpeed());
         Assertions.assertEquals(t.level(), created.info().type().level());
         Assertions.assertEquals(t.type(), created.info().type().type());
+    }
+
+    /**
+     * Tests the enemy moves correctly.
+     */
+    @Test
+    void testMove(){
+        LogicalPosition newPos = STARTING_POS.clone();
+        newPos.add(new LogicalPosition(10, 0));
+        Direction newDir = Direction.fromAToB(STARTING_POS, newPos);
+        created.move(newPos, newDir);
+        Assertions.assertEquals(newPos, created.getPosition());
+        Assertions.assertEquals(newPos, created.info().pos());
+        Assertions.assertEquals(newDir, created.info().direction());
     }
 
     /**
@@ -46,8 +63,6 @@ public class TestSimpleEnemyFactory {
      */
     @Test
     void testNegativeHurt() {
-        RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        RichEnemy created = tested.spawn(t);
         Assertions.assertThrows(RuntimeException.class, () -> created.hurt(-1));
     }
 
@@ -57,13 +72,10 @@ public class TestSimpleEnemyFactory {
      */
     @Test
     void testDeath() {
-        RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        RichEnemy created = tested.spawn(t);
-
         interface TestObserver<T> extends Observer<T> {
             public boolean getFlag();
-        }
-        ;
+        };
+
         TestObserver<RichEnemy> o = new TestObserver<RichEnemy>() {
             boolean flag = false;
 
@@ -84,6 +96,7 @@ public class TestSimpleEnemyFactory {
         Assertions.assertFalse(o.getFlag());
         created.hurt(t.getMaxHP() / 2 + 1);
         Assertions.assertTrue(o.getFlag());
+        Assertions.assertTrue(created.isDead());
         Assertions.assertThrows(IllegalStateException.class, () -> created.hurt(1));
         Assertions.assertThrows(IllegalStateException.class, () -> created.move(new LogicalPosition(1, 1), Direction.EAST));
     }

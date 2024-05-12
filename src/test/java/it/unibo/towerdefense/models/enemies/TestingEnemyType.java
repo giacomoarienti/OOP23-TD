@@ -16,10 +16,11 @@ abstract class TestingEnemyType {
          * @param hp    the maxHp
          * @param speed the speed
          * @param value the value
+         * @param powerlevel the powerlevel
          * @return the built RichEnemyType
          */
         static RichEnemyType build(final EnemyLevel level, final EnemyArchetype type, final int hp, final int speed,
-                        final int value) {
+                        final int value, final int powerlevel) {
                 /**
                  * Anonymous class which implements RichEnemyType.
                  */
@@ -62,6 +63,14 @@ abstract class TestingEnemyType {
                         @Override
                         public EnemyArchetype type() {
                                 return type;
+                        }
+
+                        /**
+                         * {@inheritDoc}.
+                         */
+                        @Override
+                        int getPowerLevel() {
+                                return powerlevel;
                         }
                 };
         }

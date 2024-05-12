@@ -80,7 +80,7 @@ public class EnemiesImpl implements Enemies {
      * {@inheritDoc}.
      */
     @Override
-    public Set<? extends Enemy> getEnemies() {
+    public Set<RichEnemy> getEnemies() {
         return enemies.getEnemies();
     }
 

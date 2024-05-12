@@ -3,7 +3,6 @@ package it.unibo.towerdefense.models.enemies;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.List;
@@ -22,7 +21,7 @@ import it.unibo.towerdefense.utils.file.FileUtils;
 /**
  * Test for ConfigurableEnemyCataloge.
  */
-public class TestConfigurableEnemyCatalogue {
+public class TestEnemyCatalogueFactory {
 
     /**
      * Common prefix for all test files.
@@ -40,12 +39,12 @@ public class TestConfigurableEnemyCatalogue {
         List<String> evilFilenames = List.of("types1.json", "types2.json", "types3.json", "types4.json");
         for (String s : goodFilenames) {
             String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
-            Assertions.assertDoesNotThrow(() -> new ConfigurableEnemyCatalogue(config));
+            Assertions.assertDoesNotThrow(() -> new EnemyCatalogueFactory(config));
         }
         ;
         for (String s : evilFilenames) {
             String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
-            Assertions.assertThrows(RuntimeException.class, () -> new ConfigurableEnemyCatalogue(config));
+            Assertions.assertThrows(RuntimeException.class, () -> new EnemyCatalogueFactory(config));
         }
         ;
     }
@@ -57,7 +56,7 @@ public class TestConfigurableEnemyCatalogue {
     public class NestedTestBlock {
 
         private final static String TEST_FILE = "types.json";
-        private ConfigurableEnemyCatalogue tested;
+        private EnemyCatalogue tested;
         private Set<EnemyType> types;
 
         /**
@@ -66,22 +65,9 @@ public class TestConfigurableEnemyCatalogue {
          */
         @BeforeEach
         void init() throws URISyntaxException, IOException {
-            tested = new ConfigurableEnemyCatalogue(
-                    FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + TEST_FILE).toURI())));
-            types = Arrays.stream(EnemyLevel.values())
-                    .flatMap((EnemyLevel l) -> Arrays.stream(EnemyArchetype.values())
-                            .map((EnemyArchetype t) -> new EnemyType() {
-                                @Override
-                                public EnemyLevel level() {
-                                    return l;
-                                }
-
-                                @Override
-                                public EnemyArchetype type() {
-                                    return t;
-                                }
-                            }))
-                    .collect(Collectors.toSet());
+            tested = new EnemyCatalogueFactory(
+                    FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + TEST_FILE).toURI()))).compile();
+            types = EnemyType.getEnemyTypes();
         }
 
         /**

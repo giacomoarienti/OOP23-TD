@@ -76,16 +76,16 @@ public class TestWavePolicySupplierImpl {
         }
 
         /**
-         * Tests the method getLength works as intended.
+         * Tests the method getPower works as intended.
          */
         @Test
-        void testGetLength() {
-            Assertions.assertThrows(RuntimeException.class, () -> tested.getLength(0));
-            Assertions.assertEquals(10, tested.getLength(1));
-            Assertions.assertEquals(10, tested.getLength(2));
-            Assertions.assertEquals(15, tested.getLength(3));
-            Assertions.assertEquals(200, tested.getLength(10));
-            Assertions.assertEquals(200, tested.getLength(20000));
+        void testGetPower() {
+            Assertions.assertThrows(RuntimeException.class, () -> tested.getPower(0));
+            Assertions.assertEquals(10000, tested.getPower(1));
+            Assertions.assertEquals(10000, tested.getPower(2));
+            Assertions.assertEquals(15000, tested.getPower(3));
+            Assertions.assertEquals(200000, tested.getPower(10));
+            Assertions.assertEquals(200000, tested.getPower(20000));
         }
 
         /**

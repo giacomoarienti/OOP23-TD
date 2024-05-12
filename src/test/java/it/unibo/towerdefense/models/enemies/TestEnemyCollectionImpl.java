@@ -22,6 +22,8 @@ public class TestEnemyCollectionImpl {
     private static final LogicalPosition STARTING_POSITION = new LogicalPosition(0, 0);
     private EnemyCollectionImpl tested;
     private SimpleEnemyFactory helper;
+    private RichEnemyType t;
+    private RichEnemy spawned;
 
     /**
      * Initializes the classes needed for testing.
@@ -31,9 +33,11 @@ public class TestEnemyCollectionImpl {
      * @see TestSimpleEnemyFactory
      */
     @BeforeEach
-    void init() {
+    private void init() {
         tested = new EnemyCollectionImpl((pos, speed) -> Optional.empty());
         helper = new SimpleEnemyFactory(STARTING_POSITION, Direction.EAST);
+        t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100, 10000);
+        spawned = helper.spawn(t);
     }
 
     /**
@@ -41,11 +45,8 @@ public class TestEnemyCollectionImpl {
      */
     @Test
     void testAdd() {
-        RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        RichEnemy spawned = helper.spawn(t);
         tested.add(spawned);
         Assertions.assertTrue(tested.getEnemies().contains(spawned));
-        Assertions.assertTrue(tested.getEnemiesInfo().contains(spawned.info()));
     }
 
     /**
@@ -53,8 +54,6 @@ public class TestEnemyCollectionImpl {
      */
     @Test
     void testAreDead() {
-        RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        RichEnemy spawned = helper.spawn(t);
         tested.add(spawned);
         spawned.die();
         Assertions.assertTrue(tested.areDead());
@@ -67,7 +66,6 @@ public class TestEnemyCollectionImpl {
     @Test
     void testMultipleEnemies() {
         int number = 100;
-        RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
         Set<RichEnemy> spawned = IntStream.range(0, number).mapToObj(i -> {
             RichEnemy e = helper.spawn(t);
             tested.add(e);
@@ -84,7 +82,6 @@ public class TestEnemyCollectionImpl {
      */
     @Test
     void testMove() {
-        RichEnemyType t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
         Set<RichEnemy> spawned = IntStream.range(0, 100).mapToObj(i -> {
             RichEnemy e = helper.spawn(t);
             tested.add(e);

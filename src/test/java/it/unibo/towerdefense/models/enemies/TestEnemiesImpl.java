@@ -32,7 +32,7 @@ public class TestEnemiesImpl {
     @BeforeEach
     void init() throws IOException {
         testing_wp = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
-        tested = new EnemiesImpl((pos, speed) -> Optional.empty(), STARTING_POSITION);
+        tested = new EnemiesImpl((pos, speed) -> Optional.of(new LogicalPosition(1, 1)), STARTING_POSITION);
         dead = 0;
         tested.addDeathObserver(e -> dead += 1);
     }
@@ -43,7 +43,7 @@ public class TestEnemiesImpl {
     @Test
     void testEmpty() {
         Assertions.assertTrue(tested.getEnemies().isEmpty());
-        Assertions.assertTrue(tested.getEnemiesInfo().isEmpty());
+        Assertions.assertFalse(tested.isWaveActive());
         Assertions.assertDoesNotThrow(() -> tested.update());
     }
 
@@ -69,11 +69,8 @@ public class TestEnemiesImpl {
         tested.spawn(1);
         tested.update();
         Assertions.assertTrue(tested.getEnemies().size() == 1);
-        Assertions.assertTrue(tested.getEnemiesInfo().size() == 1);
         tested.update();
-        // Enemy should have died since no further position is available.
-        Assertions.assertTrue(tested.getEnemies().size() == 0);
-        Assertions.assertTrue(tested.getEnemiesInfo().size() == 0);
+        Assertions.assertTrue(tested.getEnemies().size() == 1);
     }
 
     /**
@@ -86,7 +83,6 @@ public class TestEnemiesImpl {
         RichEnemy onlyEnemy = tested.getEnemies().stream().findAny().get();
         onlyEnemy.die();
         Assertions.assertTrue(tested.getEnemies().size() == 0);
-        Assertions.assertTrue(tested.getEnemiesInfo().size() == 0);
         Assertions.assertEquals(1, dead);
     }
 
@@ -96,17 +92,15 @@ public class TestEnemiesImpl {
     @Test
     void testWaveEnd() {
         int wave = 1;
-        int l = testing_wp.getLength(wave);
-        int r = testing_wp.getCyclesPerSpawn(wave);
+        int p = testing_wp.getPower(wave);
         tested.spawn(wave);
-        for (int i = 0; i < l * r - (r - 1); i++) {
+        while(tested.getEnemies().stream().reduce(0, (i, u) -> i+= u.getValue(), (i1, i2) -> i1+i2) < p ){
+            Assertions.assertTrue(tested.isWaveActive());
             tested.update();
-            System.out.println(tested.getEnemies());
         }
-        Assertions.assertTrue(tested.getEnemies().size() == 1);
-        Assertions.assertTrue(tested.isWaveActive()); // An enemy is still alive
+        Assertions.assertTrue(tested.isWaveActive()); // Enemies are still alive
         Assertions.assertThrows(RuntimeException.class, () -> tested.spawn(2));
-        tested.update();
+        tested.getEnemies().stream().forEach( e -> e.die());
         Assertions.assertTrue(tested.getEnemies().size() == 0);
         Assertions.assertFalse(tested.isWaveActive());
         Assertions.assertDoesNotThrow(() -> tested.spawn(2));
