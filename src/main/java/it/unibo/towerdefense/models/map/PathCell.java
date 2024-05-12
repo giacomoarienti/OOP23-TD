@@ -20,6 +20,12 @@ public interface PathCell extends Cell {
     Direction getOutDirection();
 
     /**
+     * Distance from end of path.
+     * @return numbers of cell from this to end of path.
+     */
+    int distanceToEnd();
+
+    /**
      * Returns the midpoint of in-direction's cell side.
      * @return logical position of the point.
      */

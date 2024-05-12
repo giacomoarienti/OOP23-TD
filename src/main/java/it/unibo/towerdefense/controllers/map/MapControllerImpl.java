@@ -71,8 +71,9 @@ public class MapControllerImpl implements MapController {
      * {@inheritDoc}
      */
     @Override
-    public LogicalPosition getSpawnPosition() {
-        return map.getSpawnCell().inSideMidpoint();
+    public PathVector getSpawnPosition() {
+        final PathCell spawCell = map.getSpawnCell();
+        return new PathVector(spawCell.inSideMidpoint(), spawCell.getInDirection(), spawCell.distanceToEnd());
     }
 
     /**
@@ -110,11 +111,8 @@ public class MapControllerImpl implements MapController {
      * {@inheritDoc}
      */
     @Override
-    public Optional<LogicalPosition> getNextPosition(final LogicalPosition pos, final int distanceToMove) {
+    public PathVector getNextPosition(final LogicalPosition pos, final int distanceToMove) {
 
-        if (map.getEndCell().contains(pos)) {
-            return Optional.empty();
-        }
         Position cellPos = new PositionImpl(pos.getCellX(), pos.getCellY());
         Cell cell = map.getCellAt(cellPos);
         if (cell == null || !(cell instanceof PathCell)) {
@@ -124,23 +122,25 @@ public class MapControllerImpl implements MapController {
         PathCell pCell = (PathCell) cell;
         Direction dir = pCell.getInDirection();
         int remaningDistance = distanceToMove;
+        int distanceToEnd = pCell.distanceToEnd() * LogicalPosition.SCALING_FACTOR;
 
         for (int i = 2; i > 0; i--) {
 
+            int factor = LogicalPosition.SCALING_FACTOR / i;
             int positionInCell = realModule(
                 pos.getX() * dir.orizontal() + pos.getY() * dir.vertical(),
                 LogicalPosition.SCALING_FACTOR / 2 * i
             );
-            int factor = LogicalPosition.SCALING_FACTOR / i;
 
+            distanceToEnd -= positionInCell;
+            if (distanceToEnd < distanceToMove) {
+                return new PathVector(getEndPosition(), map.getEndCell().getOutDirection(), 0);
+            }
             if (positionInCell < factor) {
                 int distanceToTravel = factor - positionInCell;
                 if (remaningDistance < distanceToTravel) {
                     tempPos = addDistance(tempPos, dir, remaningDistance);
-                    if (map.getEndCell().contains(tempPos)) {
-                        return Optional.empty();
-                    }
-                    return Optional.of(tempPos);
+                    return new PathVector(tempPos, dir, distanceToEnd - remaningDistance);
                 }
                 remaningDistance -=  distanceToTravel;
                 tempPos = addDistance(tempPos, dir, distanceToTravel);

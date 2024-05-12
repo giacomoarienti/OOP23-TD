@@ -39,19 +39,22 @@ public class GameMapImpl implements GameMap {
         }
         this.size = size;
         map = new Cell[size.getHeight()][size.getWidth()];
-        final Iterator<Direction> path = new PathFactory().generate(size, Direction.E);
-        Position pos = new PositionImpl(0, random.nextInt(size.getHeight() / 4, size.getHeight() / 4 * 3));
-        spawn = new PathCellImpl(pos, path.next(), path.next());
-        PathCell newCell = spawn;
+        final Iterator<Direction> path = new ReversedPathFactory().generate(size, Direction.E);
+        Position pos = new PositionImpl(size.getWidth(), random.nextInt(size.getHeight() / 4, size.getHeight() / 4 * 3));
+        int distanceToEnd = 0;
+        end = new PathCellImpl(pos, path.next(), null, distanceToEnd);
+        PathCell newCell = end;
+        pos.subtract(newCell.getInDirection().asPosition());
         System.out.println(newCell);
 
         while (isInMap(pos)) {
+            distanceToEnd++;
+            newCell = new PathCellImpl(pos, path.next(), newCell.getInDirection(), distanceToEnd);
             map[pos.getX()][pos.getY()] = newCell;
-            pos.add(newCell.getOutDirection().asPosition());
-            newCell = new PathCellImpl(pos, newCell.getOutDirection(), path.next());
+            pos.subtract(newCell.getInDirection().asPosition());
         }
         System.out.println(newCell);
-        end = newCell;
+        spawn = newCell;
 
         for (int i = 0; i < size.getWidth(); i++) {
             for (int j = 0; j < size.getHeight(); j++) {

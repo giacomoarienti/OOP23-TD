@@ -12,18 +12,9 @@ import it.unibo.towerdefense.commons.engine.Size;
 /**
  * Class that generate different tipes of path.
  */
-public class PathFactory {
+public class ReversedPathFactory {
 
     private static final List<Direction> D_LIST = List.of(Direction.values());
-
-    private int turnRight(final int ind) {
-        return turnLeft(turnLeft(turnLeft(ind)));
-    }
-
-    private int turnLeft(final int ind) {
-        return (ind + 1) % D_LIST.size();
-    }
-
 
     /**
      *Return a path corresponding to an orizontal line from left to right.
@@ -48,14 +39,14 @@ public class PathFactory {
      * @return the path as list of directions, where first is direction.
      */
     public Iterator<Direction> generate(final Size size, final Direction direciton) {
-        return Stream.iterate(D_LIST.indexOf(direciton), new UnaryOperator<Integer>() {
+        return Stream.iterate(opposite(direciton), new UnaryOperator<Direction>() {
 
             private final Random random = new Random();
             private int n = random.nextInt(2) * 2;
             private int counter = 0;
 
             @Override
-            public Integer apply(final Integer d) {
+            public Direction apply(final Direction d) {
                 if (counter < random.nextInt(
                     Math.abs(direciton.orizontal() * size.getHeight() + direciton.vertical() * size.getWidth()) / 4
                     )) {
@@ -67,11 +58,23 @@ public class PathFactory {
                 return n < 2 ? turnLeft(d) : turnRight(d);
             }
 
-        }).map(i -> D_LIST.get(i)).peek(d -> System.out.println(d)).iterator();
+        }).map(d -> opposite(d)).peek(d -> System.out.println(d)).iterator();
     }
 
     private Iterator<Direction> repeatPattern(final List<Direction> list) {
-        return Stream.generate(() -> list).flatMap(l -> l.stream()).iterator();
+        return Stream.generate(() -> list).flatMap(l -> l.stream().map(d -> opposite(d))).iterator();
+    }
+
+    private Direction turnLeft(final Direction d) {
+        return D_LIST.get((D_LIST.indexOf(d) + 1) % D_LIST.size());
+    }
+
+    private Direction turnRight(final Direction d) {
+        return turnLeft(turnLeft(turnLeft(d)));
+    }
+
+    private Direction opposite(Direction d) {
+        return turnLeft(turnLeft(d));
     }
 
 }
