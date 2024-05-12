@@ -13,6 +13,57 @@ import java.util.stream.Collectors;
  * @see EnemyArchetype
  */
 public abstract class EnemyType {
+
+    /**
+     * Enum containing the different EnemyLevels in the game.
+     */
+    public enum EnemyLevel {
+        /**
+         * Level 1.
+         */
+        I,
+
+        /**
+         * Level 2.
+         */
+        II,
+
+        /**
+         * Level 3.
+         */
+        III,
+
+        /**
+         * Level 4.
+         */
+        IV,
+
+        /**
+         * Level 5.
+         */
+        V;
+    }
+
+    /**
+     * Enum containing the different EnemyArchetypes in the game.
+     */
+    public enum EnemyArchetype {
+        /**
+         * Agile.
+         */
+        A,
+
+        /**
+         * Balanced.
+         */
+        B,
+
+        /**
+         * Chunky.
+         */
+        C;
+    }
+
     /**
      * Getter for the level that characterizes this EnemyType.
      *

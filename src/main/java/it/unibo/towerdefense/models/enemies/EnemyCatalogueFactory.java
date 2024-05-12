@@ -13,8 +13,8 @@ import org.json.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.math.IntMath;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 
 /**

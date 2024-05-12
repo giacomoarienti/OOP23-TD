@@ -11,8 +11,8 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 
 /**
