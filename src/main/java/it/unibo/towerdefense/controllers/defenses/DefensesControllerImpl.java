@@ -80,7 +80,9 @@ public class DefensesControllerImpl implements DefensesController {
     private DefenseDescription getDescriptionFrom(final Defense def) {
         return new DefenseDescription(def.getType().toString() + " lv. " + def.getLevel(),
          def.getType().toString(),
-         def.getBuildingCost());
+         def.getBuildingCost(),
+         def.getSellingValue(),
+         def.getType());
     }
 
     /**gets the models of buildable defenses for given defense
