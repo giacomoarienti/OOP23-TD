@@ -56,7 +56,7 @@ class SimpleEnemyFactory implements EnemyFactory {
 
         private final LogicalPosition pos = startingPos.clone();
         private EnemyInfo.Direction dir = startingDir;
-        private final Set<Observer<RichEnemy>> deathObservers;
+        private final Set<Observer<? super RichEnemy>> deathObservers;
         private final RichEnemyType t;
         private int hp;
 
@@ -149,7 +149,7 @@ class SimpleEnemyFactory implements EnemyFactory {
          * {@inheritDoc}.
          */
         @Override
-        public void addDeathObserver(final Observer<RichEnemy> observer) {
+        public void addDeathObserver(final Observer<? super RichEnemy> observer) {
             deathObservers.add(observer);
         }
 
