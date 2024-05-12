@@ -10,9 +10,9 @@ import it.unibo.towerdefense.commons.graphics.GameRenderer;
  */
 public interface EnemyRenderer {
     /**
-     * Renders the enemies given as argument in the order they appear in the list.
+     * Renders the enemies given in the list argument on the gamerenderer argument.
      *
-     * @param gameRenderer the renderer on which to render
+     * @param gameRenderer the renderer to which drawables should be submitted
      * @param enemies      the enemies to render
      */
     void render(GameRenderer gameRenderer, List<EnemyInfo> enemies);
