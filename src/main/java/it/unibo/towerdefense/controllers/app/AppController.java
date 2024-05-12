@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.controllers.app;
 
+import it.unibo.towerdefense.models.savingloader.saving.Saving;
 import it.unibo.towerdefense.views.modal.ModalContent;
 
 /**
@@ -16,6 +17,13 @@ public interface AppController {
      * Starts the game.
      */
     void start();
+
+
+    /**
+     * Starts the game from select saving.
+     * @param saving the saving object
+     */
+    void start(Saving saving);
 
     /**
      * Resumes the game.
