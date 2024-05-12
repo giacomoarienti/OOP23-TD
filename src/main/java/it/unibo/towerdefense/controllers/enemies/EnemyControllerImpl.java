@@ -114,12 +114,7 @@ public class EnemyControllerImpl implements EnemyController {
      */
     @Override
     public void render(GameRenderer renderer) {
-        /*
-         * Enemies are sorted so as to be rendered nicely when overlapping.
-         */
-        enemyRenderer.render(renderer, model.getEnemies().stream()
-            .map(e -> e.info())
-            .sorted((e1, e2) -> e2.pos().getDistance() - e1.pos().getDistance())
-            .toList());
+        enemyRenderer.render(renderer,
+                model.getEnemies().stream().map(e -> e.info()));
     }
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Rotation;
@@ -52,8 +53,11 @@ public class EnemyRendererImpl implements EnemyRenderer {
      * {@inheritDoc}.
      */
     @Override
-    public void render(GameRenderer gameRenderer, List<EnemyInfo> enemies) {
-        gameRenderer.submitAllToCanvas(enemies.stream().map(e -> getDrawable(e)).toList());
+    public void render(GameRenderer gameRenderer, Stream<EnemyInfo> enemies) {
+        gameRenderer.submitAllToCanvas(enemies
+            .sorted((e1, e2) -> e2.pos().getDistance() - e1.pos().getDistance())
+            .map(e -> getDrawable(e))
+            .toList());
     }
 
     /**
