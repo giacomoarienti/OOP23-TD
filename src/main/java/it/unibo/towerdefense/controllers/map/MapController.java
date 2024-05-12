@@ -18,7 +18,7 @@ public interface MapController extends SerializableController {
      * Enemies spawn point getter.
      * @return the centre of side of path-cell where enemies spawn.
      */
-    LogicalPosition getSpawnPosition();
+    PathVector getSpawnPosition();
 
     /**
      * Enemies destination point getter.
@@ -27,12 +27,12 @@ public interface MapController extends SerializableController {
     LogicalPosition getEndPosition();
 
     /**
-     * Returns the position where a enemy have to move next update.
+     * Returns the PathPosition where a enemy have to move next update.
      * @param pos current position
      * @param distanceToMove the distance an enemy travels each update
-     * @return the position where the enemy will be located, empty if it reached the end
+     * @return the PathPositon where the enemy will be located, if distanceToEnd is equal to 0 the enemy arrives at the end.
      */
-    Optional<LogicalPosition> getNextPosition(LogicalPosition pos, int distanceToMove);
+    PathVector getNextPosition(LogicalPosition pos, int distanceToMove);
 
     /**
      *Select the cell which contains the position clicked by the user, if cell is already selected it is deselected.

@@ -12,6 +12,7 @@ public class PathCellImpl extends CellAbs implements PathCell {
 
     private final Direction in;
     private final Direction out;
+    private final int distanceToEnd;
 
     /**
      *Constructor from coordinates, 2 opposite vertex positions and distance to end of path.
@@ -19,10 +20,11 @@ public class PathCellImpl extends CellAbs implements PathCell {
      * @param in direction to enter the cell.
      * @param out direction to exit the cell.
      */
-    public PathCellImpl(final Position coords, final Direction in, final Direction out) {
+    public PathCellImpl(final Position coords, final Direction in, final Direction out, int distanceToEnd) {
         super(coords);
         this.in = in;
         this.out = out;
+        this.distanceToEnd = distanceToEnd;
     }
 
     /**
@@ -39,6 +41,11 @@ public class PathCellImpl extends CellAbs implements PathCell {
     @Override
     public Direction getOutDirection() {
         return out;
+    }
+
+    @Override
+    public int distanceToEnd() {
+        return distanceToEnd;
     }
 
     /**
@@ -59,6 +66,7 @@ public class PathCellImpl extends CellAbs implements PathCell {
             .put("pos", ((Position) this).toJSON())
             .put("in", this.in)
             .put("out", this.out)
+            .put("distance", distanceToEnd)
             .toString();
     }
 
@@ -72,7 +80,8 @@ public class PathCellImpl extends CellAbs implements PathCell {
         return new PathCellImpl(
             Position.fromJson(jsonObject.getString("pos")),
             jsonObject.getEnum(Direction.class, "in"),
-            jsonObject.getEnum(Direction.class, "out")
+            jsonObject.getEnum(Direction.class, "out"),
+            jsonObject.getInt("distance")
         );
     }
 }
