@@ -43,7 +43,6 @@ public class TestPredicateBasedRandomWaveGenerator {
     @Test
     void testWaves() {
         for (int i = -5; i < N; i++) {
-            System.out.println(i);
             testWave(i);
         }
     }
