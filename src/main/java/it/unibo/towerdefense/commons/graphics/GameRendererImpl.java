@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.utils.images.ImageLoader;
 import it.unibo.towerdefense.views.window.Window;
@@ -12,6 +15,9 @@ import it.unibo.towerdefense.views.window.Window;
  * Implementation of the GameRenderer interface.
  */
 public class GameRendererImpl implements GameRenderer {
+
+    private static final Logger logger =
+        LoggerFactory.getLogger(GameRendererImpl.class);
 
     private final Window window;
     private final ImageLoader imageLoader;
@@ -25,7 +31,7 @@ public class GameRendererImpl implements GameRenderer {
         this.window = window;
         // initialize the image loader
         this.imageLoader = new ImageLoader(
-            mapSize.getWidth() / window.getCanvasSize().getWidth()
+            window.getCanvasSize().getWidth() / mapSize.getWidth()
         );
     }
 

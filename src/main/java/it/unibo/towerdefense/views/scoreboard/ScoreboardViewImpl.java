@@ -21,9 +21,6 @@ public class ScoreboardViewImpl implements ScoreboardView {
 
     private static final String COLUMN_1 = "NAME";
     private static final String COLUMN_2 = "WAVE";
-    private static final String FONT_NAME = "Calibri";
-    private static final int FONT_SIZE = 24;
-    private static final int ENTRY_V_SPACING = 20;
     private static final int BORDER_SIZE = 10;
     private static final int RIGHT_BORDER = 0;
 
@@ -45,7 +42,12 @@ public class ScoreboardViewImpl implements ScoreboardView {
         // create main panel
         final JPanel panel = new JPanel(new FlowLayout());
         panel.setBorder(
-            BorderFactory.createEmptyBorder(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE, RIGHT_BORDER)
+            BorderFactory.createEmptyBorder(
+                BORDER_SIZE,
+                BORDER_SIZE,
+                BORDER_SIZE,
+                RIGHT_BORDER
+            )
         );
         // create inner pnl for differing layout and add to main panel
         final JPanel innerPnl = new JPanel();
@@ -54,31 +56,41 @@ public class ScoreboardViewImpl implements ScoreboardView {
         innerPnl.setBackground(Color.DARK_GRAY);
         panel.add(innerPnl);
         // add scoreboard header
-        innerPnl.add(this.buildRowEntry(COLUMN_1, COLUMN_2, true));
+        innerPnl.add(new ScoreboardEntry(COLUMN_1, COLUMN_2, true));
         // for each scoreboard entry, create a panel and add to inner panel
         for (final Score entry : this.scoreboard.getScores()) {
-            innerPnl.add(this.buildScoreEntry(entry));
+            innerPnl.add(
+                new ScoreboardEntry(
+                    entry.getName(),
+                    String.valueOf(entry.getWave()),
+                    false
+                )
+            );
         }
         return panel;
     }
 
-    private JLabel buildText(final String text, final boolean bold) {
-        final JLabel label = new JLabel(text);
-        label.setFont(new Font(FONT_NAME, bold ? Font.BOLD : Font.PLAIN, FONT_SIZE));
-        return label;
-    }
 
-    private JPanel buildRowEntry(final String col1, final String col2, final boolean isHeader) {
-        final GridLayout layout = new GridLayout(1, 2);
-        layout.setHgap(ENTRY_V_SPACING);
-        final JPanel panel = new JPanel(layout);
-        panel.add(this.buildText(col1, isHeader));
-        panel.add(this.buildText(col2, isHeader));
-        return panel;
-    }
+    private class ScoreboardEntry extends JPanel {
+        private static final long serialVersionUID = 1L;
+        private static final String FONT_NAME = "Calibri";
+        private static final int ENTRY_V_SPACING = 20;
+        private static final int FONT_SIZE = 24;
 
-    private JPanel buildScoreEntry(final Score score) {
-        return this.buildRowEntry(score.getName(), String.valueOf(score.getWave()), false);
-    }
+        private static JLabel buildText(final String text, final boolean bold) {
+            final JLabel label = new JLabel(text);
+            label.setFont(new Font(FONT_NAME, bold ? Font.BOLD : Font.PLAIN, FONT_SIZE));
+            return label;
+        }
 
+        public ScoreboardEntry(final String col1, final String col2, final boolean header) {
+            // set layout
+            final GridLayout layout = new GridLayout(1, 2);
+            layout.setHgap(ENTRY_V_SPACING);
+            this.setLayout(layout);
+            // add text
+            this.add(buildText(col1, header));
+            this.add(buildText(String.valueOf(col2), header));
+        }
+    }
 }
