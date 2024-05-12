@@ -1,9 +1,12 @@
 package it.unibo.towerdefense.controllers.app;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.Constants;
+import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.graphics.GameRendererImpl;
 import it.unibo.towerdefense.controllers.gameloop.GameLoopController;
 import it.unibo.towerdefense.controllers.gameloop.GameLoopControllerImpl;
@@ -11,6 +14,7 @@ import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediatorImpl;
 import it.unibo.towerdefense.controllers.menu.MenuController;
 import it.unibo.towerdefense.controllers.menu.MenuControllerImpl;
+import it.unibo.towerdefense.models.savingloader.saving.Saving;
 import it.unibo.towerdefense.views.modal.ModalContent;
 import it.unibo.towerdefense.views.window.Window;
 
@@ -19,11 +23,16 @@ import it.unibo.towerdefense.views.window.Window;
  */
 public class AppControllerImpl implements AppController {
 
-    private final Logger logger;
+    private final static Logger logger =
+        LoggerFactory.getLogger(AppControllerImpl.class);
+    private final static Size MAP_SIZE = Constants.MAP_SIZE; // might be a variable in the future
+
     private final MenuController menuController;
-    private final GameLoopController loopController;
-    private final ControllerMediator masterController;
     private final Window window;
+    private final String playerName;
+
+    private ControllerMediator masterController;
+    private GameLoopController loopController;
 
     /**
      * Constructor with Window.
@@ -31,17 +40,10 @@ public class AppControllerImpl implements AppController {
      * @param window the interface's window
      */
     public AppControllerImpl(final String playerName, final Window window) {
-        this.logger = LoggerFactory.getLogger(this.getClass());
         this.window = window;
-        final var mapSize = Constants.MAP_SIZE; // might be a variable in the future
-        // instantiate controllers
+        this.playerName = playerName;
+        // instantiate menu controller
         this.menuController = new MenuControllerImpl(this);
-        this.masterController = new ControllerMediatorImpl(
-            playerName,
-            mapSize,
-            new GameRendererImpl(mapSize, window)
-        );
-        this.loopController = new GameLoopControllerImpl(masterController);
     }
 
     /**
@@ -62,7 +64,27 @@ public class AppControllerImpl implements AppController {
     @Override
     public void start() {
         logger.info("start()");
-        this.loopController.start();
+        // instantiate the game loop and mediator controllers
+        this.masterController = new ControllerMediatorImpl(
+            playerName,
+            MAP_SIZE,
+            new GameRendererImpl(MAP_SIZE, window)
+        );
+        this.startGameLoop();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void start(final Saving saving) {
+        logger.info("start() with saving");
+        // instantiate the game loop and mediator controllers
+        this.masterController = new ControllerMediatorImpl(
+            saving,
+            new GameRendererImpl(MAP_SIZE, window)
+        );
+        this.startGameLoop();
     }
 
     /**
@@ -70,6 +92,9 @@ public class AppControllerImpl implements AppController {
      */
     @Override
     public void pause() {
+        if (Objects.isNull(this.masterController)) {
+            throw new IllegalStateException("Game not started");
+        }
         this.masterController.getGameController().pause();
     }
 
@@ -78,6 +103,9 @@ public class AppControllerImpl implements AppController {
      */
     @Override
     public void resume() {
+        if (Objects.isNull(this.masterController)) {
+            throw new IllegalStateException("Game not started");
+        }
         this.masterController.getGameController().resume();
     }
 
@@ -87,6 +115,10 @@ public class AppControllerImpl implements AppController {
     @Override
     public void saveAndExit() {
         logger.info("saveAndExit()");
+        if (Objects.isNull(this.masterController)) {
+            throw new IllegalStateException("Game not started");
+        }
+        // save the game and exit
         this.masterController.save();
         this.exit();
     }
@@ -107,5 +139,10 @@ public class AppControllerImpl implements AppController {
     @Override
     public void displayModal(final String title, final ModalContent content) {
         this.window.displayModal(title, content);
+    }
+
+    private void startGameLoop() {
+        this.loopController = new GameLoopControllerImpl(masterController);
+        this.loopController.start();
     }
 }
