@@ -51,5 +51,4 @@ public interface Enemy {
      * @return the enemy's EnemyInfo.
      */
     EnemyInfo info();
-
 }
