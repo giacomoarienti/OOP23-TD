@@ -29,6 +29,7 @@ public class ModalImpl implements Modal {
     public ModalImpl(final JFrame parent, final String title, final ModalContent content) {
         // create the dialog frame
         this.dialog = new JDialog(parent, "", true);
+        this.dialog.setUndecorated(true);
         // create main panel
         final JPanel panel = new JPanel(new BorderLayout());
         this.dialog.getContentPane().add(panel);
