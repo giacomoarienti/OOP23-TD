@@ -38,7 +38,7 @@ public class GameMapImpl implements GameMap {
             throw new IllegalArgumentException("Max dimension allowed are: " + MAX_X_SIZE + ", " + MAX_Y_SIZE);
         }
         this.size = size;
-        map = new Cell[size.getHeight()][size.getWidth()];
+        map = new Cell[size.getWidth()][size.getHeight()];
         final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, MapDirection.E);
         Position pos = new PositionImpl(size.getWidth(), random.nextInt(size.getHeight() / 4, size.getHeight() / 4 * 3));
         int distanceToEnd = 0;
