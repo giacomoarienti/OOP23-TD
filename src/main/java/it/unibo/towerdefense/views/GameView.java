@@ -3,9 +3,9 @@ package it.unibo.towerdefense.views;
 import javax.swing.JPanel;
 
 /**
- * Basic View interface.
+ * Basic GameView interface.
  */
-public interface View {
+public interface GameView {
 
     /**
      * Returns whether the view should be re-rendered.
