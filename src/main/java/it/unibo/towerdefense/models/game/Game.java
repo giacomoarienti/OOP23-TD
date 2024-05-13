@@ -1,11 +1,12 @@
 package it.unibo.towerdefense.models.game;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.models.ObservableModel;
 
 /**
  * Model containing base game's statistics and info.
  */
-public interface Game {
+public interface Game extends ObservableModel<GameDTO> {
 
     /**
      * Player name getter.
