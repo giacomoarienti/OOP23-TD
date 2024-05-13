@@ -119,7 +119,9 @@ public class AppControllerImpl implements AppController {
             throw new IllegalStateException("Game not started");
         }
         // save the game and exit
+        this.loopController.stop();
         this.masterController.save();
+        // exit
         this.exit();
     }
 
@@ -129,8 +131,15 @@ public class AppControllerImpl implements AppController {
     @Override
     public void exit() {
         logger.info("exit()");
-        this.loopController.stop();
         this.window.close();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getPlayerName() {
+        return this.playerName;
     }
 
     /**

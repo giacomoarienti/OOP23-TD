@@ -1,7 +1,5 @@
 package it.unibo.towerdefense.controllers.savings;
 
-import java.util.List;
-
 import it.unibo.towerdefense.models.savingloader.saving.Saving;
 
 public interface SavingsController {
@@ -13,8 +11,7 @@ public interface SavingsController {
     void loadSaving(Saving saving);
 
     /**
-     * Get the list of the savings.
-     * @return the list of the savings
+     * Display the savings.
      */
-    List<Saving> getSavings();
+    void displaySavings();
 }

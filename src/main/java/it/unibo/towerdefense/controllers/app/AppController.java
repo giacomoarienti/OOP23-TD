@@ -46,6 +46,12 @@ public interface AppController {
     void exit();
 
     /**
+     * Get the player name.
+     * @return the player name
+     */
+    String getPlayerName();
+
+    /**
      * Displays a modal with given content.
      * @param title the title of the modal
      * @param content the content of the modal

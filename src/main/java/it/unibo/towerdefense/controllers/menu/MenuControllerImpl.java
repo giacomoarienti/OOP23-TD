@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.controllers.menu;
 
 import it.unibo.towerdefense.controllers.app.AppController;
+import it.unibo.towerdefense.controllers.savings.SavingsControllerImpl;
 import it.unibo.towerdefense.views.menus.StartMenuViewImpl;
 import it.unibo.towerdefense.views.modal.ModalContent;
 
@@ -69,8 +70,8 @@ public class MenuControllerImpl implements MenuController {
      * {@inheritDoc}
      */
     @Override
-    public void displaySavingSelection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gameSelection'");
+    public void displaySavings() {
+        final var savingsController = new SavingsControllerImpl(this.appController);
+        savingsController.displaySavings();
     }
 }
