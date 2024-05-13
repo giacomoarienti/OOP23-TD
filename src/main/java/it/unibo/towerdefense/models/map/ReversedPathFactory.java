@@ -73,7 +73,7 @@ public class ReversedPathFactory {
         return turnLeft(turnLeft(turnLeft(d)));
     }
 
-    private MapDirection opposite(MapDirection d) {
+    private MapDirection opposite(final MapDirection d) {
         return turnLeft(turnLeft(d));
     }
 

@@ -26,6 +26,7 @@ public enum MapDirection {
      * Constructor from versor component.
      * @param orizontal
      * @param vertical
+     * @dir equivalent direction in commons.engine.Direction
      */
     MapDirection(final int orizontal, final int vertical, final Direction dir) {
         this.orizontal = orizontal;
@@ -58,7 +59,7 @@ public enum MapDirection {
     }
 
     /**
-     * Returns the equivalent direction in Commons.Engine.Direction
+     * Returns the equivalent direction in Commons.Engine.Direction .
      * @return the Direction.
      */
     public Direction asDirection() {

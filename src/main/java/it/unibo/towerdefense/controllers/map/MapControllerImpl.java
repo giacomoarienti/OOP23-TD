@@ -63,8 +63,7 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        // TODO;
     }
 
     /**
@@ -193,7 +192,7 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public void render(final GameRenderer renderer) {
-        //TODO;
+        //mapRenderer.render(renderer, );
     }
 
     private boolean updateBuildinOption() {

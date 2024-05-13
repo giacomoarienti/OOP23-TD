@@ -14,7 +14,7 @@ import it.unibo.towerdefense.controllers.map.PathVector;
  * Map tester with "generate" path.
  */
 public class TestMap {
-    private final static Size TEST_SIZE = new SizeImpl(20, 20);
+    private final static Size TEST_SIZE = new SizeImpl(30, 20);
     private final static int ITERATION_MOVEMENT = 1;
     private MapController map = new MapControllerImpl(TEST_SIZE, null);
     private PathVector spawn = map.getSpawnPosition();

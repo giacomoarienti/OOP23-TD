@@ -19,8 +19,9 @@ public class PathCellImpl extends CellAbs implements PathCell {
      * @param coords coordinates i j to identify the cell in the map.
      * @param in direction to enter the cell.
      * @param out direction to exit the cell.
+     * @param distanceToEnd numbers of cell from this to end of path.
      */
-    public PathCellImpl(final Position coords, final MapDirection in, final MapDirection out, int distanceToEnd) {
+    public PathCellImpl(final Position coords, final MapDirection in, final MapDirection out, final int distanceToEnd) {
         super(coords);
         this.in = in;
         this.out = out;
@@ -43,6 +44,9 @@ public class PathCellImpl extends CellAbs implements PathCell {
         return out;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int distanceToEnd() {
         return distanceToEnd;
