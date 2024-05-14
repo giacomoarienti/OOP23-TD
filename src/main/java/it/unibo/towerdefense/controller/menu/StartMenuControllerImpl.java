@@ -2,20 +2,35 @@ package it.unibo.towerdefense.controller.menu;
 
 import it.unibo.towerdefense.controller.Controller;
 import it.unibo.towerdefense.model.saving.Saving;
+import it.unibo.towerdefense.view.View;
 
 /**
- * Class implementing the Menu methods.
+ * Class implementing the StartMenuController methods.
  */
-public class MenuControllerImpl implements MenuController {
+public class StartMenuControllerImpl implements StartMenuController {
 
     private final Controller controller;
+    private final View view;
 
     /**
      * Constructor with GameController.
      * @param controller the instance of the GameController
+     * @param view the instance of the View
      */
-    public MenuControllerImpl(final Controller controller) {
+    public StartMenuControllerImpl(
+        final Controller controller,
+        final View view
+    ) {
         this.controller = controller;
+        this.view = view;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void run() {
+        this.view.displayStartMenu(this);
     }
 
     /**

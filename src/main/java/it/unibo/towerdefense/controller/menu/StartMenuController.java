@@ -7,7 +7,12 @@ import it.unibo.towerdefense.model.saving.Saving;
  * Acts like a Mediator for the main Controller so
  * that views only have access to the methods they need.
  */
-public interface MenuController {
+public interface StartMenuController {
+
+    /**
+     * RUn the controller and display the StartMenu.
+     */
+    void run();
 
     /**
      * Start a new game.
