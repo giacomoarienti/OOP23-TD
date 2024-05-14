@@ -7,18 +7,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.controllers.defenses.DefensesController;
-import it.unibo.towerdefense.controllers.defenses.DefensesControllerImpl;
 
 /**class for testing defense controller.*/
 public class TestDefenseController {
 
-    DefensesController controller;
+    DefenseManager controller;
 
     /**sets up the controller for each test.*/
     @BeforeEach
     public void setUp() {
-        controller = new DefensesControllerImpl();
+        controller = new DefenseManagerImpl();
     }
 
     @Test

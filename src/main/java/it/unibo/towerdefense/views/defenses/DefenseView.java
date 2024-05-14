@@ -5,7 +5,7 @@ import java.util.List;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.graphics.GameRenderer;
-import it.unibo.towerdefense.controllers.defenses.DefenseType;
+import it.unibo.towerdefense.models.defenses.DefenseType;
 
 /**Interface for the Defenses view.*/
 public interface DefenseView {

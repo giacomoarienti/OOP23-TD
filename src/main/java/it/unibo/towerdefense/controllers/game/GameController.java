@@ -8,7 +8,7 @@ import it.unibo.towerdefense.utils.patterns.Observer;
 /**
  * Interface that defines GameController methods.
  */
-public interface GameController extends SerializableController {
+public interface GameController extends SerializableModel {
 
     /**
      * Sets gameState to PLAYING.

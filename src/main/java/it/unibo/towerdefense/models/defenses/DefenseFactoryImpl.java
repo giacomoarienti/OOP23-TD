@@ -1,7 +1,6 @@
 package it.unibo.towerdefense.models.defenses;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.controllers.defenses.DefenseType;
 import it.unibo.towerdefense.models.defenses.costants.DefenseFormulas;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapKeys;
 import it.unibo.towerdefense.utils.file.FileUtils;
