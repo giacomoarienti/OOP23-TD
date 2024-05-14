@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.model;
 
 import it.unibo.towerdefense.model.defenses.DefenseManager;
-import it.unibo.towerdefense.model.enemies.Enemies;
+import it.unibo.towerdefense.model.enemies.EnemiesManager;
 import it.unibo.towerdefense.model.game.GameManager;
 import it.unibo.towerdefense.model.map.MapManager;
 
@@ -11,7 +11,7 @@ public interface ModelManager {
 
     DefenseManager getDefenses();
 
-    Enemies getEnemies();
+    EnemiesManager getEnemies();
 
     GameManager getGame();
 

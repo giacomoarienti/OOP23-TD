@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.model;
 
+import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
 import it.unibo.towerdefense.model.defenses.DefenseManagerImpl;
 import it.unibo.towerdefense.model.enemies.EnemiesManager;
@@ -47,7 +48,7 @@ public class ModelManagerImpl implements ModelManager {
     }
 
     @Override
-    public Enemies getEnemies() {
+    public EnemiesManager getEnemies() {
         return enemies;
     }
 

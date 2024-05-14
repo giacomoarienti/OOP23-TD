@@ -9,7 +9,6 @@ import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
 import it.unibo.towerdefense.commons.engine.Size;
-import it.unibo.towerdefense.controller.mediator.ControllerMediator;
 import it.unibo.towerdefense.model.ModelManager;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
 import it.unibo.towerdefense.model.defenses.DefenseType;
