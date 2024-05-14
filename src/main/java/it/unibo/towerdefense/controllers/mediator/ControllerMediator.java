@@ -1,9 +1,9 @@
 package it.unibo.towerdefense.controllers.mediator;
 
-import it.unibo.towerdefense.controllers.defenses.DefensesController;
 import it.unibo.towerdefense.controllers.enemies.EnemyController;
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.map.MapController;
+import it.unibo.towerdefense.models.defenses.DefenseManager;
 import it.unibo.towerdefense.utils.images.ImageLoader;
 
 /**
@@ -33,9 +33,9 @@ public interface ControllerMediator {
     MapController getMapController();
 
     /**
-     * Returns the instance of {@link DefensesController}.
+     * Returns the instance of {@link DefenseManager}.
      */
-    DefensesController getDefensesController();
+    DefenseManager getDefensesController();
 
     /**
      * Returns the instance of {@link EnemyController}.

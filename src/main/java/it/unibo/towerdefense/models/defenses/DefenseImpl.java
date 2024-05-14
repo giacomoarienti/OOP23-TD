@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import com.google.common.base.Optional;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.controllers.defenses.DefenseType;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapKeys;
 import it.unibo.towerdefense.utils.file.FileUtils;
 

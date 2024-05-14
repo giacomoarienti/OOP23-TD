@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controllers.defenses;
+package it.unibo.towerdefense.models.defenses;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -16,14 +16,11 @@ import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
-import it.unibo.towerdefense.models.defenses.Defense;
-import it.unibo.towerdefense.models.defenses.DefenseFactory;
-import it.unibo.towerdefense.models.defenses.DefenseFactoryImpl;
 import it.unibo.towerdefense.models.defenses.costants.DefenseFormulas;
 import it.unibo.towerdefense.models.defenses.costants.DefenseMapFilePaths;
 
 /**Implementation of DefenseController.*/
-public class DefensesControllerImpl implements DefensesController {
+public class DefenseManagerImpl implements DefenseManager {
 
     /**Defense builder.*/
     private DefenseFactory factory = new DefenseFactoryImpl();
@@ -35,7 +32,7 @@ public class DefensesControllerImpl implements DefensesController {
     /**Constructor that gives this controller access to other necessary controller methods.
     *
     */
-    public DefensesControllerImpl(final ControllerMediator master) {
+    public DefenseManagerImpl(final ControllerMediator master) {
         this();
         this.master = master;
     }
@@ -44,7 +41,7 @@ public class DefensesControllerImpl implements DefensesController {
      * @param master the mediator.
      * @param jsonString the json content.
     */
-    public DefensesControllerImpl(final ControllerMediator master, final String jsonString) {
+    public DefenseManagerImpl(final ControllerMediator master, final String jsonString) {
         this(master);
         JSONArray serializedDefenses = new JSONArray(jsonString);
         for(Object def: serializedDefenses) {
@@ -55,7 +52,7 @@ public class DefensesControllerImpl implements DefensesController {
     }
 
     /**Empty default constructor.*/
-    public DefensesControllerImpl () {
+    public DefenseManagerImpl () {
         this.defenses = new LinkedList<>();
     }
 

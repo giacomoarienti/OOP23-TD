@@ -14,15 +14,15 @@ import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.controllers.Controller;
-import it.unibo.towerdefense.controllers.SerializableController;
-import it.unibo.towerdefense.controllers.defenses.DefensesController;
-import it.unibo.towerdefense.controllers.defenses.DefensesControllerImpl;
+import it.unibo.towerdefense.controllers.SerializableModel;
 import it.unibo.towerdefense.controllers.enemies.EnemyController;
 import it.unibo.towerdefense.controllers.enemies.EnemyControllerImpl;
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.game.GameControllerImpl;
 import it.unibo.towerdefense.controllers.map.MapController;
 import it.unibo.towerdefense.controllers.map.MapControllerImpl;
+import it.unibo.towerdefense.models.defenses.DefenseManager;
+import it.unibo.towerdefense.models.defenses.DefenseManagerImpl;
 import it.unibo.towerdefense.models.savingloader.SavingLoaderImpl;
 import it.unibo.towerdefense.models.savingloader.saving.Saving;
 import it.unibo.towerdefense.models.savingloader.saving.SavingFieldsEnum;
@@ -40,10 +40,10 @@ public class ControllerMediatorImpl implements ControllerMediator {
     private final GameRenderer gameRenderer;
     private final GameController gameController;
     private final MapController mapController;
-    private final DefensesController defensesController;
+    private final DefenseManager defensesController;
     private final EnemyController enemyController;
     private List<Controller> controllers;
-    private Map<SavingFieldsEnum, SerializableController> serializableControllers;
+    private Map<SavingFieldsEnum, SerializableModel> serializableControllers;
 
     /**
      * Initializes the different controllers and binds itself to them.
@@ -60,7 +60,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
         // initialize controllers
         this.gameController = new GameControllerImpl(playerName);
         this.mapController = new MapControllerImpl(mapSize, this);
-        this.defensesController = new DefensesControllerImpl(this);
+        this.defensesController = new DefenseManagerImpl(this);
         this.enemyController = new EnemyControllerImpl(this);
         // add controllers to the list
         this.addControllersToLists();
@@ -79,7 +79,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
             GameDTO.fromJson(saving.getGameJson())
         );
         this.mapController = new MapControllerImpl(saving.getMapJson(), this);
-        this.defensesController = new DefensesControllerImpl(
+        this.defensesController = new DefenseManagerImpl(
             this,
             saving.getDefensesJson()
         );
@@ -168,7 +168,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
      * {@inheritDoc}
      */
     @Override
-    public DefensesController getDefensesController() {
+    public DefenseManager getDefensesController() {
         if (Objects.isNull(this.defensesController)) {
             throw new IllegalStateException("DefensesController not initialized");
         }

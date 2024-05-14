@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.controllers.defenses.DefenseType;
 
 public class TestDefenseFactoryImpl {
     private DefenseFactory factory = new DefenseFactoryImpl();
