@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.controller.mediator.ControllerMediator;
 import it.unibo.towerdefense.model.ModelManager;
 import it.unibo.towerdefense.model.defenses.costants.DefenseFormulas;
 import it.unibo.towerdefense.model.defenses.costants.DefenseMapFilePaths;
