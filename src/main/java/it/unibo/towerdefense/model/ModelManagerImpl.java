@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.model;
 
+import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
 import it.unibo.towerdefense.model.defenses.DefenseManagerImpl;
 import it.unibo.towerdefense.model.enemies.Enemies;
@@ -17,7 +18,7 @@ class ModelManagerImpl implements ModelManager {
     private final GameManager game;
 
     public ModelManagerImpl(final Size cellSize, final String playerName){
-        map = new MapManagerImpl(null);
+        map = new MapManagerImpl(cellSize);
         defenses = new DefenseManagerImpl(null);
         enemies = new EnemiesImpl(null, null);
         game = new GameManagerImpl(null);
