@@ -1,6 +1,4 @@
 package it.unibo.towerdefense.view.map;
-
-import java.util.List;
 import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
