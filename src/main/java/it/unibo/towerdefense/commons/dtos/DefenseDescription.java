@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.commons.dtos;
 
-import it.unibo.towerdefense.models.defenses.DefenseType;
+import it.unibo.towerdefense.model.defenses.DefenseType;
 
 /**Contains data that can be visualized in the build menu about defenses.*/
 public class DefenseDescription {

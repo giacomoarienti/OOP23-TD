@@ -2,9 +2,9 @@ package it.unibo.towerdefense;
 
 import java.io.IOException;
 
-import it.unibo.towerdefense.utils.file.FileUtils;
-import it.unibo.towerdefense.controllers.gamelauncher.GameLauncherController;
-import it.unibo.towerdefense.controllers.gamelauncher.GameLauncherControllerImpl;
+import it.unibo.towerdefense.commons.utils.file.FileUtils;
+import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
+import it.unibo.towerdefense.controller.gamelauncher.GameLauncherControllerImpl;
 
 /**
  * The main class for the Tower Defense game.

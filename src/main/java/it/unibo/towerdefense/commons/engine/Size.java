@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.commons.engine;
 
-import it.unibo.towerdefense.models.Copyable;
+import it.unibo.towerdefense.model.Copyable;
 
 /**
  * Interface that models the concept of size
