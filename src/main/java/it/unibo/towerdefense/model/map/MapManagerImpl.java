@@ -67,7 +67,11 @@ public class MapManagerImpl implements MapManager {
     @Override
     public PathVector getSpawnPosition() {
         final PathCell spawCell = map.getSpawnCell();
-        return new PathVector(spawCell.inSideMidpoint(), spawCell.getInDirection().asDirection(), spawCell.distanceToEnd());
+        return new PathVector(
+            spawCell.inSideMidpoint(),
+            spawCell.getInDirection().asDirection(),
+            spawCell.distanceToEnd() * LogicalPosition.SCALING_FACTOR
+        );
     }
 
     /**
