@@ -12,6 +12,9 @@ import it.unibo.towerdefense.model.game.GameManager;
 import it.unibo.towerdefense.model.map.MapManager;
 import it.unibo.towerdefense.model.map.PathVector;
 
+/**
+ * Class responsible for managing the interactions of the enemies model with other parts of the model.
+ */
 public class EnemiesManagerImpl implements EnemiesManager {
 
     private final Enemies enemies;
@@ -19,6 +22,10 @@ public class EnemiesManagerImpl implements EnemiesManager {
     private final BindableSupplier<EnemyPosition> startingPosSupplier;
     private boolean bound;
 
+    /**
+     * Constructor for the class.
+     * Initializes Enemies in a non-binded state.
+     */
     public EnemiesManagerImpl(){
         posFunction = new BindableBiFunction<>();
         startingPosSupplier = new BindableSupplier<>();
