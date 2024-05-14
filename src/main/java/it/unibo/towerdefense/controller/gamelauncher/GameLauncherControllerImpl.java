@@ -6,24 +6,29 @@ import java.util.List;
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.Controller;
-import it.unibo.towerdefense.view.gamelauncher.GameLauncherView;
-import it.unibo.towerdefense.view.gamelauncher.GameLauncherViewImpl;
+import it.unibo.towerdefense.view.View;
 
 /**
- * Implementation of the GameLauncher interface.
+ * Implementation of the GameLauncherController interface.
  */
 public class GameLauncherControllerImpl implements GameLauncherController {
 
     private static final List<Size> RESOLUTIONS = Constants.RESOLUTIONS;
 
-    private Controller controller;
+    private final View view;
+    private final Controller controller;
+
     private String playerName;
     private int resolution;
 
     /**
-     * Zero-argument constructor.
+     * Constructor for the GameLauncherControllerImpl class.
+     * @param controller the main controller of the game
+     * @param view the main view of the game
      */
-    public GameLauncherControllerImpl() {
+    public GameLauncherControllerImpl(final Controller controller, final View view) {
+        this.controller = controller;
+        this.view = view;
     }
 
     /**
@@ -31,9 +36,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
      */
     @Override
     public void run() {
-        // instantiate the game launcher view
-        final GameLauncherView gameLauncherView = new GameLauncherViewImpl(this);
-        gameLauncherView.display();
+        this.view.displayLauncher(this);
     }
 
     /**
@@ -74,7 +77,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
      */
     @Override
     public void startGame() {
-        controller.run(
+        this.controller.run(
             playerName,
             RESOLUTIONS.get(resolution)
         );
