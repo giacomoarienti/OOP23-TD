@@ -1,9 +1,6 @@
 package it.unibo.towerdefense.model;
 
-<<<<<<< HEAD
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
-=======
->>>>>>> 829a56c801b96c2dd7c5497888f6dd9408631f25
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
 import it.unibo.towerdefense.model.defenses.DefenseManagerImpl;
@@ -24,7 +21,7 @@ public class ModelManagerImpl implements ModelManager {
 
     public ModelManagerImpl(final Size cellSize, final String playerName){
         map = new MapManagerImpl(cellSize);
-        defenses = new DefenseManagerImpl(null);
+        defenses = new DefenseManagerImpl();
         enemies = new EnemiesManagerImpl();
         game = new GameManagerImpl(playerName);
         map.bind(this);
@@ -33,8 +30,8 @@ public class ModelManagerImpl implements ModelManager {
     }
 
     public ModelManagerImpl(final Saving s){
-        map = new MapManagerImpl(null);
-        defenses = new DefenseManagerImpl(null, null);
+        map = new MapManagerImpl(s.getMapJson());
+        defenses = new DefenseManagerImpl(s.getDefensesJson());
         enemies = new EnemiesManagerImpl();
         game = new GameManagerImpl(
             GameDTO.fromJson(s.getGameJson())
