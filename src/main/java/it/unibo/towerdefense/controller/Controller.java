@@ -78,4 +78,10 @@ public interface Controller {
      */
     void render();
 
+    /**
+     * Returns the player name.
+     * @return the player name
+     */
+    String getPlayerName();
+
 }

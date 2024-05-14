@@ -25,7 +25,7 @@ public class ControllerImpl implements Controller {
     private final ModelManager model;
 
     private String playerName;
-    private Boolean loopTerminated;
+    private boolean loopTerminated;
 
     /**
      * Constructor for the ControllerImpl class.
@@ -127,6 +127,14 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean isTerminated() {
         return this.loopTerminated;
     }
@@ -145,10 +153,10 @@ public class ControllerImpl implements Controller {
     @Override
     public void displaySavings() {
         final var savingsController = new SavingsControllerImpl(
-            this.playerName,
-            this
+            this,
+            this.view
         );
-        this.view.displaySavings(savingsController);
+        savingsController.run();
     }
 
     /**
@@ -164,7 +172,6 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void render() {
-        // TODO implement here
     }
 
     private void startGameLoop() {
