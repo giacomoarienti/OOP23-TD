@@ -10,9 +10,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import it.unibo.towerdefense.controller.scoreboard.Scoreboard;
 import it.unibo.towerdefense.model.score.Score;
 import it.unibo.towerdefense.model.score.ScoreboardDTO;
+import it.unibo.towerdefense.model.scoreboard.Scoreboard;
 
 /**
  * Scoreboard View implementation.

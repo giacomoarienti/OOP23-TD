@@ -1,13 +1,12 @@
-package it.unibo.towerdefense.controller.savings;
+package it.unibo.towerdefense.model.saving;
 
 import java.util.List;
-
-import it.unibo.towerdefense.model.saving.Saving;
 
 /**
  * Interface that defines the methods to load and save the game's saving.
  */
-public interface SavingLoader {
+public interface Savings {
+
     /**
      * Loads all saved games from user's local folder.
      * @return a list of saved games

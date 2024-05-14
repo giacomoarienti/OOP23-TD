@@ -77,11 +77,4 @@ public interface Controller {
      * Renders the state of the relative model.
      */
     void render();
-
-    /**
-     * Returns the player name.
-     * @return the player name
-     */
-    String getPlayerName();
-
 }

@@ -3,7 +3,7 @@ package it.unibo.towerdefense.model.score;
 import java.util.Collections;
 import java.util.Set;
 
-import it.unibo.towerdefense.controller.scoreboard.Scoreboard;
+import it.unibo.towerdefense.model.scoreboard.Scoreboard;
 
 /**
  * Class implementing the Data Transfer Object pattern for the Scoreboard.
