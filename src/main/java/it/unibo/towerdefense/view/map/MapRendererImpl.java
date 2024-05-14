@@ -1,12 +1,12 @@
-package it.unibo.towerdefense.views.map;
+package it.unibo.towerdefense.view.map;
 
 import java.util.List;
 import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.commons.graphics.GameRenderer;
-import it.unibo.towerdefense.commons.graphics.ImageDrawable;
-import it.unibo.towerdefense.utils.images.ImageLoader;
+import it.unibo.towerdefense.view.graphics.GameRenderer;
+import it.unibo.towerdefense.view.graphics.ImageDrawable;
+import it.unibo.towerdefense.commons.utils.images.ImageLoader;
 import java.awt.image.BufferedImage;
 
 public class MapRendererImpl implements MapRenderer {
@@ -20,7 +20,7 @@ public class MapRendererImpl implements MapRenderer {
     }
 
     @Override
-    public void renderPath(final GameRenderer gameRenderer, final Stream<LogicalPosition> path) {
+    public void renderPath(GameRenderer gameRenderer, final Stream<LogicalPosition> path) {
         path/*.peek(p -> System.out.println(p))*/.forEach(p -> gameRenderer.submitToCanvas(new ImageDrawable(image, p)));
     }
 
