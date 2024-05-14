@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.controller.savings;
 
-import it.unibo.towerdefense.model.savingloader.saving.Saving;
+import it.unibo.towerdefense.model.saving.Saving;
 
 public interface SavingsController {
 

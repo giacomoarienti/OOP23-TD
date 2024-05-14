@@ -1,9 +1,9 @@
-package it.unibo.towerdefense.model.scoreboard;
+package it.unibo.towerdefense.controller.scoreboard;
 
 import java.io.IOException;
 import java.util.Set;
 
-import it.unibo.towerdefense.model.scoreboard.score.Score;
+import it.unibo.towerdefense.model.score.Score;
 
 /**
  * That defines the game's scoreboard that loads

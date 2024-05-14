@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import it.unibo.towerdefense.controller.savings.SavingsController;
-import it.unibo.towerdefense.model.savingloader.saving.Saving;
+import it.unibo.towerdefense.model.saving.Saving;
 
 /**
  * Savings View implementation.

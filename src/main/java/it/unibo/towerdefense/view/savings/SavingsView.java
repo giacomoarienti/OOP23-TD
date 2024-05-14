@@ -2,7 +2,7 @@ package it.unibo.towerdefense.view.savings;
 
 import java.util.List;
 
-import it.unibo.towerdefense.model.savingloader.saving.Saving;
+import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.view.modal.ModalContent;
 
 /**

@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.model.scoreboard.score;
+package it.unibo.towerdefense.model.score;
 
 import it.unibo.towerdefense.model.JsonSerializable;
 

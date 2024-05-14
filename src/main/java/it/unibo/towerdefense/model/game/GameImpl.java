@@ -235,16 +235,6 @@ public class GameImpl implements Game {
      * {@inheritDoc}
      */
     @Override
-    public void notifyObservers() {
-        this.observers.forEach(
-            (obs) -> obs.notify(this.toDTO())
-        );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String toJSON() {
         return this.toDTO().toJSON();
     }
@@ -276,6 +266,12 @@ public class GameImpl implements Game {
             this.money,
             this.wave,
             this.gameState
+        );
+    }
+
+    private void notifyObservers() {
+        this.observers.forEach(
+            (obs) -> obs.notify(this.toDTO())
         );
     }
 }

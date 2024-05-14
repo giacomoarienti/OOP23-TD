@@ -19,14 +19,14 @@ import it.unibo.towerdefense.controller.enemies.EnemyController;
 import it.unibo.towerdefense.controller.enemies.EnemyControllerImpl;
 import it.unibo.towerdefense.controller.game.GameController;
 import it.unibo.towerdefense.controller.game.GameControllerImpl;
+import it.unibo.towerdefense.controller.savings.SavingLoaderImpl;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
 import it.unibo.towerdefense.model.defenses.DefenseManagerImpl;
 import it.unibo.towerdefense.model.map.MapManager;
 import it.unibo.towerdefense.model.map.MapManagerImpl;
-import it.unibo.towerdefense.model.savingloader.SavingLoaderImpl;
-import it.unibo.towerdefense.model.savingloader.saving.Saving;
-import it.unibo.towerdefense.model.savingloader.saving.SavingFieldsEnum;
-import it.unibo.towerdefense.model.savingloader.saving.SavingImpl;
+import it.unibo.towerdefense.model.saving.Saving;
+import it.unibo.towerdefense.model.saving.SavingFieldsEnum;
+import it.unibo.towerdefense.model.saving.SavingImpl;
 import it.unibo.towerdefense.view.graphics.GameRenderer;
 
 /**

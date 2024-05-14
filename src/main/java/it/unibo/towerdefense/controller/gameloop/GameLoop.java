@@ -1,9 +1,7 @@
-package it.unibo.towerdefense.model.gameloop;
+package it.unibo.towerdefense.controller.gameloop;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import it.unibo.towerdefense.controller.gameloop.GameLoopController;
 
 /**
  * GameLoop implementation.

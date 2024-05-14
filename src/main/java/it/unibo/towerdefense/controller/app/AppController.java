@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.controller.app;
 
-import it.unibo.towerdefense.model.savingloader.saving.Saving;
+import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.view.modal.ModalContent;
 
 /**

@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.model.scoreboard;
+package it.unibo.towerdefense.controller.scoreboard;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
-import it.unibo.towerdefense.model.scoreboard.score.Score;
-import it.unibo.towerdefense.model.scoreboard.score.ScoreImpl;
+import it.unibo.towerdefense.model.score.Score;
+import it.unibo.towerdefense.model.score.ScoreImpl;
 
 /**
  * Class implementing the Scoreboard interface.

@@ -13,7 +13,7 @@ import it.unibo.towerdefense.controller.mediator.ControllerMediator;
 import it.unibo.towerdefense.controller.mediator.ControllerMediatorImpl;
 import it.unibo.towerdefense.controller.menu.MenuController;
 import it.unibo.towerdefense.controller.menu.MenuControllerImpl;
-import it.unibo.towerdefense.model.savingloader.saving.Saving;
+import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.view.graphics.GameRendererImpl;
 import it.unibo.towerdefense.view.modal.ModalContent;
 import it.unibo.towerdefense.view.window.Window;

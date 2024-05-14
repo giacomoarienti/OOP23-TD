@@ -6,8 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.controller.app.AppController;
-import it.unibo.towerdefense.model.savingloader.SavingLoaderImpl;
-import it.unibo.towerdefense.model.savingloader.saving.Saving;
+import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.view.savings.SavingsView;
 import it.unibo.towerdefense.view.savings.SavingsViewImpl;
 

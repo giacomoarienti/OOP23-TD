@@ -9,8 +9,8 @@ import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
-import it.unibo.towerdefense.model.scoreboard.Scoreboard;
-import it.unibo.towerdefense.model.scoreboard.ScoreboardImpl;
+import it.unibo.towerdefense.controller.scoreboard.Scoreboard;
+import it.unibo.towerdefense.controller.scoreboard.ScoreboardImpl;
 /**
  * Test class for the ScoreboardImpl class.
  */

@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.model.savingloader.saving;
+package it.unibo.towerdefense.model.saving;
 
 /**
  * Enum that contains the fields of a saving.

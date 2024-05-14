@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.model.savingloader.saving;
+package it.unibo.towerdefense.model.saving;
 
 import java.util.Map;
 import java.util.List;

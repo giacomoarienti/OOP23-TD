@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.model.savingloader;
+package it.unibo.towerdefense.controller.savings;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
-import it.unibo.towerdefense.model.savingloader.saving.Saving;
+import it.unibo.towerdefense.model.saving.Saving;
 
 /**
  * Class implementing the SavingLoader interface.
