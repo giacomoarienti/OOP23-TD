@@ -1,8 +1,10 @@
 package it.unibo.towerdefense.views.savings;
 
+import java.awt.FlowLayout;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,6 +19,7 @@ import it.unibo.towerdefense.models.savingloader.saving.Saving;
  */
 public class SavingsViewImpl implements SavingsView {
 
+    private static final int BOTTOM_BORDER = 10;
     private final SavingsController controller;
     private List<Saving> savings;
 
@@ -28,7 +31,6 @@ public class SavingsViewImpl implements SavingsView {
         this.controller = controller;
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -37,26 +39,42 @@ public class SavingsViewImpl implements SavingsView {
         this.savings = Collections.unmodifiableList(savings);
     }
 
-
     /**
      * {@inheritDoc}
      */
     @Override
     public JPanel build(final Runnable onClose) {
         // create main panel
-        final JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        final JPanel panel = new JPanel(new FlowLayout());
+        // create inner panel
+        final JPanel innerPanel = new JPanel();
+        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
+        // if there are no savings, display a message
+        if (this.savings.isEmpty()) {
+            final JLabel noSavingsLabel = new JLabel("No savings available");
+            noSavingsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            noSavingsLabel.setBorder(
+                BorderFactory.createEmptyBorder(0, 0, BOTTOM_BORDER, 0)
+            );
+            innerPanel.add(noSavingsLabel);
+        }
         // create a panel for each saving
         for (final Saving saving: this.savings) {
-            mainPanel.add(
+            innerPanel.add(
                 new SavingsPanel(
                     saving,
                     onClose
                 )
             );
         }
+        // add close button
+        final JButton closeButton = new JButton("Close");
+        closeButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        closeButton.addActionListener(e -> onClose.run());
+        innerPanel.add(closeButton);
         // return the main panel
-        return mainPanel;
+        panel.add(innerPanel);
+        return panel;
     }
 
     private class SavingsPanel extends JPanel {
@@ -78,6 +96,12 @@ public class SavingsViewImpl implements SavingsView {
             final JButton loadButton = new JButton("Load");
             loadButton.addActionListener(e -> onClick());
             this.add(loadButton);
+            // set horizontal alignment
+            this.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+            // add bottom padding
+            this.setBorder(
+                BorderFactory.createEmptyBorder(0, 0, BOTTOM_BORDER, 0)
+            );
         }
     }
 }

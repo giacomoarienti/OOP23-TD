@@ -1,10 +1,10 @@
 package it.unibo.towerdefense.controllers.game;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
-import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
 import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.models.game.Game;
 import it.unibo.towerdefense.models.game.GameState;
+import it.unibo.towerdefense.utils.patterns.Observer;
 import it.unibo.towerdefense.models.game.GameImpl;
 import it.unibo.towerdefense.views.game.GameInfoView;
 import it.unibo.towerdefense.views.game.GameInfoViewImpl;
@@ -16,14 +16,12 @@ public class GameControllerImpl implements GameController {
 
     private final Game game;
     private final GameInfoView view;
-    private GameDTO prevState;
-    private boolean shouldRender;
 
     private GameControllerImpl(final Game game) {
         this.game = game;
-        // instantiate the view and set the previous state
+        // instantiate the view and set it as observer
         this.view = new GameInfoViewImpl();
-        this.prevState = new GameDTOImpl(game.getPlayerName());
+        this.game.addObserver(view);
     }
 
     /**
@@ -142,18 +140,7 @@ public class GameControllerImpl implements GameController {
      * {@inheritDoc}
      */
     @Override
-    public void update() {
-        // if any of the game info has changed update it
-        final GameDTO newState = this.game.toDTO();
-        if (!this.prevState.equals(newState)) {
-            this.prevState = newState;
-            // set the flag to render
-            this.shouldRender = true;
-            return;
-        }
-        // if nothing has changed don't render
-        this.shouldRender = false;
-    }
+    public void update() { }
 
     /**
      * {@inheritDoc}
@@ -161,11 +148,9 @@ public class GameControllerImpl implements GameController {
     @Override
     public void render(final GameRenderer renderer) {
         // if nothing has changed don't render
-        if (!this.shouldRender) {
+        if (!this.view.shouldRender()) {
             return;
         }
-        // update the view
-        this.view.setGameInfo(this.prevState);
         // build the view and render it
         renderer.renderInfo(this.view.build());
     }
@@ -176,6 +161,14 @@ public class GameControllerImpl implements GameController {
     @Override
     public String toJSON() {
         return this.game.toDTO().toJSON();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addObserver(final Observer<GameDTO> observer) {
+        this.game.addObserver(observer);
     }
 
 }
