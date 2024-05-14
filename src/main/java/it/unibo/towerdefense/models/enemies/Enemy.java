@@ -1,8 +1,7 @@
 package it.unibo.towerdefense.models.enemies;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
-import it.unibo.towerdefense.utils.patterns.Observer;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 
 /**
  * The single Enemy.
@@ -17,27 +16,6 @@ public interface Enemy {
      * @param amount how much
      */
     void hurt(int amount);
-
-    /**
-     * Sets the enemy's position to be the same of the one passed as an argument.
-     *
-     * @param pos the new position
-     */
-    void move(LogicalPosition pos);
-
-    /**
-     * Kills the enemy.
-     *
-     * Performs all the associated tasks and notifies all observers.
-     */
-    void die();
-
-    /**
-     * Returns wheter the enemy is dead or not.
-     *
-     * @return wheter the enemy is dead or not
-     */
-    boolean isDead();
 
     /**
      * Returns the HP.
@@ -61,11 +39,11 @@ public interface Enemy {
     int getValue();
 
     /**
-     * Returns the enemy's EnemyPosition.
+     * Returns the enemy's LogicalPosition.
      *
-     * @return the enemy's EnemyPosition.
+     * @return the enemy's LogicalPosition.
      */
-    LogicalPosition getPosition();
+    EnemyPosition getPosition();
 
     /**
      * Returns the enemy's EnemyInfo.
@@ -73,13 +51,4 @@ public interface Enemy {
      * @return the enemy's EnemyInfo.
      */
     EnemyInfo info();
-
-    /**
-     * Adds the given Observer to those
-     * that will be notified on the enemy's death.
-     *
-     * @param observer the Observer to add to the collection
-     */
-    void addDeathObserver(Observer<Enemy> observer);
-
 }

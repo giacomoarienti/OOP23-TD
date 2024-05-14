@@ -3,6 +3,9 @@ package it.unibo.towerdefense.models.game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
+
 import java.io.IOException;
 import java.util.stream.IntStream;
 
@@ -90,7 +93,7 @@ class TestGameImpl {
      */
     @Test
     void testConstructor() {
-        final var game = new GameImpl(PLAYER_NAME, INITIAL_LIVES, INITIAL_MONEY, INITIAL_WAVE);
+        final var game = new GameImpl(new GameDTOImpl(PLAYER_NAME, INITIAL_LIVES, INITIAL_MONEY, INITIAL_WAVE));
         Assertions.assertEquals(PLAYER_NAME, game.getPlayerName());
         Assertions.assertEquals(INITIAL_MONEY, game.getMoney());
         Assertions.assertEquals(INITIAL_MONEY, game.getLives());

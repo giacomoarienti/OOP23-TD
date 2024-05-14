@@ -4,22 +4,20 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.controllers.defenses.DefenseType;
-import it.unibo.towerdefense.controllers.defenses.DefensesController;
-import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.PositionImpl;
-import it.unibo.towerdefense.models.engine.Size;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.PositionImpl;
+import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.models.map.BuildableCell;
 import it.unibo.towerdefense.models.map.Cell;
-import it.unibo.towerdefense.models.map.Direction;
+import it.unibo.towerdefense.models.map.MapDirection;
 import it.unibo.towerdefense.models.map.GameMap;
 import it.unibo.towerdefense.models.map.GameMapImpl;
 import it.unibo.towerdefense.models.map.PathCell;
-import it.unibo.towerdefense.views.graphics.GameRenderer;
+import it.unibo.towerdefense.commons.graphics.GameRenderer;
 
 /**
  * Class to interact with map methods.
@@ -27,17 +25,16 @@ import it.unibo.towerdefense.views.graphics.GameRenderer;
 public class MapControllerImpl implements MapController {
 
     private final GameMap map;
-    private final ControllerMediator masterController;
+    private final ControllerMediator master;
     //private final GameRenderer gameRenderer;
     private BuildableCell selected = null;
     private List<DefenseDescription> options;
 
 
     /**
-     *Constructor from size of map and others controller.
+     *Constructor from size of map and the mediator.
      * @param size size of map in terms of game cells.
-     * @param defensesController the defenses controller.
-     * @param gameController the game controller.
+     * @param masterController the mediator controller.
      */
     public MapControllerImpl(Size size, final ControllerMediator masterController) {
         try {
@@ -45,21 +42,20 @@ public class MapControllerImpl implements MapController {
         } catch (IllegalArgumentException e) {
             throw e;
         }
-        this.masterController = masterController;
+        this.master = masterController;
     }
 
     /**
-     *Constructor from size of map in two unit of measure.
+     *Constructor from jasondata of map and the mediator.
      * @param jsondata JSON representation of GameMap Object.
-     * @param defensesController the defenses controller.
-     * @param gameController the game controller.
+     * @param masterController the mediator controller.
      */
     public MapControllerImpl(
         final String jsondata,
         final ControllerMediator masterController
     ) {
         this.map = GameMapImpl.fromJson(jsondata);
-        this.masterController = masterController;
+        this.master = masterController;
     }
 
     /**
@@ -67,16 +63,16 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        // TODO;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public LogicalPosition getSpawnPosition() {
-        return map.getSpawnCell().inSideMidpoint();
+    public PathVector getSpawnPosition() {
+        final PathCell spawCell = map.getSpawnCell();
+        return new PathVector(spawCell.inSideMidpoint(), spawCell.getInDirection().asDirection(), spawCell.distanceToEnd());
     }
 
     /**
@@ -114,11 +110,8 @@ public class MapControllerImpl implements MapController {
      * {@inheritDoc}
      */
     @Override
-    public Optional<LogicalPosition> getNextPosition(final LogicalPosition pos, final int distanceToMove) {
+    public PathVector getNextPosition(final LogicalPosition pos, final int distanceToMove) {
 
-        if (map.getEndCell().contains(pos)) {
-            return Optional.empty();
-        }
         Position cellPos = new PositionImpl(pos.getCellX(), pos.getCellY());
         Cell cell = map.getCellAt(cellPos);
         if (cell == null || !(cell instanceof PathCell)) {
@@ -126,25 +119,27 @@ public class MapControllerImpl implements MapController {
         }
         LogicalPosition tempPos = pos;
         PathCell pCell = (PathCell) cell;
-        Direction dir = pCell.getInDirection();
+        MapDirection dir = pCell.getInDirection();
         int remaningDistance = distanceToMove;
+        int distanceToEnd = pCell.distanceToEnd() * LogicalPosition.SCALING_FACTOR;
 
         for (int i = 2; i > 0; i--) {
 
+            int factor = LogicalPosition.SCALING_FACTOR / i;
             int positionInCell = realModule(
                 pos.getX() * dir.orizontal() + pos.getY() * dir.vertical(),
                 LogicalPosition.SCALING_FACTOR / 2 * i
             );
-            int factor = LogicalPosition.SCALING_FACTOR / i;
 
+            distanceToEnd -= positionInCell;
+            if (distanceToEnd < distanceToMove) {
+                return new PathVector(getEndPosition(), map.getEndCell().getOutDirection().asDirection(), 0);
+            }
             if (positionInCell < factor) {
                 int distanceToTravel = factor - positionInCell;
                 if (remaningDistance < distanceToTravel) {
                     tempPos = addDistance(tempPos, dir, remaningDistance);
-                    if (map.getEndCell().contains(tempPos)) {
-                        return Optional.empty();
-                    }
-                    return Optional.of(tempPos);
+                    return new PathVector(tempPos, dir.asDirection(), distanceToEnd - remaningDistance);
                 }
                 remaningDistance -=  distanceToTravel;
                 tempPos = addDistance(tempPos, dir, distanceToTravel);
@@ -164,13 +159,13 @@ public class MapControllerImpl implements MapController {
         }
         var choice = options.get(optionNumber);
         if (choice.getName().equals(DefenseType.NOTOWER.name())) {
-            masterController.addMoney(masterController.disassembleDefense(selected.getCenter()));
+            master.getGameController().addMoney(master.getDefensesController().disassembleDefense(selected.getCenter()));
             return;
         }
-        if (!masterController.purchase(choice.getCost())) {
+        if (!master.getGameController().purchase(choice.getCost())) {
             throw new IllegalArgumentException("Not enought money!");
         }
-        masterController.buildDefense(optionNumber, selected.getCenter());
+        master.getDefensesController().buildDefense(optionNumber, selected.getCenter());
     }
 
     /**
@@ -197,7 +192,7 @@ public class MapControllerImpl implements MapController {
      */
     @Override
     public void render(final GameRenderer renderer) {
-        / ;
+        //mapRenderer.render(renderer, );
     }
 
     private boolean updateBuildinOption() {
@@ -205,7 +200,7 @@ public class MapControllerImpl implements MapController {
             return false;
         }
         try {
-            this.options = masterController.getBuildables(selected.getCenter());
+            this.options = master.getDefensesController().getBuildables(selected.getCenter());
             return true;
         } catch (IOException e) {
             return false;
@@ -222,7 +217,7 @@ public class MapControllerImpl implements MapController {
         return (a % b + b) % b;
     }
 
-    private static LogicalPosition addDistance(final LogicalPosition pos, final Direction dir, final int distance) {
+    private static LogicalPosition addDistance(final LogicalPosition pos, final MapDirection dir, final int distance) {
         return new LogicalPosition(pos.getX() + distance * dir.orizontal(), pos.getY() + distance * dir.vertical());
     }
 }

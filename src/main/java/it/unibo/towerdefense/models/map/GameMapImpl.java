@@ -8,10 +8,10 @@ import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.models.engine.Position;
-import it.unibo.towerdefense.models.engine.PositionImpl;
-import it.unibo.towerdefense.models.engine.Size;
-import it.unibo.towerdefense.models.engine.SizeImpl;
+import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.PositionImpl;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.engine.SizeImpl;
 
 /**
  * Class that implements GameMap methods, and generate the map.
@@ -38,20 +38,23 @@ public class GameMapImpl implements GameMap {
             throw new IllegalArgumentException("Max dimension allowed are: " + MAX_X_SIZE + ", " + MAX_Y_SIZE);
         }
         this.size = size;
-        map = new Cell[size.getHeight()][size.getWidth()];
-        final Iterator<Direction> path = new PathFactory().generate(size, Direction.E);
-        Position pos = new PositionImpl(0, random.nextInt(size.getHeight() / 4, size.getHeight()/ 4 * 3));
-        spawn = new PathCellImpl(pos, path.next(), path.next());
-        PathCell newCell = spawn;
+        map = new Cell[size.getWidth()][size.getHeight()];
+        final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, MapDirection.E);
+        Position pos = new PositionImpl(size.getWidth(), random.nextInt(size.getHeight() / 4, size.getHeight() / 4 * 3));
+        int distanceToEnd = 0;
+        end = new PathCellImpl(pos, path.next(), null, distanceToEnd);
+        PathCell newCell = end;
+        pos.subtract(newCell.getInDirection().asPosition());
         System.out.println(newCell);
 
         while (isInMap(pos)) {
+            distanceToEnd++;
+            newCell = new PathCellImpl(pos, path.next(), newCell.getInDirection(), distanceToEnd);
             map[pos.getX()][pos.getY()] = newCell;
-            pos.add(newCell.getOutDirection().asPosition());
-            newCell = new PathCellImpl(pos, newCell.getOutDirection(), path.next());
+            pos.subtract(newCell.getInDirection().asPosition());
         }
         System.out.println(newCell);
-        end = newCell;
+        spawn = newCell;
 
         for (int i = 0; i < size.getWidth(); i++) {
             for (int j = 0; j < size.getHeight(); j++) {

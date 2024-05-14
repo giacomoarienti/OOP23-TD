@@ -1,8 +1,9 @@
 package it.unibo.towerdefense.models.defenses;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
-
 import org.junit.jupiter.api.Test;
+
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Assertions;

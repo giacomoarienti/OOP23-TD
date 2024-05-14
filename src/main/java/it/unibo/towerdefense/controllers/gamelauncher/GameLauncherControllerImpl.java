@@ -4,10 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 import it.unibo.towerdefense.commons.Constants;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.engine.SizeImpl;
 import it.unibo.towerdefense.controllers.app.AppController;
 import it.unibo.towerdefense.controllers.app.AppControllerImpl;
-import it.unibo.towerdefense.models.engine.Size;
-import it.unibo.towerdefense.models.engine.SizeImpl;
 import it.unibo.towerdefense.views.window.Window;
 import it.unibo.towerdefense.views.window.WindowImpl;
 import it.unibo.towerdefense.views.gamelauncher.GameLauncherView;

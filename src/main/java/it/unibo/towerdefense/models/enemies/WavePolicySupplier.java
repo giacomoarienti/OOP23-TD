@@ -2,13 +2,13 @@ package it.unibo.towerdefense.models.enemies;
 
 import java.util.function.Predicate;
 
-import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 
 /**
  * Determines how waves are formed (what type and how many enemies they contain
  * and their position in time).
  */
-public interface WavePolicySupplier {
+interface WavePolicySupplier {
     /**
      * Returns a predicate which tests true for admitted Types.
      *
@@ -18,12 +18,13 @@ public interface WavePolicySupplier {
     Predicate<EnemyType> getPredicate(Integer wave);
 
     /**
-     * Returns how many enemies the wave should contain.
+     * Returns the maximum power for a given wave which is the sum of all enemies'
+     * powerlevel.
      *
      * @param wave the wave about which information is asked
      * @return the number of enemies
      */
-    Integer getLength(Integer wave);
+    Integer getPower(Integer wave);
 
     /**
      * Returns how many cycles pass between two spawns (counting the cycle in which

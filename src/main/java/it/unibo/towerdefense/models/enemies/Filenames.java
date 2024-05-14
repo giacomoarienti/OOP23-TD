@@ -13,6 +13,11 @@ abstract class Filenames {
     private static final String WAVECONF = "waves.json";
     private static final String TYPESCONF = "types.json";
 
+    /**
+     * Returns the path of the waves config file.
+     *
+     * @return the path of the waves config file.
+     */
     static Path wavesConfig() {
         try {
             return Paths.get(ClassLoader.getSystemResource(ROOT + WAVECONF).toURI());
@@ -21,6 +26,11 @@ abstract class Filenames {
         }
     }
 
+    /**
+     * Returns the path of the types config file.
+     *
+     * @return the path of the types config file.
+     */
     static Path typesConfig() {
         try {
             return Paths.get(ClassLoader.getSystemResource(ROOT + TYPESCONF).toURI());

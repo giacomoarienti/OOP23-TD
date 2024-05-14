@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import it.unibo.towerdefense.models.engine.Size;
-import it.unibo.towerdefense.views.graphics.Drawable;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.graphics.Drawable;
 import it.unibo.towerdefense.views.modal.ModalContent;
 
 /**
@@ -28,6 +28,12 @@ public interface Window {
      * @return the size of the window
      */
     Size getSize();
+
+    /**
+     * Get canvas size.
+     * @return the size of the canvas
+     */
+    Size getCanvasSize();
 
     /**
      * Display a error message.

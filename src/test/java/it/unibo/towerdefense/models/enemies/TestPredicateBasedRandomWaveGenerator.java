@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
-import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
-import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 import it.unibo.towerdefense.utils.file.FileUtils;
 
 /**
@@ -23,15 +23,17 @@ public class TestPredicateBasedRandomWaveGenerator {
     private final static int N = 10000;
     private PredicateBasedRandomWaveGenerator rwg;
     private WavePolicySupplierImpl wps;
-    private ConfigurableEnemyCatalogue catalogue;
+    private EnemyCatalogue catalogue;
 
     /**
      * Initializes the classes needed for testing.
      */
     @BeforeEach
     void init() throws URISyntaxException, IOException {
-        wps = new WavePolicySupplierImpl(FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "waves.json").toURI())));
-        catalogue = new ConfigurableEnemyCatalogue(FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "types.json").toURI())));
+        wps = new WavePolicySupplierImpl(
+                FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "waves.json").toURI())));
+        catalogue = new EnemyCatalogueFactory(
+                FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "types.json").toURI()))).compile();
         rwg = new PredicateBasedRandomWaveGenerator(wps, catalogue);
     }
 
@@ -51,29 +53,40 @@ public class TestPredicateBasedRandomWaveGenerator {
      * @param wave number of the wave to test.
      */
     private void testWave(int wave) {
-
-        record QuickEnemyType(EnemyLevel level, EnemyArchetype type) implements EnemyType {
-        };
-
         if (wave < 1) {
             Assertions.assertThrows(RuntimeException.class, () -> rwg.apply(wave));
         } else {
-            int length = wps.getLength(wave);
+            int power = wps.getPower(wave);
             int rate = wps.getCyclesPerSpawn(wave);
             Wave generated = rwg.apply(wave);
-            for (int i = 0; i < length * rate - (rate - 1); i++) {
+            for (int i = 0, p = 0; p < power && generated.hasNext(); i++) {
                 Assertions.assertTrue(generated.hasNext(), () -> "Didn't have next");
                 if (i % rate == 0) {
                     Optional<RichEnemyType> current = generated.next();
                     Assertions.assertTrue(current.isPresent(), () -> "Was not present");
                     Assertions.assertTrue(
                             wps.getPredicate(wave)
-                                    .test(new QuickEnemyType(current.get().level(), current.get().type())),
+                                    .test(new EnemyType() {
+                                        @Override
+                                        public EnemyLevel level() {
+                                            return current.get().level();
+                                        }
+
+                                        @Override
+                                        public EnemyArchetype type() {
+                                            return current.get().type();
+                                        }
+                                    }),
                             () -> "Was not right type");
+                    p+=current.get().getPowerLevel();
                 } else {
                     Assertions.assertTrue(generated.next().isEmpty(), () -> "Was present");
                 }
             }
+            /*
+             * any more enemy would make p > power
+             */
+            Assertions.assertFalse(generated.hasNext());
         }
 
     }

@@ -33,5 +33,5 @@ public interface MenuController {
     /**
      * Display the saving selection view.
      */
-    void displaySavingSelection();
+    void displaySavings();
 }

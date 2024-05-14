@@ -9,9 +9,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
-import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo.Direction;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 /**
  * Tests for EnemyCollectionImpl.
@@ -21,6 +22,8 @@ public class TestEnemyCollectionImpl {
     private static final LogicalPosition STARTING_POSITION = new LogicalPosition(0, 0);
     private EnemyCollectionImpl tested;
     private SimpleEnemyFactory helper;
+    private RichEnemyType t;
+    private RichEnemy spawned;
 
     /**
      * Initializes the classes needed for testing.
@@ -30,9 +33,11 @@ public class TestEnemyCollectionImpl {
      * @see TestSimpleEnemyFactory
      */
     @BeforeEach
-    void init() {
+    private void init() {
         tested = new EnemyCollectionImpl((pos, speed) -> Optional.empty());
-        helper = new SimpleEnemyFactory(STARTING_POSITION);
+        helper = new SimpleEnemyFactory(STARTING_POSITION, Direction.EAST);
+        t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100, 10000);
+        spawned = helper.spawn(t);
     }
 
     /**
@@ -40,11 +45,8 @@ public class TestEnemyCollectionImpl {
      */
     @Test
     void testAdd() {
-        RichEnemyType t = new TestEnemyType(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Enemy spawned = helper.spawn(t);
         tested.add(spawned);
         Assertions.assertTrue(tested.getEnemies().contains(spawned));
-        Assertions.assertTrue(tested.getEnemiesInfo().contains(spawned.info()));
     }
 
     /**
@@ -52,8 +54,6 @@ public class TestEnemyCollectionImpl {
      */
     @Test
     void testAreDead() {
-        RichEnemyType t = new TestEnemyType(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Enemy spawned = helper.spawn(t);
         tested.add(spawned);
         spawned.die();
         Assertions.assertTrue(tested.areDead());
@@ -66,9 +66,8 @@ public class TestEnemyCollectionImpl {
     @Test
     void testMultipleEnemies() {
         int number = 100;
-        RichEnemyType t = new TestEnemyType(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Set<Enemy> spawned = IntStream.range(0, number).mapToObj(i -> {
-            Enemy e = helper.spawn(t);
+        Set<RichEnemy> spawned = IntStream.range(0, number).mapToObj(i -> {
+            RichEnemy e = helper.spawn(t);
             tested.add(e);
             return e;
         }).collect(Collectors.toSet());
@@ -83,9 +82,8 @@ public class TestEnemyCollectionImpl {
      */
     @Test
     void testMove() {
-        RichEnemyType t = new TestEnemyType(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100);
-        Set<Enemy> spawned = IntStream.range(0, 100).mapToObj(i -> {
-            Enemy e = helper.spawn(t);
+        Set<RichEnemy> spawned = IntStream.range(0, 100).mapToObj(i -> {
+            RichEnemy e = helper.spawn(t);
             tested.add(e);
             return e;
         }).collect(Collectors.toSet());

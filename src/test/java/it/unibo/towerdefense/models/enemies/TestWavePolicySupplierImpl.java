@@ -10,9 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.controllers.enemies.EnemyArchetype;
-import it.unibo.towerdefense.controllers.enemies.EnemyLevel;
-import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
 import it.unibo.towerdefense.utils.file.FileUtils;
 
 /**
@@ -48,9 +47,6 @@ public class TestWavePolicySupplierImpl {
     @Nested
     class NestedTestBlock {
 
-        private record QuickEnemyType(EnemyLevel level, EnemyArchetype type) implements EnemyType {
-        }
-
         private final static String TEST_FILE = "waves.json";
         private WavePolicySupplierImpl tested;
 
@@ -80,16 +76,16 @@ public class TestWavePolicySupplierImpl {
         }
 
         /**
-         * Tests the method getLength works as intended.
+         * Tests the method getPower works as intended.
          */
         @Test
-        void testGetLength() {
-            Assertions.assertThrows(RuntimeException.class, () -> tested.getLength(0));
-            Assertions.assertEquals(10, tested.getLength(1));
-            Assertions.assertEquals(10, tested.getLength(2));
-            Assertions.assertEquals(15, tested.getLength(3));
-            Assertions.assertEquals(200, tested.getLength(10));
-            Assertions.assertEquals(200, tested.getLength(20000));
+        void testGetPower() {
+            Assertions.assertThrows(RuntimeException.class, () -> tested.getPower(0));
+            Assertions.assertEquals(10000, tested.getPower(1));
+            Assertions.assertEquals(10000, tested.getPower(2));
+            Assertions.assertEquals(15000, tested.getPower(3));
+            Assertions.assertEquals(200000, tested.getPower(10));
+            Assertions.assertEquals(200000, tested.getPower(20000));
         }
 
         /**
@@ -98,19 +94,19 @@ public class TestWavePolicySupplierImpl {
         @Test
         void testGetPredicate() {
             Assertions.assertThrows(RuntimeException.class, () -> tested.getPredicate(0));
-            Assertions.assertTrue(tested.getPredicate(1).test(new QuickEnemyType(EnemyLevel.I, EnemyArchetype.B)));
-            Assertions.assertTrue(tested.getPredicate(1).test(new QuickEnemyType(EnemyLevel.I, EnemyArchetype.C)));
-            Assertions.assertFalse(tested.getPredicate(1).test(new QuickEnemyType(EnemyLevel.I, EnemyArchetype.A)));
+            Assertions.assertTrue(tested.getPredicate(1).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.B)));
+            Assertions.assertTrue(tested.getPredicate(1).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.C)));
+            Assertions.assertFalse(tested.getPredicate(1).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A)));
 
-            Assertions.assertFalse(tested.getPredicate(2).test(new QuickEnemyType(EnemyLevel.I, EnemyArchetype.A)));
+            Assertions.assertFalse(tested.getPredicate(2).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A)));
 
-            Assertions.assertTrue(tested.getPredicate(200).test(new QuickEnemyType(EnemyLevel.I, EnemyArchetype.B)));
-            Assertions.assertTrue(tested.getPredicate(200).test(new QuickEnemyType(EnemyLevel.I, EnemyArchetype.C)));
+            Assertions.assertTrue(tested.getPredicate(200).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.B)));
+            Assertions.assertTrue(tested.getPredicate(200).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.C)));
 
-            Assertions.assertTrue(tested.getPredicate(10000).test(new QuickEnemyType(EnemyLevel.IV, EnemyArchetype.A)));
-            Assertions.assertTrue(tested.getPredicate(3809).test(new QuickEnemyType(EnemyLevel.IV, EnemyArchetype.B)));
+            Assertions.assertTrue(tested.getPredicate(10000).test(TestingEnemyType.build(EnemyLevel.IV, EnemyArchetype.A)));
+            Assertions.assertTrue(tested.getPredicate(3809).test(TestingEnemyType.build(EnemyLevel.IV, EnemyArchetype.B)));
 
-            Assertions.assertFalse(tested.getPredicate(2000).test(new QuickEnemyType(EnemyLevel.II, EnemyArchetype.A)));
+            Assertions.assertFalse(tested.getPredicate(2000).test(TestingEnemyType.build(EnemyLevel.II, EnemyArchetype.A)));
         }
     }
 }

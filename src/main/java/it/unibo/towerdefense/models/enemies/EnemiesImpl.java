@@ -1,14 +1,13 @@
 package it.unibo.towerdefense.models.enemies;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
+
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.utils.file.FileUtils;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
@@ -35,8 +34,8 @@ public class EnemiesImpl implements Enemies {
      *                    if the enemy has reached the end of the map
      * @param startingPos the starting position of enemies
      */
-    public EnemiesImpl(final BiFunction<LogicalPosition, Integer, Optional<LogicalPosition>> posFunction,
-            final LogicalPosition startingPos) {
+    public EnemiesImpl(final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction,
+            final EnemyPosition startingPos) {
         this.enemies = new EnemyCollectionImpl(posFunction);
         this.factory = new SimpleEnemyFactory(startingPos);
         WavePolicySupplier wp;
@@ -47,7 +46,7 @@ public class EnemiesImpl implements Enemies {
             throw new RuntimeException("Failed to load wave policy configuration from file.", t);
         }
         try {
-            ec = new ConfigurableEnemyCatalogue(FileUtils.readFile(Filenames.typesConfig()));
+            ec = new EnemyCatalogueFactory(FileUtils.readFile(Filenames.typesConfig())).compile();
         } catch (Throwable t) {
             throw new RuntimeException("Failed to load enemy types configuration from file.", t);
         }
@@ -69,7 +68,7 @@ public class EnemiesImpl implements Enemies {
     public void update() {
         enemies.move();
         if (current.isPresent()) {
-            current.get().next().ifPresent(et -> this.spawn(et));
+            current.get().next().ifPresent(et -> this.spawnEnemy(et));
             if (!current.get().hasNext()) {
                 current = Optional.empty();
             }
@@ -77,21 +76,10 @@ public class EnemiesImpl implements Enemies {
     }
 
     /**
-     * Spawns an enemy of enemy type et.
-     *
-     * @param et the type of the enemy to spawn.
-     */
-    private void spawn(RichEnemyType et) {
-        Enemy spawned = factory.spawn(et);
-        enemies.add(spawned);
-        enemyDeathObservers.forEach(o -> spawned.addDeathObserver(o));
-    }
-
-    /**
      * {@inheritDoc}.
      */
     @Override
-    public Set<Enemy> getEnemies() {
+    public Set<RichEnemy> getEnemies() {
         return enemies.getEnemies();
     }
 
@@ -99,13 +87,6 @@ public class EnemiesImpl implements Enemies {
      * {@inheritDoc}.
      */
     @Override
-    public List<EnemyInfo> getEnemiesInfo() {
-        return enemies.getEnemiesInfo();
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
     public boolean isWaveActive() {
         return current.isPresent() || !enemies.areDead();
     }
@@ -123,5 +104,16 @@ public class EnemiesImpl implements Enemies {
                 throw new RuntimeException("A new wave cannot be empty.");
             }
         }
+    }
+
+    /**
+     * Spawns an enemy of enemy type et.
+     *
+     * @param et the type of the enemy to spawn.
+     */
+    private void spawnEnemy(RichEnemyType et) {
+        RichEnemy spawned = factory.spawn(et);
+        enemies.add(spawned);
+        enemyDeathObservers.forEach(o -> spawned.addDeathObserver(o));
     }
 }

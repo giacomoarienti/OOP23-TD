@@ -3,7 +3,7 @@ package it.unibo.towerdefense.models.defenses;
 import java.io.IOException;
 import java.util.Optional;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 /**
  * A factory for building the defenses tha will be available in game.

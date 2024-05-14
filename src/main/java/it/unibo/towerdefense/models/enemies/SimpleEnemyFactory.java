@@ -3,17 +3,17 @@ package it.unibo.towerdefense.models.enemies;
 import java.util.HashSet;
 import java.util.Set;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
-import it.unibo.towerdefense.controllers.enemies.EnemyType;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
  * {@inheritDoc}.
  */
-public class SimpleEnemyFactory implements EnemyFactory {
+class SimpleEnemyFactory implements EnemyFactory {
 
-    private final LogicalPosition startingPos;
+    private final EnemyPosition startingPos;
 
     /**
      * Constructor for the class.
@@ -21,14 +21,14 @@ public class SimpleEnemyFactory implements EnemyFactory {
      * @param startingPos the starting position for all enemies produced by the
      *                    factory
      */
-    SimpleEnemyFactory(final LogicalPosition startingPos) {
-        this.startingPos = startingPos;
+    SimpleEnemyFactory(final EnemyPosition startingPos) {
+        this.startingPos = startingPos.clone();
     }
 
     /**
      * {@inheritDoc}.
      */
-    public Enemy spawn(final RichEnemyType t) {
+    public RichEnemy spawn(final RichEnemyType t) {
         return new MinimalEnemy(t);
     }
 
@@ -39,20 +39,21 @@ public class SimpleEnemyFactory implements EnemyFactory {
      * object common
      * to all instances of Enemy entities of that type
      */
-    private class MinimalEnemy implements Enemy {
+    private class MinimalEnemy implements RichEnemy {
 
         /**
          * A record to keep track of the information about an Enemy.
          *
-         * @param hp the current hp of the enemy
-         * @param pos the current position of the enemy
+         * @param hp   the current hp of the enemy
+         * @param pos  the current position of the enemy
          * @param type the EnemyType of the enemy
          */
-        private record MinimalEnemyInfo(LogicalPosition pos, Integer hp, EnemyType type) implements EnemyInfo {
+        private record EnemyInfoImpl(EnemyPosition pos, Integer hp, EnemyType type)
+                implements EnemyInfo {
         };
 
-        private final LogicalPosition pos = startingPos.clone();
-        private final Set<Observer<Enemy>> deathObservers;
+        private final EnemyPosition pos = startingPos.clone();
+        private final Set<Observer<? super RichEnemy>> deathObservers;
         private final RichEnemyType t;
         private int hp;
 
@@ -96,11 +97,13 @@ public class SimpleEnemyFactory implements EnemyFactory {
          * {@inheritDoc}.
          */
         @Override
-        public void move(final LogicalPosition newPos) {
+        public void move(final EnemyPosition newPos) {
             if (isDead()) {
                 throw new IllegalStateException("Tried to move a dead enemy");
+            } else if (newPos == null) {
+                throw new NullPointerException("newPos can't be null");
             } else {
-                pos.set(newPos.getX(), newPos.getY());
+                pos.setTo(newPos);
             }
         }
 
@@ -108,8 +111,8 @@ public class SimpleEnemyFactory implements EnemyFactory {
          * {@inheritDoc}.
          */
         @Override
-        public LogicalPosition getPosition() {
-            return LogicalPosition.copyOf(pos);
+        public EnemyPosition getPosition() {
+            return this.pos.clone();
         }
 
         /**
@@ -117,7 +120,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
          */
         @Override
         public EnemyInfo info() {
-            return new MinimalEnemyInfo(this.getPosition(), this.getHp(), t);
+            return new EnemyInfoImpl(this.getPosition(), this.getHp(), t);
         }
 
         /**
@@ -140,7 +143,7 @@ public class SimpleEnemyFactory implements EnemyFactory {
          * {@inheritDoc}.
          */
         @Override
-        public void addDeathObserver(final Observer<Enemy> observer) {
+        public void addDeathObserver(final Observer<? super RichEnemy> observer) {
             deathObservers.add(observer);
         }
 

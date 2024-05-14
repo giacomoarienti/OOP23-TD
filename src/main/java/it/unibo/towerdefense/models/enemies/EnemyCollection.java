@@ -1,15 +1,13 @@
 package it.unibo.towerdefense.models.enemies;
 
-import java.util.List;
 import java.util.Set;
 
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
  * Class responsible for maintaining all the Enemy currently alive.
  */
-public interface EnemyCollection extends Observer<Enemy> {
+interface EnemyCollection extends Observer<RichEnemy> {
 
     /**
      * Moves the enemies.
@@ -21,7 +19,7 @@ public interface EnemyCollection extends Observer<Enemy> {
      *
      * @param e the new Enemy.
      */
-    void add(Enemy e);
+    void add(RichEnemy e);
 
     /**
      * Method called by enemies when they die.
@@ -29,21 +27,14 @@ public interface EnemyCollection extends Observer<Enemy> {
      * @param e the dead enemy
      */
     @Override
-    void notify(Enemy e);
+    void notify(RichEnemy e);
 
     /**
      * Gets the enemies.
      *
      * @return the enemies
      */
-    Set<Enemy> getEnemies();
-
-    /**
-     * Gets the EnemiesInfo primarily to be passed to view.
-     *
-     * @return a Collection with all the enemies' EnemyInfo
-     */
-    List<EnemyInfo> getEnemiesInfo();
+    Set<RichEnemy> getEnemies();
 
     /**
      * Method to know wheter any Enemy is still alive.

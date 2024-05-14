@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.controllers;
 
-import it.unibo.towerdefense.views.graphics.GameRenderer;
+import it.unibo.towerdefense.commons.graphics.GameRenderer;
 
 /**
  * Interface that models a standard Controller.

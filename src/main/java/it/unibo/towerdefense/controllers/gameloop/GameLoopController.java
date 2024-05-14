@@ -11,24 +11,9 @@ public interface GameLoopController {
     void start();
 
     /**
-     * Sets gameState to PLAYING.
-     */
-    void resume();
-
-    /**
-     * Sets gameState to PAUSE.
-     */
-    void pause();
-
-    /**
      * Stops the game loop.
      */
     void stop();
-
-    /**
-     * Saves the game.
-     */
-    void save();
 
     /**
      * Returns if the game loop should run.

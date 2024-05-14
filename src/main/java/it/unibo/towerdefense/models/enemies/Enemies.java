@@ -1,9 +1,7 @@
 package it.unibo.towerdefense.models.enemies;
 
-import java.util.List;
 import java.util.Set;
 
-import it.unibo.towerdefense.controllers.enemies.EnemyInfo;
 import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
@@ -49,12 +47,5 @@ public interface Enemies {
      *
      * @return a Set of all Enemies currently alive
      */
-    Set<Enemy> getEnemies();
-
-    /**
-     * Returns a list containing DTOs for all Enemies currently alive.
-     *
-     * @return a list with an EnemyInfo for each enemy alive
-     */
-    List<EnemyInfo> getEnemiesInfo();
+    Set<? extends Enemy> getEnemies();
 }

@@ -2,34 +2,37 @@ package it.unibo.towerdefense.models.map;
 
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.commons.LogicalPosition;
-import it.unibo.towerdefense.models.engine.Position;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.Position;
 
 /**
  * Class that implements PathCell methods.
  */
 public class PathCellImpl extends CellAbs implements PathCell {
 
-    private final Direction in;
-    private final Direction out;
+    private final MapDirection in;
+    private final MapDirection out;
+    private final int distanceToEnd;
 
     /**
      *Constructor from coordinates, 2 opposite vertex positions and distance to end of path.
      * @param coords coordinates i j to identify the cell in the map.
      * @param in direction to enter the cell.
      * @param out direction to exit the cell.
+     * @param distanceToEnd numbers of cell from this to end of path.
      */
-    public PathCellImpl(final Position coords, final Direction in, final Direction out) {
+    public PathCellImpl(final Position coords, final MapDirection in, final MapDirection out, final int distanceToEnd) {
         super(coords);
         this.in = in;
         this.out = out;
+        this.distanceToEnd = distanceToEnd;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Direction getInDirection() {
+    public MapDirection getInDirection() {
         return in;
     }
 
@@ -37,8 +40,16 @@ public class PathCellImpl extends CellAbs implements PathCell {
      * {@inheritDoc}
      */
     @Override
-    public Direction getOutDirection() {
+    public MapDirection getOutDirection() {
         return out;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int distanceToEnd() {
+        return distanceToEnd;
     }
 
     /**
@@ -59,6 +70,7 @@ public class PathCellImpl extends CellAbs implements PathCell {
             .put("pos", ((Position) this).toJSON())
             .put("in", this.in)
             .put("out", this.out)
+            .put("distance", distanceToEnd)
             .toString();
     }
 
@@ -71,8 +83,9 @@ public class PathCellImpl extends CellAbs implements PathCell {
         final JSONObject jsonObject = new JSONObject(jsonData);
         return new PathCellImpl(
             Position.fromJson(jsonObject.getString("pos")),
-            jsonObject.getEnum(Direction.class, "in"),
-            jsonObject.getEnum(Direction.class, "out")
+            jsonObject.getEnum(MapDirection.class, "in"),
+            jsonObject.getEnum(MapDirection.class, "out"),
+            jsonObject.getInt("distance")
         );
     }
 }

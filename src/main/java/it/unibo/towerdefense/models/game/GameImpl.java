@@ -1,6 +1,13 @@
 package it.unibo.towerdefense.models.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.base.Objects;
+
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
+import it.unibo.towerdefense.utils.patterns.Observer;
 
 /**
  * Base implementation of the Game interface.
@@ -13,6 +20,7 @@ public class GameImpl implements Game {
     private static final int PLAYING_GAME_SPEED = 1;
     private static final int PAUSE_GAME_SPEED = 0;
 
+    private final List<Observer<GameDTO>> observers;
     private final String playerName;
     private int lives;
     private int money;
@@ -24,31 +32,7 @@ public class GameImpl implements Game {
      * @param playerName the player name
      */
     public GameImpl(final String playerName) {
-        this.playerName = playerName;
-        this.lives = START_LIVES;
-        this.money = START_MONEY;
-        this.wave = START_WAVE;
-        this.gameState = GameState.PAUSE;
-    }
-
-    /**
-     * Constructors a GameImpl with the given playerName, lives, money and wave.
-     * @param playerName the player name
-     * @param lives the amount of lives
-     * @param money the amount of money
-     * @param wave the wave number
-     */
-    public GameImpl(
-        final String playerName,
-        final int lives,
-        final int money,
-        final int wave
-    ) {
-        this.playerName = playerName;
-        this.lives = lives;
-        this.money = money;
-        this.wave = wave;
-        this.gameState = GameState.PAUSE;
+        this(playerName, START_LIVES, START_MONEY, START_WAVE);
     }
 
     /**
@@ -62,6 +46,21 @@ public class GameImpl implements Game {
             gameDTO.getMoney(),
             gameDTO.getWave()
         );
+    }
+
+    private GameImpl(
+        final String playerName,
+        final int lives,
+        final int money,
+        final int wave
+    ) {
+        this.playerName = playerName;
+        this.lives = lives;
+        this.money = money;
+        this.wave = wave;
+        this.gameState = GameState.PAUSE;
+        // initialize empty list of observers
+        this.observers = new ArrayList<>();
     }
 
     /**
@@ -88,6 +87,7 @@ public class GameImpl implements Game {
         // if lives is positive decrease them
         if (this.lives > 0) {
             this.lives -= 1;
+            this.notifyObservers();
             // return true if positive
             if (this.lives > 0) {
                 return true;
@@ -114,6 +114,7 @@ public class GameImpl implements Game {
             throw new IllegalArgumentException("amount must be positive");
         }
         this.money += amount;
+        this.notifyObservers();
     }
 
     /**
@@ -131,6 +132,7 @@ public class GameImpl implements Game {
         }
         // decrease amount and return true
         this.money -= amount;
+        this.notifyObservers();
         return true;
     }
 
@@ -148,6 +150,7 @@ public class GameImpl implements Game {
     @Override
     public void advanceWave() {
         this.wave++;
+        this.notifyObservers();
     }
 
     /**
@@ -164,6 +167,7 @@ public class GameImpl implements Game {
     @Override
     public void setGameState(final GameState state) {
         this.gameState = state;
+        this.notifyObservers();
     }
 
     /**
@@ -186,6 +190,23 @@ public class GameImpl implements Game {
         return new GameDTOImpl(this.playerName, this.lives, this.money, this.wave);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addObserver(final Observer<GameDTO> observer) {
+        this.observers.add(observer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void notifyObservers() {
+        this.observers.forEach(
+            (obs) -> obs.notify(this.toDTO())
+        );
+    }
 
     /**
      * {@inheritDoc}
