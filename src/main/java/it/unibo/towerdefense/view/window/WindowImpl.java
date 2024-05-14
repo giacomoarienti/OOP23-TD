@@ -154,7 +154,7 @@ public class WindowImpl implements Window {
     public void setBuyMenuContent(final JPanel panel) {
         this.buyMenu.removeAll();
         this.buyMenu.add(panel);
-        this.infoPanel.revalidate();
+        this.buyMenu.revalidate();
     }
 
     /**
@@ -164,7 +164,7 @@ public class WindowImpl implements Window {
     public void setUpgradesContent(final JPanel panel) {
         this.upgradeMenu.removeAll();
         this.upgradeMenu.add(panel);
-        this.infoPanel.revalidate();
+        this.upgradeMenu.revalidate();
     }
 
     /**
