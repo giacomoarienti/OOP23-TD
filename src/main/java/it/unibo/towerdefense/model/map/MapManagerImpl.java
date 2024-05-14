@@ -3,13 +3,15 @@ package it.unibo.towerdefense.model.map;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
 import it.unibo.towerdefense.commons.engine.Size;
-import it.unibo.towerdefense.controller.mediator.ControllerMediator;
 import it.unibo.towerdefense.model.ModelManager;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
 import it.unibo.towerdefense.model.defenses.DefenseType;
@@ -165,11 +167,11 @@ public class MapManagerImpl implements MapManager {
      * {@inheritDoc}
      */
     @Override
-    public List<DefenseDescription> getBuildingOptions() {
+    public Stream<Pair<DefenseDescription, Boolean>> getBuildingOptions() {
         if (updateBuildinOption()) {
-            return List.copyOf(options);
+            return options.stream().map(dd -> Pair.of(dd, game.isPurchasable(dd.getCost())));
         }
-        return List.of();
+        return Stream.of();
     }
 
     /**
