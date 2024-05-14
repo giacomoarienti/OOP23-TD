@@ -5,6 +5,8 @@ import java.io.IOException;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
 import it.unibo.towerdefense.controller.Controller;
 import it.unibo.towerdefense.controller.ControllerImpl;
+import it.unibo.towerdefense.model.ModelManager;
+import it.unibo.towerdefense.model.ModelManagerImpl;
 import it.unibo.towerdefense.view.ViewImpl;
 import it.unibo.towerdefense.view.View;
 
@@ -28,10 +30,12 @@ public final class TowerDefense {
     public static void main(final String[] args) throws IOException {
         // create game folder
         FileUtils.createGameFolder();
-        // instantiate the view and controller
+        // instantiate the model
+        final ModelManager model = new ModelManagerImpl();
+        // instantiate the view
         final View view = new ViewImpl();
-        final Controller controller = new ControllerImpl(view);
-        // launch the game
+        // instantiate the controller and launch
+        final Controller controller = new ControllerImpl(model, view);
         controller.launch();
     }
 }
