@@ -115,8 +115,8 @@ public class DefenseManagerImpl implements DefenseManager {
     public void update() {
         updateMomentum();
         Set<? extends Enemy> enemies = manager.getEnemies().getEnemies();
-        Map<Integer,Integer> damage = attackEnemies(manager.getEnemies().getEnemies());
         List<? extends Enemy> enumeratedEnemies = enemies.stream().toList();
+        Map<Integer,Integer> damage = attackEnemies(enumeratedEnemies);
         if (damage.size() != 0) {
             for(Map.Entry<Integer,Integer> dam: damage.entrySet()) {
                 enumeratedEnemies.get(dam.getKey()).hurt(dam.getValue());
@@ -165,7 +165,7 @@ public class DefenseManagerImpl implements DefenseManager {
      *{@inheritDoc}
      */
     @Override
-    public Map<Integer, Integer> attackEnemies(final List<Pair<LogicalPosition, Integer>> availableTargets) {
+    public Map<Integer, Integer> attackEnemies(final List<? extends Enemy> availableTargets) {
         Map<Integer, Integer> result = new HashMap<>();
         for (Pair<Defense, Integer> def : this.defenses) {
             /**execute only if momentum is reached.*/
