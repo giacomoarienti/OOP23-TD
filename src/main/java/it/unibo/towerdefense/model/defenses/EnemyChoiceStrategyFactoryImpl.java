@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.model.enemies.Enemy;
 
 /**
  * Implementation of EnemyChoiceStrategyFactory.
@@ -27,31 +27,31 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
      * @param customPos saved if the strategies uses additional positions for calculations.
      */
     private EnemyChoiceStrategy genericModel(final BiPredicate<LogicalPosition, LogicalPosition> isTargetValid,
-    final Function<Map<Integer, Pair<LogicalPosition, Integer>>, Map<Integer, Pair<LogicalPosition, Integer>>> mapValidTargets,
-    final BiFunction<Integer, Map<Integer, Pair<LogicalPosition, Integer>>, Map<Integer, Integer>> mapDamage,
+    final Function<Map<Integer, ? extends Enemy>, Map<Integer, ? extends Enemy>> mapValidTargets,
+    final BiFunction<Integer, Map<Integer, ? extends Enemy>, Map<Integer, Integer>> mapDamage,
     final LogicalPosition basePosition, final Optional<LogicalPosition> customPos) {
         return new EnemyChoiceStrategy() {
             /**
              * {@inheritDoc}
              */
             @Override
-            public Map<Integer, Integer> execute(final List<Pair<LogicalPosition, Integer>> availableTargets,
+            public Map<Integer, Integer> execute(final List<? extends Enemy> availableTargets,
             final int baseDamage) {
                 /**No need for calculations if list is empty.*/
                 if (availableTargets.size() == 0) {
                     return Map.of();
                 }
                 /*map entities to list index.*/
-                Map<Integer, Pair<LogicalPosition, Integer>> mappedAvailableTargets = IntStream.range(0, availableTargets.size())
+                Map<Integer, ? extends Enemy> mappedAvailableTargets = IntStream.range(0, availableTargets.size())
                         .boxed()
                         .collect(Collectors.toMap(i -> i, i -> availableTargets.get(i)));
                     /**get valid targets */
-                Map<Integer, Pair<LogicalPosition, Integer>> validTargets = mappedAvailableTargets.entrySet()
+                Map<Integer, ? extends Enemy> validTargets = mappedAvailableTargets.entrySet()
                         .stream()
-                        .filter(x -> isTargetValid.test(x.getValue().getKey(), basePosition))
+                        .filter(x -> isTargetValid.test(x.getValue().getPosition(), basePosition))
                         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue()));
                     /**get targets that are going to be hit and return mapped damage. */
-                Map<Integer, Pair<LogicalPosition, Integer>> finalTargets = mapValidTargets.apply(validTargets);
+                Map<Integer, ? extends Enemy> finalTargets = mapValidTargets.apply(validTargets);
                 return mapDamage.apply(baseDamage, finalTargets);
             }
             /**
@@ -68,16 +68,16 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
      * @param entities the entities to check.
      * @param point the position we want to see distance to.
     */
-    private LogicalPosition getClosestTo(final Map<Integer, Pair<LogicalPosition, Integer>> entities,
+    private LogicalPosition getClosestTo(final Map<Integer, ? extends Enemy> entities,
     final LogicalPosition point) {
         return entities.entrySet()
         .stream()
         .sorted((p1, p2) ->
-            Double.compare(p1.getValue().getKey().distanceTo(point),
-            p2.getValue().getKey().distanceTo(point)))
+            Double.compare(p1.getValue().getPosition().distanceTo(point),
+            p2.getValue().getPosition().distanceTo(point)))
         .findFirst()
         .get()
-        .getValue().getKey();
+        .getValue().getPosition();
     }
 
     /**
@@ -89,7 +89,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
             map -> map.entrySet()
             .stream()
             .sorted((p1, p2) ->
-                Double.compare(p1.getValue().getKey().distanceTo(position), p2.getValue().getKey().distanceTo(position)))
+                Double.compare(p1.getValue().getPosition().distanceTo(position), p2.getValue().getPosition().distanceTo(position)))
             .limit(maxTargets)
             .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
             (damage, map) -> map.entrySet()
@@ -109,7 +109,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
         return genericModel((x1, x2) -> x1.distanceTo(x2) <= range,
         map -> map.entrySet()
         .stream()
-        .filter(ent -> ent.getValue().getKey().distanceTo(getClosestTo(map, position)) <= damageRange)
+        .filter(ent -> ent.getValue().getPosition().distanceTo(getClosestTo(map, position)) <= damageRange)
         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
         (damage, map) -> map.entrySet()
         .stream()
@@ -127,7 +127,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
         return genericModel((x1, x2) -> x1.distanceTo(x2) > range,
         map -> map.entrySet()
         .stream()
-        .filter(ent -> ent.getValue().getKey().distanceTo(getClosestTo(map, customPoint)) == 0)
+        .filter(ent -> ent.getValue().getPosition().distanceTo(getClosestTo(map, customPoint)) == 0)
         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
         (damage, map) -> map.entrySet()
         .stream()

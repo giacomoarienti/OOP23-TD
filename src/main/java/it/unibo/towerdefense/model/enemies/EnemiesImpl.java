@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
@@ -23,6 +24,7 @@ public class EnemiesImpl implements Enemies {
     private final EnemyFactory factory;
     private final Function<Integer, Wave> waveSupplier;
     private final Set<Observer<Enemy>> enemyDeathObservers;
+    private final Supplier<EnemyPosition> startingPosSupplier;
     private Optional<Wave> current = Optional.empty();
 
     /**
@@ -35,9 +37,10 @@ public class EnemiesImpl implements Enemies {
      * @param startingPos the starting position of enemies
      */
     public EnemiesImpl(final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction,
-            final EnemyPosition startingPos) {
+            final Supplier<EnemyPosition> startingPosSupplier) {
+        this.startingPosSupplier = startingPosSupplier;
         this.enemies = new EnemyCollectionImpl(posFunction);
-        this.factory = new SimpleEnemyFactory(startingPos);
+        this.factory = new SimpleEnemyFactory();
         WavePolicySupplier wp;
         EnemyCatalogue ec;
         try {
@@ -112,7 +115,7 @@ public class EnemiesImpl implements Enemies {
      * @param et the type of the enemy to spawn.
      */
     private void spawnEnemy(RichEnemyType et) {
-        RichEnemy spawned = factory.spawn(et);
+        RichEnemy spawned = factory.spawn(et, startingPosSupplier.get());
         enemies.add(spawned);
         enemyDeathObservers.forEach(o -> spawned.addDeathObserver(o));
     }

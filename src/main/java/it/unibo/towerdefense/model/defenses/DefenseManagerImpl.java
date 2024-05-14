@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -15,9 +16,10 @@ import org.json.JSONObject;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.controller.mediator.ControllerMediator;
+import it.unibo.towerdefense.model.ModelManager;
 import it.unibo.towerdefense.model.defenses.costants.DefenseFormulas;
 import it.unibo.towerdefense.model.defenses.costants.DefenseMapFilePaths;
-import it.unibo.towerdefense.view.graphics.GameRenderer;
+import it.unibo.towerdefense.model.enemies.Enemy;
 
 /**Implementation of DefenseController.*/
 public class DefenseManagerImpl implements DefenseManager {
@@ -27,22 +29,12 @@ public class DefenseManagerImpl implements DefenseManager {
     /**All current existing defenses with their respective cooldown.*/
     private List<Pair<Defense, Integer>> defenses;
     /**for getting end of map and entities.*/
-    private ControllerMediator master;
-
-    /**Constructor that gives this controller access to other necessary controller methods.
-    *
-    */
-    public DefenseManagerImpl(final ControllerMediator master) {
-        this();
-        this.master = master;
-    }
+    private ModelManager manager;
 
     /**A constructor that recovers defense state from a json file.
-     * @param master the mediator.
      * @param jsonString the json content.
     */
-    public DefenseManagerImpl(final ControllerMediator master, final String jsonString) {
-        this(master);
+    public DefenseManagerImpl(final String jsonString) {
         JSONArray serializedDefenses = new JSONArray(jsonString);
         for(Object def: serializedDefenses) {
             this.defenses.add(new ImmutablePair<Defense,Integer>
@@ -95,7 +87,7 @@ public class DefenseManagerImpl implements DefenseManager {
                 factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefenseWithCustomPosition(DefenseMapFilePaths.THUNDER_INVOKER_LV1,
-                buildPosition, master.getMapController().getEndPosition(), Optional.empty())
+                buildPosition, manager.getMap().getEndPosition(), Optional.empty())
             );
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
@@ -109,24 +101,17 @@ public class DefenseManagerImpl implements DefenseManager {
         }
     }
 
-    /**
-     *{@inheritDoc}
-     */
-    @Override
+    /**Update method to hurt enemies.*/
     public void update() {
         updateMomentum();
-        Map<Integer,Integer> damage = attackEnemies(master.getEnemyController().getEnemies());
+        Set<? extends Enemy> enemies = manager.getEnemies().getEnemies();
+        List<? extends Enemy> enumeratedEnemies = enemies.stream().toList();
+        Map<Integer,Integer> damage = attackEnemies(enumeratedEnemies);
         if (damage.size() != 0) {
-            master.getEnemyController().hurtEnemies(damage);
+            for(Map.Entry<Integer,Integer> dam: damage.entrySet()) {
+                enumeratedEnemies.get(dam.getKey()).hurt(dam.getValue());
+            }
         }
-    }
-
-    /**
-     *{@inheritDoc}
-     */
-    @Override
-    public void render(final GameRenderer renderer) {
-
     }
 
     /**
@@ -170,7 +155,7 @@ public class DefenseManagerImpl implements DefenseManager {
      *{@inheritDoc}
      */
     @Override
-    public Map<Integer, Integer> attackEnemies(final List<Pair<LogicalPosition, Integer>> availableTargets) {
+    public Map<Integer, Integer> attackEnemies(final List<? extends Enemy> availableTargets) {
         Map<Integer, Integer> result = new HashMap<>();
         for (Pair<Defense, Integer> def : this.defenses) {
             /**execute only if momentum is reached.*/
@@ -209,5 +194,13 @@ public class DefenseManagerImpl implements DefenseManager {
             return getDescriptionFrom(def.get().getValue());
         }
         return DefenseDescription.nonBuiltDefense();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void bind(ModelManager mm) {
+        this.manager = mm;
     }
 }

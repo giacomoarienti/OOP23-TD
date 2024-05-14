@@ -13,23 +13,15 @@ import it.unibo.towerdefense.commons.patterns.Observer;
  */
 class SimpleEnemyFactory implements EnemyFactory {
 
-    private final EnemyPosition startingPos;
-
-    /**
-     * Constructor for the class.
-     *
-     * @param startingPos the starting position for all enemies produced by the
-     *                    factory
-     */
-    SimpleEnemyFactory(final EnemyPosition startingPos) {
-        this.startingPos = startingPos.clone();
+    public SimpleEnemyFactory(){
     }
 
     /**
      * {@inheritDoc}.
      */
-    public RichEnemy spawn(final RichEnemyType t) {
-        return new MinimalEnemy(t);
+    @Override
+    public RichEnemy spawn(final RichEnemyType t, final EnemyPosition spawnPos) {
+        return new MinimalEnemy(t, spawnPos);
     }
 
     /**
@@ -52,7 +44,7 @@ class SimpleEnemyFactory implements EnemyFactory {
                 implements EnemyInfo {
         };
 
-        private final EnemyPosition pos = startingPos.clone();
+        private final EnemyPosition pos;
         private final Set<Observer<? super RichEnemy>> deathObservers;
         private final RichEnemyType t;
         private int hp;
@@ -62,8 +54,9 @@ class SimpleEnemyFactory implements EnemyFactory {
          *
          * @param t the type of the Enemy from which to retrieve hp and speed
          */
-        MinimalEnemy(final RichEnemyType t) {
+        MinimalEnemy(final RichEnemyType t, final EnemyPosition startingPos) {
             deathObservers = new HashSet<>();
+            this.pos = startingPos.clone();
             this.t = t;
             this.hp = t.getMaxHP();
         }
