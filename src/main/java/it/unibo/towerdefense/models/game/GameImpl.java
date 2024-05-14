@@ -63,6 +63,23 @@ public class GameImpl implements Game {
         this.observers = new ArrayList<>();
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resume() {
+        this.setGameState(GameState.PLAYING);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pause() {
+        this.setGameState(GameState.PAUSE);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -140,6 +157,14 @@ public class GameImpl implements Game {
      * {@inheritDoc}
      */
     @Override
+    public boolean isPurchasable(final int amount) {
+        return this.getMoney() >= amount;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int getWave() {
         return this.wave;
     }
@@ -159,6 +184,14 @@ public class GameImpl implements Game {
     @Override
     public GameState getGameState() {
         return this.gameState;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isPlaying() {
+        return this.getGameState().equals(GameState.PLAYING);
     }
 
     /**
@@ -206,6 +239,14 @@ public class GameImpl implements Game {
         this.observers.forEach(
             (obs) -> obs.notify(this.toDTO())
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toJSON() {
+        return this.toDTO().toJSON();
     }
 
     /**

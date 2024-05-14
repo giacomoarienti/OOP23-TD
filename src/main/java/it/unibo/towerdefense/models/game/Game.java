@@ -1,12 +1,13 @@
 package it.unibo.towerdefense.models.game;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.models.JsonSerializable;
 import it.unibo.towerdefense.models.ObservableModel;
 
 /**
  * Model containing base game's statistics and info.
  */
-public interface Game extends ObservableModel<GameDTO> {
+public interface Game extends ObservableModel<GameDTO>, JsonSerializable {
 
     /**
      * Player name getter.
@@ -46,6 +47,19 @@ public interface Game extends ObservableModel<GameDTO> {
     boolean purchase(int amount);
 
     /**
+     * Check if the player has enough money to buy something.
+     * @param amount the amount of money to be checked
+     * @return true if the player has enough money
+     */
+    boolean isPurchasable(int amount);
+
+    /**
+     * Check if the game is playing.
+     * @return true if the game is RUNNING
+     */
+    boolean isPlaying();
+
+    /**
      * Wave getter.
      * @return the wave number
      */
@@ -61,6 +75,16 @@ public interface Game extends ObservableModel<GameDTO> {
      * @return the state of the game
      */
     GameState getGameState();
+
+    /**
+     * Sets gameState to PLAYING.
+     */
+    void resume();
+
+    /**
+     * Sets gameState to PAUSE.
+     */
+    void pause();
 
     /**
      * Update the current game state.
