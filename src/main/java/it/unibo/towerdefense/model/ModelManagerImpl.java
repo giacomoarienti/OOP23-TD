@@ -48,7 +48,7 @@ public class ModelManagerImpl implements ModelManager {
     }
 
     @Override
-    public Enemies getEnemies() {
+    public EnemiesManager getEnemies() {
         return enemies;
     }
 
