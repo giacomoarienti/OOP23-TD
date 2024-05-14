@@ -42,7 +42,10 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void launch() {
-        final var gameLauncherController = new GameLauncherControllerImpl(this, this.view);
+        final var gameLauncherController = new GameLauncherControllerImpl(
+            this.view,
+            this::run
+        );
         gameLauncherController.run();
     }
 
@@ -127,14 +130,6 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public String getPlayerName() {
-        return this.playerName;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public boolean isTerminated() {
         return this.loopTerminated;
     }
@@ -153,8 +148,9 @@ public class ControllerImpl implements Controller {
     @Override
     public void displaySavings() {
         final var savingsController = new SavingsControllerImpl(
-            this,
-            this.view
+            this.playerName,
+            this.view,
+            this::start
         );
         savingsController.run();
     }
@@ -172,6 +168,7 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void render() {
+        // TODO implement here
     }
 
     private void startGameLoop() {

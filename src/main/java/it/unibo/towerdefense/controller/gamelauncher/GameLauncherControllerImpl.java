@@ -2,10 +2,10 @@ package it.unibo.towerdefense.controller.gamelauncher;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.engine.Size;
-import it.unibo.towerdefense.controller.Controller;
 import it.unibo.towerdefense.view.View;
 
 /**
@@ -16,18 +16,18 @@ public class GameLauncherControllerImpl implements GameLauncherController {
     private static final List<Size> RESOLUTIONS = Constants.RESOLUTIONS;
 
     private final View view;
-    private final Controller controller;
+    private final BiConsumer<String, Size> start;
 
     private String playerName;
     private int resolution;
 
     /**
      * Constructor for the GameLauncherControllerImpl class.
-     * @param controller the main controller of the game
      * @param view the main view of the game
+     * @param start the consumer to start the game
      */
-    public GameLauncherControllerImpl(final Controller controller, final View view) {
-        this.controller = controller;
+    public GameLauncherControllerImpl(final View view, final BiConsumer<String, Size> start) {
+        this.start = start;
         this.view = view;
     }
 
@@ -77,7 +77,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
      */
     @Override
     public void startGame() {
-        this.controller.run(
+        this.start.accept(
             playerName,
             RESOLUTIONS.get(resolution)
         );

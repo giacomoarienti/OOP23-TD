@@ -3,9 +3,10 @@ package it.unibo.towerdefense.controller.savings;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
-import it.unibo.towerdefense.controller.Controller;
 import it.unibo.towerdefense.model.saving.Saving;
+import it.unibo.towerdefense.model.saving.SavingsImpl;
 import it.unibo.towerdefense.view.View;
 
 /**
@@ -13,21 +14,26 @@ import it.unibo.towerdefense.view.View;
  */
 public class SavingsControllerImpl implements SavingsController {
 
-    private final Controller controller;
+    private final Consumer<Saving> start;
     private final View view;
     private final List<Saving> savings;
 
     /**
-     * Loads savings from the SavingLoader.
-     * @param controller the application controller.
-     * @param view the application view.
+     * Loads savings from the SavingsController.
+     * @param playerName the player name
+     * @param view the application view
+     * @param start the consumer to start the game
      */
-    public SavingsControllerImpl(final Controller controller, final View view) {
-        this.controller = controller;
+    public SavingsControllerImpl(
+        final String playerName,
+        final View view,
+        final Consumer<Saving> start
+    ) {
+        this.start = start;
         this.view = view;
         // load savings
         try {
-            final var savingLoader = new SavingLoaderImpl(controller.getPlayerName());
+            final var savingLoader = new SavingsImpl(playerName);
             this.savings = savingLoader.loadSavings();
         } catch (final IOException e) {
            throw new RuntimeException("Error while loading savings", e);
@@ -55,6 +61,6 @@ public class SavingsControllerImpl implements SavingsController {
      */
     @Override
     public void loadSaving(final Saving saving) {
-        this.controller.start(saving);
+        this.start.accept(saving);
     }
 }
