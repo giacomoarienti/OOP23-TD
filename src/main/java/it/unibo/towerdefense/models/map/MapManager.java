@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controllers.map;
+package it.unibo.towerdefense.models.map;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,7 +12,7 @@ import it.unibo.towerdefense.controllers.SerializableModel;
 /**
  *Interface that models controller of map.
  */
-public interface MapController extends SerializableModel {
+public interface MapManager extends SerializableModel {
 
     /**
      * Enemies spawn point getter.

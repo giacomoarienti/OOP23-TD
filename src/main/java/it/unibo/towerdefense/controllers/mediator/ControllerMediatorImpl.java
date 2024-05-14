@@ -19,10 +19,10 @@ import it.unibo.towerdefense.controllers.enemies.EnemyController;
 import it.unibo.towerdefense.controllers.enemies.EnemyControllerImpl;
 import it.unibo.towerdefense.controllers.game.GameController;
 import it.unibo.towerdefense.controllers.game.GameControllerImpl;
-import it.unibo.towerdefense.controllers.map.MapController;
-import it.unibo.towerdefense.controllers.map.MapControllerImpl;
 import it.unibo.towerdefense.models.defenses.DefenseManager;
 import it.unibo.towerdefense.models.defenses.DefenseManagerImpl;
+import it.unibo.towerdefense.models.map.MapManager;
+import it.unibo.towerdefense.models.map.MapManagerImpl;
 import it.unibo.towerdefense.models.savingloader.SavingLoaderImpl;
 import it.unibo.towerdefense.models.savingloader.saving.Saving;
 import it.unibo.towerdefense.models.savingloader.saving.SavingFieldsEnum;
@@ -39,7 +39,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
 
     private final GameRenderer gameRenderer;
     private final GameController gameController;
-    private final MapController mapController;
+    private final MapManager mapController;
     private final DefenseManager defensesController;
     private final EnemyController enemyController;
     private List<Controller> controllers;
@@ -59,7 +59,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
         this.gameRenderer = renderer;
         // initialize controllers
         this.gameController = new GameControllerImpl(playerName);
-        this.mapController = new MapControllerImpl(mapSize, this);
+        this.mapController = new MapManagerImpl(mapSize, this);
         this.defensesController = new DefenseManagerImpl(this);
         this.enemyController = new EnemyControllerImpl(this);
         // add controllers to the list
@@ -78,7 +78,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
         this.gameController = new GameControllerImpl(
             GameDTO.fromJson(saving.getGameJson())
         );
-        this.mapController = new MapControllerImpl(saving.getMapJson(), this);
+        this.mapController = new MapManagerImpl(saving.getMapJson(), this);
         this.defensesController = new DefenseManagerImpl(
             this,
             saving.getDefensesJson()
@@ -157,7 +157,7 @@ public class ControllerMediatorImpl implements ControllerMediator {
      * {@inheritDoc}
      */
     @Override
-    public MapController getMapController() {
+    public MapManager getMapController() {
         if (Objects.isNull(this.mapController)) {
             throw new IllegalStateException("MapController not initialized");
         }

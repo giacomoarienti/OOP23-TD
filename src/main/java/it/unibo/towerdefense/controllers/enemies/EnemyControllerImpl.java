@@ -11,12 +11,12 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.graphics.GameRenderer;
 import it.unibo.towerdefense.controllers.game.GameController;
-import it.unibo.towerdefense.controllers.map.MapController;
-import it.unibo.towerdefense.controllers.map.PathVector;
 import it.unibo.towerdefense.controllers.mediator.ControllerMediator;
 import it.unibo.towerdefense.models.enemies.Enemies;
 import it.unibo.towerdefense.models.enemies.EnemiesImpl;
 import it.unibo.towerdefense.models.enemies.Enemy;
+import it.unibo.towerdefense.models.map.MapManager;
+import it.unibo.towerdefense.models.map.PathVector;
 import it.unibo.towerdefense.views.enemies.EnemyRenderer;
 import it.unibo.towerdefense.views.enemies.EnemyRendererImpl;
 
@@ -37,7 +37,7 @@ public class EnemyControllerImpl implements EnemyController {
      *           the application.
      */
     public EnemyControllerImpl(final ControllerMediator mc) {
-        final MapController map = mc.getMapController();
+        final MapManager map = mc.getMapController();
         final GameController game = mc.getGameController();
         enemyRenderer = new EnemyRendererImpl(mc.getImageLoader());
 

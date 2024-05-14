@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controllers.map;
+package it.unibo.towerdefense.models.map;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,22 +11,14 @@ import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.models.defenses.DefenseType;
-import it.unibo.towerdefense.models.map.BuildableCell;
-import it.unibo.towerdefense.models.map.Cell;
-import it.unibo.towerdefense.models.map.MapDirection;
-import it.unibo.towerdefense.models.map.GameMap;
-import it.unibo.towerdefense.models.map.GameMapImpl;
-import it.unibo.towerdefense.models.map.PathCell;
-import it.unibo.towerdefense.commons.graphics.GameRenderer;
 
 /**
  * Class to interact with map methods.
  */
-public class MapControllerImpl implements MapController {
+public class MapManagerImpl implements MapManager {
 
     private final GameMap map;
     private final ControllerMediator master;
-    //private final GameRenderer gameRenderer;
     private BuildableCell selected = null;
     private List<DefenseDescription> options;
 
@@ -36,7 +28,7 @@ public class MapControllerImpl implements MapController {
      * @param size size of map in terms of game cells.
      * @param masterController the mediator controller.
      */
-    public MapControllerImpl(Size size, final ControllerMediator masterController) {
+    public MapManagerImpl(Size size, final ControllerMediator masterController) {
         try {
             this.map = new GameMapImpl(size);
         } catch (IllegalArgumentException e) {
@@ -50,20 +42,12 @@ public class MapControllerImpl implements MapController {
      * @param jsondata JSON representation of GameMap Object.
      * @param masterController the mediator controller.
      */
-    public MapControllerImpl(
+    public MapManagerImpl(
         final String jsondata,
         final ControllerMediator masterController
     ) {
         this.map = GameMapImpl.fromJson(jsondata);
         this.master = masterController;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void update() {
-        // TODO;
     }
 
     /**
@@ -185,14 +169,6 @@ public class MapControllerImpl implements MapController {
     @Override
     public String toJSON() {
         return map.toJSON();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void render(final GameRenderer renderer) {
-        //mapRenderer.render(renderer, );
     }
 
     private boolean updateBuildinOption() {

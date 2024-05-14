@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controllers.map;
+package it.unibo.towerdefense.models.map;
 
 import it.unibo.towerdefense.commons.engine.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;

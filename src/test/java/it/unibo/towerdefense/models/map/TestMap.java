@@ -6,9 +6,6 @@ import org.junit.jupiter.api.Test;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.engine.SizeImpl;
-import it.unibo.towerdefense.controllers.map.MapController;
-import it.unibo.towerdefense.controllers.map.MapControllerImpl;
-import it.unibo.towerdefense.controllers.map.PathVector;
 
 /**
  * Map tester with "generate" path.
@@ -16,7 +13,7 @@ import it.unibo.towerdefense.controllers.map.PathVector;
 public class TestMap {
     private final static Size TEST_SIZE = new SizeImpl(30, 20);
     private final static int ITERATION_MOVEMENT = 1;
-    private MapController map = new MapControllerImpl(TEST_SIZE, null);
+    private MapManager map = new MapManagerImpl(TEST_SIZE, null);
     private PathVector spawn = map.getSpawnPosition();
     private LogicalPosition pos = spawn.position();
     private int distanceToEnd = spawn.distanceToEnd();
