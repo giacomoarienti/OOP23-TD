@@ -2,7 +2,7 @@ package it.unibo.towerdefense.controller.game;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.patterns.Observer;
-import it.unibo.towerdefense.model.game.Game;
+import it.unibo.towerdefense.model.game.GameManager;
 import it.unibo.towerdefense.view.game.GameInfoView;
 import it.unibo.towerdefense.view.game.GameInfoViewImpl;
 import it.unibo.towerdefense.view.graphics.GameRenderer;
@@ -12,10 +12,10 @@ import it.unibo.towerdefense.view.graphics.GameRenderer;
  */
 public class GameControllerImpl implements GameController {
 
-    private final Game game;
+    private final GameManager game;
     private final GameInfoView view;
 
-    private GameControllerImpl(final Game game) {
+    private GameControllerImpl(final GameManager game) {
         this.game = game;
         // instantiate the view and set it as observer
         this.view = new GameInfoViewImpl();

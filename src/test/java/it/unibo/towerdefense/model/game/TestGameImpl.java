@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
-import it.unibo.towerdefense.model.game.Game;
-import it.unibo.towerdefense.model.game.GameImpl;
+import it.unibo.towerdefense.model.game.GameManager;
+import it.unibo.towerdefense.model.game.GameManagerImpl;
 import it.unibo.towerdefense.model.game.GameState;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ class TestGameImpl {
     private static final int INITIAL_MONEY = 100;
     private static final GameState PAUSE_STATE = GameState.PAUSE;
 
-    private Game game;
+    private GameManager game;
 
     /**
      * Configuration step: this is performed BEFORE each test.
@@ -35,7 +35,7 @@ class TestGameImpl {
      */
     @BeforeEach
     void setUp() throws IOException {
-        this.game = new GameImpl(PLAYER_NAME);
+        this.game = new GameManagerImpl(PLAYER_NAME);
     }
 
     /**
@@ -96,7 +96,7 @@ class TestGameImpl {
      */
     @Test
     void testConstructor() {
-        final var game = new GameImpl(new GameDTOImpl(PLAYER_NAME, INITIAL_LIVES, INITIAL_MONEY, INITIAL_WAVE));
+        final var game = new GameManagerImpl(new GameDTOImpl(PLAYER_NAME, INITIAL_LIVES, INITIAL_MONEY, INITIAL_WAVE));
         Assertions.assertEquals(PLAYER_NAME, game.getPlayerName());
         Assertions.assertEquals(INITIAL_MONEY, game.getMoney());
         Assertions.assertEquals(INITIAL_MONEY, game.getLives());
@@ -114,7 +114,7 @@ class TestGameImpl {
         final var json = gameDTO.toJSON();
         // reconvert json string to game
         final var gameFromJson = GameDTO.fromJson(json);
-        final var gameFromDTO = Game.fromDTO(gameFromJson);
+        final var gameFromDTO = GameManager.fromDTO(gameFromJson);
         Assertions.assertEquals(this.game, gameFromDTO);
     }
 }

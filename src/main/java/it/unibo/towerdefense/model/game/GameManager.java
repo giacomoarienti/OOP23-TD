@@ -1,13 +1,13 @@
 package it.unibo.towerdefense.model.game;
 
+import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.patterns.Observable;
-import it.unibo.towerdefense.model.JsonSerializable;
 
 /**
  * Model containing base game's statistics and info.
  */
-public interface Game extends Observable<GameDTO>, JsonSerializable {
+public interface GameManager extends Observable<GameDTO>, JsonSerializable {
 
     /**
      * Player name getter.
@@ -109,7 +109,7 @@ public interface Game extends Observable<GameDTO>, JsonSerializable {
      * @param dto the GameDTO object
      * @return the Game object
      */
-    static Game fromDTO(final GameDTO dto) {
-        return new GameImpl(dto);
+    static GameManager fromDTO(final GameDTO dto) {
+        return new GameManagerImpl(dto);
     }
 }

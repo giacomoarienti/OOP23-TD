@@ -2,8 +2,8 @@ package it.unibo.towerdefense.model.defenses;
 
 import java.util.Set;
 
+import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.model.JsonSerializable;
 
 /**
  * The actual physical structure that attacks and defeats the enemies.

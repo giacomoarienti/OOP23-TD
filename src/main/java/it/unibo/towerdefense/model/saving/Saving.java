@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.model.saving;
 
-import it.unibo.towerdefense.model.JsonSerializable;
+import it.unibo.towerdefense.commons.api.JsonSerializable;
 
 /**
  * Interface that models a game saving.

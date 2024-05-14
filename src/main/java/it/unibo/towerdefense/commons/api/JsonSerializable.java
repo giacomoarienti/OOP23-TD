@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.model;
+package it.unibo.towerdefense.commons.api;
 
 /**
  * Interface that models a JSON serializable object.

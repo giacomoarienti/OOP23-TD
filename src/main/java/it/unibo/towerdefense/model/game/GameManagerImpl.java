@@ -12,7 +12,7 @@ import it.unibo.towerdefense.commons.patterns.Observer;
 /**
  * Base implementation of the Game interface.
  */
-public class GameImpl implements Game {
+public class GameManagerImpl implements GameManager {
 
     private static final int START_LIVES = 100;
     private static final int START_MONEY = 500;
@@ -31,7 +31,7 @@ public class GameImpl implements Game {
      * Constructor with playerName, it initializes a new game with default values.
      * @param playerName the player name
      */
-    public GameImpl(final String playerName) {
+    public GameManagerImpl(final String playerName) {
         this(playerName, START_LIVES, START_MONEY, START_WAVE);
     }
 
@@ -39,7 +39,7 @@ public class GameImpl implements Game {
      * Constructor from GameDTO.
      * @param gameDTO the GameDTO object
      */
-    public GameImpl(final GameDTO gameDTO) {
+    public GameManagerImpl(final GameDTO gameDTO) {
         this(
             gameDTO.getPlayerName(),
             gameDTO.getLives(),
@@ -48,7 +48,7 @@ public class GameImpl implements Game {
         );
     }
 
-    private GameImpl(
+    private GameManagerImpl(
         final String playerName,
         final int lives,
         final int money,
@@ -244,8 +244,8 @@ public class GameImpl implements Game {
      */
     @Override
     public boolean equals(final Object obj) {
-        if (obj instanceof GameImpl) {
-            final GameImpl gameObject = (GameImpl) obj;
+        if (obj instanceof GameManagerImpl) {
+            final GameManagerImpl gameObject = (GameManagerImpl) obj;
             return this.getPlayerName().equals(gameObject.getPlayerName())
                 && this.getLives() == gameObject.getLives()
                 && this.getMoney() == gameObject.getMoney()

@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.model.score;
 
-import it.unibo.towerdefense.model.JsonSerializable;
+import it.unibo.towerdefense.commons.api.JsonSerializable;
 
 /**
  * Interface that defines the methods to manage the game's scoreboard.

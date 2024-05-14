@@ -1,8 +1,8 @@
 package it.unibo.towerdefense.model.map;
 
+import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
-import it.unibo.towerdefense.model.JsonSerializable;
 
 /**
  * The entity that contain game map informations, with some utility methods to use in 2D space.

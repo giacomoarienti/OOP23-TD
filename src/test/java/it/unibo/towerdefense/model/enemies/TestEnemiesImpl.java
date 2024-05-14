@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
-import it.unibo.towerdefense.model.enemies.EnemiesManagerImpl;
+import it.unibo.towerdefense.model.enemies.EnemiesImpl;
 import it.unibo.towerdefense.model.enemies.Filenames;
 import it.unibo.towerdefense.model.enemies.RichEnemy;
 import it.unibo.towerdefense.model.enemies.WavePolicySupplierImpl;
@@ -24,7 +24,7 @@ public class TestEnemiesImpl {
      */
     private static final LogicalPosition STARTING_POSITION = new LogicalPosition(0, 0);
     private WavePolicySupplierImpl testing_wp;
-    private EnemiesManagerImpl tested;
+    private EnemiesImpl tested;
     private int dead;
 
     /**
@@ -36,7 +36,7 @@ public class TestEnemiesImpl {
     @BeforeEach
     void init() throws IOException {
         testing_wp = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
-        tested = new EnemiesManagerImpl((pos, speed) -> Optional.of(new LogicalPosition(1, 1)), STARTING_POSITION);
+        tested = new EnemiesImpl((pos, speed) -> Optional.of(new LogicalPosition(1, 1)), STARTING_POSITION);
         dead = 0;
         tested.addDeathObserver(e -> dead += 1);
     }
