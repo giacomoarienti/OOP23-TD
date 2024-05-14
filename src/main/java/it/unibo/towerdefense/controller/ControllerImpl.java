@@ -8,12 +8,10 @@ import org.slf4j.LoggerFactory;
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherControllerImpl;
-import it.unibo.towerdefense.controller.gameloop.GameLoopController;
-import it.unibo.towerdefense.controller.gameloop.GameLoopControllerImpl;
-import it.unibo.towerdefense.controller.menu.MenuControllerImpl;
+import it.unibo.towerdefense.controller.gameloop.GameLoop;
+import it.unibo.towerdefense.controller.menu.StartMenuControllerImpl;
 import it.unibo.towerdefense.controller.savings.SavingsControllerImpl;
 import it.unibo.towerdefense.model.ModelManager;
-import it.unibo.towerdefense.model.ModelManagerImpl;
 import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.view.View;
 
@@ -24,16 +22,18 @@ public class ControllerImpl implements Controller {
     private final static Size MAP_SIZE = Constants.MAP_SIZE; // might be a variable in the future
 
     private final View view;
+    private final ModelManager model;
 
     private String playerName;
-    private ModelManager manager;
-    private GameLoopController loopController;
+    private Boolean loopTerminated;
 
     /**
      * Constructor for the ControllerImpl class.
+     * @param model the main model of the game
      * @param view the main view of the game
      */
-    public ControllerImpl(final View view) {
+    public ControllerImpl(final ModelManager model, final View view) {
+        this.model = model;
         this.view = view;
     }
 
@@ -42,8 +42,8 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void launch() {
-        final var gameLauncherController = new GameLauncherControllerImpl();
-        this.view.displayLauncher(gameLauncherController);
+        final var gameLauncherController = new GameLauncherControllerImpl(this, this.view);
+        gameLauncherController.run();
     }
 
     /**
@@ -54,10 +54,10 @@ public class ControllerImpl implements Controller {
         logger.info("run()");
         this.playerName = playerName;
         // display the game window
-        this.view.displayGame(resolution);
+        this.view.displayWindow(resolution);
         // display the StartMenu
-        final var menu = new MenuControllerImpl(this);
-        this.view.displayStartMenu(menu);
+        final var menu = new StartMenuControllerImpl(this, this.view);
+        menu.run();
     }
 
     /**
@@ -66,8 +66,8 @@ public class ControllerImpl implements Controller {
     @Override
     public void start() {
         logger.info("start()");
-        // instantiate the game loop and mediator controllers
-        this.manager = new ModelManagerImpl(MAP_SIZE, playerName);
+        // init the model with the player name and the map size
+        this.model.init(this.playerName, MAP_SIZE);
         this.startGameLoop();
     }
 
@@ -77,8 +77,8 @@ public class ControllerImpl implements Controller {
     @Override
     public void start(final Saving saving) {
         logger.info("start() with saving");
-        // instantiate the game loop and mediator controllers
-        this.manager =  new ModelManagerImpl(saving);
+        // init the model with saving
+        this.model.init(saving);
         this.startGameLoop();
     }
 
@@ -96,11 +96,11 @@ public class ControllerImpl implements Controller {
     @Override
     public void saveAndExit() {
         logger.info("saveAndExit()");
-        if (Objects.isNull(this.manager)) {
+        if (Objects.isNull(this.model)) {
             throw new IllegalStateException("Game not started");
         }
         // save the game and exit
-        this.loopController.stop();
+        this.stop();
         this.save();
         // exit
         this.exit();
@@ -115,29 +115,34 @@ public class ControllerImpl implements Controller {
         this.view.close();
     }
 
-    @Override
-    public void resume() {
-        this.manager.getGame().resume();
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void stop() {
-        this.loopController.stop();
+        this.loopTerminated = true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean isPlaying() {
-        return this.manager.getGame().isPlaying();
+    public boolean isTerminated() {
+        return this.loopTerminated;
     }
 
-    public void update() {
-        // TODO implement here
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isRunning() {
+        return this.model.getGame().isPlaying();
     }
 
-    public void render() {
-        // TODO implement here
-    }
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void displaySavings() {
         final var savingsController = new SavingsControllerImpl(
             this.playerName,
@@ -146,8 +151,28 @@ public class ControllerImpl implements Controller {
         this.view.displaySavings(savingsController);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update() {
+        // TODO implement here
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void render() {
+        // TODO implement here
+    }
+
     private void startGameLoop() {
-        this.loopController = new GameLoopControllerImpl(this);
-        this.loopController.start();
+        // set game to playing
+        this.model.getGame().resume();
+        // initialize game loop and start it
+        final GameLoop.Builder gameLoopBuilder = new GameLoop.Builder();
+        final GameLoop gameLoop = gameLoopBuilder.build(this);
+        gameLoop.start();
     }
 }

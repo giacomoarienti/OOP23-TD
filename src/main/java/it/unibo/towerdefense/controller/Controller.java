@@ -47,6 +47,28 @@ public interface Controller {
     void exit();
 
     /**
+     * Stops the game from updating.
+     */
+    void stop();
+
+    /**
+     * Returns if the game loop should run.
+     * @return true if game is running
+     */
+    boolean isRunning();
+
+    /**
+     * Return if the process should terminate.
+     * @return true if the game loop should stop.
+     */
+    boolean isTerminated();
+
+    /**
+     * Displays the saving selection view.
+     */
+    void displaySavings();
+
+    /**
      * Updates the state of the relative model.
      */
     void update();
@@ -56,11 +78,4 @@ public interface Controller {
      */
     void render();
 
-    void resume();
-
-    void stop();
-
-    boolean isPlaying();
-
-    void displaySavings();
 }
