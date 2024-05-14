@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.model.enemies.Enemy;
@@ -128,7 +127,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
         return genericModel((x1, x2) -> x1.distanceTo(x2) > range,
         map -> map.entrySet()
         .stream()
-        .filter(ent -> ent.getValue().getKey().distanceTo(getClosestTo(map, customPoint)) == 0)
+        .filter(ent -> ent.getValue().getPosition().distanceTo(getClosestTo(map, customPoint)) == 0)
         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
         (damage, map) -> map.entrySet()
         .stream()
