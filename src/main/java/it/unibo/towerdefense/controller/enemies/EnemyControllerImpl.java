@@ -11,8 +11,8 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.controller.game.GameController;
 import it.unibo.towerdefense.controller.mediator.ControllerMediator;
-import it.unibo.towerdefense.model.enemies.Enemies;
-import it.unibo.towerdefense.model.enemies.EnemiesImpl;
+import it.unibo.towerdefense.model.enemies.EnemiesManager;
+import it.unibo.towerdefense.model.enemies.EnemiesManagerImpl;
 import it.unibo.towerdefense.model.enemies.Enemy;
 import it.unibo.towerdefense.model.map.MapManager;
 import it.unibo.towerdefense.model.map.PathVector;
@@ -25,7 +25,7 @@ import it.unibo.towerdefense.view.graphics.GameRenderer;
  */
 public class EnemyControllerImpl implements EnemyController {
 
-    private final Enemies model;
+    private final EnemiesManager model;
     private final EnemyRenderer enemyRenderer;
 
     private Optional<List<Enemy>> lastGivenEnemies = Optional.empty();
@@ -41,7 +41,7 @@ public class EnemyControllerImpl implements EnemyController {
         final GameController game = mc.getGameController();
         enemyRenderer = new EnemyRendererImpl(mc.getImageLoader());
 
-        model = new EnemiesImpl(
+        model = new EnemiesManagerImpl(
                 (pos, speed) -> convert(map.getNextPosition(LogicalPosition.copyOf(pos), speed)),
                 convert(map.getSpawnPosition()).get());
 
