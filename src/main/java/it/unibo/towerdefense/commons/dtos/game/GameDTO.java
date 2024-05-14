@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.commons.dtos.game;
 
-import it.unibo.towerdefense.models.Copyable;
-import it.unibo.towerdefense.models.JsonSerializable;
+import it.unibo.towerdefense.commons.api.Copyable;
+import it.unibo.towerdefense.commons.api.JsonSerializable;
 
 /**
  * Data transfer object for Game.

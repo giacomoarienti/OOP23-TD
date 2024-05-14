@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.commons.engine;
 
-import it.unibo.towerdefense.models.Copyable;
-import it.unibo.towerdefense.models.JsonSerializable;
+import it.unibo.towerdefense.commons.api.Copyable;
+import it.unibo.towerdefense.commons.api.JsonSerializable;
 
 /**
  * Interface representing the position of an object
