@@ -16,9 +16,6 @@ import it.unibo.towerdefense.view.View;
  */
 public final class TowerDefense {
 
-    /**
-     * Zero-argument constructor.
-     */
     private TowerDefense() {
     }
 

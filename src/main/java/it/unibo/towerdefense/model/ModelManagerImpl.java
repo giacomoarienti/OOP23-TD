@@ -14,6 +14,9 @@ import it.unibo.towerdefense.model.map.MapManager;
 import it.unibo.towerdefense.model.map.MapManagerImpl;
 import it.unibo.towerdefense.model.saving.Saving;
 
+/**
+ * Implementation of the ModelManager interface.
+ */
 public class ModelManagerImpl implements ModelManager {
 
     private MapManager map;
@@ -27,6 +30,9 @@ public class ModelManagerImpl implements ModelManager {
     public ModelManagerImpl() {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(final String playerName, final Size cellSize){
         map = new MapManagerImpl(cellSize);
@@ -39,6 +45,9 @@ public class ModelManagerImpl implements ModelManager {
         enemies.bind(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(final Saving s){
         map = new MapManagerImpl(s.getMapJson());
@@ -53,6 +62,9 @@ public class ModelManagerImpl implements ModelManager {
         enemies.bind(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MapManager getMap() {
         if (Objects.isNull(map)) {
@@ -61,6 +73,9 @@ public class ModelManagerImpl implements ModelManager {
         return map;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DefenseManager getDefenses() {
         if (Objects.isNull(defenses)) {
@@ -69,6 +84,9 @@ public class ModelManagerImpl implements ModelManager {
         return defenses;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EnemiesManager getEnemies() {
         if (Objects.isNull(enemies)) {
@@ -77,6 +95,9 @@ public class ModelManagerImpl implements ModelManager {
         return enemies;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameManager getGame() {
         if (Objects.isNull(game)) {
