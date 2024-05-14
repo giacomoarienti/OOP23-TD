@@ -27,7 +27,7 @@ public class ModelManagerImpl implements ModelManager {
     }
 
     public ModelManagerImpl(final Saving s){
-        map = new MapManagerImpl(null, null);
+        map = new MapManagerImpl(null);
         defenses = new DefenseManagerImpl(null, null);
         enemies = new EnemiesManagerImpl();
         game = new GameManagerImpl(null);

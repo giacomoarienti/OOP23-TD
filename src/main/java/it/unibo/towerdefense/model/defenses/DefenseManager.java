@@ -1,8 +1,9 @@
 package it.unibo.towerdefense.model.defenses;
 
+import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.controller.SerializableModel;
+import it.unibo.towerdefense.model.Manager;
 
 import java.util.Map;
 import java.io.IOException;
@@ -14,7 +15,7 @@ import org.apache.commons.lang3.tuple.Pair;
 /**
  * Interface for the menager of the game defenses.
  */
-public interface DefenseManager extends SerializableModel {
+public interface DefenseManager extends JsonSerializable, Manager {
 
     /**returns description for build at given position.
      * @param at position to check
