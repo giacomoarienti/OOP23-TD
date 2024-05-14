@@ -4,12 +4,11 @@ import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.model.Manager;
+import it.unibo.towerdefense.model.enemies.Enemy;
 
 import java.util.Map;
 import java.io.IOException;
 import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 
 /**
@@ -50,5 +49,5 @@ public interface DefenseManager extends JsonSerializable, Manager {
      * @param availableTargets a list of the targets position and health.
      * @return the targets index and the amount of damage to deal (key=index and damage=value).
      */
-    Map<Integer, Integer> attackEnemies(List<Pair<LogicalPosition, Integer>> availableTargets);
+    Map<Integer, Integer> attackEnemies(List<? extends Enemy> availableTargets);
 }

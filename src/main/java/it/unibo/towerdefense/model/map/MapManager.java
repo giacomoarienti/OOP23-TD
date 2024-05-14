@@ -3,6 +3,9 @@ package it.unibo.towerdefense.model.map;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
@@ -54,9 +57,9 @@ public interface MapManager extends JsonSerializable, Manager {
     void build (int optionNumber) throws IOException;
 
     /**
-     * Returns the building options in the selected cell.
-     * @return a list of DefenseDescripions
+     * Returns the building options in the selected cell, and if they are purchasable.
+     * @return a list of Pair: defense description on left, is purchasable on right.
      */
-    List<DefenseDescription> getBuildingOptions();
+    Stream<Pair<DefenseDescription, Boolean>> getBuildingOptions();
 
 }

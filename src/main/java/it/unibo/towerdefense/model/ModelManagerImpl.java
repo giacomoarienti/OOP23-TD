@@ -18,7 +18,7 @@ public class ModelManagerImpl implements ModelManager {
     private final GameManager game;
 
     public ModelManagerImpl(final Size cellSize, final String playerName){
-        map = new MapManagerImpl(null);
+        map = new MapManagerImpl(cellSize);
         defenses = new DefenseManagerImpl(null);
         enemies = new EnemiesManagerImpl();
         game = new GameManagerImpl(null);
