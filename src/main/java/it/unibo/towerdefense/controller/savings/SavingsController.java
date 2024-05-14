@@ -9,9 +9,4 @@ public interface SavingsController {
      * @param saving the saving to load
      */
     void loadSaving(Saving saving);
-
-    /**
-     * Display the savings.
-     */
-    void displaySavings();
 }

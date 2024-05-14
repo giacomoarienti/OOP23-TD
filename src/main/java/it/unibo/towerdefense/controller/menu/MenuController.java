@@ -1,7 +1,11 @@
 package it.unibo.towerdefense.controller.menu;
 
+import it.unibo.towerdefense.model.saving.Saving;
+
 /**
  * Interface that models controller of menus.
+ * Acts like a Mediator for the main Controller so
+ * that views only have access to the methods they need.
  */
 public interface MenuController {
 
@@ -11,24 +15,15 @@ public interface MenuController {
     void play();
 
     /**
-     * Pause the current game.
+     * Start a new game from a saving.
+     * @param saving the saving object
      */
-    void pause();
-
-    /**
-     * Resume the current game.
-     */
-    void resume();
+    void play(Saving saving);
 
     /**
      * Quit game.
      */
     void exit();
-
-    /**
-     * Display the start menu.
-     */
-    void displayStartMenu();
 
     /**
      * Display the saving selection view.

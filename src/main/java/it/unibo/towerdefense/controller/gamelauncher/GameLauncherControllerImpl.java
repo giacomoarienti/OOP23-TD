@@ -5,26 +5,18 @@ import java.util.List;
 
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.engine.Size;
-import it.unibo.towerdefense.commons.engine.SizeImpl;
-import it.unibo.towerdefense.controller.app.AppController;
-import it.unibo.towerdefense.controller.app.AppControllerImpl;
+import it.unibo.towerdefense.controller.Controller;
 import it.unibo.towerdefense.view.gamelauncher.GameLauncherView;
 import it.unibo.towerdefense.view.gamelauncher.GameLauncherViewImpl;
-import it.unibo.towerdefense.view.window.Window;
-import it.unibo.towerdefense.view.window.WindowImpl;
 
 /**
  * Implementation of the GameLauncher interface.
  */
 public class GameLauncherControllerImpl implements GameLauncherController {
 
-    private static final List<Size> RESOLUTIONS = List.of(
-        new SizeImpl(3440, 1440),
-        new SizeImpl(2560, 1440),
-        new SizeImpl(1920, 1080),
-        new SizeImpl(1280, 720)
-    );
+    private static final List<Size> RESOLUTIONS = Constants.RESOLUTIONS;
 
+    private Controller controller;
     private String playerName;
     private int resolution;
 
@@ -82,10 +74,9 @@ public class GameLauncherControllerImpl implements GameLauncherController {
      */
     @Override
     public void startGame() {
-        // instantiate the game window
-        final Window window = new WindowImpl(RESOLUTIONS.get(this.resolution));
-        // instantiate the app controller and run it
-        final AppController appController = new AppControllerImpl(playerName, window);
-        appController.run();
+        controller.run(
+            playerName,
+            RESOLUTIONS.get(resolution)
+        );
     }
 }

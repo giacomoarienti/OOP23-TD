@@ -3,7 +3,7 @@ package it.unibo.towerdefense.controller.gameloop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import it.unibo.towerdefense.controller.mediator.ControllerMediator;
+import it.unibo.towerdefense.controller.Controller;
 
 /**
  * Game controller implementation.
@@ -11,16 +11,16 @@ import it.unibo.towerdefense.controller.mediator.ControllerMediator;
 public class GameLoopControllerImpl implements GameLoopController {
 
     private final Logger logger;
-    private final ControllerMediator masterController;
+    private final Controller controller;
     private boolean terminated;
 
     /**
      * Constructor with GameRender.
-     * @param masterController the master controller
+     * @param manager the master controller
      */
-    public GameLoopControllerImpl(final ControllerMediator masterController) {
+    public GameLoopControllerImpl(final Controller controller) {
         this.logger = LoggerFactory.getLogger(this.getClass());
-        this.masterController = masterController;
+        this.controller = controller;
     }
 
     /**
@@ -30,7 +30,7 @@ public class GameLoopControllerImpl implements GameLoopController {
     public void start() {
         logger.info("start()");
         // set the game state to playing
-        this.masterController.getGameController().resume();
+        this.controller.resume();
         // initialize game loop and start it
         final GameLoop.Builder gameLoopBuilder = new GameLoop.Builder();
         final GameLoop gameLoop = gameLoopBuilder.build(this);
@@ -42,7 +42,7 @@ public class GameLoopControllerImpl implements GameLoopController {
      */
     @Override
     public void stop() {
-        this.masterController.getGameController().pause();
+        this.controller.stop();
         this.terminated = true;
     }
 
@@ -51,7 +51,7 @@ public class GameLoopControllerImpl implements GameLoopController {
      */
     @Override
     public boolean isRunning() {
-        return this.masterController.getGameController().isPlaying();
+        return this.controller.isPlaying();
     }
 
     /**
@@ -67,7 +67,7 @@ public class GameLoopControllerImpl implements GameLoopController {
      */
     @Override
     public void update() {
-        this.masterController.update();
+        this.controller.update();
     }
 
     /**
@@ -75,6 +75,6 @@ public class GameLoopControllerImpl implements GameLoopController {
      */
     @Override
     public void render() {
-        this.masterController.render();
+        this.controller.render();
     }
 }

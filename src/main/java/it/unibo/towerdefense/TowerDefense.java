@@ -3,8 +3,10 @@ package it.unibo.towerdefense;
 import java.io.IOException;
 
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
-import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
-import it.unibo.towerdefense.controller.gamelauncher.GameLauncherControllerImpl;
+import it.unibo.towerdefense.controller.Controller;
+import it.unibo.towerdefense.controller.ControllerImpl;
+import it.unibo.towerdefense.view.ViewImpl;
+import it.unibo.towerdefense.view.View;
 
 /**
  * The main class for the Tower Defense game.
@@ -26,8 +28,10 @@ public final class TowerDefense {
     public static void main(final String[] args) throws IOException {
         // create game folder
         FileUtils.createGameFolder();
-        // start the game launcher
-        final GameLauncherController gameLauncher = new GameLauncherControllerImpl();
-        gameLauncher.run();
+        // instantiate the view and controller
+        final View view = new ViewImpl();
+        final Controller controller = new ControllerImpl(view);
+        // launch the game
+        controller.launch();
     }
 }

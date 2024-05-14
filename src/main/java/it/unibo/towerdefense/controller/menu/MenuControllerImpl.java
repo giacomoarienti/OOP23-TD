@@ -1,52 +1,37 @@
 package it.unibo.towerdefense.controller.menu;
 
-import it.unibo.towerdefense.controller.app.AppController;
-import it.unibo.towerdefense.controller.savings.SavingsControllerImpl;
-import it.unibo.towerdefense.view.menus.StartMenuViewImpl;
-import it.unibo.towerdefense.view.modal.ModalContent;
+import it.unibo.towerdefense.controller.Controller;
+import it.unibo.towerdefense.model.saving.Saving;
 
 /**
  * Class implementing the Menu methods.
  */
 public class MenuControllerImpl implements MenuController {
 
-    private final AppController appController;
+    private final Controller controller;
 
     /**
      * Constructor with GameController.
-     * @param appController the instance of the GameController
-     * @param window the instance of the Window
+     * @param controller the instance of the GameController
      */
-    public MenuControllerImpl(final AppController appController) {
-        this.appController = appController;
+    public MenuControllerImpl(final Controller controller) {
+        this.controller = controller;
     }
-
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void play() {
-        // TODO remove PauseMenuView
-        this.appController.start();
+        this.controller.start();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void pause() {
-        // TODO remove PauseMenuView
-        this.appController.pause();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void resume() {
-        // TODO remove PauseMenuView
-        this.appController.resume();
+    public void play(final Saving saving) {
+        this.controller.start(saving);
     }
 
     /**
@@ -54,16 +39,7 @@ public class MenuControllerImpl implements MenuController {
      */
     @Override
     public void exit() {
-        this.appController.exit();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void displayStartMenu() {
-        final ModalContent startMenu = new StartMenuViewImpl(this);
-        this.appController.displayModal("Start Menu", startMenu);
+        this.controller.exit();
     }
 
     /**
@@ -71,7 +47,6 @@ public class MenuControllerImpl implements MenuController {
      */
     @Override
     public void displaySavings() {
-        final var savingsController = new SavingsControllerImpl(this.appController);
-        savingsController.displaySavings();
+        this.controller.displaySavings();
     }
 }
