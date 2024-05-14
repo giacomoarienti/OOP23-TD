@@ -14,10 +14,10 @@ import it.unibo.towerdefense.commons.utils.file.FileUtils;
 /**
  * The main class for the model of enemies.
  *
- * @see Enemies
+ * @see EnemiesManager
  *      Responsible of instantiating every other model class.
  */
-public class EnemiesImpl implements Enemies {
+public class EnemiesManagerImpl implements EnemiesManager {
 
     private final EnemyCollection enemies;
     private final EnemyFactory factory;
@@ -34,7 +34,7 @@ public class EnemiesImpl implements Enemies {
      *                    if the enemy has reached the end of the map
      * @param startingPos the starting position of enemies
      */
-    public EnemiesImpl(final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction,
+    public EnemiesManagerImpl(final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction,
             final EnemyPosition startingPos) {
         this.enemies = new EnemyCollectionImpl(posFunction);
         this.factory = new SimpleEnemyFactory(startingPos);
