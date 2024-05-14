@@ -2,10 +2,13 @@ package it.unibo.towerdefense.model.defenses;
 
 import org.junit.jupiter.api.Test;
 
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.model.defenses.EnemyChoiceStrategy;
 import it.unibo.towerdefense.model.defenses.EnemyChoiceStrategyFactory;
 import it.unibo.towerdefense.model.defenses.EnemyChoiceStrategyFactoryImpl;
+import it.unibo.towerdefense.model.enemies.Enemy;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -31,7 +34,42 @@ class TestEnemyChoiceStrategyFactoryImpl {
     private static final int TEST_HP = 100;
     private static final int TEST_AREA_RANGE = 5;
 
-    private List<Pair<LogicalPosition, Integer>> testTargets;
+    private List<Enemy> testTargets;
+
+    /**creates a test target.
+     * @param pos the position of the enemy
+     * WARNING : for the scope of these tests we only care about the position,other getters are not implemented.
+    */
+    private Enemy testEnemy(LogicalPosition pos, int distance) {
+        return new Enemy() {
+            @Override
+            public void hurt(int amount) {
+
+            }
+            @Override
+            public int getHp() {
+                return 1;
+            }
+            @Override
+            public int getSpeed() {
+                throw new UnsupportedOperationException();
+            }
+            @Override
+            public int getValue() {
+                throw new UnsupportedOperationException();
+            }
+            @Override
+            public EnemyPosition getPosition() {
+                return new EnemyPosition(pos.getX(), pos.getY(), null, distance);
+            }
+            @Override
+            public EnemyInfo info() {
+                throw new UnsupportedOperationException();
+            }
+        };
+    }
+
+
     /**Setup the enemy list. */
     @BeforeEach
     void setUp() {
@@ -63,19 +101,19 @@ class TestEnemyChoiceStrategyFactoryImpl {
         /**Test 1: no target possible*/
         Assertions.assertEquals(strategy.execute(List.of(), TEST_DAMAGE), expectedResultTest1);
         /**Test 2: 1 target*/
-        testTargets.add(new ImmutablePair<>(testPos1, TEST_HP));
+        testTargets.add(testEnemy(testPos1, 0));
         Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest2);
         /**Test 3:Add unreachable targets, expect same result */
-        testTargets.add(new ImmutablePair<>(testPos2, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos3, TEST_HP));
+        testTargets.add(testEnemy(testPos2, 0));
+        testTargets.add(testEnemy(testPos3, 0));
         Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest3);
         /**Test 4:Add 5 reachable targets,expect closest 5 */
-        testTargets.add(new ImmutablePair<>(testPos4, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos5, TEST_HP));
+        testTargets.add(testEnemy(testPos4, 0));
+        testTargets.add(testEnemy(testPos5, 0));
         /**Index 5:expected to not be targeted*/
-        testTargets.add(new ImmutablePair<>(testPos6, TEST_HP)); 
-        testTargets.add(new ImmutablePair<>(testPos7, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos8, TEST_HP));
+        testTargets.add(testEnemy(testPos6, 0));
+        testTargets.add(testEnemy(testPos7, 0));
+        testTargets.add(testEnemy(testPos8, 0));
         Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest4);
     }
 
@@ -102,16 +140,16 @@ class TestEnemyChoiceStrategyFactoryImpl {
         /**Test 1: no target possible*/
         Assertions.assertEquals(strategy.execute(List.of(), TEST_DAMAGE), expectedResultTest1);
         /**Test 2: 1 target*/
-        testTargets.add(new ImmutablePair<>(testPos1, TEST_HP));
+        testTargets.add(testEnemy(testPos1, 0));
         Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest2);
         /**Test 3:Add one target in the area,and one not in the area.*/
-        testTargets.add(new ImmutablePair<>(testPos2, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos3, TEST_HP));
+        testTargets.add(testEnemy(testPos2, 0));
+        testTargets.add(testEnemy(testPos3, 0));
         Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest3);
         /**Test 4:Add a few more entities for precision check.*/
-        testTargets.add(new ImmutablePair<>(testPos4, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos5, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos6, TEST_HP));
+        testTargets.add(testEnemy(testPos4, 0));
+        testTargets.add(testEnemy(testPos5, 0));
+        testTargets.add(testEnemy(testPos6, 0));
         Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest4);
     }
 
@@ -134,22 +172,22 @@ class TestEnemyChoiceStrategyFactoryImpl {
         TEST_CUSTOM_POINT, TEST_POSITION);
 
         /**Test 1:check closest target to custom point.*/
-        testTargets.add(new ImmutablePair<>(testPos1, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos2, TEST_HP));
+        testTargets.add(testEnemy(testPos1, 0));
+        testTargets.add(testEnemy(testPos2, 0));
         Assertions.assertEquals(expectedResultTest1, strategy.execute(testTargets, TEST_DAMAGE));
         /**Test 2:check that targets in range aren't being selected.*/
         testTargets.clear();
-        testTargets.add(new ImmutablePair<>(testPos3, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos4, TEST_HP));
+        testTargets.add(testEnemy(testPos3, 0));
+        testTargets.add(testEnemy(testPos4, 0));
         Assertions.assertEquals(expectedResultTest2, strategy.execute(testTargets, TEST_DAMAGE));
         /**Test 3:multiple targets,some selectable and some not.*/
         testTargets.clear();
-        testTargets.add(new ImmutablePair<>(testPos1, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos2, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos3, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos4, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos5, TEST_HP));
-        testTargets.add(new ImmutablePair<>(testPos6, TEST_HP));
+        testTargets.add(testEnemy(testPos1, 0));
+        testTargets.add(testEnemy(testPos2, 0));
+        testTargets.add(testEnemy(testPos3, 0));
+        testTargets.add(testEnemy(testPos4, 0));
+        testTargets.add(testEnemy(testPos5, 0));
+        testTargets.add(testEnemy(testPos6, 0));
         Assertions.assertEquals(expectedResultTest3, strategy.execute(testTargets, TEST_DAMAGE));
     }
 }

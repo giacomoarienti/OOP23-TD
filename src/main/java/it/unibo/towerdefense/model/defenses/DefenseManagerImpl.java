@@ -31,20 +31,10 @@ public class DefenseManagerImpl implements DefenseManager {
     /**for getting end of map and entities.*/
     private ModelManager manager;
 
-    /**Constructor that gives this controller access to other necessary controller methods.
-    *
-    */
-    public DefenseManagerImpl(final ModelManager master) {
-        this();
-        this.manager = master;
-    }
-
     /**A constructor that recovers defense state from a json file.
-     * @param master the mediator.
      * @param jsonString the json content.
     */
-    public DefenseManagerImpl(final ModelManager master, final String jsonString) {
-        this(master);
+    public DefenseManagerImpl(final String jsonString) {
         JSONArray serializedDefenses = new JSONArray(jsonString);
         for(Object def: serializedDefenses) {
             this.defenses.add(new ImmutablePair<Defense,Integer>
