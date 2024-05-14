@@ -42,7 +42,7 @@ public class GameMapImpl implements GameMap {
         final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, MapDirection.E);
         Position pos = new PositionImpl(size.getWidth(), random.nextInt(size.getHeight() / 4, size.getHeight() / 4 * 3));
         int distanceToEnd = 0;
-        end = new PathCellImpl(pos, path.next(), null, distanceToEnd);
+        end = new PathCellImpl(pos, path.next(), MapDirection.E, distanceToEnd);
         PathCell newCell = end;
         pos.subtract(newCell.getInDirection().asPosition());
         System.out.println(newCell);
