@@ -1,7 +1,6 @@
 package it.unibo.towerdefense.view.savings;
 
 import java.awt.FlowLayout;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -21,7 +20,6 @@ public class SavingsViewImpl implements SavingsView {
 
     private static final int BOTTOM_BORDER = 10;
     private final SavingsController controller;
-    private List<Saving> savings;
 
     /**
      * Create a new instance of SavingsViewImpl.
@@ -35,22 +33,16 @@ public class SavingsViewImpl implements SavingsView {
      * {@inheritDoc}
      */
     @Override
-    public void setSavings(List<Saving> savings) {
-        this.savings = Collections.unmodifiableList(savings);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public JPanel build(final Runnable onClose) {
+        // get the list of savings
+        final List<Saving> savings = this.controller.getSavings();
         // create main panel
         final JPanel panel = new JPanel(new FlowLayout());
         // create inner panel
         final JPanel innerPanel = new JPanel();
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
         // if there are no savings, display a message
-        if (this.savings.isEmpty()) {
+        if (savings.isEmpty()) {
             final JLabel noSavingsLabel = new JLabel("No savings available");
             noSavingsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             noSavingsLabel.setBorder(
@@ -59,7 +51,7 @@ public class SavingsViewImpl implements SavingsView {
             innerPanel.add(noSavingsLabel);
         }
         // create a panel for each saving
-        for (final Saving saving: this.savings) {
+        for (final Saving saving: savings) {
             innerPanel.add(
                 new SavingsPanel(
                     saving,
