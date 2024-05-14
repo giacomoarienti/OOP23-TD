@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.commons.dtos;
+package it.unibo.towerdefense.commons.dtos.defenses;
 
 import it.unibo.towerdefense.model.defenses.DefenseType;
 
