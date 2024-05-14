@@ -2,6 +2,7 @@ package it.unibo.towerdefense.view;
 
 import java.util.Objects;
 
+import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
@@ -11,6 +12,7 @@ import it.unibo.towerdefense.view.graphics.GameRenderer;
 import it.unibo.towerdefense.view.graphics.GameRendererImpl;
 import it.unibo.towerdefense.view.menus.StartMenuViewImpl;
 import it.unibo.towerdefense.view.savings.SavingsViewImpl;
+import it.unibo.towerdefense.view.scoreboard.ScoreboardViewImpl;
 import it.unibo.towerdefense.view.window.Window;
 import it.unibo.towerdefense.view.window.WindowImpl;
 
@@ -99,5 +101,16 @@ public class ViewImpl implements View {
             throw new IllegalStateException("GameRenderer not created yet");
         }
         return this.gameRenderer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayScoreboard(final ScoreboardDTO dto) {
+        if (Objects.isNull(this.window)) {
+            throw new IllegalStateException("Window not created yet");
+        }
+        this.window.displayModal("Scoreboard", new ScoreboardViewImpl(dto));
     }
 }

@@ -1,8 +1,9 @@
-package it.unibo.towerdefense.model.score;
+package it.unibo.towerdefense.commons.dtos.scoreboard;
 
 import java.util.Collections;
 import java.util.Set;
 
+import it.unibo.towerdefense.model.score.Score;
 import it.unibo.towerdefense.model.scoreboard.Scoreboard;
 
 /**

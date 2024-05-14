@@ -64,4 +64,12 @@ public class StartMenuControllerImpl implements StartMenuController {
     public void displaySavings() {
         this.controller.displaySavings();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayScoreboard() {
+        this.controller.displayScoreboard();
+    }
 }

@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.view;
 
+import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
@@ -48,4 +49,10 @@ public interface View {
      * @return the GameRenderer
      */
     GameRenderer getGameRenderer();
+
+    /**
+     * Display the scoreboard.
+     * @param dto the ScoreboardDTO
+     */
+    void displayScoreboard(ScoreboardDTO dto);
 }

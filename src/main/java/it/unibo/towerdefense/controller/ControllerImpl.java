@@ -11,6 +11,7 @@ import it.unibo.towerdefense.controller.gamelauncher.GameLauncherControllerImpl;
 import it.unibo.towerdefense.controller.gameloop.GameLoop;
 import it.unibo.towerdefense.controller.menu.StartMenuControllerImpl;
 import it.unibo.towerdefense.controller.savings.SavingsControllerImpl;
+import it.unibo.towerdefense.controller.scoreboard.ScoreboardControllerImpl;
 import it.unibo.towerdefense.model.ModelManager;
 import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.view.View;
@@ -153,6 +154,17 @@ public class ControllerImpl implements Controller {
             this::start
         );
         savingsController.run();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayScoreboard() {
+        final var scoreboardController = new ScoreboardControllerImpl(
+            this.view
+        );
+        scoreboardController.run();
     }
 
     /**

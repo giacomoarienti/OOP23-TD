@@ -34,4 +34,9 @@ public interface StartMenuController {
      * Display the saving selection view.
      */
     void displaySavings();
+
+    /**
+     * Display the scoreboard.
+     */
+    void displayScoreboard();
 }

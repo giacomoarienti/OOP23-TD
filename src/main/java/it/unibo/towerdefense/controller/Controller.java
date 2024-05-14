@@ -69,6 +69,11 @@ public interface Controller {
     void displaySavings();
 
     /**
+     * Displays the scoreboard view.
+     */
+    void displayScoreboard();
+
+    /**
      * Updates the state of the relative model.
      */
     void update();

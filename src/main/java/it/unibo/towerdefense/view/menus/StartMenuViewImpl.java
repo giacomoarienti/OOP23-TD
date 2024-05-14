@@ -19,6 +19,7 @@ public class StartMenuViewImpl implements ModalContent {
 
     private static final String PLAY_LABEL = "Play";
     private static final String LOAD_GAME_LABEL = "Load game";
+    private static final String SCOREBOARD_LABEL = "Scoreboard";
     private static final String QUIT_LABEL = "Quit";
 
     private final StartMenuController controller;
@@ -45,6 +46,7 @@ public class StartMenuViewImpl implements ModalContent {
         final List<Component> buttons = List.of(
             createButton(PLAY_LABEL, (e) -> this.play(onClose)),
             createButton(LOAD_GAME_LABEL, (e) -> this.controller.displaySavings()),
+            createButton(SCOREBOARD_LABEL, (e) -> this.controller.displayScoreboard()),
             createButton(QUIT_LABEL, (e) -> this.close(onClose))
         );
         buttons.stream().forEach((button) -> innerPanel.add(button));
