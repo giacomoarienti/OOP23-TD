@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
-import it.unibo.towerdefense.controller.SerializableModel;
+import it.unibo.towerdefense.model.Manager;
 
 /**
  *Interface that models controller of map.
  */
-public interface MapManager extends SerializableModel {
+public interface MapManager extends JsonSerializable, Manager {
 
     /**
      * Enemies spawn point getter.

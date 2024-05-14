@@ -10,7 +10,10 @@ import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.mediator.ControllerMediator;
+import it.unibo.towerdefense.model.ModelManager;
+import it.unibo.towerdefense.model.defenses.DefenseManager;
 import it.unibo.towerdefense.model.defenses.DefenseType;
+import it.unibo.towerdefense.model.game.GameManager;
 
 /**
  * Class to interact with map methods.
@@ -18,9 +21,11 @@ import it.unibo.towerdefense.model.defenses.DefenseType;
 public class MapManagerImpl implements MapManager {
 
     private final GameMap map;
-    private final ControllerMediator master;
+    private ModelManager master;
     private BuildableCell selected = null;
     private List<DefenseDescription> options;
+    private DefenseManager defenses;
+    private GameManager game;
 
 
     /**
@@ -28,13 +33,12 @@ public class MapManagerImpl implements MapManager {
      * @param size size of map in terms of game cells.
      * @param masterController the mediator controller.
      */
-    public MapManagerImpl(Size size, final ControllerMediator masterController) {
+    public MapManagerImpl(Size size) {
         try {
             this.map = new GameMapImpl(size);
         } catch (IllegalArgumentException e) {
             throw e;
         }
-        this.master = masterController;
     }
 
     /**
@@ -42,12 +46,17 @@ public class MapManagerImpl implements MapManager {
      * @param jsondata JSON representation of GameMap Object.
      * @param masterController the mediator controller.
      */
-    public MapManagerImpl(
-        final String jsondata,
-        final ControllerMediator masterController
-    ) {
+    public MapManagerImpl(final String jsondata) {
         this.map = GameMapImpl.fromJson(jsondata);
-        this.master = masterController;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void bind(ModelManager mm) {
+        defenses = mm.getDefenses();
+        game = mm.getGame();
     }
 
     /**
@@ -143,13 +152,13 @@ public class MapManagerImpl implements MapManager {
         }
         var choice = options.get(optionNumber);
         if (choice.getName().equals(DefenseType.NOTOWER.name())) {
-            master.getGameController().addMoney(master.getDefensesController().disassembleDefense(selected.getCenter()));
+            game.addMoney(defenses.disassembleDefense(selected.getCenter()));
             return;
         }
-        if (!master.getGameController().purchase(choice.getCost())) {
+        if (!game.purchase(choice.getCost())) {
             throw new IllegalArgumentException("Not enought money!");
         }
-        master.getDefensesController().buildDefense(optionNumber, selected.getCenter());
+        master.getDefenses().buildDefense(optionNumber, selected.getCenter());
     }
 
     /**
@@ -176,7 +185,7 @@ public class MapManagerImpl implements MapManager {
             return false;
         }
         try {
-            this.options = master.getDefensesController().getBuildables(selected.getCenter());
+            this.options = defenses.getBuildables(selected.getCenter());
             return true;
         } catch (IOException e) {
             return false;
