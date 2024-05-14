@@ -5,9 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
-import it.unibo.towerdefense.model.game.GameManager;
-import it.unibo.towerdefense.model.game.GameManagerImpl;
-import it.unibo.towerdefense.model.game.GameState;
 
 import java.io.IOException;
 import java.util.stream.IntStream;
