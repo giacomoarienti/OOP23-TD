@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.models.defenses.costants;
 
-import it.unibo.towerdefense.controllers.defenses.DefenseType;
+import it.unibo.towerdefense.models.defenses.DefenseType;
 
 /**file paths used by factories.*/
 public final class DefenseMapFilePaths {
