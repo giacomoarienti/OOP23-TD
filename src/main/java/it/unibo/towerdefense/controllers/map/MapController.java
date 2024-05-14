@@ -7,12 +7,12 @@ import java.util.Optional;
 import it.unibo.towerdefense.commons.dtos.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
-import it.unibo.towerdefense.controllers.SerializableController;
+import it.unibo.towerdefense.controllers.SerializableModel;
 
 /**
  *Interface that models controller of map.
  */
-public interface MapController extends SerializableController {
+public interface MapController extends SerializableModel {
 
     /**
      * Enemies spawn point getter.

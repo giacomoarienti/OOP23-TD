@@ -1,12 +1,12 @@
 package it.unibo.towerdefense.controllers.game;
 
-import it.unibo.towerdefense.controllers.SerializableController;
+import it.unibo.towerdefense.controllers.SerializableModel;
 import it.unibo.towerdefense.models.game.GameState;
 
 /**
  * Interface that defines GameController methods.
  */
-public interface GameController extends SerializableController {
+public interface GameController extends SerializableModel {
 
     /**
      * Sets gameState to PLAYING.
