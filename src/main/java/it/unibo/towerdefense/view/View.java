@@ -13,6 +13,7 @@ import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
+import it.unibo.towerdefense.model.defenses.Defense;
 import it.unibo.towerdefense.view.graphics.GameRenderer;
 
 public interface View {
@@ -77,6 +78,11 @@ public interface View {
      * @param buildables BuildableCells positions
      */
     void renderMap(Stream<CellInfo> cells);
+
+    /**Renders the defenses currently built.
+     * @param builtDefenses the defenses to render.
+    */
+    void renderDefenses(Stream<DefenseDescription> buildDefenses);
 
     /**
      * Show the menù of buildin options for the selected cell.
