@@ -1,5 +1,8 @@
 package it.unibo.towerdefense.view;
 
+import java.util.stream.Stream;
+
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.MenuController;
@@ -21,4 +24,6 @@ public interface View {
     void createGameRenderer(Size size);
 
     GameRenderer getGameRenderer();
+
+    void renderEnemies(GameRenderer gameRenderer, Stream<EnemyInfo> enemies);
 }
