@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.view.defenses;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 
@@ -11,5 +11,5 @@ public interface DefenseRenderer {
      * @param  gameRendere the renderer to wich drawables are submitted.
      * @param defenses the defenses to submit.
     */
-    void render(List<DefenseDescription> defenses);
+    void render(Stream<DefenseDescription> defenses);
 }
