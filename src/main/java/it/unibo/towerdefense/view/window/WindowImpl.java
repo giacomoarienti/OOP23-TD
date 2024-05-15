@@ -18,6 +18,7 @@ import it.unibo.towerdefense.view.modal.ModalImpl;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
 import java.awt.BorderLayout;
@@ -34,6 +35,8 @@ public class WindowImpl implements Window {
     private final static Logger logger =
         LoggerFactory.getLogger(WindowImpl.class);
 
+    private final List<Modal> openModals =
+        new ArrayList<>();
     private final Size size;
     private final JFrame frame;
     private final Canvas canvas;
@@ -134,7 +137,14 @@ public class WindowImpl implements Window {
      */
     @Override
     public void displayModal(final String title, final ModalContent content) {
-        final Modal modal = new ModalImpl(this.frame, title, content);
+        this.hideAllModals();
+        final Modal modal = new ModalImpl(
+            this.frame,
+            title,
+            content,
+            this::removeModal
+        );
+        this.addModal(modal);
         modal.display();
     }
 
@@ -196,6 +206,24 @@ public class WindowImpl implements Window {
         final JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(width, height));
         return panel;
+    }
+
+    private void hideAllModals() {
+        this.openModals.forEach((m )-> m.setVisible(false));
+    }
+
+    private void addModal(final Modal modal) {
+        this.openModals.add(modal);
+    }
+
+    private void removeModal(final Modal modal) {
+        // remove last modal
+        this.openModals.remove(modal);
+        // if there are still modals, show the last one
+        if (!this.openModals.isEmpty()) {
+            this.openModals.get(this.openModals.size() - 1)
+                .setVisible(true);
+        }
     }
 
 }
