@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -75,7 +76,7 @@ public interface View {
      * @param path pathCells positions
      * @param buildables BuildableCells positions
      */
-    void renderMap(Stream<LogicalPosition> path, Stream<LogicalPosition> buildables);
+    void renderMap(Stream<CellInfo> cells);
 
     /**
      * Show the menù of buildin options for the selected cell.
