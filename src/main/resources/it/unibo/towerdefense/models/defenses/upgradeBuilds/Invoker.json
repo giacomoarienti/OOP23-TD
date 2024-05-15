@@ -1,1 +1,38 @@
-[]
+[
+    {
+        "level" : 2,
+        "type" : "THUNDERINVOKER",
+        "damage" : 23,
+        "speed" : 3,
+        "range" : 5,
+        "buildingCost" : 150,
+        "sellingValue" : 75
+    },
+    {
+        "level" : 3,
+        "type" : "THUNDERINVOKER",
+        "damage" : 26,
+        "speed" : 4,
+        "range" : 5,
+        "buildingCost" : 200,
+        "sellingValue" : 75
+    },
+    {
+        "level" : 4,
+        "type" : "THUNDERINVOKER",
+        "damage" : 35,
+        "speed" : 3,
+        "range" : 4,
+        "buildingCost" : 280,
+        "sellingValue" : 110
+    },
+    {
+        "level" : 4,
+        "type" : "THUNDERINVOKER",
+        "damage" : 29,
+        "speed" : 7,
+        "range" : 4,
+        "buildingCost" : 280,
+        "sellingValue" : 110
+    }
+]
