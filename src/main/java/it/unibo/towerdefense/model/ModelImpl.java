@@ -1,7 +1,9 @@
 package it.unibo.towerdefense.model;
 
 import java.util.Objects;
+import java.util.stream.Stream;
 
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
@@ -120,5 +122,13 @@ public class ModelImpl implements ModelManager, Model {
     @Override
     public void resume() {
         game.resume();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Stream<EnemyInfo> getEnemiesDTOs() {
+        return enemies.getEnemies().stream().map(e -> e.info());
     }
 }
