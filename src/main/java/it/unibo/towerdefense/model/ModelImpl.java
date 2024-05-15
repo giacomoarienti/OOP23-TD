@@ -17,7 +17,7 @@ import it.unibo.towerdefense.model.saving.Saving;
 /**
  * Implementation of the ModelManager interface.
  */
-public class ModelManagerImpl implements ModelManager, Model {
+public class ModelImpl implements ModelManager, Model {
 
     private MapManager map;
     private DefenseManager defenses;
@@ -27,7 +27,7 @@ public class ModelManagerImpl implements ModelManager, Model {
     /**
      * Empty constructor.
      */
-    public ModelManagerImpl() {
+    public ModelImpl() {
     }
 
     /**
@@ -104,5 +104,21 @@ public class ModelManagerImpl implements ModelManager, Model {
             throw new IllegalStateException("Game not initialized");
         }
         return game;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isPlaying() {
+        return game.isPlaying();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resume() {
+        game.resume();
     }
 }
