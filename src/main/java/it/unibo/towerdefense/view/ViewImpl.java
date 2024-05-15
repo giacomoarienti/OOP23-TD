@@ -2,11 +2,15 @@ package it.unibo.towerdefense.view;
 
 import java.util.Objects;
 
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
+import it.unibo.towerdefense.model.game.GameStatusEnum;
+import it.unibo.towerdefense.view.game.GameInfoRenderImpl;
+import it.unibo.towerdefense.view.game.GameInfoRendererImpl;
 import it.unibo.towerdefense.view.gamelauncher.GameLauncherViewImpl;
 import it.unibo.towerdefense.view.graphics.GameRenderer;
 import it.unibo.towerdefense.view.graphics.GameRendererImpl;
@@ -23,6 +27,7 @@ public class ViewImpl implements View {
 
     private Window window;
     private GameRenderer gameRenderer;
+    private GameInfoRenderImpl gameInfoRenderer;
 
     /**
      * Empty constructor.
@@ -45,7 +50,7 @@ public class ViewImpl implements View {
      */
     @Override
     public void displayWindow(final Size size) {
-        this.window = new WindowImpl(size);
+        this.window = new WindowImpl(size.copy());
         this.window.display();
     }
 
@@ -88,29 +93,47 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void createGameRenderer(final Size size) {
-        this.gameRenderer = new GameRendererImpl(size, this.window);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public GameRenderer getGameRenderer() {
-        if (Objects.isNull(gameRenderer)) {
-            throw new IllegalStateException("GameRenderer not created yet");
-        }
-        return this.gameRenderer;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void displayScoreboard(final ScoreboardDTO dto) {
         if (Objects.isNull(this.window)) {
             throw new IllegalStateException("Window not created yet");
         }
         this.window.displayModal("Scoreboard", new ScoreboardViewImpl(dto));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setMapSize(final Size mapSize) {
+        this.initRenderers(mapSize);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void renderGameInfo(final GameDTO dto) {
+        if (Objects.isNull(this.gameInfoRenderer)) {
+            throw new IllegalStateException("GameInfoRenderer not created yet");
+        }
+        this.gameInfoRenderer.render(dto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void renderState(final GameStatusEnum state) {
+        // on first call, init the game renderer and it's renderers
+        if (Objects.isNull(this.gameRenderer)) {
+            throw new IllegalStateException("GameRenderer not created yet");
+        }
+        // TODO: render the state
+    }
+
+    private void initRenderers(final Size mapSize) {
+        this.gameRenderer = new GameRendererImpl(mapSize, this.window);
+        // create all the renderers
+        this.gameInfoRenderer = new GameInfoRendererImpl(this.gameRenderer);
     }
 }

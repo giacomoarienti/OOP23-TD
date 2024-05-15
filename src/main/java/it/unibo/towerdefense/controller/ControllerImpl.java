@@ -72,7 +72,7 @@ public class ControllerImpl implements Controller {
         logger.info("start()");
         // init the model with the player name and the map size
         this.model.init(this.playerName, MAP_SIZE);
-        this.startGameLoop();
+        this.afterStart();
     }
 
     /**
@@ -83,7 +83,7 @@ public class ControllerImpl implements Controller {
         logger.info("start() with saving");
         // init the model with saving
         this.model.init(saving);
-        this.startGameLoop();
+        this.afterStart();
     }
 
     /**
@@ -190,5 +190,15 @@ public class ControllerImpl implements Controller {
         final GameLoop.Builder gameLoopBuilder = new GameLoop.Builder();
         final GameLoop gameLoop = gameLoopBuilder.build(this);
         gameLoop.start();
+    }
+
+    private void addModelObservers() {
+        this.model.addGameObserver((dto) -> view.renderGameInfo(dto));
+    }
+
+    private void afterStart() {
+        this.view.setMapSize(MAP_SIZE);
+        this.addModelObservers();
+        this.startGameLoop();
     }
 }

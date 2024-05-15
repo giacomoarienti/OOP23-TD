@@ -1,6 +1,8 @@
 package it.unibo.towerdefense.model;
 
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.model.saving.Saving;
 
 public interface Model {
@@ -28,4 +30,10 @@ public interface Model {
      * Resume the game.
      */
     void resume();
+
+    /**
+     * Adds an observer to the game model.
+     * @param observer the observer to add
+     */
+    void addGameObserver(Observer<GameDTO> observer);
 }

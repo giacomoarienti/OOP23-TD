@@ -24,6 +24,9 @@ public class GameRendererImpl implements GameRenderer {
     public GameRendererImpl(final Size mapSize, final Window window) {
         this.window = window;
         // initialize the image loader
+        System.out.println("mapSize: " + mapSize);
+        System.out.println("window.getCanvasSize(): " + window.getCanvasSize());
+        System.out.println("cellSize " + window.getCanvasSize().getWidth() / mapSize.getWidth());
         this.imageLoader = new ImageLoader(
             window.getCanvasSize().getWidth() / mapSize.getWidth()
         );

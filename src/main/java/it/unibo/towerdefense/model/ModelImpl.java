@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
 import it.unibo.towerdefense.model.defenses.DefenseManagerImpl;
 import it.unibo.towerdefense.model.enemies.EnemiesManager;
@@ -120,5 +121,13 @@ public class ModelImpl implements ModelManager, Model {
     @Override
     public void resume() {
         game.resume();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addGameObserver(final Observer<GameDTO> observer) {
+        game.addObserver(observer);
     }
 }

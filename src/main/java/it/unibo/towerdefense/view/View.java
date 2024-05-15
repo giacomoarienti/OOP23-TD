@@ -1,18 +1,12 @@
 package it.unibo.towerdefense.view;
 
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.tuple.Pair;
-
-import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
-import it.unibo.towerdefense.view.graphics.GameRenderer;
+import it.unibo.towerdefense.model.game.GameStatusEnum;
 
 public interface View {
 
@@ -46,25 +40,25 @@ public interface View {
     void close();
 
     /**
-     * Creates an instance of the GameRenderer.
-     * @param size the size of the renderer
-     */
-    void createGameRenderer(Size size);
-
-    /**
-     * Get the GameRenderer.
-     * @return the GameRenderer
-     */
-    GameRenderer getGameRenderer();
-
-    /**
      * Display the scoreboard.
      * @param dto the ScoreboardDTO
      */
     void displayScoreboard(ScoreboardDTO dto);
 
     /**
-     * Render the enemies currently alive.
+     * Sets the map size.
+     * @param mapSize
+     */
+    void setMapSize(Size mapSize);
+
+    /**
+     * Display the game info.
+     * @param dto the gamedto to render.
+     */
+    void renderGameInfo(GameDTO dto);
+
+    /**
+    * Render the enemies currently alive.
      *
      * @param enemies the enemies to render
      */
@@ -89,4 +83,9 @@ public interface View {
      */
     void showSelected(LogicalPosition selected);
 
+    /**
+     * Renders the current game state.
+     * @param gameState the game state to render
+     */
+    void renderState(GameStatusEnum gameState);
 }
