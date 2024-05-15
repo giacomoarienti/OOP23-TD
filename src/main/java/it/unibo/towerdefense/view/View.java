@@ -53,13 +53,9 @@ public interface View {
      */
     GameRenderer getGameRenderer();
 
-<<<<<<< HEAD
-    void renderEnemies(GameRenderer gameRenderer, Stream<EnemyInfo> enemies);
-=======
     /**
      * Display the scoreboard.
      * @param dto the ScoreboardDTO
      */
     void displayScoreboard(ScoreboardDTO dto);
->>>>>>> d4945965c337c4e7ee28ddba83f0efcf0993fe39
 }
