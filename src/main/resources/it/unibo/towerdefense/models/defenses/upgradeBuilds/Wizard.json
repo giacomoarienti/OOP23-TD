@@ -1,1 +1,39 @@
-[]
+[
+
+    {
+        "level" : 2,
+        "type" : "WIZARDTOWER",
+        "damage" : 8,
+        "speed" : 6,
+        "range" : 7,
+        "buildingCost" : 150,
+        "sellingValue" : 60
+    },
+    {
+        "level" : 3,
+        "type" : "WIZARDTOWER",
+        "damage" : 8,
+        "speed" : 7,
+        "range" : 8,
+        "buildingCost" : 200,
+        "sellingValue" : 105
+    },
+    {
+        "level" : 4,
+        "type" : "WIZARDTOWER",
+        "damage" : 12,
+        "speed" : 7,
+        "range" : 8,
+        "buildingCost" : 270,
+        "sellingValue" : 105
+    },
+    {
+        "level" : 4,
+        "type" : "WIZARDTOWER",
+        "damage" : 8,
+        "speed" : 8,
+        "range" : 9,
+        "buildingCost" : 270,
+        "sellingValue" : 105
+    }
+]

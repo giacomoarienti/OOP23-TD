@@ -1,1 +1,38 @@
-[]
+[
+    {
+        "level" : 2,
+        "type" : "ARCHERTOWER",
+        "damage" : 13,
+        "speed" : 5,
+        "range" : 15,
+        "buildingCost" : 110,
+        "sellingValue" : 50
+    },
+    {
+        "level" : 3,
+        "type" : "ARCHERTOWER",
+        "damage" : 15,
+        "speed" : 6,
+        "range" : 16,
+        "buildingCost" : 180,
+        "sellingValue" : 75
+    },
+    {
+        "level" : 4,
+        "type" : "ARCHERTOWER",
+        "damage" : 20,
+        "speed" : 9,
+        "range" : 17,
+        "buildingCost" : 240,
+        "sellingValue" : 110
+    },
+    {
+        "level" : 4,
+        "type" : "ARCHERTOWER",
+        "damage" : 20,
+        "speed" : 7,
+        "range" : 21,
+        "buildingCost" : 240,
+        "sellingValue" : 110
+    }
+]
