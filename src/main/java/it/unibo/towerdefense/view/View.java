@@ -2,8 +2,12 @@ package it.unibo.towerdefense.view;
 
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
@@ -65,4 +69,24 @@ public interface View {
      * @param enemies the enemies to render
      */
     void renderEnemies(Stream<EnemyInfo> enemies);
+
+    /**
+     * Render all map cells.
+     * @param path pathCells positions
+     * @param buildables BuildableCells positions
+     */
+    void renderMap(Stream<LogicalPosition> path, Stream<LogicalPosition> buildables);
+
+    /**
+     * Show the menù of buildin options for the selected cell.
+     * @param options defense description and if it is purchasable
+     */
+    void showBuildingOptions(Stream<Pair<DefenseDescription, Boolean>> options);
+
+    /**
+     * Hilight the current selected cell.
+     * @param selected selected cell position
+     */
+    void showSelected(LogicalPosition selected);
+
 }
