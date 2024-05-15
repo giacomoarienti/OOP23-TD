@@ -1,1 +1,38 @@
-[]
+[
+    {
+        "level" : 2,
+        "type" : "BOMBTOWER",
+        "damage" : 11,
+        "speed" : 5,
+        "range" : 12,
+        "buildingCost" : 130,
+        "sellingValue" : 90
+    },
+    {
+        "level" : 3,
+        "type" : "BOMBTOWER",
+        "damage" : 13,
+        "speed" : 6,
+        "range" : 13,
+        "buildingCost" : 185,
+        "sellingValue" : 120
+    },
+    {
+        "level" : 4,
+        "type" : "BOMBTOWER",
+        "damage" : 15,
+        "speed" : 6,
+        "range" : 20,
+        "buildingCost" : 255,
+        "sellingValue" : 140
+    },
+    {
+        "level" : 4,
+        "type" : "BOMBTOWER",
+        "damage" : 22,
+        "speed" : 7,
+        "range" : 12,
+        "buildingCost" : 260,
+        "sellingValue" : 150
+    }
+]
