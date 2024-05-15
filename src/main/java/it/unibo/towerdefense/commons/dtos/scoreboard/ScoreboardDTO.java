@@ -1,9 +1,10 @@
-package it.unibo.towerdefense.model.score;
+package it.unibo.towerdefense.commons.dtos.scoreboard;
 
 import java.util.Collections;
 import java.util.Set;
 
-import it.unibo.towerdefense.controller.scoreboard.Scoreboard;
+import it.unibo.towerdefense.model.score.Score;
+import it.unibo.towerdefense.model.scoreboard.Scoreboard;
 
 /**
  * Class implementing the Data Transfer Object pattern for the Scoreboard.

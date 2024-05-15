@@ -53,7 +53,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
      * @param customPos used for Thunder summoner,and any other possible defense that uses a custom position.
      * @throws IllegalStateException if defense type is none
     */
-    private void setStrategyFor(final Defense def, final Optional<LogicalPosition> customPos) {
+    private void setStrategyFor(final Defense def) {
         switch (def.getType()) {
             case ARCHERTOWER:
                 def.setStrategy(strategyFactory.closestTargets(1, def.getRange(), def.getPosition()));
@@ -67,11 +67,8 @@ public class DefenseFactoryImpl implements DefenseFactory {
                 def.getRange(), def.getPosition()));
             break;
             case THUNDERINVOKER:
-                if (customPos.isEmpty()) {
-                    throw new IllegalStateException();
-                }
-                def.setStrategy(strategyFactory.closestToCustomPointNotInRange(
-                def.getRange(), customPos.get(), def.getPosition()));
+                def.setStrategy(strategyFactory.closestToEndMap(
+                def.getRange(), def.getPosition()));
             break;
             case NOTOWER:
             default:
@@ -97,7 +94,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     @Override
     public Defense defenseFromSaveFile(final String saveFile) throws IOException {
         Defense result = new DefenseImpl(saveFile);
-        setStrategyFor(result, Optional.empty());
+        setStrategyFor(result);
         return result;
     }
 
@@ -109,7 +106,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     final Optional<String> upgradesFileName) throws IOException {
         Defense result = new DefenseImpl(statFile);
         result.setPosition(buildPosition);
-        setStrategyFor(result, Optional.empty());
+        setStrategyFor(result);
         if (upgradesFileName.isPresent()) {
             result.addUpgrades(getDefensesOfLevel(upgradesFileName.get(), result.getType(), result.getLevel()));
         }
@@ -121,40 +118,12 @@ public class DefenseFactoryImpl implements DefenseFactory {
      * {@inheritDoc}
      */
     @Override
-    public Defense defenseFromSaveFileWithCustomPoint(final String saveFile, final LogicalPosition customPosition)
-    throws IOException {
-        Defense result = new DefenseImpl(saveFile);
-        setStrategyFor(result, Optional.of(customPosition));
-        return result;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Defense levelOneDefenseWithCustomPosition(final String statFile, final LogicalPosition buildPosition,
-            final LogicalPosition customPosition, final Optional<String> upgradesFileName) throws IOException {
-                Defense result = new DefenseImpl(statFile);
-                result.setPosition(buildPosition);
-                setStrategyFor(result, Optional.of(customPosition));
-                if (upgradesFileName.isPresent()) {
-                    result.addUpgrades(getDefensesOfLevel(statFile, result.getType(), result.getLevel()));
-                }
-                cloneNonSerializableDataInUpdates(result);
-                return result;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Defense upgrade(final Defense current, final int upgradeIndex, final Optional<String> upgradesFileName)
     throws IOException {
-        Optional<LogicalPosition> optionalCustomPos = current.getStrategy().getCustomPosition();
         LogicalPosition defPosition = current.getPosition();
         Defense upgradedVersion = current.getPossibleUpgrades().stream().toList().get(upgradeIndex);
         upgradedVersion.setPosition(defPosition);
-        setStrategyFor(upgradedVersion, optionalCustomPos);
+        setStrategyFor(upgradedVersion);
         if (upgradesFileName.isPresent()) {
             upgradedVersion.addUpgrades(getDefensesOfLevel(
             upgradesFileName.get(),

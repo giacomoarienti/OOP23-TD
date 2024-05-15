@@ -31,8 +31,9 @@ public class WindowImpl implements Window {
     private static final String ERROR_ALERT_TITLE = "Error";
     private static final int CANVAS_PROPORTION = 2;
     private static final int SIDE_MENUS_PROPORTION = 8;
+    private final static Logger logger =
+        LoggerFactory.getLogger(WindowImpl.class);
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Size size;
     private final JFrame frame;
     private final Canvas canvas;
@@ -92,7 +93,7 @@ public class WindowImpl implements Window {
         // push frame on screen
         this.frame.pack();
         this.frame.setVisible(true);
-        this.logger.info("Window displayed");
+        logger.info("Window displayed");
     }
 
     /**
@@ -101,7 +102,7 @@ public class WindowImpl implements Window {
     @Override
     public void close() {
         this.frame.dispose();
-        this.logger.info("Window closed");
+        logger.info("Window closed");
     }
 
     /**
@@ -154,7 +155,7 @@ public class WindowImpl implements Window {
     public void setBuyMenuContent(final JPanel panel) {
         this.buyMenu.removeAll();
         this.buyMenu.add(panel);
-        this.infoPanel.revalidate();
+        this.buyMenu.revalidate();
     }
 
     /**
@@ -164,7 +165,7 @@ public class WindowImpl implements Window {
     public void setUpgradesContent(final JPanel panel) {
         this.upgradeMenu.removeAll();
         this.upgradeMenu.add(panel);
-        this.infoPanel.revalidate();
+        this.upgradeMenu.revalidate();
     }
 
     /**

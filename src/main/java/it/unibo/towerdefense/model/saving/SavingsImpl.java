@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controller.savings;
+package it.unibo.towerdefense.model.saving;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -16,12 +16,11 @@ import java.nio.file.Paths;
 
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
-import it.unibo.towerdefense.model.saving.Saving;
 
 /**
  * Class implementing the SavingLoader interface.
  */
-public class SavingLoaderImpl implements SavingLoader {
+public class SavingsImpl implements Savings {
 
     private static final String SAVED_GAMES_FOLDER = Constants.GAME_FOLDER
             + File.separator
@@ -36,7 +35,7 @@ public class SavingLoaderImpl implements SavingLoader {
      * @param path the path of the folder containing the saved games
      * @throws IOException if the path cannot be created
      */
-    public SavingLoaderImpl(final String playerName, final String path) throws IOException {
+    public SavingsImpl(final String playerName, final String path) throws IOException {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.folderPath = path + File.separator + playerName;
         // create the SAVED_GAMES_FOLDER if it does not exist
@@ -49,7 +48,7 @@ public class SavingLoaderImpl implements SavingLoader {
      * @param playerName the name of the player
      * @throws IOExceptions if the SAVED_GAMES_FOLDER cannot be created
      */
-    public SavingLoaderImpl(final String playerName) throws IOException {
+    public SavingsImpl(final String playerName) throws IOException {
         this(playerName, SAVED_GAMES_FOLDER);
     }
 

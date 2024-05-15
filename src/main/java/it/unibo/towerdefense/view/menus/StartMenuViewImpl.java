@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
 
-import it.unibo.towerdefense.controller.menu.MenuController;
+import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.view.modal.ModalContent;
 
 /**
@@ -19,15 +19,16 @@ public class StartMenuViewImpl implements ModalContent {
 
     private static final String PLAY_LABEL = "Play";
     private static final String LOAD_GAME_LABEL = "Load game";
+    private static final String SCOREBOARD_LABEL = "Scoreboard";
     private static final String QUIT_LABEL = "Quit";
 
-    private final MenuController controller;
+    private final StartMenuController controller;
 
     /**
      * MenuView constructor passing reference to its controller.
      * @param controller the MenuController
      */
-    public StartMenuViewImpl(final MenuController controller) {
+    public StartMenuViewImpl(final StartMenuController controller) {
         this.controller = controller;
     }
 
@@ -45,6 +46,7 @@ public class StartMenuViewImpl implements ModalContent {
         final List<Component> buttons = List.of(
             createButton(PLAY_LABEL, (e) -> this.play(onClose)),
             createButton(LOAD_GAME_LABEL, (e) -> this.controller.displaySavings()),
+            createButton(SCOREBOARD_LABEL, (e) -> this.controller.displayScoreboard()),
             createButton(QUIT_LABEL, (e) -> this.close(onClose))
         );
         buttons.stream().forEach((button) -> innerPanel.add(button));

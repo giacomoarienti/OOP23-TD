@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.controller.scoreboard;
+package it.unibo.towerdefense.model.scoreboard;
 
 import java.io.File;
 import java.io.IOException;

@@ -29,7 +29,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
     private EnemyChoiceStrategy genericModel(final BiPredicate<LogicalPosition, LogicalPosition> isTargetValid,
     final Function<Map<Integer, ? extends Enemy>, Map<Integer, ? extends Enemy>> mapValidTargets,
     final BiFunction<Integer, Map<Integer, ? extends Enemy>, Map<Integer, Integer>> mapDamage,
-    final LogicalPosition basePosition, final Optional<LogicalPosition> customPos) {
+    final LogicalPosition basePosition) {
         return new EnemyChoiceStrategy() {
             /**
              * {@inheritDoc}
@@ -53,13 +53,6 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
                     /**get targets that are going to be hit and return mapped damage. */
                 Map<Integer, ? extends Enemy> finalTargets = mapValidTargets.apply(validTargets);
                 return mapDamage.apply(baseDamage, finalTargets);
-            }
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public Optional<LogicalPosition> getCustomPosition() {
-                return customPos;
             }
         };
     }
@@ -95,8 +88,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
             (damage, map) -> map.entrySet()
             .stream()
             .collect(Collectors.toMap(m -> m.getKey(), m -> damage)),
-            position,
-            Optional.empty()
+            position
         );
     }
 
@@ -114,25 +106,26 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
         (damage, map) -> map.entrySet()
         .stream()
         .collect(Collectors.toMap(m -> m.getKey(), m -> damage)),
-        position,
-        Optional.empty());
+        position);
     }
 
     /**
      *{@inheritDoc}
      */
     @Override
-    public EnemyChoiceStrategy closestToCustomPointNotInRange(final int range,
-    final LogicalPosition customPoint, final LogicalPosition position) {
-        return genericModel((x1, x2) -> x1.distanceTo(x2) > range,
+    public EnemyChoiceStrategy closestToEndMap(final int range,
+    final LogicalPosition position) {
+        return genericModel((x1, x2) -> true,
         map -> map.entrySet()
         .stream()
-        .filter(ent -> ent.getValue().getPosition().distanceTo(getClosestTo(map, customPoint)) == 0)
+        .filter(ent1 -> ent1.getValue().getPosition().getDistance() > range)
+        .sorted( (ent1, ent2) -> Double.compare(
+            ent1.getValue().getPosition().getDistance(), ent2.getValue().getPosition().getDistance()))
+        .limit(1)
         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
         (damage, map) -> map.entrySet()
         .stream()
         .collect(Collectors.toMap(m -> m.getKey(), m -> damage)),
-        position,
-        Optional.of(customPoint));
+        position);
     }
 }

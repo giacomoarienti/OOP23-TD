@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.view.scoreboard;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -9,16 +8,18 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JButton;
 
-import it.unibo.towerdefense.controller.scoreboard.Scoreboard;
+import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.model.score.Score;
-import it.unibo.towerdefense.model.score.ScoreboardDTO;
 
 /**
  * Scoreboard View implementation.
  */
 public class ScoreboardViewImpl implements ScoreboardView {
 
+    private static final String CLOSE = "Close";
+    private static final String NO_SCORES_AVAILABLE = "No scores available";
     private static final String COLUMN_1 = "NAME";
     private static final String COLUMN_2 = "WAVE";
     private static final int BORDER_SIZE = 10;
@@ -30,8 +31,8 @@ public class ScoreboardViewImpl implements ScoreboardView {
      * Constructor for ScoreboardViewImpl.
      * @param scoreboard the scoreboard to be displayed
      */
-    public ScoreboardViewImpl(final Scoreboard scoreboard) {
-        this.scoreboard = new ScoreboardDTO(scoreboard);
+    public ScoreboardViewImpl(final ScoreboardDTO scoreboard) {
+        this.scoreboard = scoreboard;
     }
 
     /**
@@ -51,25 +52,38 @@ public class ScoreboardViewImpl implements ScoreboardView {
         );
         // create inner pnl for differing layout and add to main panel
         final JPanel innerPnl = new JPanel();
-        final BoxLayout layout = new BoxLayout(innerPnl, BoxLayout.Y_AXIS);
-        innerPnl.setLayout(layout);
-        innerPnl.setBackground(Color.DARK_GRAY);
-        panel.add(innerPnl);
-        // add scoreboard header
-        innerPnl.add(new ScoreboardEntry(COLUMN_1, COLUMN_2, true));
-        // for each scoreboard entry, create a panel and add to inner panel
-        for (final Score entry : this.scoreboard.getScores()) {
-            innerPnl.add(
-                new ScoreboardEntry(
-                    entry.getName(),
-                    String.valueOf(entry.getWave()),
-                    false
-                )
+        innerPnl.setLayout(new BoxLayout(innerPnl, BoxLayout.Y_AXIS));
+        // if no scores are available, display a message
+        if (this.scoreboard.getScores().isEmpty()) {
+            final JLabel noSavingsLabel = new JLabel(NO_SCORES_AVAILABLE);
+            noSavingsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            noSavingsLabel.setBorder(
+                BorderFactory.createEmptyBorder(0, 0, BORDER_SIZE, 0)
             );
+            innerPnl.add(noSavingsLabel);
+        } else {
+            // add scoreboard header
+            innerPnl.add(new ScoreboardEntry(COLUMN_1, COLUMN_2, true));
+            // for each scoreboard entry, create a panel and add to inner panel
+            for (final Score entry : this.scoreboard.getScores()) {
+                innerPnl.add(
+                    new ScoreboardEntry(
+                        entry.getName(),
+                        String.valueOf(entry.getWave()),
+                        false
+                    )
+                );
+            }
         }
+        // add close button
+        final JButton closeButton = new JButton(CLOSE);
+        closeButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        closeButton.addActionListener(e -> onClose.run());
+        innerPnl.add(closeButton);
+        // return the main panel
+        panel.add(innerPnl);
         return panel;
     }
-
 
     private class ScoreboardEntry extends JPanel {
         private static final long serialVersionUID = 1L;
@@ -88,6 +102,8 @@ public class ScoreboardViewImpl implements ScoreboardView {
             final GridLayout layout = new GridLayout(1, 2);
             layout.setHgap(ENTRY_V_SPACING);
             this.setLayout(layout);
+            // set horizontal alignment
+            this.setAlignmentX(JPanel.CENTER_ALIGNMENT);
             // add text
             this.add(buildText(col1, header));
             this.add(buildText(String.valueOf(col2), header));

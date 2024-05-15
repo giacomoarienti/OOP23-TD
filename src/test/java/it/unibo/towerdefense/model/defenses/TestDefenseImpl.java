@@ -5,9 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.model.defenses.Defense;
-import it.unibo.towerdefense.model.defenses.DefenseImpl;
-import it.unibo.towerdefense.model.defenses.DefenseType;
 import it.unibo.towerdefense.model.defenses.costants.DefenseMapKeys;
 
 import java.util.Set;

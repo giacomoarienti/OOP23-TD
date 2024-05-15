@@ -13,9 +13,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import it.unibo.towerdefense.commons.dtos.DefenseDescription;
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.controller.mediator.ControllerMediator;
 import it.unibo.towerdefense.model.ModelManager;
 import it.unibo.towerdefense.model.defenses.costants.DefenseFormulas;
 import it.unibo.towerdefense.model.defenses.costants.DefenseMapFilePaths;
@@ -86,8 +85,7 @@ public class DefenseManagerImpl implements DefenseManager {
                 factory.levelOneDefense(DefenseMapFilePaths.ARCHER_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty()),
-                factory.levelOneDefenseWithCustomPosition(DefenseMapFilePaths.THUNDER_INVOKER_LV1,
-                buildPosition, manager.getMap().getEndPosition(), Optional.empty())
+                factory.levelOneDefense(DefenseMapFilePaths.THUNDER_INVOKER_LV1, buildPosition, Optional.empty())
             );
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
@@ -125,7 +123,6 @@ public class DefenseManagerImpl implements DefenseManager {
         if (upgradable.isEmpty()) {
             defenses.add(new ImmutablePair<>(buildables.get(choice), 0));
         } else {
-            /**@TODO: create paths for upgrades.*/
             defenses.set(upgradable.get().getKey(),
             new ImmutablePair<>(factory.upgrade(buildables.get(choice), choice,
             Optional.of(DefenseMapFilePaths.pathFromType(buildables.get(choice).getType()))), 0));

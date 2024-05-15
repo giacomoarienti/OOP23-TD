@@ -5,13 +5,8 @@ import org.junit.jupiter.api.Test;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.model.defenses.EnemyChoiceStrategy;
-import it.unibo.towerdefense.model.defenses.EnemyChoiceStrategyFactory;
-import it.unibo.towerdefense.model.defenses.EnemyChoiceStrategyFactoryImpl;
 import it.unibo.towerdefense.model.enemies.Enemy;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -27,11 +22,9 @@ class TestEnemyChoiceStrategyFactoryImpl {
 
     private static EnemyChoiceStrategyFactory factory = new EnemyChoiceStrategyFactoryImpl();
     private static final LogicalPosition TEST_POSITION = new LogicalPosition(0, 0);
-    private static final LogicalPosition TEST_CUSTOM_POINT = new LogicalPosition(15, 15);
     private static final int TEST_RANGE = 10;
     private static final int TEST_MAX_TARGETS = 5;
     private static final int TEST_DAMAGE = 20;
-    private static final int TEST_HP = 100;
     private static final int TEST_AREA_RANGE = 5;
 
     private List<Enemy> testTargets;
@@ -154,7 +147,7 @@ class TestEnemyChoiceStrategyFactoryImpl {
     }
 
     @Test
-    void testClosestToCustomPointNotInRange() {
+    void testClosestToEndMap() {
         /**create positions for this test.*/
         final LogicalPosition testPos1 = new LogicalPosition(12, 12);
         final LogicalPosition testPos2 = new LogicalPosition(14, 14);
@@ -168,26 +161,26 @@ class TestEnemyChoiceStrategyFactoryImpl {
         final Map<Integer, Integer> expectedResultTest2 = new HashMap<>();
         final Map<Integer, Integer> expectedResultTest3 = Map.of(5, TEST_DAMAGE);
 
-        EnemyChoiceStrategy strategy = factory.closestToCustomPointNotInRange(TEST_AREA_RANGE,
-        TEST_CUSTOM_POINT, TEST_POSITION);
+        EnemyChoiceStrategy strategy = factory.closestToEndMap(TEST_AREA_RANGE,
+        TEST_POSITION);
 
         /**Test 1:check closest target to custom point.*/
-        testTargets.add(testEnemy(testPos1, 0));
-        testTargets.add(testEnemy(testPos2, 0));
+        testTargets.add(testEnemy(testPos1, 7));
+        testTargets.add(testEnemy(testPos2, 6));
         Assertions.assertEquals(expectedResultTest1, strategy.execute(testTargets, TEST_DAMAGE));
         /**Test 2:check that targets in range aren't being selected.*/
         testTargets.clear();
-        testTargets.add(testEnemy(testPos3, 0));
-        testTargets.add(testEnemy(testPos4, 0));
+        testTargets.add(testEnemy(testPos3, 1));
+        testTargets.add(testEnemy(testPos4, 1));
         Assertions.assertEquals(expectedResultTest2, strategy.execute(testTargets, TEST_DAMAGE));
         /**Test 3:multiple targets,some selectable and some not.*/
         testTargets.clear();
-        testTargets.add(testEnemy(testPos1, 0));
-        testTargets.add(testEnemy(testPos2, 0));
-        testTargets.add(testEnemy(testPos3, 0));
-        testTargets.add(testEnemy(testPos4, 0));
-        testTargets.add(testEnemy(testPos5, 0));
-        testTargets.add(testEnemy(testPos6, 0));
+        testTargets.add(testEnemy(testPos1, 2));
+        testTargets.add(testEnemy(testPos2, 5));
+        testTargets.add(testEnemy(testPos3, 3));
+        testTargets.add(testEnemy(testPos4, 1));
+        testTargets.add(testEnemy(testPos5, 8));
+        testTargets.add(testEnemy(testPos6, 6));
         Assertions.assertEquals(expectedResultTest3, strategy.execute(testTargets, TEST_DAMAGE));
     }
 }

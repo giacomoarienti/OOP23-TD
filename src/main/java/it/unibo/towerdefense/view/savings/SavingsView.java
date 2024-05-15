@@ -1,8 +1,5 @@
 package it.unibo.towerdefense.view.savings;
 
-import java.util.List;
-
-import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.view.modal.ModalContent;
 
 /**
@@ -11,9 +8,4 @@ import it.unibo.towerdefense.view.modal.ModalContent;
  */
 public interface SavingsView extends ModalContent {
 
-    /**
-     * Set the list of the savings.
-     * @param savings the list of the savings
-     */
-    void setSavings(List<Saving> savings);
 }

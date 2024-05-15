@@ -2,7 +2,7 @@ package it.unibo.towerdefense.view.defenses;
 
 import java.util.List;
 
-import it.unibo.towerdefense.commons.dtos.DefenseDescription;
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.model.defenses.DefenseType;
 import it.unibo.towerdefense.view.graphics.GameRenderer;

@@ -5,12 +5,13 @@ import java.util.List;
 import it.unibo.towerdefense.commons.engine.Size;
 
 /**
- * Interface that defines the GameLauncher controller methods.
+ * Interface that defines the GameLauncherController methods.
+ * Acts like a Logic for the GameLauncherView.
  */
 public interface GameLauncherController {
 
     /**
-     * Run the game launcher.
+     * Run the game launcher and display its view.
      */
     void run();
 
