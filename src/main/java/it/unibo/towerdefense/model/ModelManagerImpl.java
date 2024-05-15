@@ -17,7 +17,7 @@ import it.unibo.towerdefense.model.saving.Saving;
 /**
  * Implementation of the ModelManager interface.
  */
-public class ModelManagerImpl implements ModelManager {
+public class ModelManagerImpl implements ModelManager, Model {
 
     private MapManager map;
     private DefenseManager defenses;
