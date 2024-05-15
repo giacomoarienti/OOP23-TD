@@ -7,10 +7,11 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.api.JsonSerializable;
-import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
+import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.model.Manager;
+import it.unibo.towerdefense.model.defenses.Defense;
 
 /**
  *Interface that models controller of map.
@@ -59,6 +60,8 @@ public interface MapManager extends JsonSerializable, Manager {
      * Returns the building options in the selected cell, and if they are purchasable.
      * @return a list of Pair: defense description on left, is purchasable on right.
      */
-    Stream<Pair<DefenseDescription, Boolean>> getBuildingOptions();
+    Stream<Pair<Defense, Boolean>> getBuildingOptions();
+
+    Stream<CellInfo> getMap();
 
 }

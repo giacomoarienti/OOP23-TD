@@ -15,7 +15,7 @@ import it.unibo.towerdefense.model.map.PathVector;
  */
 public class TestMap {
     private final static Size TEST_SIZE = new SizeImpl(30, 20);
-    private final static int ITERATION_MOVEMENT = 100;
+    private final static int ITERATION_MOVEMENT = 10;
     private MapManager map = new MapManagerImpl(TEST_SIZE);
     private PathVector spawn = map.getSpawnPosition();
     private LogicalPosition pos = spawn.position();
