@@ -58,4 +58,11 @@ public interface View {
      * @param dto the ScoreboardDTO
      */
     void displayScoreboard(ScoreboardDTO dto);
+
+    /**
+     * Render the enemies currently alive.
+     *
+     * @param enemies the enemies to render
+     */
+    void renderEnemies(Stream<EnemyInfo> enemies);
 }
