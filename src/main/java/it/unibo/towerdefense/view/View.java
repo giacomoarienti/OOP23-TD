@@ -14,6 +14,9 @@ import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
 
+/**
+ * Interface for the main View.
+ */
 public interface View {
 
     /**
