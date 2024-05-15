@@ -43,6 +43,7 @@ public interface Window {
 
     /**
      * Display a modal window.
+     * All other open modals will be hidden until this one is closed.
      * @param title the title of the modal
      * @param content the content of the modal
      */

@@ -14,4 +14,9 @@ public interface Modal {
      * Closes the modal window.
      */
     void close();
+
+    /**
+     * Sets the visibility of the modal window.
+     */
+    void setVisible(boolean b);
 }

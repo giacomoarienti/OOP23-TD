@@ -12,7 +12,7 @@ import it.unibo.towerdefense.controller.gameloop.GameLoop;
 import it.unibo.towerdefense.controller.menu.StartMenuControllerImpl;
 import it.unibo.towerdefense.controller.savings.SavingsControllerImpl;
 import it.unibo.towerdefense.controller.scoreboard.ScoreboardControllerImpl;
-import it.unibo.towerdefense.model.ModelManager;
+import it.unibo.towerdefense.model.Model;
 import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.view.View;
 
@@ -23,7 +23,7 @@ public class ControllerImpl implements Controller {
     private final static Size MAP_SIZE = Constants.MAP_SIZE; // might be a variable in the future
 
     private final View view;
-    private final ModelManager model;
+    private final Model model;
 
     private String playerName;
     private boolean loopTerminated;
@@ -33,7 +33,7 @@ public class ControllerImpl implements Controller {
      * @param model the main model of the game
      * @param view the main view of the game
      */
-    public ControllerImpl(final ModelManager model, final View view) {
+    public ControllerImpl(final Model model, final View view) {
         this.model = model;
         this.view = view;
     }
@@ -140,7 +140,7 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public boolean isRunning() {
-        return this.model.getGame().isPlaying();
+        return this.model.isPlaying();
     }
 
     /**
@@ -185,7 +185,7 @@ public class ControllerImpl implements Controller {
 
     private void startGameLoop() {
         // set game to playing
-        this.model.getGame().resume();
+        this.model.resume();
         // initialize game loop and start it
         final GameLoop.Builder gameLoopBuilder = new GameLoop.Builder();
         final GameLoop gameLoop = gameLoopBuilder.build(this);
