@@ -63,11 +63,4 @@ public class DefenseDescription {
     public DefenseType getType() {
         return this.type;
     }
-
-    /**Returns the description for empty zones.*/
-    public static DefenseDescription nonBuiltDefense() {
-        final String desc = "Nothing is here";
-        final String name = "empty zone";
-        return new DefenseDescription(desc, name, 0, 0, DefenseType.NOTOWER);
-    }
 }

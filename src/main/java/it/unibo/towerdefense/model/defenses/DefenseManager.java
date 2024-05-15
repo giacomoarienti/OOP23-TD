@@ -53,5 +53,5 @@ public interface DefenseManager extends JsonSerializable, Manager {
      */
     Map<Integer, Integer> attackEnemies(List<? extends Enemy> availableTargets);
 
-    Stream<DefenseDescription> getDefenseDtos();
+    List<DefenseDescription> getDefenses();
 }

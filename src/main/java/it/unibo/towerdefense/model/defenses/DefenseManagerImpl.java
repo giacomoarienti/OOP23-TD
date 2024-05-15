@@ -200,11 +200,11 @@ public class DefenseManagerImpl implements DefenseManager {
     }
 
     @Override
-    public Stream<DefenseDescription> getDefenseDtos() {
+    public List<DefenseDescription> getDefenses() {
         List<DefenseDescription> descs = new LinkedList<>();
         for(int i = 0; i < this.defenses.size(); i++) {
             descs.add(getDescriptionFrom(this.defenses.get(i).getKey()));
         }
-        return descs.stream();
+        return descs;
     }
 }
