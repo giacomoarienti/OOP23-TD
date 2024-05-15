@@ -9,21 +9,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo.Direction;
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.model.enemies.EnemyCollectionImpl;
-import it.unibo.towerdefense.model.enemies.RichEnemy;
-import it.unibo.towerdefense.model.enemies.RichEnemyType;
-import it.unibo.towerdefense.model.enemies.SimpleEnemyFactory;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
+import it.unibo.towerdefense.commons.engine.Direction;
 
 /**
  * Tests for EnemyCollectionImpl.
  */
 public class TestEnemyCollectionImpl {
 
-    private static final LogicalPosition STARTING_POSITION = new LogicalPosition(0, 0);
+    private static final EnemyPosition STARTING_POSITION = new EnemyPosition(0, 0, Direction.E, 100);
     private EnemyCollectionImpl tested;
     private SimpleEnemyFactory helper;
     private RichEnemyType t;
@@ -39,9 +35,9 @@ public class TestEnemyCollectionImpl {
     @BeforeEach
     private void init() {
         tested = new EnemyCollectionImpl((pos, speed) -> Optional.empty());
-        helper = new SimpleEnemyFactory(STARTING_POSITION, Direction.EAST);
+        helper = new SimpleEnemyFactory();
         t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100, 10000);
-        spawned = helper.spawn(t);
+        spawned = helper.spawn(t, STARTING_POSITION);
     }
 
     /**
@@ -71,7 +67,7 @@ public class TestEnemyCollectionImpl {
     void testMultipleEnemies() {
         int number = 100;
         Set<RichEnemy> spawned = IntStream.range(0, number).mapToObj(i -> {
-            RichEnemy e = helper.spawn(t);
+            RichEnemy e = helper.spawn(t, STARTING_POSITION);
             tested.add(e);
             return e;
         }).collect(Collectors.toSet());
@@ -87,7 +83,7 @@ public class TestEnemyCollectionImpl {
     @Test
     void testMove() {
         Set<RichEnemy> spawned = IntStream.range(0, 100).mapToObj(i -> {
-            RichEnemy e = helper.spawn(t);
+            RichEnemy e = helper.spawn(t, STARTING_POSITION);
             tested.add(e);
             return e;
         }).collect(Collectors.toSet());

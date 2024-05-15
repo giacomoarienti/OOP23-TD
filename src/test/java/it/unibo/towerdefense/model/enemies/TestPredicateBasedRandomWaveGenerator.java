@@ -9,19 +9,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
-import it.unibo.towerdefense.model.enemies.EnemyCatalogue;
-import it.unibo.towerdefense.model.enemies.EnemyCatalogueFactory;
-import it.unibo.towerdefense.model.enemies.PredicateBasedRandomWaveGenerator;
-import it.unibo.towerdefense.model.enemies.RichEnemyType;
-import it.unibo.towerdefense.model.enemies.Wave;
-import it.unibo.towerdefense.model.enemies.WavePolicySupplierImpl;
 
 /**
- * Tests for Predic
+ * Tests for PredicateBasedRandomWaveGenerator.
  */
 public class TestPredicateBasedRandomWaveGenerator {
 

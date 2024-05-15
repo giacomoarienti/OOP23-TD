@@ -4,14 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo.Direction;
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
+import it.unibo.towerdefense.commons.engine.Direction;
 import it.unibo.towerdefense.commons.patterns.Observer;
-import it.unibo.towerdefense.model.enemies.RichEnemy;
-import it.unibo.towerdefense.model.enemies.RichEnemyType;
-import it.unibo.towerdefense.model.enemies.SimpleEnemyFactory;
 
 /**
  * Tests for SimpleEnemyFactory.
@@ -22,16 +19,16 @@ public class TestSimpleEnemyFactory {
     private RichEnemyType t;
     private RichEnemy created;
 
-    private static final LogicalPosition STARTING_POS = new LogicalPosition(0, 0);
+    private static final EnemyPosition STARTING_POSITION = new EnemyPosition(0, 0, Direction.E, 100);
 
     /**
      * Initializes the class for testing.
      */
     @BeforeEach
     void init() {
-        tested = new SimpleEnemyFactory(STARTING_POS, Direction.EAST);
+        tested = new SimpleEnemyFactory();
         t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100, 10000);
-        created = tested.spawn(t);
+        created = tested.spawn(t, STARTING_POSITION);
     }
 
     /**
@@ -39,7 +36,7 @@ public class TestSimpleEnemyFactory {
      */
     @Test
     void testSpawn() {
-        Assertions.assertEquals(STARTING_POS, created.getPosition());
+        Assertions.assertEquals(STARTING_POSITION, created.getPosition());
         Assertions.assertEquals(t.getMaxHP(), created.getHp());
         Assertions.assertEquals(t.getMaxHP(), created.info().hp());
         Assertions.assertEquals(t.getSpeed(), created.getSpeed());
@@ -52,13 +49,11 @@ public class TestSimpleEnemyFactory {
      */
     @Test
     void testMove(){
-        LogicalPosition newPos = STARTING_POS.clone();
-        newPos.add(new LogicalPosition(10, 0));
-        Direction newDir = Direction.fromAToB(STARTING_POS, newPos);
-        created.move(newPos, newDir);
+        EnemyPosition newPos = new EnemyPosition(10, 0, Direction.E, 100);
+        created.move(newPos);
         Assertions.assertEquals(newPos, created.getPosition());
         Assertions.assertEquals(newPos, created.info().pos());
-        Assertions.assertEquals(newDir, created.info().direction());
+        Assertions.assertEquals(newPos.getDir(), created.getPosition().getDir());
     }
 
     /**
@@ -101,6 +96,6 @@ public class TestSimpleEnemyFactory {
         Assertions.assertTrue(o.getFlag());
         Assertions.assertTrue(created.isDead());
         Assertions.assertThrows(IllegalStateException.class, () -> created.hurt(1));
-        Assertions.assertThrows(IllegalStateException.class, () -> created.move(new LogicalPosition(1, 1), Direction.EAST));
+        Assertions.assertThrows(IllegalStateException.class, () -> created.move(new EnemyPosition(10, 0, Direction.E, 100)));
     }
 }

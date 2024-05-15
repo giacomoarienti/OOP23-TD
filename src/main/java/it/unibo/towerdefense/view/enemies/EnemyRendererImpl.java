@@ -55,6 +55,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
     @Override
     public void render(GameRenderer gameRenderer, Stream<EnemyInfo> enemies) {
         gameRenderer.submitAllToCanvas(enemies
+            .parallel()
             .sorted((e1, e2) -> e2.pos().getDistance() - e1.pos().getDistance())
             .map(e -> getDrawable(e))
             .toList());
