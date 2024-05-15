@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
@@ -66,23 +67,14 @@ public interface View {
     void displayScoreboard(ScoreboardDTO dto);
 
     /**
-     * Render the enemies currently alive.
+     * Renders the current state of the synchronous part of the game.
+     * - the enemies currently alive
+     * - all map cells
+     * - the defenses currently built
      *
-     * @param enemies the enemies to render
+     * @param s the state of the game
      */
-    void renderEnemies(Stream<EnemyInfo> enemies);
-
-    /**
-     * Render all map cells.
-     * @param path pathCells positions
-     * @param buildables BuildableCells positions
-     */
-    void renderMap(Stream<CellInfo> cells);
-
-    /**Renders the defenses currently built.
-     * @param builtDefenses the defenses to render.
-    */
-    void renderDefenses(Stream<DefenseDescription> buildDefenses);
+    void render(GameState s);
 
     /**
      * Show the menù of buildin options for the selected cell.
