@@ -1,15 +1,19 @@
 package it.unibo.towerdefense.view;
 
 import java.util.Objects;
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.GameState;
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
-import it.unibo.towerdefense.model.game.GameStatusEnum;
 import it.unibo.towerdefense.view.game.GameInfoRenderImpl;
 import it.unibo.towerdefense.view.game.GameInfoRendererImpl;
 import it.unibo.towerdefense.view.gamelauncher.GameLauncherViewImpl;
@@ -118,6 +122,24 @@ public class ViewImpl implements View {
             throw new IllegalStateException("GameInfoRenderer not created yet");
         }
         this.gameInfoRenderer.render(dto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void showBuildingOptions(Stream<Pair<DefenseDescription, Boolean>> options) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'showBuildingOptions'");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void showSelected(LogicalPosition selected) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'showSelected'");
     }
 
     /**

@@ -13,7 +13,6 @@ import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
-import it.unibo.towerdefense.model.game.GameStatusEnum;
 
 public interface View {
 
@@ -84,10 +83,4 @@ public interface View {
      * @param selected selected cell position
      */
     void showSelected(LogicalPosition selected);
-
-    /**
-     * Renders the current game state.
-     * @param gameState the game state to render
-     */
-    void renderState(GameStatusEnum gameState);
 }
