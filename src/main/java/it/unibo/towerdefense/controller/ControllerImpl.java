@@ -1,11 +1,16 @@
 package it.unibo.towerdefense.controller;
 
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.Constants;
+import it.unibo.towerdefense.commons.dtos.GameState;
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherControllerImpl;
 import it.unibo.towerdefense.controller.gameloop.GameLoop;
@@ -180,7 +185,22 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void render() {
-        // TODO implement here
+        view.render(new GameState() {
+            @Override
+            public Stream<EnemyInfo> getEnemies() {
+                return model.getEnemiesDTOs();
+            }
+            @Override
+            public Stream<CellInfo> getMap() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'getMap'");
+            }
+            @Override
+            public Stream<DefenseDescription> getDefenses() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'getDefenses'");
+            }
+        });
     }
 
     private void startGameLoop() {
