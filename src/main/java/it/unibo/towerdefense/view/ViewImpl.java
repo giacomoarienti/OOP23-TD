@@ -3,6 +3,7 @@ package it.unibo.towerdefense.view;
 import java.util.Objects;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
@@ -123,7 +124,7 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void renderState(final GameStatusEnum state) {
+    public void render(final GameState state) {
         // on first call, init the game renderer and it's renderers
         if (Objects.isNull(this.gameRenderer)) {
             throw new IllegalStateException("GameRenderer not created yet");

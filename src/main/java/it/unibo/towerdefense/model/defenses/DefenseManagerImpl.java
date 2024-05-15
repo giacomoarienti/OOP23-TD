@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -112,6 +113,12 @@ public class DefenseManagerImpl implements DefenseManager {
         }
     }
 
+    @Override
+    public Optional<Defense> getDefenseAt(LogicalPosition at) {
+        Optional<Pair<Integer, Defense>> def = find(at);
+        return def.isEmpty() ? Optional.empty() : Optional.of(def.get().getValue());
+    }
+
     /**
      *{@inheritDoc}
      */
@@ -144,8 +151,8 @@ public class DefenseManagerImpl implements DefenseManager {
      *{@inheritDoc}
      */
     @Override
-    public List<DefenseDescription> getBuildables(final LogicalPosition position) throws IOException {
-        return getModelsOfBuildables(position).stream().map(x -> getDescriptionFrom(x)).toList();
+    public List<Defense> getBuildables(final LogicalPosition position) throws IOException {
+        return getModelsOfBuildables(position).stream().toList();
     }
 
     /**
@@ -184,20 +191,20 @@ public class DefenseManagerImpl implements DefenseManager {
         return result.toString();
     }
 
-    @Override
-    public DefenseDescription getDescriptionFor(LogicalPosition at) {
-        Optional<Pair<Integer,Defense>> def = find(at);
-        if(def.isPresent()) {
-            return getDescriptionFrom(def.get().getValue());
-        }
-        return DefenseDescription.nonBuiltDefense();
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
     public void bind(ModelManager mm) {
         this.manager = mm;
+    }
+
+    @Override
+    public List<DefenseDescription> getDefenses() {
+        List<DefenseDescription> descs = new LinkedList<>();
+        for(int i = 0; i < this.defenses.size(); i++) {
+            descs.add(getDescriptionFrom(this.defenses.get(i).getKey()));
+        }
+        return descs;
     }
 }

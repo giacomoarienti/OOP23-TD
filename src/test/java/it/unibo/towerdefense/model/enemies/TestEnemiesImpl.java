@@ -7,12 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
+import it.unibo.towerdefense.commons.engine.Direction;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
-import it.unibo.towerdefense.model.enemies.EnemiesImpl;
-import it.unibo.towerdefense.model.enemies.Filenames;
-import it.unibo.towerdefense.model.enemies.RichEnemy;
-import it.unibo.towerdefense.model.enemies.WavePolicySupplierImpl;
 
 /**
  * Tests for EnemiesImpl.
@@ -22,7 +19,7 @@ public class TestEnemiesImpl {
     /**
      * Arbitrary starting position.
      */
-    private static final LogicalPosition STARTING_POSITION = new LogicalPosition(0, 0);
+    private static final EnemyPosition STARTING_POSITION = new EnemyPosition(0, 0, Direction.E, 100);
     private WavePolicySupplierImpl testing_wp;
     private EnemiesImpl tested;
     private int dead;
@@ -36,7 +33,7 @@ public class TestEnemiesImpl {
     @BeforeEach
     void init() throws IOException {
         testing_wp = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
-        tested = new EnemiesImpl((pos, speed) -> Optional.of(new LogicalPosition(1, 1)), STARTING_POSITION);
+        tested = new EnemiesImpl((pos, speed) -> Optional.of(STARTING_POSITION.clone()), () -> STARTING_POSITION.clone());
         dead = 0;
         tested.addDeathObserver(e -> dead += 1);
     }

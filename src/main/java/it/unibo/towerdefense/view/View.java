@@ -1,7 +1,14 @@
 package it.unibo.towerdefense.view;
 
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.GameState;
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
@@ -58,18 +65,13 @@ public interface View {
     void renderGameInfo(GameDTO dto);
 
     /**
-    * Render the enemies currently alive.
-     *
-     * @param enemies the enemies to render
+     * Renders the current state of the synchronous part of the game.
+     * - the enemies currently alive
+     * - all map cells
+     * - the defenses currently built
+     * @param s the state of the game
      */
-    void renderEnemies(Stream<EnemyInfo> enemies);
-
-    /**
-     * Render all map cells.
-     * @param path pathCells positions
-     * @param buildables BuildableCells positions
-     */
-    void renderMap(Stream<LogicalPosition> path, Stream<LogicalPosition> buildables);
+    void render(GameState s);
 
     /**
      * Show the menù of buildin options for the selected cell.

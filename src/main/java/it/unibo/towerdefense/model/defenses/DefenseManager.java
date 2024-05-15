@@ -9,6 +9,8 @@ import it.unibo.towerdefense.model.enemies.Enemy;
 import java.util.Map;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 
 /**
@@ -16,11 +18,11 @@ import java.util.List;
  */
 public interface DefenseManager extends JsonSerializable, Manager {
 
-    /**returns description for build at given position.
+    /**returns defense built at given position.
      * @param at position to check
-     * @return DefenseDescription for given pos.
+     * @return Defense for given pos (or empty optional if nothing is built).
     */
-    DefenseDescription getDescriptionFor(LogicalPosition at);
+    Optional<Defense> getDefenseAt(LogicalPosition at);
     /**
      * Builds a tower of the given type.
      * @param choice index of buildable.
@@ -42,7 +44,7 @@ public interface DefenseManager extends JsonSerializable, Manager {
      * @param position the position where to build.
      * @return the possibles types of buildable defenses and their mapped cost.
      */
-    List<DefenseDescription> getBuildables(LogicalPosition position) throws IOException;
+    List<Defense> getBuildables(LogicalPosition position) throws IOException;
 
     /**
      * makes the current ready defenses attack the available enemies.
@@ -50,4 +52,6 @@ public interface DefenseManager extends JsonSerializable, Manager {
      * @return the targets index and the amount of damage to deal (key=index and damage=value).
      */
     Map<Integer, Integer> attackEnemies(List<? extends Enemy> availableTargets);
+
+    List<DefenseDescription> getDefenses();
 }

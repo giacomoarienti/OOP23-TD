@@ -13,12 +13,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
-import it.unibo.towerdefense.model.enemies.EnemyCatalogue;
-import it.unibo.towerdefense.model.enemies.EnemyCatalogueFactory;
 
 /**
  * Test for ConfigurableEnemyCataloge.

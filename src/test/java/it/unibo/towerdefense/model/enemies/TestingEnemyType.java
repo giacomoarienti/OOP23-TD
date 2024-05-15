@@ -1,9 +1,8 @@
 package it.unibo.towerdefense.model.enemies;
 
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyArchetype;
-import it.unibo.towerdefense.commons.dtos.enemies.EnemyLevel;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
-import it.unibo.towerdefense.model.enemies.RichEnemyType;
 
 /**
  * Simple factory to build enemytypes for testing.
