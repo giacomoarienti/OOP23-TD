@@ -74,7 +74,7 @@ public interface GameManager extends Observable<GameDTO>, JsonSerializable {
      * GameState getter.
      * @return the state of the game
      */
-    GameState getGameState();
+    GameStatusEnum getGameState();
 
     /**
      * Sets gameState to PLAYING.
@@ -90,7 +90,7 @@ public interface GameManager extends Observable<GameDTO>, JsonSerializable {
      * Update the current game state.
      * @param state the new game state
      */
-    void setGameState(GameState state);
+    void setGameState(GameStatusEnum state);
 
     /**
      * Getter game speed.

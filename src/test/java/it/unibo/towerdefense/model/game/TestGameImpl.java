@@ -22,7 +22,7 @@ class TestGameImpl {
     private static final int INITIAL_WAVE = 1;
     private static final int INITIAL_LIVES = 100;
     private static final int INITIAL_MONEY = 100;
-    private static final GameState PAUSE_STATE = GameState.PAUSE;
+    private static final GameStatusEnum PAUSE_STATE = GameStatusEnum.PAUSE;
 
     private GameManager game;
 

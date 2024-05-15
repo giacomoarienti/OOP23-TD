@@ -25,7 +25,7 @@ public class GameManagerImpl implements GameManager {
     private int lives;
     private int money;
     private int wave;
-    private GameState gameState;
+    private GameStatusEnum gameState;
 
     /**
      * Constructor with playerName, it initializes a new game with default values.
@@ -58,7 +58,7 @@ public class GameManagerImpl implements GameManager {
         this.lives = lives;
         this.money = money;
         this.wave = wave;
-        this.gameState = GameState.PAUSE;
+        this.gameState = GameStatusEnum.PAUSE;
         // initialize empty list of observers
         this.observers = new ArrayList<>();
     }
@@ -69,7 +69,7 @@ public class GameManagerImpl implements GameManager {
      */
     @Override
     public void resume() {
-        this.setGameState(GameState.PLAYING);
+        this.setGameState(GameStatusEnum.PLAYING);
     }
 
     /**
@@ -77,7 +77,7 @@ public class GameManagerImpl implements GameManager {
      */
     @Override
     public void pause() {
-        this.setGameState(GameState.PAUSE);
+        this.setGameState(GameStatusEnum.PAUSE);
     }
 
     /**
@@ -182,7 +182,7 @@ public class GameManagerImpl implements GameManager {
      * {@inheritDoc}
      */
     @Override
-    public GameState getGameState() {
+    public GameStatusEnum getGameState() {
         return this.gameState;
     }
 
@@ -191,14 +191,14 @@ public class GameManagerImpl implements GameManager {
      */
     @Override
     public boolean isPlaying() {
-        return this.getGameState().equals(GameState.PLAYING);
+        return this.getGameState().equals(GameStatusEnum.PLAYING);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setGameState(final GameState state) {
+    public void setGameState(final GameStatusEnum state) {
         this.gameState = state;
         this.notifyObservers();
     }

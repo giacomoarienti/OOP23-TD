@@ -3,7 +3,7 @@ package it.unibo.towerdefense.model.game;
 /**
  * Current game state.
  */
-public enum GameState {
+public enum GameStatusEnum {
     /**
      * Game is running.
      */
