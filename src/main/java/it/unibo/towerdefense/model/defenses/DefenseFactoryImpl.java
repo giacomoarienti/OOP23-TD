@@ -118,33 +118,6 @@ public class DefenseFactoryImpl implements DefenseFactory {
      * {@inheritDoc}
      */
     @Override
-    public Defense defenseFromSaveFileWithCustomPoint(final String saveFile, final LogicalPosition customPosition)
-    throws IOException {
-        Defense result = new DefenseImpl(saveFile);
-        setStrategyFor(result);
-        return result;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Defense levelOneDefenseWithCustomPosition(final String statFile, final LogicalPosition buildPosition,
-            final LogicalPosition customPosition, final Optional<String> upgradesFileName) throws IOException {
-                Defense result = new DefenseImpl(statFile);
-                result.setPosition(buildPosition);
-                setStrategyFor(result);
-                if (upgradesFileName.isPresent()) {
-                    result.addUpgrades(getDefensesOfLevel(statFile, result.getType(), result.getLevel()));
-                }
-                cloneNonSerializableDataInUpdates(result);
-                return result;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Defense upgrade(final Defense current, final int upgradeIndex, final Optional<String> upgradesFileName)
     throws IOException {
         LogicalPosition defPosition = current.getPosition();

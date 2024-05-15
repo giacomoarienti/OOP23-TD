@@ -85,8 +85,7 @@ public class DefenseManagerImpl implements DefenseManager {
                 factory.levelOneDefense(DefenseMapFilePaths.ARCHER_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition, Optional.empty()),
                 factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty()),
-                factory.levelOneDefenseWithCustomPosition(DefenseMapFilePaths.THUNDER_INVOKER_LV1,
-                buildPosition, manager.getMap().getEndPosition(), Optional.empty())
+                factory.levelOneDefense(DefenseMapFilePaths.THUNDER_INVOKER_LV1, buildPosition, Optional.empty())
             );
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
@@ -124,7 +123,6 @@ public class DefenseManagerImpl implements DefenseManager {
         if (upgradable.isEmpty()) {
             defenses.add(new ImmutablePair<>(buildables.get(choice), 0));
         } else {
-            /**@TODO: create paths for upgrades.*/
             defenses.set(upgradable.get().getKey(),
             new ImmutablePair<>(factory.upgrade(buildables.get(choice), choice,
             Optional.of(DefenseMapFilePaths.pathFromType(buildables.get(choice).getType()))), 0));
