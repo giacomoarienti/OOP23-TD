@@ -25,11 +25,10 @@ public interface EnemyChoiceStrategyFactory {
     EnemyChoiceStrategy closestTargetWithAreaDamage(int damageRange, int range, LogicalPosition position);
 
     /**
-     * @return a strategy that selects the closest enemy to a custom point, then deals the base damage
+     * @return a strategy that selects the closest enemy to the end of the map, then deals the base damage
      * of the defense to that enemy.
      * @param range the range to check.
-     * @param customPoint the custom point for distance check.
      * @param position entities inside the range relative to this position cannot be selected.
      */
-    EnemyChoiceStrategy closestToCustomPointNotInRange(int range, LogicalPosition customPoint, LogicalPosition position);
+    EnemyChoiceStrategy closestToEndMap(int range, LogicalPosition position);
 }

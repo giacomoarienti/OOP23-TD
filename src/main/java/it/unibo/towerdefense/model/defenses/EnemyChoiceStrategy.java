@@ -17,10 +17,4 @@ public interface EnemyChoiceStrategy {
      * @return a map with the key indicating index of entity to damage and the value indicating the damage to inflict.
      */
     Map<Integer, Integer> execute(List<? extends Enemy> availableTargets, int baseDamage);
-
-    /**If the strategy is relying on a custom position,this allows for keeping the information on upgrades.
-     * @return a logicalPosition if the strategy is using an additional position in its logic other than the
-     * defense position, otherwise returns an empty optional.
-    */
-    Optional<LogicalPosition> getCustomPosition();
 }
