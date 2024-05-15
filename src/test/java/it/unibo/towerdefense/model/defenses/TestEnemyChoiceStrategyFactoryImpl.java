@@ -147,7 +147,7 @@ class TestEnemyChoiceStrategyFactoryImpl {
     }
 
     @Test
-    void testClosestToCustomPointNotInRange() {
+    void testClosestToEndMap() {
         /**create positions for this test.*/
         final LogicalPosition testPos1 = new LogicalPosition(12, 12);
         final LogicalPosition testPos2 = new LogicalPosition(14, 14);
@@ -165,22 +165,22 @@ class TestEnemyChoiceStrategyFactoryImpl {
         TEST_POSITION);
 
         /**Test 1:check closest target to custom point.*/
-        testTargets.add(testEnemy(testPos1, 0));
-        testTargets.add(testEnemy(testPos2, 0));
+        testTargets.add(testEnemy(testPos1, 7));
+        testTargets.add(testEnemy(testPos2, 6));
         Assertions.assertEquals(expectedResultTest1, strategy.execute(testTargets, TEST_DAMAGE));
         /**Test 2:check that targets in range aren't being selected.*/
         testTargets.clear();
-        testTargets.add(testEnemy(testPos3, 0));
-        testTargets.add(testEnemy(testPos4, 0));
+        testTargets.add(testEnemy(testPos3, 1));
+        testTargets.add(testEnemy(testPos4, 1));
         Assertions.assertEquals(expectedResultTest2, strategy.execute(testTargets, TEST_DAMAGE));
         /**Test 3:multiple targets,some selectable and some not.*/
         testTargets.clear();
-        testTargets.add(testEnemy(testPos1, 0));
-        testTargets.add(testEnemy(testPos2, 0));
-        testTargets.add(testEnemy(testPos3, 0));
-        testTargets.add(testEnemy(testPos4, 0));
-        testTargets.add(testEnemy(testPos5, 0));
-        testTargets.add(testEnemy(testPos6, 0));
+        testTargets.add(testEnemy(testPos1, 2));
+        testTargets.add(testEnemy(testPos2, 5));
+        testTargets.add(testEnemy(testPos3, 3));
+        testTargets.add(testEnemy(testPos4, 1));
+        testTargets.add(testEnemy(testPos5, 8));
+        testTargets.add(testEnemy(testPos6, 6));
         Assertions.assertEquals(expectedResultTest3, strategy.execute(testTargets, TEST_DAMAGE));
     }
 }

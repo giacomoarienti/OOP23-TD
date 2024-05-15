@@ -115,9 +115,10 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
     @Override
     public EnemyChoiceStrategy closestToEndMap(final int range,
     final LogicalPosition position) {
-        return genericModel((x1, x2) -> x1.distanceTo(x2) > range,
+        return genericModel((x1, x2) -> true,
         map -> map.entrySet()
         .stream()
+        .filter(ent1 -> ent1.getValue().getPosition().getDistance() > range)
         .sorted( (ent1, ent2) -> Double.compare(
             ent1.getValue().getPosition().getDistance(), ent2.getValue().getPosition().getDistance()))
         .limit(1)
