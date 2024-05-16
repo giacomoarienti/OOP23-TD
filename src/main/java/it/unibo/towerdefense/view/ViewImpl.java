@@ -21,6 +21,8 @@ import it.unibo.towerdefense.view.game.GameInfoRendererImpl;
 import it.unibo.towerdefense.view.gamelauncher.GameLauncherViewImpl;
 import it.unibo.towerdefense.view.graphics.GameRenderer;
 import it.unibo.towerdefense.view.graphics.GameRendererImpl;
+import it.unibo.towerdefense.view.map.MapRenderer;
+import it.unibo.towerdefense.view.map.MapRendererImpl;
 import it.unibo.towerdefense.view.menus.StartMenuViewImpl;
 import it.unibo.towerdefense.view.savings.SavingsViewImpl;
 import it.unibo.towerdefense.view.scoreboard.ScoreboardViewImpl;
@@ -35,6 +37,7 @@ public class ViewImpl implements View {
     private Window window;
     private GameRenderer gameRenderer;
     private GameInfoRenderImpl gameInfoRenderer;
+    private MapRenderer mapRenderer;
 
     /**
      * Empty constructor.
@@ -154,12 +157,14 @@ public class ViewImpl implements View {
         if (Objects.isNull(this.gameRenderer)) {
             throw new IllegalStateException("GameRenderer not created yet");
         }
+        mapRenderer.renderPath(gameRenderer, state.getMap());
         // TODO: render the state
+        gameRenderer.renderCanvas();
     }
 
     private void initRenderers(final Size mapSize) {
         this.gameRenderer = new GameRendererImpl(mapSize, this.window);
-        // create all the renderers
+        this.mapRenderer = new MapRendererImpl(this.gameRenderer.getImageLoader());
         this.gameInfoRenderer = new GameInfoRendererImpl(this.gameRenderer);
     }
 

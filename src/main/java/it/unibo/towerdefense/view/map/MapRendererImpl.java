@@ -6,12 +6,16 @@ import java.util.stream.Stream;
 import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Rotation;
 
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.PositionImpl;
 import it.unibo.towerdefense.view.graphics.GameRenderer;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 import it.unibo.towerdefense.commons.utils.images.ImageLoader;
-
-import java.awt.image.BufferedImage;
 
 public class MapRendererImpl implements MapRenderer {
 
@@ -32,7 +36,9 @@ public class MapRendererImpl implements MapRenderer {
 
     @Override
     public void renderPath(GameRenderer gr, final Stream<CellInfo> map) {
-        map.forEach(p -> gr.submitToCanvas(new ImageDrawable(getImage(p), p.getPosition())));
+        map.forEach(p -> gr.submitToCanvas(new ImageDrawable(getImage(p), new PositionImpl(
+            (int)((double) p.getPosition().getX() / Constants.MAP_SIZE.getWidth() / LogicalPosition.SCALING_FACTOR * 931),
+            (int)((double) p.getPosition().getY() / Constants.MAP_SIZE.getHeight() / LogicalPosition.SCALING_FACTOR * 641)))));
     }
 
 
@@ -45,6 +51,26 @@ public class MapRendererImpl implements MapRenderer {
     }
 
     private BufferedImage path(int i) {
-        return i < 2 ? images.get(i % 2) : Scalr.rotate(images.get(i % 2), Rotation.values()[i / 2 - 1]);
+        return images.get(i % 2);
+    }
+
+    private static BufferedImage rotateImageClockwise(BufferedImage originalImage, int degrees) {
+        int width = originalImage.getWidth();
+        int height = originalImage.getHeight();
+
+        // Creare una nuova immagine ruotata con dimensioni scambiate
+        BufferedImage rotatedImage = new BufferedImage(height, width, originalImage.getType());
+
+        // Creare una trasformazione affine per ruotare l'immagine
+        AffineTransform transform = new AffineTransform();
+        transform.translate(height / 2.0, width / 2.0);
+        transform.rotate(Math.toRadians(degrees));
+        transform.translate(-width / 2.0, -height / 2.0);
+
+        // Applicare la trasformazione all'immagine
+        AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+        op.filter(originalImage, rotatedImage);
+
+        return rotatedImage;
     }
 }

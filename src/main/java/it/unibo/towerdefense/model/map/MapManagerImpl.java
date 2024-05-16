@@ -88,6 +88,9 @@ public class MapManagerImpl implements MapManager {
     @Override
     public void select(final Position position) {
         Cell c = map.getCellAt(position);
+        if (c == null) {
+            return ;
+        }
         if (c.equals(selected)) {
             selected = null;
         } else {
@@ -184,7 +187,7 @@ public class MapManagerImpl implements MapManager {
 
             @Override
             public LogicalPosition getPosition() {
-                return c.getCenter();
+                return new LogicalPosition(c.getX() * LogicalPosition.SCALING_FACTOR, c.getY() * LogicalPosition.SCALING_FACTOR);
             }
 
             @Override
@@ -200,8 +203,8 @@ public class MapManagerImpl implements MapManager {
             @Override
             public int getDirectionsSum() {
                 if (isPathCell()) {
-                    return (((PathCell) c).getInDirection().asDirection().ordinal() + 1) / 4
-                        + (((PathCell) c).getOutDirection().asDirection().ordinal() + 1) / 4;
+                    return (((PathCell) c).getInDirection().asDirection().ordinal()
+                        + ((PathCell) c).getOutDirection().asDirection().ordinal()) % 4;
                 }
                 throw new UnsupportedOperationException("This not represent a PathCell");
             }
