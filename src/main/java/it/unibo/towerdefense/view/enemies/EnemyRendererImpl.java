@@ -21,7 +21,7 @@ import it.unibo.towerdefense.view.graphics.ImageDrawable;
  */
 public class EnemyRendererImpl implements EnemyRenderer {
 
-    private final static String ROOT = "it/unibo/towerdefense/views/enemies/";
+    private final static String ROOT = "it/unibo/towerdefense/view/enemies/";
     private final static String EXTENSION = ".png";
     private Map<EnemyType, Double> sizes;
     private Map<EnemyType, List<BufferedImage>> images;

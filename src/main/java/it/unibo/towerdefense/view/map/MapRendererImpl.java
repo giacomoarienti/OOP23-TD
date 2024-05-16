@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 
 public class MapRendererImpl implements MapRenderer {
 
-    private final static String ROOT = "it/unibo/towerdefense/views/map/";
+    private final static String ROOT = "it/unibo/towerdefense/view/map/";
     private final static String EXTENSION = ".png";
     private final static List<String> NAMES = List.of("straight", "curve", "buildable", "obstacle");
     private final List<BufferedImage> images = new ArrayList<>();
@@ -41,7 +41,7 @@ public class MapRendererImpl implements MapRenderer {
     }
 
     private BufferedImage buildable(CellInfo p) {
-        return images.get(2);
+        return p.isBuildable() ? images.get(2) : images.get(3);
     }
 
     private BufferedImage path(int i) {
