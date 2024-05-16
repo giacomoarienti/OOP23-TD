@@ -40,7 +40,7 @@ public final class Constants {
     /**
      * The size of Map in cells.
      */
-    public static final Size MAP_SIZE = new SizeImpl(20, 30);
+    public static final Size MAP_SIZE = new SizeImpl(30, 20);
 
     private Constants() {
     }
