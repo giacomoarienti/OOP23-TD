@@ -20,6 +20,7 @@ import it.unibo.towerdefense.view.modal.ModalImpl;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
@@ -39,7 +40,7 @@ public class WindowImpl implements Window {
 
     private final List<Modal> openModals =
         new ArrayList<>();
-    private final Size size;
+    private final Size resolution;
     private final JFrame frame;
     private final Canvas canvas;
     private final JPanel upgradeMenu;
@@ -49,16 +50,22 @@ public class WindowImpl implements Window {
 
     /**
      * Creates a window with the specified size.
-     * @param size the size of the window
+     * @param resolution the size of the window
      */
-    public WindowImpl(final Size size) {
-        this.size = size.copy();
-        final int w = this.size.getWidth();
-        final int h = this.size.getHeight();
+    public WindowImpl(final Size resolution) {
+        this.resolution = resolution.copy();
         // create base frame
         this.frame = new JFrame(WINDOW_TITLE);
-        this.frame.setLayout(new BorderLayout());
+        this.frame.setExtendedState(JFrame.NORMAL);
+        this.frame.pack();
+        // get the insets (decorations like title bar and borders)
+        final Insets insets = this.frame.getInsets();
+        // calculate the frame size considering the insets
+        final int w = this.resolution.getWidth() - insets.left - insets.right;
+        final int h = this.resolution.getHeight() - insets.top - insets.bottom;
         this.frame.setPreferredSize(new Dimension(w, h));
+        // set frame layout
+        this.frame.setLayout(new BorderLayout());
         // create canvas
         final int canvasWidth = w / CANVAS_PROPORTION;
         final int canvasHeight = h;
@@ -114,8 +121,8 @@ public class WindowImpl implements Window {
      * {@inheritDoc}
      */
     @Override
-    public Size getSize() {
-        return this.size.copy();
+    public Size getResolution() {
+        return this.resolution.copy();
     }
 
     /**
