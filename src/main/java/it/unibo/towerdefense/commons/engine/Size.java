@@ -19,4 +19,14 @@ public interface Size extends Copyable<Size> {
      * @return the height
      */
     int getHeight();
+
+    /**
+     * Factory method to create a new Size object.
+     * @param width the width of the size
+     * @param height the height of the size
+     * @return the new Size object
+     */
+    static Size of(final int width, final int height) {
+        return new SizeImpl(width, height);
+    }
 }
