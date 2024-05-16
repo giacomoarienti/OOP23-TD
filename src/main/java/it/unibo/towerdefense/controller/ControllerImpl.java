@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.controller;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -192,8 +193,7 @@ public class ControllerImpl implements Controller {
             }
             @Override
             public Stream<CellInfo> getMap() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getMap'");
+                return model.getMapDTOs();
             }
             @Override
             public Stream<DefenseDescription> getDefenses() {

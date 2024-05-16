@@ -14,7 +14,6 @@ import it.unibo.towerdefense.commons.engine.Size;
  */
 public class ReversedPathFactory {
 
-    private static final List<MapDirection> D_LIST = List.of(MapDirection.values());
 
     /**
      *Return a path corresponding to an orizontal line from left to right.
@@ -66,7 +65,7 @@ public class ReversedPathFactory {
     }
 
     private MapDirection turnLeft(final MapDirection d) {
-        return D_LIST.get((D_LIST.indexOf(d) + 1) % D_LIST.size());
+        return MapDirection.values()[(d.ordinal() + 1) % 4];
     }
 
     private MapDirection turnRight(final MapDirection d) {

@@ -1,16 +1,12 @@
 package it.unibo.towerdefense.commons.dtos.map;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import it.unibo.towerdefense.commons.engine.Direction;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 public interface CellInfo {
-    enum Type{
-        BUILDABLE, PATH;
-    }
 
-    Type getType();
+    LogicalPosition getPosition();
+    boolean isPathCell();
     boolean isBuildable();
-    Pair<Direction, Direction> getDirections();
+    int getDirectionsSum();
 
 }

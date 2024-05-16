@@ -1,33 +1,50 @@
 package it.unibo.towerdefense.view.map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import org.imgscalr.Scalr;
+import org.imgscalr.Scalr.Rotation;
+
+import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.view.graphics.GameRenderer;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 import it.unibo.towerdefense.commons.utils.images.ImageLoader;
+
 import java.awt.image.BufferedImage;
 
 public class MapRendererImpl implements MapRenderer {
 
-    private final ImageLoader imLo;
-    private BufferedImage image;
+    private final static String ROOT = "it/unibo/towerdefense/views/map/";
+    private final static String EXTENSION = ".png";
+    private final static List<String> NAMES = List.of("test", "test", "test");
+    private final List<BufferedImage> images = new ArrayList<>();
 
     public MapRendererImpl(final ImageLoader imLo) {
-        this.imLo = imLo;
-        image = loadImage();
+        for (int i = 0; i < 3; i++) {
+            try {
+            images.add(imLo.loadImage(ROOT + NAMES.get(i) + EXTENSION, 1.0));
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to initialize the image for type " + NAMES.get(i), e);
+            }
+        }
     }
 
     @Override
-    public void renderPath(GameRenderer gameRenderer, final Stream<LogicalPosition> path) {
-        path/*.peek(p -> System.out.println(p))*/.forEach(p -> gameRenderer.submitToCanvas(new ImageDrawable(image, p)));
+    public void renderPath(GameRenderer gr, final Stream<CellInfo> map) {
+        map.forEach(p -> gr.submitToCanvas(new ImageDrawable(getImage(p), p.getPosition())));
     }
 
-    private BufferedImage loadImage() {
-        try {
-            System.out.println("carico immagine");
-            return imLo.loadImage("it/unibo/towerdefense/utils/images/test.png", 1);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to initialize the image for type map", e);
-        }
+
+    private BufferedImage getImage(CellInfo p) {
+        return p.isPathCell() ? path(p.getDirectionsSum()) : buildable(p);
+    }
+
+    private BufferedImage buildable(CellInfo p) {
+        return images.get(2);
+    }
+
+    private BufferedImage path(int i) {
+        return i < 2 ? images.get(i % 2) : Scalr.rotate(images.get(i % 2), Rotation.values()[i / 2 - 1]);
     }
 }

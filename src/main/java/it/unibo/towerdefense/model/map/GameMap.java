@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.model.map;
 
+import java.util.stream.Stream;
+
 import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -33,5 +35,11 @@ public interface GameMap extends JsonSerializable {
      * @return the cell were enemies want to go.
      */
     PathCell getEndCell();
+
+    /**
+     * Return the map info as a stream of cells info.
+     * @return stream of cells info.
+     */
+    Stream<Cell> getMap();
 
 }

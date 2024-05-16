@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
+import it.unibo.towerdefense.commons.engine.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
@@ -15,7 +16,6 @@ import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.ModelManager;
 import it.unibo.towerdefense.model.defenses.Defense;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
-import it.unibo.towerdefense.model.defenses.DefenseType;
 import it.unibo.towerdefense.model.game.GameManager;
 
 /**
@@ -181,8 +181,32 @@ public class MapManagerImpl implements MapManager {
 
     @Override
     public Stream<CellInfo> getMap() {
-        //TODO
-        throw new UnsupportedOperationException();
+        return map.getMap().map(c -> new CellInfo() {
+
+            @Override
+            public LogicalPosition getPosition() {
+                return c.getCenter();
+            }
+
+            @Override
+            public boolean isPathCell() {
+                return c instanceof PathCell;
+            }
+
+            @Override
+            public boolean isBuildable() {
+                return !isPathCell() && ((BuildableCell) c).isBuildable();
+            }
+
+            @Override
+            public int getDirectionsSum() {
+                if (isPathCell()) {
+                    return (((PathCell) c).getInDirection().asDirection().ordinal() + 1) / 4
+                        + (((PathCell) c).getOutDirection().asDirection().ordinal() + 1) / 4;
+                }
+                throw new UnsupportedOperationException("This not represent a PathCell");
+            }
+        });
     }
 
     /**

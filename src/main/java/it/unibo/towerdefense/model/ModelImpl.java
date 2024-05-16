@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
@@ -147,5 +148,13 @@ public class ModelImpl implements ModelManager, Model {
     @Override
     public Stream<DefenseDescription> getDefensesDTOs() {
         return defenses.getDefenses().stream();
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public Stream<CellInfo> getMapDTOs() {
+        return map.getMap();
     }
 }

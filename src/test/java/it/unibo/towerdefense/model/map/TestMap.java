@@ -21,6 +21,11 @@ public class TestMap {
     private LogicalPosition pos = spawn.position();
     private int distanceToEnd = spawn.distanceToEnd();
 
+
+    @Test void testGetMap() {
+        map.getMap();
+    }
+
     @Test
     void testGetNextPosition() {
         System.out.println(spawn);

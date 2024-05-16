@@ -2,8 +2,8 @@ package it.unibo.towerdefense.model.map;
 
 import java.util.Iterator;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,6 +26,7 @@ public class GameMapImpl implements GameMap {
     private static final int OBSTACLE_RATE = 10;
     private static final int MAX_X_SIZE = 100;
     private static final int MAX_Y_SIZE = 100;
+    private static final MapDirection PATH_DIRECTION = MapDirection.E;
     private Cell[][] map;
 
     /**
@@ -39,10 +40,10 @@ public class GameMapImpl implements GameMap {
         }
         this.size = size;
         map = new Cell[size.getWidth()][size.getHeight()];
-        final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, MapDirection.E);
+        final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, PATH_DIRECTION);
         Position pos = new PositionImpl(size.getWidth(), random.nextInt(size.getHeight() / 4, size.getHeight() / 4 * 3));
         int distanceToEnd = 0;
-        end = new PathCellImpl(pos, path.next(), MapDirection.E, distanceToEnd);
+        end = new PathCellImpl(pos, path.next(), PATH_DIRECTION, distanceToEnd);
         PathCell newCell = end;
         pos.subtract(newCell.getInDirection().asPosition());
         System.out.println(newCell);
@@ -122,6 +123,13 @@ public class GameMapImpl implements GameMap {
 
     private boolean isInMap(final Position pos) {
         return pos.getX() >= 0 && pos.getX() < size.getWidth() && pos.getY() >= 0 && pos.getY() < size.getHeight();
+    }
+
+    @Override
+    public Stream<Cell> getMap() {
+        //var cellMap = toStream(map, size).collect(Collectors.groupingBy(c -> c instanceof PathCell));
+        //return Pair.of(cellMap.get(true).stream().map(c -> (PathCell) c), cellMap.get(false).stream().map(c -> (BuildableCell) c));
+        return toStream(map, size);
     }
 
     /**
