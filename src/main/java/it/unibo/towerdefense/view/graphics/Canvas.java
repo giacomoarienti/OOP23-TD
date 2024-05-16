@@ -54,4 +54,10 @@ public interface Canvas {
      * @param mapSize the size of the map
      */
     void setMapSize(Size mapSize);
+
+    /**
+     * Get the size of the canvas.
+     * @return the true size of the canvas
+     */
+    Size getCanvasSize();
 }

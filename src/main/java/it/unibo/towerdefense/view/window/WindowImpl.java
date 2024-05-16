@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
-import it.unibo.towerdefense.commons.engine.SizeImpl;
 import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.view.graphics.Canvas;
 import it.unibo.towerdefense.view.graphics.CanvasImpl;
@@ -33,7 +32,6 @@ public class WindowImpl implements Window {
 
     private static final String WINDOW_TITLE = "Tower Defense";
     private static final String ERROR_ALERT_TITLE = "Error";
-    private static final int CANVAS_PROPORTION = 2;
     private static final int SIDE_MENUS_PROPORTION = 8;
     private final static Logger logger =
         LoggerFactory.getLogger(WindowImpl.class);
@@ -46,7 +44,6 @@ public class WindowImpl implements Window {
     private final JPanel upgradeMenu;
     private final JPanel buyMenu;
     private final JPanel infoPanel;
-    private final Size canvasSize;
 
     /**
      * Creates a window with the specified size.
@@ -56,21 +53,16 @@ public class WindowImpl implements Window {
         this.resolution = resolution.copy();
         // create base frame
         this.frame = new JFrame(WINDOW_TITLE);
-        this.frame.setExtendedState(JFrame.NORMAL);
         this.frame.pack();
-        // get the insets (decorations like title bar and borders)
+        // get the insets and calculate the frame size
         final Insets insets = this.frame.getInsets();
-        // calculate the frame size considering the insets
         final int w = this.resolution.getWidth() - insets.left - insets.right;
         final int h = this.resolution.getHeight() - insets.top - insets.bottom;
         this.frame.setPreferredSize(new Dimension(w, h));
         // set frame layout
         this.frame.setLayout(new BorderLayout());
         // create canvas
-        final int canvasWidth = w / CANVAS_PROPORTION;
-        final int canvasHeight = h;
-        this.canvasSize = new SizeImpl(canvasWidth, canvasHeight);
-        this.canvas = new CanvasImpl(canvasWidth, canvasHeight);
+        this.canvas = new CanvasImpl();
         // create panels
         this.upgradeMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
         final var rightMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
@@ -99,11 +91,11 @@ public class WindowImpl implements Window {
          * flag makes the OS window manager take care of the default positioning
          * on screen. Results may vary, but it is generally the best choice.
          */
+        this.frame.pack();
         this.frame.setLocationByPlatform(true);
         // set frame not resizable
         this.frame.setResizable(false);
         // push frame on screen
-        this.frame.pack();
         this.frame.setVisible(true);
         logger.info("Window displayed");
     }
@@ -130,7 +122,7 @@ public class WindowImpl implements Window {
      */
     @Override
     public Size getCanvasSize() {
-        return this.canvasSize.copy();
+        return this.canvas.getCanvasSize();
     }
 
     /**

@@ -39,20 +39,27 @@ public class CanvasImpl extends JPanel implements Canvas {
     private Size mapSize;
 
     /**
-     * Constructor from width and height.
-     * @param width the width of the canvas
-     * @param height the height of the canvas
+     * Default constructor.
      */
-    public CanvasImpl(final int width, final int height) {
+    public CanvasImpl() {
         super();
-        // set the size of the canvas
-        this.setPreferredSize(new Dimension(width, height));
         // bind on click event
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
                 CanvasImpl.this.onClick(e);
             }
         });
+    }
+
+    /**
+     * Constructor from width and height.
+     * @param width the width of the canvas
+     * @param height the height of the canvas
+     */
+    public CanvasImpl(final int width, final int height) {
+        this();
+        // set the size of the canvas
+        this.setPreferredSize(new Dimension(width, height));
     }
 
     /**
@@ -81,7 +88,7 @@ public class CanvasImpl extends JPanel implements Canvas {
      */
     @Override
     public synchronized void render() {
-        repaint();
+        this.repaint();
     }
 
     /**
@@ -130,6 +137,14 @@ public class CanvasImpl extends JPanel implements Canvas {
     @Override
     public void setMapSize(final Size mapSize) {
         this.mapSize = mapSize;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Size getCanvasSize() {
+        return Size.of(this.getWidth(), this.getHeight());
     }
 
     private void onClick(final MouseEvent e) {
