@@ -26,7 +26,7 @@ import java.awt.event.MouseEvent;
  */
 public class CanvasImpl extends JPanel implements Canvas {
 
-    private static final long serialVersionUID = 1000L;
+    private static final long serialVersionUID = 1L;
     private static final int FIRST_INDEX = 0;
     private static final int START_Y = 0;
     private static final int START_X = 0;
@@ -35,7 +35,6 @@ public class CanvasImpl extends JPanel implements Canvas {
 
     private final transient List<Drawable> queue = new ArrayList<>();
     private final List<Observer<Position>> observers = new ArrayList<>();
-    private final Size canvasSize;
 
     private Size mapSize;
 
@@ -47,7 +46,6 @@ public class CanvasImpl extends JPanel implements Canvas {
     public CanvasImpl(final int width, final int height) {
         super();
         // set the size of the canvas
-        this.canvasSize = Size.of(width, height);
         this.setPreferredSize(new Dimension(width, height));
         // bind on click event
         this.addMouseListener(new MouseAdapter() {
@@ -142,8 +140,8 @@ public class CanvasImpl extends JPanel implements Canvas {
         }
         // calc the cell position
         final Position cell = Position.of(
-            e.getX() / this.canvasSize.getWidth() * mapSize.getWidth(),
-            e.getY() / this.canvasSize.getHeight() * mapSize.getHeight()
+            (int) (((double) e.getX() / (double) this.getWidth()) * mapSize.getWidth()),
+            (int)(((double) e.getY() / (double) this.getHeight()) * mapSize.getHeight())
         );
         // call all the observers
         this.observers.forEach(observer -> observer.notify(cell));
