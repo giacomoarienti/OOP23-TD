@@ -26,10 +26,10 @@ public interface Window {
     void close();
 
     /**
-     * Get the size of the window.
-     * @return the size of the window
+     * Get the resolution of the window.
+     * @return the resolution of the window
      */
-    Size getSize();
+    Size getResolution();
 
     /**
      * Get canvas size.
