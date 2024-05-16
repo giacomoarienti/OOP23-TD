@@ -10,6 +10,7 @@ import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -221,7 +222,11 @@ public class ControllerImpl implements Controller {
     }
 
     private void addModelObservers() {
-        this.model.addGameObserver((dto) -> view.renderGameInfo(dto));
+        this.model.addGameObserver(this::renderGameInfo);
+    }
+
+    private void renderGameInfo(final GameDTO dto) {
+        this.view.renderGameInfo(dto);
     }
 
     private void afterStart() {
