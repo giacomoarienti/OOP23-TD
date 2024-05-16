@@ -14,6 +14,9 @@ public final class DefenseImagePaths {
     DefenseType.THUNDERINVOKER, "Thunder"
     );
 
+    /**public costant indicating imageSize.*/
+    public final static int IMAGE_SIZE = 32;
+
     /**
      * @param type type of defense.
      * @param level level of defense.

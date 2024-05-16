@@ -12,6 +12,8 @@ public class DefenseDescription {
     private int cost;
     /**Sell value.*/
     private int sellValue;
+    /**Level.*/
+    private int level;
     /**Type.*/
     private DefenseType type;
 
@@ -19,9 +21,10 @@ public class DefenseDescription {
      * @param description
      * @param name
      * @param cost
+     * @param level
     */
     public DefenseDescription(final String description, final String name, final int cost,
-    final int sell, final DefenseType type) {
+    final int sell,final int level, final DefenseType type) {
         this.description = description;
         this.name = name;
         this.cost = cost;
@@ -62,5 +65,12 @@ public class DefenseDescription {
     */
     public DefenseType getType() {
         return this.type;
+    }
+
+    /**getter for level.
+     * @return the level.
+    */
+    public int getLevel() {
+        return this.level;
     }
 }

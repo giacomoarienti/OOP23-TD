@@ -71,6 +71,7 @@ public class DefenseManagerImpl implements DefenseManager {
          def.getType().toString(),
          def.getBuildingCost(),
          def.getSellingValue(),
+         def.getLevel(),
          def.getType());
     }
 
