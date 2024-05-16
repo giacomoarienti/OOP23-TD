@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
-import it.unibo.towerdefense.commons.engine.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;

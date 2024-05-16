@@ -17,11 +17,11 @@ public class MapRendererImpl implements MapRenderer {
 
     private final static String ROOT = "it/unibo/towerdefense/views/map/";
     private final static String EXTENSION = ".png";
-    private final static List<String> NAMES = List.of("test", "test", "test");
+    private final static List<String> NAMES = List.of("straight", "curve", "buildable", "obstacle");
     private final List<BufferedImage> images = new ArrayList<>();
 
     public MapRendererImpl(final ImageLoader imLo) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             try {
             images.add(imLo.loadImage(ROOT + NAMES.get(i) + EXTENSION, 1.0));
             } catch (Exception e) {

@@ -7,6 +7,7 @@ import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
+import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
@@ -156,5 +157,13 @@ public class ModelImpl implements ModelManager, Model {
     @Override
     public Stream<CellInfo> getMapDTOs() {
         return map.getMap();
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public void selectCell(Position position) {
+        map.select(position);
     }
 }

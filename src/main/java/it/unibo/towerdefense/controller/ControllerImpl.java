@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.controller;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -12,6 +11,7 @@ import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
+import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherControllerImpl;
 import it.unibo.towerdefense.controller.gameloop.GameLoop;
@@ -171,6 +171,14 @@ public class ControllerImpl implements Controller {
             this.view
         );
         scoreboardController.run();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void handleCellSelection(Position position) {
+        model.selectCell(position);
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.controller;
 
+import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.saving.Saving;
 
@@ -82,4 +83,10 @@ public interface Controller {
      * Renders the state of the relative model.
      */
     void render();
+
+    /**
+     * Select the cell that contains position.
+     * @param position poition clicked by user.
+     */
+    void handleCellSelection(Position position);
 }
