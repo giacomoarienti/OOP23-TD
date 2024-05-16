@@ -2,6 +2,10 @@ package it.unibo.towerdefense.view.graphics;
 
 import java.util.List;
 
+import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.patterns.Observer;
+
 /**
  * Interface that defines the Canvas methods.
  */
@@ -38,4 +42,16 @@ public interface Canvas {
      */
     void submitBackgroundAll(List<? extends Drawable> drawables);
 
+    /**
+     * Add an observer to the canvas.
+     * The observer will be notified when the canvas is clicked.
+     * @param observer the observer to add
+     */
+    void addClickObserver(Observer<Position> observer);
+
+    /**
+     * Set the map size.
+     * @param mapSize the size of the map
+     */
+    void setMapSize(Size mapSize);
 }

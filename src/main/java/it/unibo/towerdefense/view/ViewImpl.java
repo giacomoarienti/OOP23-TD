@@ -10,7 +10,9 @@ import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
@@ -111,6 +113,7 @@ public class ViewImpl implements View {
     @Override
     public void setMapSize(final Size mapSize) {
         this.initRenderers(mapSize);
+        this.window.setMapSize(mapSize);
     }
 
     /**
@@ -158,5 +161,13 @@ public class ViewImpl implements View {
         this.gameRenderer = new GameRendererImpl(mapSize, this.window);
         // create all the renderers
         this.gameInfoRenderer = new GameInfoRendererImpl(this.gameRenderer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addMapCellSelectionObserver(final Observer<Position> observer) {
+        this.window.addCanvasClickObserver(observer);
     }
 }

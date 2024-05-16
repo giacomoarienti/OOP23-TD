@@ -9,7 +9,9 @@ import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
@@ -86,4 +88,11 @@ public interface View {
      * @param selected selected cell position
      */
     void showSelected(LogicalPosition selected);
+
+    /**
+     * Add an observer to the map cell selection.
+     * Whenever a cell is selected, the observer will be notified.
+     * @param observer the observer to add
+     */
+    void addMapCellSelectionObserver(Observer<Position> observer);
 }

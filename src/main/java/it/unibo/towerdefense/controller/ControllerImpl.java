@@ -177,7 +177,7 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void handleCellSelection(Position position) {
+    public void handleCellSelection(final Position position) {
         model.selectCell(position);
     }
 
@@ -226,6 +226,9 @@ public class ControllerImpl implements Controller {
 
     private void afterStart() {
         this.view.setMapSize(MAP_SIZE);
+        this.view.addMapCellSelectionObserver(
+            (pos) -> this.handleCellSelection(pos)
+        );
         this.addModelObservers();
         this.startGameLoop();
     }

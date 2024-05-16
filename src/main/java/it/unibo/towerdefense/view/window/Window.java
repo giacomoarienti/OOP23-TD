@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.view.graphics.Drawable;
 import it.unibo.towerdefense.view.modal.ModalContent;
 
@@ -83,4 +85,16 @@ public interface Window {
      * Forces the canvas to rerender.
      */
     void renderCanvas();
+
+    /**
+     * Adds an observer to the canvas click event.
+     * @param observer the observer to add
+     */
+    void addCanvasClickObserver(Observer<Position> observer);
+
+    /**
+     * Sets the map size.
+     * @param mapSize the size of the map
+     */
+    void setMapSize(Size mapSize);
 }

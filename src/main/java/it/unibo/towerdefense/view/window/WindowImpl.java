@@ -7,8 +7,10 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.engine.SizeImpl;
+import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.view.graphics.Canvas;
 import it.unibo.towerdefense.view.graphics.CanvasImpl;
 import it.unibo.towerdefense.view.graphics.Drawable;
@@ -202,6 +204,22 @@ public class WindowImpl implements Window {
         this.canvas.render();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addCanvasClickObserver(final Observer<Position> observer) {
+        this.canvas.addClickObserver(observer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setMapSize(final Size mapSize) {
+        this.canvas.setMapSize(mapSize);
+    }
+
     private JPanel createPanel(final int width, final int height) {
         final JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(width, height));
@@ -225,5 +243,4 @@ public class WindowImpl implements Window {
                 .setVisible(true);
         }
     }
-
 }

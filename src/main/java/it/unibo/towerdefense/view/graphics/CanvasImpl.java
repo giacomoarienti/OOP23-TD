@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.view.graphics;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -8,6 +9,10 @@ import javax.swing.JPanel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.Size;
+import it.unibo.towerdefense.commons.patterns.Observer;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -25,9 +30,14 @@ public class CanvasImpl extends JPanel implements Canvas {
     private static final int FIRST_INDEX = 0;
     private static final int START_Y = 0;
     private static final int START_X = 0;
+    private static final Logger logger =
+        LoggerFactory.getLogger(CanvasImpl.class);
 
     private final transient List<Drawable> queue = new ArrayList<>();
-    private final transient Logger logger;
+    private final List<Observer<Position>> observers = new ArrayList<>();
+    private final Size canvasSize;
+
+    private Size mapSize;
 
     /**
      * Constructor from width and height.
@@ -37,9 +47,8 @@ public class CanvasImpl extends JPanel implements Canvas {
     public CanvasImpl(final int width, final int height) {
         super();
         // set the size of the canvas
+        this.canvasSize = Size.of(width, height);
         this.setPreferredSize(new Dimension(width, height));
-        // create the logger
-        this.logger = LoggerFactory.getLogger(this.getClass());
         // bind on click event
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
@@ -109,9 +118,34 @@ public class CanvasImpl extends JPanel implements Canvas {
        this.queue.addAll(FIRST_INDEX, drawables);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void addClickObserver(final Observer<Position> observer) {
+        this.observers.add(observer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setMapSize(final Size mapSize) {
+        this.mapSize = mapSize;
+    }
+
     private void onClick(final MouseEvent e) {
-        this.logger.debug("Mouse clicked at: " + e.getX() + ", " + e.getY());
-        // call selected cell on MapController
-        // this.mapController.selectedCell(new PositionImpl(e.getX(), e.getY()));
+        logger.debug("Mouse clicked at: " + e.getX() + ", " + e.getY());
+        // do not handle event if mapSize is not set
+        if (Objects.isNull(this.mapSize)) {
+            return;
+        }
+        // calc the cell position
+        final Position cell = Position.of(
+            e.getX() / this.canvasSize.getWidth() * mapSize.getWidth(),
+            e.getY() / this.canvasSize.getHeight() * mapSize.getHeight()
+        );
+        // call all the observers
+        this.observers.forEach(observer -> observer.notify(cell));
     }
 }
