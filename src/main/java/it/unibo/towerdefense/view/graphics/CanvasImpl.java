@@ -37,6 +37,7 @@ public class CanvasImpl extends JPanel implements Canvas {
     private final List<Observer<Position>> observers = new ArrayList<>();
 
     private Size mapSize;
+    private double scale = 1;
 
     /**
      * Default constructor.
@@ -75,19 +76,25 @@ public class CanvasImpl extends JPanel implements Canvas {
         // clear the canvas
         g2d.clearRect(START_X, START_Y, this.getWidth(), this.getHeight());
         // draw all the elements in queue
-        for (final Drawable drawable: this.queue) {
-            drawable.paint(g2d);
+        final var syncQueue = Collections.synchronizedList(new ArrayList<>(this.queue));
+        synchronized (syncQueue) {
+            for (final Drawable drawable: syncQueue) {
+                drawable.setScale(this.getScale());
+                drawable.paint(g2d);
+            }
         }
-        // dispose the graphics and clear the queue
+        // clear the queue and dispose the graphics
+        synchronized (this.queue) {
+            this.queue.clear();
+        }
         g2d.dispose();
-        this.queue.clear();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public synchronized void render() {
+    public void render() {
         this.repaint();
     }
 
@@ -127,7 +134,7 @@ public class CanvasImpl extends JPanel implements Canvas {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void addClickObserver(final Observer<Position> observer) {
+    public void addClickObserver(final Observer<Position> observer) {
         this.observers.add(observer);
     }
 
@@ -137,6 +144,7 @@ public class CanvasImpl extends JPanel implements Canvas {
     @Override
     public void setMapSize(final Size mapSize) {
         this.mapSize = mapSize;
+        this.scale = (double) this.getWidth() / (double) mapSize.getWidth();
     }
 
     /**
@@ -147,6 +155,10 @@ public class CanvasImpl extends JPanel implements Canvas {
         return Size.of(this.getWidth(), this.getHeight());
     }
 
+    private double getScale() {
+        return this.scale;
+    }
+
     private void onClick(final MouseEvent e) {
         logger.debug("Mouse clicked at: " + e.getX() + ", " + e.getY());
         // do not handle event if mapSize is not set
@@ -155,8 +167,8 @@ public class CanvasImpl extends JPanel implements Canvas {
         }
         // calc the cell position
         final Position cell = Position.of(
-            (int) (((double) e.getX() / (double) this.getWidth()) * mapSize.getWidth()),
-            (int)(((double) e.getY() / (double) this.getHeight()) * mapSize.getHeight())
+            (int) (((double) e.getX() / (double) this.getWidth()) * this.mapSize.getWidth()),
+            (int)(((double) e.getY() / (double) this.getHeight()) * this.mapSize.getHeight())
         );
         // call all the observers
         this.observers.forEach(observer -> observer.notify(cell));

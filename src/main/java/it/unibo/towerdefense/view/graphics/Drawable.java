@@ -10,6 +10,7 @@ import it.unibo.towerdefense.commons.engine.Position;
 public abstract class Drawable {
 
     private Position position;
+    private double scale = 1;
 
     /**
      * Constructor from starting position and size.
@@ -31,7 +32,15 @@ public abstract class Drawable {
      * @return the size of the object.
      */
     public Position getPosition() {
-        return position.copy();
+        return this.position.scaled(this.scale);
+    }
+
+    /**
+     * Sets the scale factor which the position will be multiplied by.
+     * @param scale the scale factor
+     */
+    public void setScale(final double scale) {
+        this.scale = scale;
     }
 
     /**
