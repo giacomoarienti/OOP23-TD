@@ -56,21 +56,23 @@ public class WindowImpl implements Window {
         this.frame.pack();
         // get the insets and calculate the frame size
         final Insets insets = this.frame.getInsets();
-        final int w = this.resolution.getWidth() - insets.left - insets.right;
+        final int w = this.resolution.getWidth();
         final int h = this.resolution.getHeight() - insets.top - insets.bottom;
         this.frame.setPreferredSize(new Dimension(w, h));
         // set frame layout
         this.frame.setLayout(new BorderLayout());
         // create canvas
         this.canvas = new CanvasImpl();
-        // create panels
-        this.upgradeMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
+        // create right menu
         final var rightMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
-        rightMenu.setLayout(new FlowLayout());
         this.infoPanel = new JPanel();
         this.buyMenu = new JPanel();
+        // set right menu layout and add panels
+        rightMenu.setLayout(new FlowLayout());
         rightMenu.add(this.infoPanel);
         rightMenu.add(this.buyMenu);
+        // create upgrade menu
+        this.upgradeMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
         // add panels to frame
         this.frame.add((JPanel) this.canvas, BorderLayout.CENTER);
         this.frame.add(this.upgradeMenu, BorderLayout.WEST);
