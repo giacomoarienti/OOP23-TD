@@ -84,4 +84,12 @@ public class GameRendererImpl implements GameRenderer {
     public void submitAllToCanvas(final List<? extends Drawable> drawables) {
         this.window.submitAllToCanvas(drawables);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void submitBackgroundAllToCanvas(final List<? extends Drawable> drawables) {
+        this.window.submitBackgroundAll(drawables);
+    }
 }

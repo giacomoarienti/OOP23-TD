@@ -49,6 +49,13 @@ public interface GameRenderer {
     void submitAllToCanvas(List<? extends Drawable> drawables);
 
     /**
+     * Submit a list of drawable to the canvas to be drawn
+     * as first elements.
+     * @param drawables the list of drawables to submit
+     */
+    void submitBackgroundAllToCanvas(List<? extends Drawable> drawables);
+
+    /**
      * Forces the canvas to be rendered.
      */
     void renderCanvas();

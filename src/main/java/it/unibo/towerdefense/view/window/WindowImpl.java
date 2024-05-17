@@ -199,6 +199,14 @@ public class WindowImpl implements Window {
      * {@inheritDoc}
      */
     @Override
+    public void submitBackgroundAll(List<? extends Drawable> drawables) {
+        this.canvas.submitBackgroundAll(drawables);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void renderCanvas() {
         this.canvas.render();
     }

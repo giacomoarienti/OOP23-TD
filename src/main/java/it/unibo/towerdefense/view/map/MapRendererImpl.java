@@ -36,9 +36,14 @@ public class MapRendererImpl implements MapRenderer {
 
     @Override
     public void renderPath(GameRenderer gr, final Stream<CellInfo> map) {
-        map.forEach(p -> gr.submitToCanvas(new ImageDrawable(getImage(p), new PositionImpl(
-            (int)((double) p.getPosition().getX() / Constants.MAP_SIZE.getWidth() / LogicalPosition.SCALING_FACTOR * 931),
-            (int)((double) p.getPosition().getY() / Constants.MAP_SIZE.getHeight() / LogicalPosition.SCALING_FACTOR * 641)))));
+        final var mapDrawables = map.map(p -> new ImageDrawable(
+            getImage(p),
+            new PositionImpl(
+                p.getPosition().getCellX(),
+                p.getPosition().getCellY()
+            )
+        )).toList();
+        gr.submitBackgroundAllToCanvas(mapDrawables);
     }
 
 
