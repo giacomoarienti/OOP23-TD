@@ -32,8 +32,7 @@ public class WindowImpl implements Window {
 
     private static final String WINDOW_TITLE = "Tower Defense";
     private static final String ERROR_ALERT_TITLE = "Error";
-    private static final int SIDE_MENUS_PROPORTION = 8;
-    private final static Logger logger =
+    private static final Logger logger =
         LoggerFactory.getLogger(WindowImpl.class);
 
     private final List<Modal> openModals =
@@ -54,17 +53,16 @@ public class WindowImpl implements Window {
         // create base frame
         this.frame = new JFrame(WINDOW_TITLE);
         this.frame.pack();
-        // get the insets and calculate the frame size
+        // calculate sizes
         final Insets insets = this.frame.getInsets();
         final int w = this.resolution.getWidth();
         final int h = this.resolution.getHeight() - insets.top - insets.bottom;
+        final int wMenu = (w - h) / 2;
         this.frame.setPreferredSize(new Dimension(w, h));
         // set frame layout
         this.frame.setLayout(new BorderLayout());
         // create canvas
         this.canvas = new CanvasImpl(h, h);
-        // calc width menu
-        final int wMenu = (w - h) / 2;
         // create right menu
         final var rightMenu = createPanel(wMenu, h);
         this.infoPanel = new JPanel();
