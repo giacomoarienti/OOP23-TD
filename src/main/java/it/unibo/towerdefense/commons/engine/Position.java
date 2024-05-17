@@ -53,6 +53,13 @@ public interface Position extends JsonSerializable, Copyable<Position> {
     double distanceTo(Position position);
 
     /**
+     * Scales the position by the given factor.
+     * @param scale the factor to scale the position by
+     * @return the scaled position
+     */
+    Position scaled(double scale);
+
+    /**
      * Factory method to create a new Position object.
      * @param x the x value of the position
      * @param y the y value of the position

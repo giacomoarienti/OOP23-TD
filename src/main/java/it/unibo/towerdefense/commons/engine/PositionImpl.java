@@ -95,6 +95,17 @@ public class PositionImpl implements Position {
      * {@inheritDoc}
      */
     @Override
+    public Position scaled(final double scale) {
+        return new PositionImpl(
+            (int) (getX() * scale),
+            (int) (getY() * scale)
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean equals(final Object o) {
         if (o instanceof PositionImpl) {
             final PositionImpl positionObject = (PositionImpl) o;
