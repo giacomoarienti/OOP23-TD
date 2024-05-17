@@ -1,11 +1,13 @@
 package it.unibo.towerdefense.view.defenses;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.utils.images.ImageLoader;
 import it.unibo.towerdefense.view.graphics.GameRenderer;
+import it.unibo.towerdefense.view.graphics.ImageDrawable;
 
 public class DefenseRendererImpl implements DefenseRenderer {
 
@@ -17,15 +19,23 @@ public class DefenseRendererImpl implements DefenseRenderer {
 
     @Override
     public void render(Stream<DefenseDescription> defenses) {
-        ImageLoader loader = renderer.getImageLoader();
             defenses.forEach(x -> {
-                try {
-                    loader.loadImage(
-                        DefenseImagePaths.buildPath(x.getType(), x.getLevel()), DefenseImagePaths.IMAGE_SIZE);
-                } catch (IOException e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                loadImage(x);
             }
         );
+    }
+
+    /**loads an image for a given defense description.
+     * @param def the description to load.
+    */
+    private void loadImage(DefenseDescription def) {
+        try {
+           BufferedImage image =
+           renderer.getImageLoader().
+           loadImage(DefenseImagePaths.buildPath(def.getType(), def.getLevel()), DefenseImagePaths.IMAGE_SIZE);
+           renderer.submitToCanvas(new ImageDrawable(image, def.getPosition()));
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
