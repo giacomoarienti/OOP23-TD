@@ -62,9 +62,11 @@ public class WindowImpl implements Window {
         // set frame layout
         this.frame.setLayout(new BorderLayout());
         // create canvas
-        this.canvas = new CanvasImpl();
+        this.canvas = new CanvasImpl(h, h);
+        // calc width menu
+        final int wMenu = (w - h) / 2;
         // create right menu
-        final var rightMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
+        final var rightMenu = createPanel(wMenu, h);
         this.infoPanel = new JPanel();
         this.buyMenu = new JPanel();
         // set right menu layout and add panels
@@ -72,7 +74,7 @@ public class WindowImpl implements Window {
         rightMenu.add(this.infoPanel);
         rightMenu.add(this.buyMenu);
         // create upgrade menu
-        this.upgradeMenu = createPanel(w / SIDE_MENUS_PROPORTION, h);
+        this.upgradeMenu = createPanel(wMenu, h);
         // add panels to frame
         this.frame.add((JPanel) this.canvas, BorderLayout.CENTER);
         this.frame.add(this.upgradeMenu, BorderLayout.WEST);
