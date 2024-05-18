@@ -2,12 +2,16 @@ package it.unibo.towerdefense.model.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 
-import com.google.common.base.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
 import it.unibo.towerdefense.commons.patterns.Observer;
+import it.unibo.towerdefense.model.ModelManager;
 
 /**
  * Base implementation of the Game interface.
@@ -19,13 +23,17 @@ public class GameManagerImpl implements GameManager {
     private static final int START_WAVE = 1;
     private static final int PLAYING_GAME_SPEED = 1;
     private static final int PAUSE_GAME_SPEED = 0;
+    private static final Logger logger =
+        LoggerFactory.getLogger(GameManagerImpl.class);
 
     private final List<Observer<GameDTO>> observers;
     private final String playerName;
+    private BindableConsumer<Integer> waveHandler;
+    private GameStatusEnum gameState;
+    private boolean shouldWaveStart;
     private int lives;
     private int money;
     private int wave;
-    private GameStatusEnum gameState;
 
     /**
      * Constructor with playerName, it initializes a new game with default values.
@@ -61,6 +69,8 @@ public class GameManagerImpl implements GameManager {
         this.gameState = GameStatusEnum.PAUSE;
         // initialize empty list of observers
         this.observers = new ArrayList<>();
+        // initialize waveHandler
+        this.waveHandler = new BindableConsumer<>();
     }
 
 
@@ -175,6 +185,7 @@ public class GameManagerImpl implements GameManager {
     @Override
     public void advanceWave() {
         this.wave++;
+        this.shouldWaveStart = true;
         this.notifyObservers();
     }
 
@@ -219,6 +230,14 @@ public class GameManagerImpl implements GameManager {
      * {@inheritDoc}
      */
     @Override
+    public void startWave() {
+        this.shouldWaveStart = true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public GameDTO toDTO() {
         return new GameDTOImpl(this.playerName, this.lives, this.money, this.wave);
     }
@@ -243,35 +262,69 @@ public class GameManagerImpl implements GameManager {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(final Object obj) {
-        if (obj instanceof GameManagerImpl) {
-            final GameManagerImpl gameObject = (GameManagerImpl) obj;
-            return this.getPlayerName().equals(gameObject.getPlayerName())
-                && this.getLives() == gameObject.getLives()
-                && this.getMoney() == gameObject.getMoney()
-                && this.getWave() == gameObject.getWave()
-                && this.getGameState() == gameObject.getGameState();
-        }
-        return false;
+    public void bind(final ModelManager mm) {
+        // bind waveHandler to spawn enemies
+        this.waveHandler.bind(
+            (wave) -> mm.getEnemies().spawn(wave)
+        );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int hashCode() {
-        return Objects.hashCode(
-            this.playerName,
-            this.lives,
-            this.money,
-            this.wave,
-            this.gameState
-        );
+    public void update() {
+        if (this.shouldWaveStart) {
+            logger.info("Starting wave " + this.wave);
+            this.waveHandler.accept(this.wave);
+            this.shouldWaveStart = false;
+        }
     }
 
     private void notifyObservers() {
         this.observers.forEach(
             (obs) -> obs.notify(this.toDTO())
         );
+    }
+
+    /**
+     * Class for a Consumer which can be defined after initialization.
+     */
+    private class BindableConsumer<T> implements Consumer<T> {
+        private Optional<Consumer<T>> c;
+
+        /**
+         * Constructs the Consumer in a non-binded state.
+         */
+        private BindableConsumer() {
+            c = Optional.empty();
+        }
+
+        /**
+         * Constructs the Consu,er in a non-binded state.
+         * Calls to methods other than bind in this state will result in an
+         * IllegalStateException.
+         */
+        @Override
+        public void accept(final T t) {
+            if (c.isPresent()) {
+                c.get().accept(t);
+            } else {
+                throw new IllegalStateException("Consumer has not been binded yet.");
+            }
+        }
+
+        /**
+         * Binds the Consumer given as parameter as the one to get.
+         * Must only be called once.
+         * @param c the consumer to bind
+         */
+        private void bind(final Consumer<T> c) {
+            if (this.c.isEmpty()) {
+                this.c = Optional.of(c);
+            } else {
+                throw new IllegalStateException("Consumer has already been binded.");
+            }
+        }
     }
 }
