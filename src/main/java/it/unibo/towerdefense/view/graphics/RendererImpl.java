@@ -11,7 +11,7 @@ import it.unibo.towerdefense.view.window.Window;
 /**
  * Implementation of the GameRenderer interface.
  */
-public class GameRendererImpl implements GameRenderer {
+public class RendererImpl implements Renderer {
 
     private final Window window;
     private final ImageLoader imageLoader;
@@ -21,7 +21,7 @@ public class GameRendererImpl implements GameRenderer {
      * @param mapSize the size of the map
      * @param window the window instance
      */
-    public GameRendererImpl(final Size mapSize, final Window window) {
+    public RendererImpl(final Size mapSize, final Window window) {
         this.window = window;
         // initialize the image loader
         this.imageLoader = new ImageLoader(

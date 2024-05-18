@@ -13,7 +13,7 @@ import org.imgscalr.Scalr.Rotation;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 import it.unibo.towerdefense.commons.utils.images.ImageLoader;
-import it.unibo.towerdefense.view.graphics.GameRenderer;
+import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 
 /**
@@ -53,7 +53,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
      * {@inheritDoc}.
      */
     @Override
-    public void render(GameRenderer gameRenderer, Stream<EnemyInfo> enemies) {
+    public void render(Renderer gameRenderer, Stream<EnemyInfo> enemies) {
         gameRenderer.submitAllToCanvas(enemies
             .parallel()
             .sorted((e1, e2) -> e2.pos().getDistance() - e1.pos().getDistance())

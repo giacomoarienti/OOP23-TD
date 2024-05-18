@@ -206,8 +206,7 @@ public class ControllerImpl implements Controller {
             }
             @Override
             public Stream<DefenseDescription> getDefenses() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getDefenses'");
+                return model.getDefensesDTOs();
             }
         });
     }

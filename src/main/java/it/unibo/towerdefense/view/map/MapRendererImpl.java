@@ -13,7 +13,7 @@ import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
-import it.unibo.towerdefense.view.graphics.GameRenderer;
+import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 import it.unibo.towerdefense.commons.utils.images.ImageLoader;
 
@@ -35,7 +35,7 @@ public class MapRendererImpl implements MapRenderer {
     }
 
     @Override
-    public void renderPath(GameRenderer gr, final Stream<CellInfo> map) {
+    public void renderPath(Renderer gr, final Stream<CellInfo> map) {
         final var mapDrawables = map.map(p -> new ImageDrawable(
             getImage(p),
             new PositionImpl(

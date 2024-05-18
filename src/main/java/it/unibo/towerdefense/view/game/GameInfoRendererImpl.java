@@ -4,19 +4,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
-import it.unibo.towerdefense.view.graphics.GameRenderer;
+import it.unibo.towerdefense.view.graphics.Renderer;
 
 /**
  * Game info view implementation.
  */
 public class GameInfoRendererImpl implements GameInfoRenderImpl {
 
-    private final GameRenderer renderer;
+    private final Renderer renderer;
 
     /**
      * Zero-argument constructor.
      */
-    public GameInfoRendererImpl(final GameRenderer renderer) {
+    public GameInfoRendererImpl(final Renderer renderer) {
         this.renderer = renderer;
     }
 

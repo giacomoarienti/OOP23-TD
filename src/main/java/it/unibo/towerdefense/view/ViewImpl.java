@@ -16,11 +16,15 @@ import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
+import it.unibo.towerdefense.view.defenses.DefenseRenderer;
+import it.unibo.towerdefense.view.defenses.DefenseRendererImpl;
+import it.unibo.towerdefense.view.enemies.EnemyRenderer;
+import it.unibo.towerdefense.view.enemies.EnemyRendererImpl;
 import it.unibo.towerdefense.view.game.GameInfoRenderImpl;
 import it.unibo.towerdefense.view.game.GameInfoRendererImpl;
 import it.unibo.towerdefense.view.gamelauncher.GameLauncherViewImpl;
-import it.unibo.towerdefense.view.graphics.GameRenderer;
-import it.unibo.towerdefense.view.graphics.GameRendererImpl;
+import it.unibo.towerdefense.view.graphics.Renderer;
+import it.unibo.towerdefense.view.graphics.RendererImpl;
 import it.unibo.towerdefense.view.map.MapRenderer;
 import it.unibo.towerdefense.view.map.MapRendererImpl;
 import it.unibo.towerdefense.view.menus.StartMenuViewImpl;
@@ -35,9 +39,11 @@ import it.unibo.towerdefense.view.window.WindowImpl;
 public class ViewImpl implements View {
 
     private Window window;
-    private GameRenderer gameRenderer;
+    private Renderer renderer;
     private GameInfoRenderImpl gameInfoRenderer;
     private MapRenderer mapRenderer;
+    private DefenseRenderer defenseRenderer;
+    private EnemyRenderer enemyRenderer;
 
     /**
      * Empty constructor.
@@ -154,18 +160,24 @@ public class ViewImpl implements View {
     @Override
     public void render(final GameState state) {
         // on first call, init the game renderer and it's renderers
-        if (Objects.isNull(this.gameRenderer)) {
+        if (Objects.isNull(this.renderer)) {
             throw new IllegalStateException("GameRenderer not created yet");
         }
-        mapRenderer.renderPath(gameRenderer, state.getMap());
-        // TODO: render the state
-        gameRenderer.renderCanvas();
+        // render state
+        this.mapRenderer.renderPath(this.renderer, state.getMap());
+        this.defenseRenderer.render(state.getDefenses());
+        this.enemyRenderer.render(this.renderer, state.getEnemies());
+        // repaint canvas
+        this.renderer.renderCanvas();
     }
 
     private void initRenderers(final Size mapSize) {
-        this.gameRenderer = new GameRendererImpl(mapSize, this.window);
-        this.mapRenderer = new MapRendererImpl(this.gameRenderer.getImageLoader());
-        this.gameInfoRenderer = new GameInfoRendererImpl(this.gameRenderer);
+        this.renderer = new RendererImpl(mapSize, this.window);
+        // init renderers
+        this.mapRenderer = new MapRendererImpl(this.renderer.getImageLoader());
+        this.gameInfoRenderer = new GameInfoRendererImpl(this.renderer);
+        this.defenseRenderer = new DefenseRendererImpl(this.renderer);
+        this.enemyRenderer = new EnemyRendererImpl(this.renderer.getImageLoader());
     }
 
     /**
