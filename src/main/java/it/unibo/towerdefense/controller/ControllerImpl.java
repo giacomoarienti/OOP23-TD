@@ -221,11 +221,11 @@ public class ControllerImpl implements Controller {
     }
 
     private void addModelObservers() {
-        this.model.addGameObserver(this::renderGameInfo);
+        this.model.addGameObserver(this::renderGame);
     }
 
-    private void renderGameInfo(final GameDTO dto) {
-        this.view.renderGameInfo(dto);
+    private void renderGame(final GameDTO dto) {
+        this.view.renderGame(dto);
     }
 
     private void afterStart() {

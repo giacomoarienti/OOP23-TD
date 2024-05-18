@@ -66,7 +66,7 @@ public interface View {
      * Display the game info.
      * @param dto the gamedto to render.
      */
-    void renderGameInfo(GameDTO dto);
+    void renderGame(GameDTO dto);
 
     /**
      * Renders the current state of the synchronous part of the game.

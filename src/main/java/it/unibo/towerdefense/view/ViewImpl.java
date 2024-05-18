@@ -20,8 +20,8 @@ import it.unibo.towerdefense.view.defenses.DefenseRenderer;
 import it.unibo.towerdefense.view.defenses.DefenseRendererImpl;
 import it.unibo.towerdefense.view.enemies.EnemyRenderer;
 import it.unibo.towerdefense.view.enemies.EnemyRendererImpl;
-import it.unibo.towerdefense.view.game.GameInfoRenderImpl;
-import it.unibo.towerdefense.view.game.GameInfoRendererImpl;
+import it.unibo.towerdefense.view.game.GameRenderer;
+import it.unibo.towerdefense.view.game.GameRendererImpl;
 import it.unibo.towerdefense.view.gamelauncher.GameLauncherViewImpl;
 import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.RendererImpl;
@@ -40,7 +40,7 @@ public class ViewImpl implements View {
 
     private Window window;
     private Renderer renderer;
-    private GameInfoRenderImpl gameInfoRenderer;
+    private GameRenderer gameRenderer;
     private MapRenderer mapRenderer;
     private DefenseRenderer defenseRenderer;
     private EnemyRenderer enemyRenderer;
@@ -129,11 +129,11 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void renderGameInfo(final GameDTO dto) {
-        if (Objects.isNull(this.gameInfoRenderer)) {
+    public void renderGame(final GameDTO dto) {
+        if (Objects.isNull(this.gameRenderer)) {
             throw new IllegalStateException("GameInfoRenderer not created yet");
         }
-        this.gameInfoRenderer.render(dto);
+        this.gameRenderer.render(dto);
     }
 
     /**
@@ -175,7 +175,7 @@ public class ViewImpl implements View {
         this.renderer = new RendererImpl(mapSize, this.window);
         // init renderers
         this.mapRenderer = new MapRendererImpl(this.renderer.getImageLoader());
-        this.gameInfoRenderer = new GameInfoRendererImpl(this.renderer);
+        this.gameRenderer = new GameRendererImpl(this.renderer);
         this.defenseRenderer = new DefenseRendererImpl(this.renderer);
         this.enemyRenderer = new EnemyRendererImpl(this.renderer);
     }

@@ -9,14 +9,14 @@ import it.unibo.towerdefense.view.graphics.Renderer;
 /**
  * Game info view implementation.
  */
-public class GameInfoRendererImpl implements GameInfoRenderImpl {
+public class GameRendererImpl implements GameRenderer {
 
     private final Renderer renderer;
 
     /**
      * Zero-argument constructor.
      */
-    public GameInfoRendererImpl(final Renderer renderer) {
+    public GameRendererImpl(final Renderer renderer) {
         this.renderer = renderer;
     }
 
