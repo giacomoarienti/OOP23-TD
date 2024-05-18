@@ -187,7 +187,7 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void update() {
-        // TODO implement here
+        model.update();
     }
 
     /**
@@ -235,5 +235,7 @@ public class ControllerImpl implements Controller {
         );
         this.addModelObservers();
         this.startGameLoop();
+        // start first wave
+        this.model.startWave();
     }
 }
