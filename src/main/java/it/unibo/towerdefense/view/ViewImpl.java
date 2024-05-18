@@ -166,7 +166,7 @@ public class ViewImpl implements View {
         // render state
         this.mapRenderer.renderPath(this.renderer, state.getMap());
         this.defenseRenderer.render(state.getDefenses());
-        this.enemyRenderer.render(this.renderer, state.getEnemies());
+        this.enemyRenderer.render(state.getEnemies());
         // repaint canvas
         this.renderer.renderCanvas();
     }
@@ -177,7 +177,7 @@ public class ViewImpl implements View {
         this.mapRenderer = new MapRendererImpl(this.renderer.getImageLoader());
         this.gameInfoRenderer = new GameInfoRendererImpl(this.renderer);
         this.defenseRenderer = new DefenseRendererImpl(this.renderer);
-        this.enemyRenderer = new EnemyRendererImpl(this.renderer.getImageLoader());
+        this.enemyRenderer = new EnemyRendererImpl(this.renderer);
     }
 
     /**

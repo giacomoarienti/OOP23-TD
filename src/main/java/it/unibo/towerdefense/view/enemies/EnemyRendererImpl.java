@@ -25,13 +25,16 @@ public class EnemyRendererImpl implements EnemyRenderer {
     private final static String EXTENSION = ".png";
     private Map<EnemyType, Double> sizes;
     private Map<EnemyType, List<BufferedImage>> images;
+    private final Renderer renderer;
 
     /**
      * Loads all the images from disk and saves them in a structure for quick access.
      *
      * @param loader the ImageLoader to load the images.
      */
-    public EnemyRendererImpl(final ImageLoader loader) {
+    public EnemyRendererImpl(final Renderer renderer) {
+        this.renderer = renderer;
+        ImageLoader loader = renderer.getImageLoader();
         images = new HashMap<>();
         sizes = EnemyType.getEnemyTypes().stream().collect(Collectors.toMap(et -> et, et -> 1.0));
         EnemyType.getEnemyTypes().forEach(et -> {
@@ -53,8 +56,8 @@ public class EnemyRendererImpl implements EnemyRenderer {
      * {@inheritDoc}.
      */
     @Override
-    public void render(Renderer gameRenderer, Stream<EnemyInfo> enemies) {
-        gameRenderer.submitAllToCanvas(enemies
+    public void render(Stream<EnemyInfo> enemies) {
+        renderer.submitAllToCanvas(enemies
             .parallel()
             .sorted((e1, e2) -> e2.pos().getDistance() - e1.pos().getDistance())
             .map(e -> getDrawable(e))
