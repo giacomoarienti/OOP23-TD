@@ -46,9 +46,10 @@ public class ReversedPathFactory {
 
             @Override
             public MapDirection apply(final MapDirection d) {
-                if (counter < random.nextInt(
-                    Math.abs(direciton.orizontal() * size.getHeight() + direciton.vertical() * size.getWidth()) / 4
-                    )) {
+                if (counter <
+                random.nextInt(Math.abs(direciton.orizontal() * size.getHeight() + direciton.vertical() * size.getWidth()) /
+                (d == direciton ? 4 : 2)
+                )) {
                     counter++;
                     return d;
                 }

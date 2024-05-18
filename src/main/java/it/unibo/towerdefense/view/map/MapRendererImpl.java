@@ -36,13 +36,7 @@ public class MapRendererImpl implements MapRenderer {
 
     @Override
     public void renderPath(GameRenderer gr, final Stream<CellInfo> map) {
-        final var mapDrawables = map.map(p -> new ImageDrawable(
-            getImage(p),
-            new PositionImpl(
-                p.getPosition().getCellX(),
-                p.getPosition().getCellY()
-            )
-        )).toList();
+        final var mapDrawables = map.map(p -> new ImageDrawable(getImage(p), p.getPosition())).toList();
         gr.submitBackgroundAllToCanvas(mapDrawables);
     }
 
@@ -56,7 +50,7 @@ public class MapRendererImpl implements MapRenderer {
     }
 
     private BufferedImage path(int i) {
-        return images.get(i % 2);
+        return rotateImageClockwise(images.get(i % 2), i / 2 * 90);
     }
 
     private static BufferedImage rotateImageClockwise(BufferedImage originalImage, int degrees) {

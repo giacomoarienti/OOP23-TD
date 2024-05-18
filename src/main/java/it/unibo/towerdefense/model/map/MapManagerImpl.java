@@ -186,8 +186,8 @@ public class MapManagerImpl implements MapManager {
         return map.getMap().map(c -> new CellInfo() {
 
             @Override
-            public LogicalPosition getPosition() {
-                return new LogicalPosition(c.getX() * LogicalPosition.SCALING_FACTOR, c.getY() * LogicalPosition.SCALING_FACTOR);
+            public Position getPosition() {
+                return c.copy();
             }
 
             @Override
