@@ -10,7 +10,6 @@ import java.util.Map;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 
 /**
@@ -18,6 +17,7 @@ import java.util.stream.Stream;
  */
 public interface DefenseManager extends JsonSerializable, Manager {
 
+    void update();
     /**returns defense built at given position.
      * @param at position to check
      * @return Defense for given pos (or empty optional if nothing is built).

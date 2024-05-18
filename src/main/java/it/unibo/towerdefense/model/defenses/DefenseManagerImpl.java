@@ -102,6 +102,7 @@ public class DefenseManagerImpl implements DefenseManager {
         }
     }
 
+    @Override
     /**Update method to hurt enemies.*/
     public void update() {
         updateMomentum();
