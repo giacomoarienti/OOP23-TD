@@ -45,10 +45,7 @@ public class ModelImpl implements ModelManager, Model {
         defenses = new DefenseManagerImpl();
         enemies = new EnemiesManagerImpl();
         game = new GameManagerImpl(playerName);
-        // bind the model to the managers
-        map.bind(this);
-        defenses.bind(this);
-        enemies.bind(this);
+        this.bindManagers();
     }
 
     /**
@@ -62,10 +59,7 @@ public class ModelImpl implements ModelManager, Model {
         game = new GameManagerImpl(
             GameDTO.fromJson(s.getGameJson())
         );
-        // bind the model to the managers
-        map.bind(this);
-        defenses.bind(this);
-        enemies.bind(this);
+        this.bindManagers();
     }
 
     /**
@@ -165,5 +159,11 @@ public class ModelImpl implements ModelManager, Model {
     @Override
     public void selectCell(Position position) {
         map.select(position);
+    }
+
+    private void bindManagers() {
+        map.bind(this);
+        defenses.bind(this);
+        enemies.bind(this);
     }
 }
