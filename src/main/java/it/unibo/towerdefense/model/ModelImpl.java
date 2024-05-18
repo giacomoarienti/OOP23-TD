@@ -29,6 +29,7 @@ public class ModelImpl implements ModelManager, Model {
     private DefenseManager defenses;
     private EnemiesManager enemies;
     private GameManager game;
+    private  boolean initialized;
 
     /**
      * Empty constructor.
@@ -45,10 +46,7 @@ public class ModelImpl implements ModelManager, Model {
         defenses = new DefenseManagerImpl();
         enemies = new EnemiesManagerImpl();
         game = new GameManagerImpl(playerName);
-        // bind the model to the managers
-        map.bind(this);
-        defenses.bind(this);
-        enemies.bind(this);
+        this.bindManagers();
     }
 
     /**
@@ -62,10 +60,7 @@ public class ModelImpl implements ModelManager, Model {
         game = new GameManagerImpl(
             GameDTO.fromJson(s.getGameJson())
         );
-        // bind the model to the managers
-        map.bind(this);
-        defenses.bind(this);
-        enemies.bind(this);
+        this.bindManagers();
     }
 
     /**
@@ -165,5 +160,39 @@ public class ModelImpl implements ModelManager, Model {
     @Override
     public void selectCell(Position position) {
         map.select(position);
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public void startWave() {
+        this.game.startWave();
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public void update() {
+        this.initializationCheck();
+        // update the models
+        game.update();
+        enemies.update();
+    }
+
+    private void bindManagers() {
+        game.bind(this);
+        map.bind(this);
+        defenses.bind(this);
+        enemies.bind(this);
+        // set initialized to true
+        initialized = true;
+    }
+
+    private void initializationCheck() {
+        if (!initialized) {
+            throw new IllegalStateException("Model not initialized");
+        }
     }
 }

@@ -6,14 +6,14 @@ import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.utils.images.ImageLoader;
-import it.unibo.towerdefense.view.graphics.GameRenderer;
+import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 
 public class DefenseRendererImpl implements DefenseRenderer {
 
-    private GameRenderer renderer;
+    private Renderer renderer;
 
-    public DefenseRendererImpl(GameRenderer renderer) {
+    public DefenseRendererImpl(Renderer renderer) {
         this.renderer = renderer;
     }
 

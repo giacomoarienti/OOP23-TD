@@ -66,4 +66,14 @@ public interface Model {
      * @param position position of cell.
      */
     void selectCell(Position position);
+
+    /**
+     * Starts the first wave.
+     */
+    void startWave();
+
+    /**
+     * Updates the model.
+     */
+    void update();
 }
