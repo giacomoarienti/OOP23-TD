@@ -29,6 +29,7 @@ public class DefenseDescription {
     public DefenseDescription(final String description, final String name, final int cost,
     final int sell,final int level, final DefenseType type, final LogicalPosition pos) {
         this.description = description;
+        this.level = level;
         this.name = name;
         this.cost = cost;
         this.type = type;

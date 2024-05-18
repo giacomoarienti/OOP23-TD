@@ -2,9 +2,7 @@ package it.unibo.towerdefense.model.defenses;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.model.enemies.Enemy;
 /**
  * The strategy responsible for selecting targets and calculating the amount of damage to deal.

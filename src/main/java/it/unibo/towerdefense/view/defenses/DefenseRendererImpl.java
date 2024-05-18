@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
-import it.unibo.towerdefense.commons.utils.images.ImageLoader;
 import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 
