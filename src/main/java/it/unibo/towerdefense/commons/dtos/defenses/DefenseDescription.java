@@ -5,10 +5,6 @@ import it.unibo.towerdefense.model.defenses.DefenseType;
 
 /**Contains data that can be visualized in the build menu about defenses.*/
 public class DefenseDescription {
-    /**Description of defense.*/
-    private String description;
-    /**name.*/
-    private String name;
     /**Cost.*/
     private int cost;
     /**Sell value.*/
@@ -26,11 +22,9 @@ public class DefenseDescription {
      * @param cost
      * @param level
     */
-    public DefenseDescription(final String description, final String name, final int cost,
+    public DefenseDescription(final int cost,
     final int sell,final int level, final DefenseType type, final LogicalPosition pos) {
-        this.description = description;
         this.level = level;
-        this.name = name;
         this.cost = cost;
         this.type = type;
         this.sellValue = sell;
@@ -41,14 +35,14 @@ public class DefenseDescription {
      * @return the description.
     */
     public String getDescription() {
-        return this.description;
+        return "A level " +  this.level + " defense";
     }
 
     /**getter for name.
      * @return the name.
     */
     public String getName() {
-        return this.name;
+        return "lv " + this.level + " " + this.getType();
     }
 
     /**getter for description.
