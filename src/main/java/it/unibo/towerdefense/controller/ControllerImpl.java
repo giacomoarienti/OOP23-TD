@@ -217,10 +217,6 @@ public class ControllerImpl implements Controller {
         gameLoop.start();
     }
 
-    private void addModelObservers() {
-        this.model.addGameObserver(this::renderGame);
-    }
-
     private void renderGame(final GameDTO dto) {
         this.view.renderGame(dto);
     }
@@ -234,10 +230,13 @@ public class ControllerImpl implements Controller {
     }
 
     private void afterStart() {
+        // view initialization
         this.view.setMapSize(MAP_SIZE);
         this.view.addMapCellSelectionObserver((pos) -> this.handleCellSelection(pos));
         this.view.addBuyMenuObserver(i -> this.handleDefenseBuild(i));
-        this.addModelObservers();
+        // initialize model observers
+        this.model.addGameObserver(this::renderGame);
+        // start game loop
         this.startGameLoop();
         // start first wave
         this.model.startWave();
