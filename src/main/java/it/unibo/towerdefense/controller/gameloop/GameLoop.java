@@ -11,7 +11,7 @@ import it.unibo.towerdefense.controller.Controller;
 public class GameLoop implements Runnable {
 
     private static final String THREAD_NAME = "GameLoop";
-    private static final int UPDATES_PER_SECOND = 60;
+    private static final int UPDATES_PER_SECOND = 30;
     private static final double UPDATE_RATE = 1.0d / UPDATES_PER_SECOND;
     private static final double MILLISECONDS_IN_SECOND = 1000d;
     private static final int ROUNDING_DELTA = 0;
