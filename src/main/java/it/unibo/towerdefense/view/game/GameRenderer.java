@@ -5,7 +5,7 @@ import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 /**
  * Interface that models the game info view.
  */
-public interface GameInfoRenderImpl {
+public interface GameRenderer {
 
     /**
      * Render the game info.

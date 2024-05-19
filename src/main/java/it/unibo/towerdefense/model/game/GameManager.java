@@ -3,11 +3,12 @@ package it.unibo.towerdefense.model.game;
 import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.patterns.Observable;
+import it.unibo.towerdefense.model.Manager;
 
 /**
  * Model containing base game's statistics and info.
  */
-public interface GameManager extends Observable<GameDTO>, JsonSerializable {
+public interface GameManager extends Manager, Observable<GameDTO>, JsonSerializable {
 
     /**
      * Player name getter.
@@ -99,10 +100,22 @@ public interface GameManager extends Observable<GameDTO>, JsonSerializable {
     double getGameSpeed();
 
     /**
+     * Starts the first wave.
+     */
+    void startWave();
+
+    /**
      * Returns the DTO representation of the Game object.
      * @return the GameDTO object
      */
     GameDTO toDTO();
+
+    /**
+     * Called on every cycle, updates the model.
+     *
+     * Will call EnemyManager.advanceWave() if the current wave is over.
+     */
+    void update();
 
     /**
      * Returns the Game object from a GameDTO object.

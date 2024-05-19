@@ -187,7 +187,7 @@ public class MapManagerImpl implements MapManager {
 
             @Override
             public Position getPosition() {
-                return c.copy();
+                return new PositionImpl(c);
             }
 
             @Override
@@ -198,6 +198,11 @@ public class MapManagerImpl implements MapManager {
             @Override
             public boolean isBuildable() {
                 return !isPathCell() && ((BuildableCell) c).isBuildable();
+            }
+
+            @Override
+            public boolean isSelected() {
+                return c.equals(selected);
             }
 
             @Override

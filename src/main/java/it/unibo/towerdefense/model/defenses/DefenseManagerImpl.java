@@ -72,7 +72,8 @@ public class DefenseManagerImpl implements DefenseManager {
          def.getBuildingCost(),
          def.getSellingValue(),
          def.getLevel(),
-         def.getType());
+         def.getType(),
+         def.getPosition());
     }
 
     /**gets the models of buildable defenses for given defense
@@ -101,6 +102,7 @@ public class DefenseManagerImpl implements DefenseManager {
         }
     }
 
+    @Override
     /**Update method to hurt enemies.*/
     public void update() {
         updateMomentum();

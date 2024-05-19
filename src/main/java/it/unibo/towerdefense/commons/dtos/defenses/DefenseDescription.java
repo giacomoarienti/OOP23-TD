@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.commons.dtos.defenses;
 
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.model.defenses.DefenseType;
 
 /**Contains data that can be visualized in the build menu about defenses.*/
@@ -16,6 +17,8 @@ public class DefenseDescription {
     private int level;
     /**Type.*/
     private DefenseType type;
+    /**Position.*/
+    private LogicalPosition position;
 
     /**simple constructor with all fields.
      * @param description
@@ -24,12 +27,14 @@ public class DefenseDescription {
      * @param level
     */
     public DefenseDescription(final String description, final String name, final int cost,
-    final int sell,final int level, final DefenseType type) {
+    final int sell,final int level, final DefenseType type, final LogicalPosition pos) {
         this.description = description;
+        this.level = level;
         this.name = name;
         this.cost = cost;
         this.type = type;
         this.sellValue = sell;
+        this.position = pos;
     }
 
     /**getter for description.
@@ -72,5 +77,12 @@ public class DefenseDescription {
     */
     public int getLevel() {
         return this.level;
+    }
+
+    /**getter for position.
+     * @return the position.
+    */
+    public LogicalPosition getPosition() {
+        return this.position;
     }
 }

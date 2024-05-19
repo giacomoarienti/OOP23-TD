@@ -187,7 +187,7 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void update() {
-        // TODO implement here
+        model.update();
     }
 
     /**
@@ -206,8 +206,7 @@ public class ControllerImpl implements Controller {
             }
             @Override
             public Stream<DefenseDescription> getDefenses() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getDefenses'");
+                return model.getDefensesDTOs();
             }
         });
     }
@@ -222,11 +221,11 @@ public class ControllerImpl implements Controller {
     }
 
     private void addModelObservers() {
-        this.model.addGameObserver(this::renderGameInfo);
+        this.model.addGameObserver(this::renderGame);
     }
 
-    private void renderGameInfo(final GameDTO dto) {
-        this.view.renderGameInfo(dto);
+    private void renderGame(final GameDTO dto) {
+        this.view.renderGame(dto);
     }
 
     private void afterStart() {
@@ -236,5 +235,7 @@ public class ControllerImpl implements Controller {
         );
         this.addModelObservers();
         this.startGameLoop();
+        // start first wave
+        this.model.startWave();
     }
 }

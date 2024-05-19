@@ -10,7 +10,7 @@ import it.unibo.towerdefense.commons.utils.images.ImageLoader;
  * Interface that models the game renderer.
  * It acts as a Proxy for the Window class.
  */
-public interface GameRenderer {
+public interface Renderer {
 
     /**
      * Returns the singleton instance of imageLoader.
