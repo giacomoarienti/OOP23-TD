@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.tuple.Pair;
-
+import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
@@ -15,6 +14,7 @@ import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.ModelManager;
 import it.unibo.towerdefense.model.defenses.Defense;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
+import it.unibo.towerdefense.model.defenses.DefenseManagerImpl;
 import it.unibo.towerdefense.model.game.GameManager;
 
 /**
@@ -23,7 +23,6 @@ import it.unibo.towerdefense.model.game.GameManager;
 public class MapManagerImpl implements MapManager {
 
     private final GameMap map;
-    private ModelManager master;
     private BuildableCell selected = null;
     private List<Defense> options;
     private DefenseManager defenses;
@@ -155,28 +154,33 @@ public class MapManagerImpl implements MapManager {
      * {@inheritDoc}
      */
     @Override
-    public void build(final int optionNumber) throws IOException {
+    public void build(final int optionNumber) {
         if (selected == null || options.isEmpty() || optionNumber > options.size() - 1) {
             throw new IllegalStateException("ERROR, can't build!");
         }
         var choice = options.get(optionNumber);
-        /*if (choice.get().equals(DefenseType.NOTOWER.name())) {
+        if (optionNumber < 0) {
             game.addMoney(defenses.disassembleDefense(selected.getCenter()));
-            return;
-        }*/
+        }
         if (!game.purchase(choice.getBuildingCost())) {
             throw new IllegalArgumentException("Not enought money!");
         }
-        master.getDefenses().buildDefense(optionNumber, selected.getCenter());
+        try {
+            defenses.buildDefense(optionNumber, selected.getCenter());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Stream<Pair<Defense, Boolean>> getBuildingOptions() {
+    public Stream<BuildingOption> getBuildingOptions() {
         if (updateBuildinOption()) {
-            return options.stream().map(dd -> Pair.of(dd, game.isPurchasable(dd.getBuildingCost())));
+            return options.stream().map(dd ->
+                new BuildingOption(DefenseManagerImpl.getDescriptionFrom(dd), game.isPurchasable(dd.getBuildingCost())));
         }
         return Stream.of();
     }

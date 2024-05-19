@@ -66,7 +66,7 @@ public class DefenseManagerImpl implements DefenseManager {
      * @return the defenseDescription of
      * @param def the defense to get description for.
      */
-    private DefenseDescription getDescriptionFrom(final Defense def) {
+    public static DefenseDescription getDescriptionFrom(final Defense def) {    //TODO quando lo rendi accessibile sistema il mio manager
         return new DefenseDescription(def.getType().toString() + " lv. " + def.getLevel(),
          def.getType().toString(),
          def.getBuildingCost(),

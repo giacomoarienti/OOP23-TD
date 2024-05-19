@@ -1,13 +1,9 @@
 package it.unibo.towerdefense.view;
 
 import java.util.Objects;
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.GameState;
-import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
@@ -45,6 +41,7 @@ public class ViewImpl implements View {
     private MapRenderer mapRenderer;
     private DefenseRenderer defenseRenderer;
     private EnemyRenderer enemyRenderer;
+    private BuyMenu buyMenu;
 
     /**
      * Empty constructor.
@@ -141,14 +138,6 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void showBuildingOptions(Stream<Pair<DefenseDescription, Boolean>> options) {
-        window.setBuyMenuContent(new BuyMenu(options.toList()));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void showSelected(LogicalPosition selected) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'showSelected'");
@@ -169,6 +158,7 @@ public class ViewImpl implements View {
         this.enemyRenderer.render(state.getEnemies());
         // repaint canvas
         this.renderer.renderCanvas();
+        window.setBuyMenuContent(buyMenu.getJPanel(state.getBuildingOptions().toList()));
     }
 
     private void initRenderers(final Size mapSize) {
@@ -186,5 +176,13 @@ public class ViewImpl implements View {
     @Override
     public void addMapCellSelectionObserver(final Observer<Position> observer) {
         this.window.addCanvasClickObserver(observer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addBuyMenuObserver(final Observer<Integer> observer) {
+        this.buyMenu = new BuyMenu(observer);
     }
 }

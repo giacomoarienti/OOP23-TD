@@ -2,7 +2,6 @@ package it.unibo.towerdefense.model.map;
 
 import java.util.Iterator;
 import java.util.Random;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.json.JSONArray;
@@ -127,8 +126,6 @@ public class GameMapImpl implements GameMap {
 
     @Override
     public Stream<Cell> getMap() {
-        //var cellMap = toStream(map, size).collect(Collectors.groupingBy(c -> c instanceof PathCell));
-        //return Pair.of(cellMap.get(true).stream().map(c -> (PathCell) c), cellMap.get(false).stream().map(c -> (BuildableCell) c));
         return toStream(map, size);
     }
 
@@ -144,7 +141,7 @@ public class GameMapImpl implements GameMap {
         jObj.put("spawn", end.toJSON()).put("end", end.toJSON())
             .put("height", size.getHeight()).put("width", size.getWidth());
 
-        toStream(map, size).forEach(c -> {
+        getMap().forEach(c -> {
             if (c instanceof PathCell) {
                 jArrayPath.put(((PathCellImpl) c).toJSON());
             }

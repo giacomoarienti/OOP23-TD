@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -61,6 +62,8 @@ public interface Model {
      */
     Stream<CellInfo> getMapDTOs();
 
+    Stream<BuildingOption> getBuildingOptions();
+
     /**
      * Select the cell at given poition.
      * @param position position of cell.
@@ -76,4 +79,6 @@ public interface Model {
      * Updates the model.
      */
     void update();
+
+    void build(int index);
 }

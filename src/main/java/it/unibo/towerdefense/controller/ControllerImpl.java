@@ -11,6 +11,7 @@ import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -178,14 +179,6 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void handleCellSelection(final Position position) {
-        model.selectCell(position);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void update() {
         model.update();
     }
@@ -208,6 +201,10 @@ public class ControllerImpl implements Controller {
             public Stream<DefenseDescription> getDefenses() {
                 return model.getDefensesDTOs();
             }
+            @Override
+            public Stream<BuildingOption> getBuildingOptions() {
+                return model.getBuildingOptions();
+            }
         });
     }
 
@@ -228,11 +225,18 @@ public class ControllerImpl implements Controller {
         this.view.renderGame(dto);
     }
 
+    private void handleCellSelection(final Position position) {
+        model.selectCell(position);
+    }
+
+    private void handleDefenseBuild(final int index) {
+        model.build(index);
+    }
+
     private void afterStart() {
         this.view.setMapSize(MAP_SIZE);
-        this.view.addMapCellSelectionObserver(
-            (pos) -> this.handleCellSelection(pos)
-        );
+        this.view.addMapCellSelectionObserver((pos) -> this.handleCellSelection(pos));
+        this.view.addBuyMenuObserver(i -> this.handleDefenseBuild(i));
         this.addModelObservers();
         this.startGameLoop();
         // start first wave

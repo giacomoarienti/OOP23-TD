@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -158,8 +159,21 @@ public class ModelImpl implements ModelManager, Model {
      * {@InheritDoc}
      */
     @Override
+    public Stream<BuildingOption> getBuildingOptions() {
+        return map.getBuildingOptions();
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    @Override
     public void selectCell(Position position) {
         map.select(position);
+    }
+
+    @Override
+    public void build(int index) {
+        map.build(index);
     }
 
     /**

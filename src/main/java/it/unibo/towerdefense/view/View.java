@@ -1,12 +1,7 @@
 package it.unibo.towerdefense.view;
 
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.GameState;
-import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
@@ -78,12 +73,6 @@ public interface View {
     void render(GameState s);
 
     /**
-     * Show the menù of buildin options for the selected cell.
-     * @param options defense description and if it is purchasable
-     */
-    void showBuildingOptions(Stream<Pair<DefenseDescription, Boolean>> options);
-
-    /**
      * Hilight the current selected cell.
      * @param selected selected cell position
      */
@@ -95,4 +84,11 @@ public interface View {
      * @param observer the observer to add
      */
     void addMapCellSelectionObserver(Observer<Position> observer);
+
+    /**
+     * Add an observer for the building menu.
+     * Whenever a buying button is pushed, the observer will be notified.
+     * @param observer the observer to add.
+     */
+    void addBuyMenuObserver(Observer<Integer> observer);
 }
