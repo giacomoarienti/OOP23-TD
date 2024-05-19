@@ -7,6 +7,7 @@ import java.util.Collections;
 
 import javax.swing.JPanel;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +38,7 @@ public class CanvasImpl extends JPanel implements Canvas {
     private final List<Observer<Position>> observers = new ArrayList<>();
 
     private Size mapSize;
-    private double scale = 1;
+    private Pair<Double, Double> scale = Pair.of(1.0, 1.0);
 
     /**
      * Default constructor.
@@ -79,7 +80,7 @@ public class CanvasImpl extends JPanel implements Canvas {
         final var syncQueue = Collections.synchronizedList(new ArrayList<>(this.queue));
         synchronized (syncQueue) {
             for (final Drawable drawable: syncQueue) {
-                drawable.setScale(this.getScale());
+                drawable.setScale(this.scale);
                 drawable.paint(g2d);
             }
         }
@@ -144,7 +145,10 @@ public class CanvasImpl extends JPanel implements Canvas {
     @Override
     public void setMapSize(final Size mapSize) {
         this.mapSize = mapSize;
-        this.scale = (double) this.getWidth() / (double) mapSize.getWidth();
+        this.scale = Pair.of(
+            this.getWidth() / (double) mapSize.getWidth(),
+            this.getHeight() / (double) mapSize.getHeight()
+        );
     }
 
     /**
@@ -153,10 +157,6 @@ public class CanvasImpl extends JPanel implements Canvas {
     @Override
     public Size getCanvasSize() {
         return Size.of(this.getWidth(), this.getHeight());
-    }
-
-    private double getScale() {
-        return this.scale;
     }
 
     private void onClick(final MouseEvent e) {

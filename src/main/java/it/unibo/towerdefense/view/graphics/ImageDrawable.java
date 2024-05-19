@@ -3,6 +3,7 @@ package it.unibo.towerdefense.view.graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 
 /**
@@ -13,11 +14,11 @@ public class ImageDrawable extends Drawable {
     private final Image image;
 
     /**
-     * Constructor from Image and Position.
+     * Constructor from Image and LogicalPosition.
      * @param image the image to draw
      * @param pos position where to draw
      */
-    public ImageDrawable(final Image image, final Position pos) {
+    public ImageDrawable(final Image image, final LogicalPosition pos) {
         super(pos);
         this.image = image;
     }

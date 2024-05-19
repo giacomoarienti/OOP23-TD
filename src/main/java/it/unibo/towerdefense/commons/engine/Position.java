@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.commons.engine;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import it.unibo.towerdefense.commons.api.Copyable;
 import it.unibo.towerdefense.commons.api.JsonSerializable;
 
@@ -53,11 +55,11 @@ public interface Position extends JsonSerializable, Copyable<Position> {
     double distanceTo(Position position);
 
     /**
-     * Scales the position by the given factor.
-     * @param scale the factor to scale the position by
-     * @return the scaled position
+     * Multiplies the position by the given factor.
+     * @param scale the factor to multiply the position by (x,y)
+     * @return the multiplied position
      */
-    Position scaled(double scale);
+    Position multiply(Pair<Double, Double> scale);
 
     /**
      * Factory method to create a new Position object.

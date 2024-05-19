@@ -70,16 +70,12 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
     }
 
     /**
-     * Converts the logical position to a {@link Position} object.
-     * The returned position is scaled by the SCALING_FACTOR.
+     * Returns the scaling factor used in the logical position calculations.
      *
-     * @return the converted {@link Position} object.
+     * @return the scaling factor
      */
-    public Position toPosition() {
-        return Position.of(
-            this.getCellX(),
-            this.getCellY()
-        );
+    public int getScalingFactor() {
+        return SCALING_FACTOR;
     }
 
     /**

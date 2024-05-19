@@ -2,6 +2,8 @@ package it.unibo.towerdefense.view.graphics;
 
 import java.awt.Graphics2D;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 
@@ -10,19 +12,16 @@ import it.unibo.towerdefense.commons.engine.Position;
  */
 public abstract class Drawable {
 
-    private Position position;
-    private double scale = 1;
+    private LogicalPosition position;
+    private Pair<Double, Double> scale = Pair.of(1.0, 1.0);
 
     /**
-     * Constructor from Position.
+     * Constructor from LogicalPosition.
+     * The LogicalPosition will be converted to Position.
      * @param pos position where to draw
      */
-    public Drawable(final Position pos) {
-        if (pos instanceof LogicalPosition) {
-            this.position = ((LogicalPosition) pos).toPosition();
-        } else {
-            this.position = pos;
-        }
+    public Drawable(final LogicalPosition pos) {
+        this.position = pos;
     }
 
     /**
@@ -30,14 +29,18 @@ public abstract class Drawable {
      * @return the size of the object.
      */
     public Position getPosition() {
-        return this.position.scaled(this.scale);
+        final var scaled = this.position.multiply(this.scale);
+        return Position.of(
+            scaled.getX() / this.position.getScalingFactor(),
+            scaled.getY() / this.position.getScalingFactor()
+        );
     }
 
     /**
      * Sets the scale factor which the position will be multiplied by.
      * @param scale the scale factor
      */
-    public void setScale(final double scale) {
+    public void setScale(final Pair<Double, Double> scale) {
         this.scale = scale;
     }
 
