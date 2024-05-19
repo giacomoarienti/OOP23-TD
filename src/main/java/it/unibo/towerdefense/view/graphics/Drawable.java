@@ -29,10 +29,15 @@ public abstract class Drawable {
      * @return the size of the object.
      */
     public Position getPosition() {
-        final var scaled = this.position.multiply(this.scale);
         return Position.of(
-            scaled.getX() / this.position.getScalingFactor(),
-            scaled.getY() / this.position.getScalingFactor()
+            (int) (
+                this.position.getX() * this.scale.getLeft()
+                    / this.position.getScalingFactor()
+            ),
+            (int) (
+                this.position.getY() * this.scale.getRight()
+                    / this.position.getScalingFactor()
+            )
         );
     }
 

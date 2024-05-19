@@ -167,8 +167,8 @@ public class CanvasImpl extends JPanel implements Canvas {
         }
         // calc the cell position
         final Position cell = Position.of(
-            (int) (((double) e.getX() / (double) this.getWidth()) * this.mapSize.getWidth()),
-            (int)(((double) e.getY() / (double) this.getHeight()) * this.mapSize.getHeight())
+            (int) ((e.getX() / (double) this.getWidth()) * this.mapSize.getWidth()),
+            (int) ((e.getY() / (double) this.getHeight()) * this.mapSize.getHeight())
         );
         // call all the observers
         this.observers.forEach(observer -> observer.notify(cell));

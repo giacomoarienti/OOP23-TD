@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.commons.engine;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONObject;
 
 import com.google.common.base.Objects;
@@ -90,17 +89,6 @@ public class PositionImpl implements Position {
         final int deltaX = this.getX() - other.getX();
         final int deltaY = this.getY() - other.getY();
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Position multiply(final Pair<Double, Double> scale) {
-        return new PositionImpl(
-            (int) (getX() * scale.getLeft()),
-            (int) (getY() * scale.getRight())
-        );
     }
 
     /**
