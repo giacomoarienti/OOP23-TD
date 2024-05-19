@@ -70,6 +70,19 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
     }
 
     /**
+     * Converts the logical position to a {@link Position} object.
+     * The returned position is scaled by the SCALING_FACTOR.
+     *
+     * @return the converted {@link Position} object.
+     */
+    public Position toPosition() {
+        return Position.of(
+            this.getCellX(),
+            this.getCellY()
+        );
+    }
+
+    /**
      * overload for fromJson method.
      */
     public static LogicalPosition fromJson(final String jsonData) {
