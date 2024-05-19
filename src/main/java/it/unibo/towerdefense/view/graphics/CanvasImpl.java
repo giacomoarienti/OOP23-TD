@@ -51,6 +51,8 @@ public class CanvasImpl extends JPanel implements Canvas {
                 CanvasImpl.this.onClick(e);
             }
         });
+        // set double buffering
+        this.setDoubleBuffered(true);
     }
 
     /**
