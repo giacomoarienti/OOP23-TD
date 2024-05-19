@@ -2,6 +2,7 @@ package it.unibo.towerdefense.view.graphics;
 
 import java.awt.Graphics2D;
 
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 
 /**
@@ -13,18 +14,15 @@ public abstract class Drawable {
     private double scale = 1;
 
     /**
-     * Constructor from starting position and size.
-     * @param pos starting position
+     * Constructor from Position.
+     * @param pos position where to draw
      */
     public Drawable(final Position pos) {
-        this.position = pos.copy();
-    }
-
-    /**
-     * Constructor from size, the position is set to 0,0.
-     */
-    public Drawable() {
-        this(Position.origin());
+        if (pos instanceof LogicalPosition) {
+            this.position = ((LogicalPosition) pos).toPosition();
+        } else {
+            this.position = pos;
+        }
     }
 
     /**

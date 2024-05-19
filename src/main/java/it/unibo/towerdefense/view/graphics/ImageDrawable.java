@@ -13,9 +13,9 @@ public class ImageDrawable extends Drawable {
     private final Image image;
 
     /**
-     * Constructor from image, position and size.
+     * Constructor from Image and Position.
      * @param image the image to draw
-     * @param pos starting position
+     * @param pos position where to draw
      */
     public ImageDrawable(final Image image, final Position pos) {
         super(pos);
