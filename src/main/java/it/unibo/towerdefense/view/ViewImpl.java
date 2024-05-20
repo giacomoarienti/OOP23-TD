@@ -1,8 +1,10 @@
 package it.unibo.towerdefense.view;
 
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
 import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
@@ -138,9 +140,8 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void showSelected(LogicalPosition selected) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'showSelected'");
+    public void renderBuyMenu(Stream<BuildingOption> options) {
+        window.setBuyMenuContent(buyMenu.getJPanel(options.toList()));
     }
 
     /**
@@ -158,7 +159,7 @@ public class ViewImpl implements View {
         this.enemyRenderer.render(state.getEnemies());
         // repaint canvas
         this.renderer.renderCanvas();
-        window.setBuyMenuContent(buyMenu.getJPanel(state.getBuildingOptions().toList()));
+
     }
 
     private void initRenderers(final Size mapSize) {
