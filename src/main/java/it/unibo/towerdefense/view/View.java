@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.view;
 
+import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
@@ -10,6 +11,7 @@ import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
+import it.unibo.towerdefense.model.game.GameStatus;
 
 /**
  * Interface for the main View.
@@ -64,6 +66,12 @@ public interface View {
     void renderGame(GameDTO dto);
 
     /**
+     * Display the controls.
+     * @param status the game status
+     */
+    void renderControls(GameStatus status);
+
+    /**
      * Renders the current state of the synchronous part of the game.
      * - the enemies currently alive
      * - all map cells
@@ -91,4 +99,11 @@ public interface View {
      * @param observer the observer to add.
      */
     void addBuyMenuObserver(Observer<Integer> observer);
+
+    /**
+     * Add an observer for the controls.
+     * Whenever a control button is pushed, the observer will be notified.
+     * @param object the observer to add.
+     */
+    void addControlsObserver(Observer<ControlAction> observer);
 }

@@ -41,8 +41,16 @@ public class RendererImpl implements Renderer {
      * {@inheritDoc}
      */
     @Override
-    public void renderInfo(final JPanel panel) {
-        this.window.setInfoContent(panel);
+    public void renderGame(final JPanel panel) {
+        this.window.setGameContent(panel);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void renderControls(final JPanel panel) {
+        this.window.setControlsContent(panel);
     }
 
     /**

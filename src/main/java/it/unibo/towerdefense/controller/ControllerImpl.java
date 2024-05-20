@@ -10,6 +10,7 @@ import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
@@ -219,6 +220,7 @@ public class ControllerImpl implements Controller {
 
     private void renderGame(final GameDTO dto) {
         this.view.renderGame(dto);
+        this.view.renderControls(dto.getStatus());
     }
 
     private void handleCellSelection(final Position position) {
@@ -234,11 +236,21 @@ public class ControllerImpl implements Controller {
         this.view.setMapSize(MAP_SIZE);
         this.view.addMapCellSelectionObserver((pos) -> this.handleCellSelection(pos));
         this.view.addBuyMenuObserver(i -> this.handleDefenseBuild(i));
+        this.view.addControlsObserver((action) -> this.handleControls(action));
         // initialize model observers
         this.model.addGameObserver(this::renderGame);
         // start game loop
         this.startGameLoop();
         // start first wave
         this.model.startWave();
+    }
+
+    private void handleControls(final ControlAction action) {
+        // update model
+        this.model.handleControls(action);
+        // handle quit
+        if (action.equals(ControlAction.QUIT)) {
+            this.saveAndExit();
+        }
     }
 }

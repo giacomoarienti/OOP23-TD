@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.view.window;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,6 +19,7 @@ import it.unibo.towerdefense.view.modal.ModalContent;
 import it.unibo.towerdefense.view.modal.ModalImpl;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
@@ -38,7 +40,8 @@ public class WindowImpl implements Window {
     private final JFrame frame;
     private final Canvas canvas;
     private final JPanel buyMenu;
-    private final JPanel infoPanel;
+    private final JPanel gamePanel;
+    private final JPanel controlsPanel;
 
     /**
      * Creates a window with the specified size.
@@ -56,17 +59,24 @@ public class WindowImpl implements Window {
         this.frame.setPreferredSize(new Dimension(w, h));
         // create canvas
         this.canvas = new CanvasImpl();
-        // create menus;
-        this.infoPanel = new JPanel();
+        // create buy menus
         this.buyMenu = new JPanel();
+        // create infoPanel
+        final var infoPanel = new JPanel();
+        infoPanel.setLayout(new FlowLayout(BoxLayout.Y_AXIS));
+        this.gamePanel = new JPanel();
+        this.controlsPanel = new JPanel();
         // set bounds for each component
-        this.infoPanel.setBounds(0, 0, wMenu, h);
+        infoPanel.setBounds(0, 0, wMenu, h);
         this.canvas.setBounds(wMenu, 0, h, h);
         this.buyMenu.setBounds(wMenu + h, 0, wMenu, h);
         // add panels to frame
         this.frame.add((JPanel) this.canvas);
-        this.frame.add(this.infoPanel);
+        this.frame.add(infoPanel);
         this.frame.add(this.buyMenu);
+        // add gamePanel and controlsPanel to infoPanel
+        infoPanel.add(this.gamePanel);
+        infoPanel.add(this.controlsPanel);
     }
 
     /**
@@ -145,10 +155,20 @@ public class WindowImpl implements Window {
      * {@inheritDoc}
      */
     @Override
-    public void setInfoContent(final JPanel panel) {
-        this.infoPanel.removeAll();
-        this.infoPanel.add(panel);
-        this.infoPanel.revalidate();
+    public void setGameContent(final JPanel panel) {
+        this.gamePanel.removeAll();
+        this.gamePanel.add(panel);
+        this.gamePanel.revalidate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setControlsContent(final JPanel panel) {
+        this.controlsPanel.removeAll();
+        this.controlsPanel.add(panel);
+        this.controlsPanel.revalidate();
     }
 
     /**

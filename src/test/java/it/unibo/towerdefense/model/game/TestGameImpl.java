@@ -22,7 +22,7 @@ class TestGameImpl {
     private static final int INITIAL_WAVE = 1;
     private static final int INITIAL_LIVES = 100;
     private static final int INITIAL_MONEY = 100;
-    private static final GameStatusEnum PAUSE_STATE = GameStatusEnum.PAUSE;
+    private static final GameStatus PAUSE_STATE = GameStatus.PAUSE;
 
     private GameManager game;
 
@@ -93,12 +93,20 @@ class TestGameImpl {
      */
     @Test
     void testConstructor() {
-        final var game = new GameManagerImpl(new GameDTOImpl(PLAYER_NAME, INITIAL_LIVES, INITIAL_MONEY, INITIAL_WAVE));
+        final var game = new GameManagerImpl(
+            new GameDTOImpl(
+                PLAYER_NAME,
+                INITIAL_LIVES,
+                INITIAL_MONEY,
+                INITIAL_WAVE,
+                PAUSE_STATE
+            )
+        );
         Assertions.assertEquals(PLAYER_NAME, game.getPlayerName());
         Assertions.assertEquals(INITIAL_MONEY, game.getMoney());
         Assertions.assertEquals(INITIAL_MONEY, game.getLives());
         Assertions.assertEquals(INITIAL_WAVE, game.getWave());
-        Assertions.assertEquals(PAUSE_STATE, game.getGameState());
+        Assertions.assertEquals(PAUSE_STATE, game.getGameStatus());
     }
 
     /**

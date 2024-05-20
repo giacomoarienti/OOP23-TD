@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
@@ -80,5 +81,15 @@ public interface Model {
      */
     void update();
 
+    /**
+     * Builds a defense at the given cell.
+     * @param index the index  cell where to build the defense
+     */
     void build(int index);
+
+    /**
+     * Handles the controls.
+     * @param action the control action
+     */
+    void handleControls(ControlAction action);
 }

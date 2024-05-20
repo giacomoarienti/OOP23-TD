@@ -4,6 +4,8 @@ import org.json.JSONObject;
 
 import com.google.common.base.Objects;
 
+import it.unibo.towerdefense.model.game.GameStatus;
+
 /**
  * Game data transfer object.
  */
@@ -13,12 +15,15 @@ public class GameDTOImpl implements GameDTO {
     private static final String WAVE_FIELD = "wave";
     private static final String LIVES_FIELD = "lives";
     private static final String MONEY_FIELD = "money";
+    private static final String STATUS_FIELD = "status";
     private static final int DEFAULT_VALUE = 0;
+    private static final GameStatus DEFAULT_STATUS = GameStatus.PLAYING;
 
     private final String playerName;
     private final int lives;
     private final int money;
     private final int wave;
+    private GameStatus status;
 
     /**
      * Constructor for the GameDTO.
@@ -26,17 +31,21 @@ public class GameDTOImpl implements GameDTO {
      * @param lives the amount of lives
      * @param money the amount of money
      * @param wave the wave number
+     * @param status the game status
      */
     public GameDTOImpl(
         final String playerName,
         final int lives,
         final int money,
-        final int wave
+        final int wave,
+        final GameStatus status
+
     ) {
         this.playerName = playerName;
         this.lives = lives;
         this.money = money;
         this.wave = wave;
+        this.status = status;
     }
 
     /**
@@ -48,13 +57,13 @@ public class GameDTOImpl implements GameDTO {
             playerName,
             DEFAULT_VALUE,
             DEFAULT_VALUE,
-            DEFAULT_VALUE
+            DEFAULT_VALUE,
+            DEFAULT_STATUS
         );
     }
 
     /**
-     * Getter for the lives.
-     * @return the amount of lives of the player
+     * {@inheritDoc}
      */
     @Override
     public final int getLives() {
@@ -62,8 +71,7 @@ public class GameDTOImpl implements GameDTO {
     }
 
     /**
-     * Getter for the money.
-     * @return the amount of money the player has
+     * {@inheritDoc}
      */
     @Override
     public int getMoney() {
@@ -71,8 +79,7 @@ public class GameDTOImpl implements GameDTO {
     }
 
     /**
-     * Getter for the wave.
-     * @return the wave number
+     * {@inheritDoc}
      */
     @Override
     public int getWave() {
@@ -80,12 +87,19 @@ public class GameDTOImpl implements GameDTO {
     }
 
     /**
-     * Getter for the playerName.
-     * @return the player's name
+     * {@inheritDoc}
      */
     @Override
     public String getPlayerName() {
         return playerName;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameStatus getStatus() {
+        return status;
     }
 
     /**
@@ -99,6 +113,7 @@ public class GameDTOImpl implements GameDTO {
             .put(WAVE_FIELD, this.getWave())
             .put(LIVES_FIELD, this.getLives())
             .put(MONEY_FIELD, this.getMoney())
+            .put(STATUS_FIELD, this.getStatus())
             .toString();
     }
 
@@ -114,8 +129,9 @@ public class GameDTOImpl implements GameDTO {
             jsonObject.getString(PLAYER_FIELD),
             jsonObject.getInt(LIVES_FIELD),
             jsonObject.getInt(MONEY_FIELD),
-            jsonObject.getInt(WAVE_FIELD
-        ));
+            jsonObject.getInt(WAVE_FIELD),
+            jsonObject.getEnum(GameStatus.class, "status")
+        );
     }
 
     /**
@@ -127,7 +143,8 @@ public class GameDTOImpl implements GameDTO {
             this.getPlayerName(),
             this.getLives(),
             this.getMoney(),
-            this.getWave()
+            this.getWave(),
+            this.getStatus()
         );
     }
 
@@ -141,7 +158,8 @@ public class GameDTOImpl implements GameDTO {
             return this.getPlayerName().equals(gameObject.getPlayerName())
                 && this.getLives() == gameObject.getLives()
                 && this.getMoney() == gameObject.getMoney()
-                && this.getWave() == gameObject.getWave();
+                && this.getWave() == gameObject.getWave()
+                && this.getStatus() == gameObject.getStatus();
         }
         return false;
     }

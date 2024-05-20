@@ -29,7 +29,7 @@ public class GameManagerImpl implements GameManager {
     private final List<Observer<GameDTO>> observers;
     private final String playerName;
     private BindableConsumer<Integer> waveHandler;
-    private GameStatusEnum gameState;
+    private GameStatus gameStatus;
     private boolean shouldWaveStart;
     private int lives;
     private int money;
@@ -66,7 +66,7 @@ public class GameManagerImpl implements GameManager {
         this.lives = lives;
         this.money = money;
         this.wave = wave;
-        this.gameState = GameStatusEnum.PAUSE;
+        this.gameStatus = GameStatus.PAUSE;
         // initialize empty list of observers
         this.observers = new ArrayList<>();
         // initialize waveHandler
@@ -79,7 +79,7 @@ public class GameManagerImpl implements GameManager {
      */
     @Override
     public void resume() {
-        this.setGameState(GameStatusEnum.PLAYING);
+        this.setGameStatus(GameStatus.PLAYING);
     }
 
     /**
@@ -87,7 +87,7 @@ public class GameManagerImpl implements GameManager {
      */
     @Override
     public void pause() {
-        this.setGameState(GameStatusEnum.PAUSE);
+        this.setGameStatus(GameStatus.PAUSE);
     }
 
     /**
@@ -121,7 +121,7 @@ public class GameManagerImpl implements GameManager {
             }
         }
         // set game state to GAME_OVER and return false
-        this.gameState = GameStatusEnum.GAME_OVER;
+        this.gameStatus = GameStatus.GAME_OVER;
         return false;
     }
 
@@ -195,8 +195,8 @@ public class GameManagerImpl implements GameManager {
      * {@inheritDoc}
      */
     @Override
-    public GameStatusEnum getGameState() {
-        return this.gameState;
+    public GameStatus getGameStatus() {
+        return this.gameStatus;
     }
 
     /**
@@ -204,15 +204,15 @@ public class GameManagerImpl implements GameManager {
      */
     @Override
     public boolean isPlaying() {
-        return this.getGameState().equals(GameStatusEnum.PLAYING);
+        return this.getGameStatus().equals(GameStatus.PLAYING);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setGameState(final GameStatusEnum state) {
-        this.gameState = state;
+    public void setGameStatus(final GameStatus state) {
+        this.gameStatus = state;
         this.notifyObservers();
     }
 
@@ -221,10 +221,10 @@ public class GameManagerImpl implements GameManager {
      */
     @Override
     public double getGameSpeed() {
-        return switch (this.gameState) {
+        return switch (this.gameStatus) {
             case PLAYING -> PLAYING_GAME_SPEED;
             case PAUSE -> PAUSE_GAME_SPEED;
-            default -> throw new IllegalStateException("invalid gameState " + gameState.name());
+            default -> throw new IllegalStateException("invalid gameState " + gameStatus.name());
         };
     }
 
@@ -241,7 +241,13 @@ public class GameManagerImpl implements GameManager {
      */
     @Override
     public GameDTO toDTO() {
-        return new GameDTOImpl(this.playerName, this.lives, this.money, this.wave);
+        return new GameDTOImpl(
+            this.playerName,
+            this.lives,
+            this.money,
+            this.wave,
+            this.gameStatus
+        );
     }
 
     /**

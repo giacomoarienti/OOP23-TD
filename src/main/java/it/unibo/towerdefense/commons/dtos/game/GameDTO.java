@@ -2,6 +2,7 @@ package it.unibo.towerdefense.commons.dtos.game;
 
 import it.unibo.towerdefense.commons.api.Copyable;
 import it.unibo.towerdefense.commons.api.JsonSerializable;
+import it.unibo.towerdefense.model.game.GameStatus;
 
 /**
  * Data transfer object for Game.
@@ -31,6 +32,12 @@ public interface GameDTO extends JsonSerializable, Copyable<GameDTO> {
      * @return the player's name
      */
     String getPlayerName();
+
+    /**
+     * Getter for the game status.
+     * @return the game status
+     */
+    GameStatus getStatus();
 
     /**
      * Returns the GameDTO object from JSON string.

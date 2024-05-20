@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
+import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
@@ -17,6 +18,7 @@ import it.unibo.towerdefense.model.enemies.EnemiesManager;
 import it.unibo.towerdefense.model.enemies.EnemiesManagerImpl;
 import it.unibo.towerdefense.model.game.GameManager;
 import it.unibo.towerdefense.model.game.GameManagerImpl;
+import it.unibo.towerdefense.model.game.GameStatus;
 import it.unibo.towerdefense.model.map.MapManager;
 import it.unibo.towerdefense.model.map.MapManagerImpl;
 import it.unibo.towerdefense.model.saving.Saving;
@@ -194,6 +196,15 @@ public class ModelImpl implements ModelManager, Model {
         game.update();
         enemies.update();
         defenses.update();
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public void handleControls(ControlAction action) {
+        this.initializationCheck();
+        game.setGameStatus(GameStatus.fromControlAction(action));
     }
 
     private void bindManagers() {

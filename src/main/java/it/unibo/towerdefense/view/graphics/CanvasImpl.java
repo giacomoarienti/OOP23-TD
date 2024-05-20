@@ -68,7 +68,7 @@ public class CanvasImpl extends JPanel implements Canvas {
         // clear the canvas
         g2d.clearRect(START_X, START_Y, this.getWidth(), this.getHeight());
         // draw all the elements in queue
-        final var syncQueue = Collections.synchronizedList(new ArrayList<>(this.queue));
+        final var syncQueue = Collections.synchronizedList(new ArrayList<>(this.queue).stream().filter(Objects::nonNull).toList());
         synchronized (syncQueue) {
             for (final Drawable drawable: syncQueue) {
                 drawable.setScale(this.scale);

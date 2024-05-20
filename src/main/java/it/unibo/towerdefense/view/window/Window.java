@@ -52,10 +52,16 @@ public interface Window {
     void displayModal(String title, ModalContent content);
 
     /**
-     * Updates the contents of the info panel.
+     * Updates the contents of the game panel.
      * @param panel the content to display
      */
-    void setInfoContent(JPanel panel);
+    void setGameContent(JPanel panel);
+
+    /**
+     * Updates the contents of the controls panel.
+     * @param panel the content to display
+     */
+    void setControlsContent(JPanel panel);
 
     /**
      * Updates the contents of the buy menu panel.

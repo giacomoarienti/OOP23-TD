@@ -2,6 +2,7 @@ package it.unibo.towerdefense.view;
 
 import java.util.Objects;
 
+import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
@@ -12,6 +13,7 @@ import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
 import it.unibo.towerdefense.controller.savings.SavingsController;
+import it.unibo.towerdefense.model.game.GameStatus;
 import it.unibo.towerdefense.view.defenses.DefenseRenderer;
 import it.unibo.towerdefense.view.defenses.DefenseRendererImpl;
 import it.unibo.towerdefense.view.enemies.EnemyRenderer;
@@ -129,9 +131,20 @@ public class ViewImpl implements View {
     @Override
     public void renderGame(final GameDTO dto) {
         if (Objects.isNull(this.gameRenderer)) {
-            throw new IllegalStateException("GameInfoRenderer not created yet");
+            throw new IllegalStateException("GameRenderer not created yet");
         }
         this.gameRenderer.render(dto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void renderControls(GameStatus status) {
+        if (Objects.isNull(this.gameRenderer)) {
+            throw new IllegalStateException("GameRenderer not created yet");
+        }
+        this.gameRenderer.render(status);
     }
 
     /**
@@ -184,5 +197,13 @@ public class ViewImpl implements View {
     @Override
     public void addBuyMenuObserver(final Observer<Integer> observer) {
         this.buyMenu = new BuyMenu(observer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addControlsObserver(Observer<ControlAction> observer) {
+        this.gameRenderer.addControlsObserver(observer);
     }
 }

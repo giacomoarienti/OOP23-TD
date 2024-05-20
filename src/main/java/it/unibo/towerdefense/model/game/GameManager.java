@@ -72,18 +72,18 @@ public interface GameManager extends Manager, Observable<GameDTO>, JsonSerializa
     void advanceWave();
 
     /**
-     * GameState getter.
+     * GameStatus getter.
      * @return the state of the game
      */
-    GameStatusEnum getGameState();
+    GameStatus getGameStatus();
 
     /**
-     * Sets gameState to PLAYING.
+     * Sets gameStatus to PLAYING.
      */
     void resume();
 
     /**
-     * Sets gameState to PAUSE.
+     * Sets gameStatus to PAUSE.
      */
     void pause();
 
@@ -91,7 +91,7 @@ public interface GameManager extends Manager, Observable<GameDTO>, JsonSerializa
      * Update the current game state.
      * @param state the new game state
      */
-    void setGameState(GameStatusEnum state);
+    void setGameStatus(GameStatus state);
 
     /**
      * Getter game speed.

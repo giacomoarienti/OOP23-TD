@@ -19,10 +19,16 @@ public interface Renderer {
     ImageLoader getImageLoader();
 
     /**
-     * Adds view contents to the info panel.
+     * Adds view contents to the game panel.
      * @param panel the panel to display
      */
-    void renderInfo(JPanel panel);
+    void renderGame(JPanel panel);
+
+    /**
+     * Adds view contents to the controls panel.
+     * @param panel the panel to display
+     */
+    void renderControls(JPanel panel);
 
     /**
      * Adds view contents to the buy menu panel.
