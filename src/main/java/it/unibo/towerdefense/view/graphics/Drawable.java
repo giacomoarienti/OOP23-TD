@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.Size;
 
 /**
  * Abstract class that represents a drawable object.
@@ -14,14 +15,16 @@ public abstract class Drawable {
 
     private LogicalPosition position;
     private Pair<Double, Double> scale = Pair.of(1.0, 1.0);
+    private Size size;
 
     /**
-     * Constructor from LogicalPosition.
-     * The LogicalPosition will be converted to Position.
+     * Constructor from LogicalPosition and Size.
      * @param pos position where to draw
+     * @param size the size of the object
      */
-    public Drawable(final LogicalPosition pos) {
-        this.position = pos;
+    public Drawable(final LogicalPosition pos, final Size size) {
+        this.position = pos.clone();
+        this.size = size.copy();
     }
 
     /**
@@ -31,11 +34,13 @@ public abstract class Drawable {
     public Position getPosition() {
         return Position.of(
             (int) (
-                this.position.getX() * this.scale.getLeft()
+               (this.position.getX() - this.size.getWidth() / 2)
+                    * this.scale.getLeft()
                     / this.position.getScalingFactor()
             ),
             (int) (
-                this.position.getY() * this.scale.getRight()
+                (this.position.getY() - this.size.getHeight() / 2)
+                    * this.scale.getRight()
                     / this.position.getScalingFactor()
             )
         );

@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.Size;
 
 /**
  * Class that represents a drawable image.
@@ -19,7 +20,7 @@ public class ImageDrawable extends Drawable {
      * @param pos position where to draw
      */
     public ImageDrawable(final Image image, final LogicalPosition pos) {
-        super(pos);
+        super(pos, Size.of(image.getWidth(null), image.getHeight(null)));
         this.image = image;
     }
 
