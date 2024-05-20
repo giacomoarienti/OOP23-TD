@@ -193,6 +193,7 @@ public class ModelImpl implements ModelManager, Model {
         // update the models
         game.update();
         enemies.update();
+        defenses.update();
     }
 
     private void bindManagers() {
