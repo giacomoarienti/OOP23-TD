@@ -78,7 +78,7 @@ public class ModalImpl implements Modal {
         this.dialog.pack();
         // set position relative to the parent frame
         this.dialog.setLocationRelativeTo(
-            this.dialog.getRootPane()
+            this.dialog.getParent()
         );
         // show the dialog
         this.dialog.setVisible(true);
