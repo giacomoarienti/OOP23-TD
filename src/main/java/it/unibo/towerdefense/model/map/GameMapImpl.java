@@ -25,7 +25,7 @@ public class GameMapImpl implements GameMap {
     private static final int OBSTACLE_RATE = 10;
     private static final int MAX_X_SIZE = 100;
     private static final int MAX_Y_SIZE = 100;
-    private static final MapDirection PATH_DIRECTION = MapDirection.N;
+    private static final MapDirection PATH_DIRECTION = MapDirection.E;
     private Cell[][] map;
 
     /**
