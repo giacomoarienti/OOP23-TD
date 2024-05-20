@@ -59,6 +59,11 @@ class TestEnemyChoiceStrategyFactoryImpl {
             public EnemyInfo info() {
                 throw new UnsupportedOperationException();
             }
+            @Override
+            public boolean isDead() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'isDead'");
+            }
         };
     }
 
