@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.view.window;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -52,31 +53,32 @@ public class WindowImpl implements Window {
         this.resolution = resolution.copy();
         // create base frame
         this.frame = new JFrame(WINDOW_TITLE);
-        this.frame.pack();
+        this.frame.setLayout(null);
         // calculate sizes
-        final Insets insets = this.frame.getInsets();
         final int w = this.resolution.getWidth();
-        final int h = this.resolution.getHeight() - insets.top - insets.bottom;
+        final int h = this.resolution.getHeight();
         final int wMenu = (w - h) / 2;
         this.frame.setPreferredSize(new Dimension(w, h));
-        // set frame layout
-        this.frame.setLayout(new BorderLayout());
         // create canvas
-        this.canvas = new CanvasImpl(h, h);
+        this.canvas = new CanvasImpl();
         // create right menu
-        final var rightMenu = createPanel(wMenu, h);
+        final var rightMenu = new JPanel();
         this.infoPanel = new JPanel();
         this.buyMenu = new JPanel();
+        // create upgrade menu
+        this.upgradeMenu = new JPanel();
+        // set bounds for each component
+        this.upgradeMenu.setBounds(0, 0, wMenu, h);
+        this.canvas.setBounds(wMenu, 0, h, h);
+        rightMenu.setBounds(wMenu + h, 0, wMenu, h);
+        // add panels to frame
+        this.frame.add((JPanel) this.canvas);
+        this.frame.add(this.upgradeMenu);
+        this.frame.add(rightMenu);
         // set right menu layout and add panels
         rightMenu.setLayout(new FlowLayout());
         rightMenu.add(this.infoPanel);
         rightMenu.add(this.buyMenu);
-        // create upgrade menu
-        this.upgradeMenu = createPanel(wMenu, h);
-        // add panels to frame
-        this.frame.add((JPanel) this.canvas, BorderLayout.CENTER);
-        this.frame.add(this.upgradeMenu, BorderLayout.WEST);
-        this.frame.add(rightMenu, BorderLayout.EAST);
     }
 
     /**
@@ -227,12 +229,6 @@ public class WindowImpl implements Window {
     @Override
     public void setMapSize(final Size mapSize) {
         this.canvas.setMapSize(mapSize);
-    }
-
-    private JPanel createPanel(final int width, final int height) {
-        final JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(width, height));
-        return panel;
     }
 
     private void hideAllModals() {

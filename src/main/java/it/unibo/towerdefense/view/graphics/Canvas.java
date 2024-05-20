@@ -60,4 +60,13 @@ public interface Canvas {
      * @return the true size of the canvas
      */
     Size getCanvasSize();
+
+    /**
+     * Set the bounds of the canvas.
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param width the width
+     * @param height the height
+     */
+    void setBounds(int x, int y, int width, int height);
 }

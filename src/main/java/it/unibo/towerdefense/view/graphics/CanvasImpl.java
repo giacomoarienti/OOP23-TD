@@ -56,17 +56,6 @@ public class CanvasImpl extends JPanel implements Canvas {
     }
 
     /**
-     * Constructor from width and height.
-     * @param width the width of the canvas
-     * @param height the height of the canvas
-     */
-    public CanvasImpl(final int width, final int height) {
-        this();
-        // set the size of the canvas
-        this.setPreferredSize(new Dimension(width, height));
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -159,6 +148,14 @@ public class CanvasImpl extends JPanel implements Canvas {
     @Override
     public Size getCanvasSize() {
         return Size.of(this.getWidth(), this.getHeight());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setBounds(final int x, final int y, final int width, final int height) {
+        super.setBounds(x, y, width, height);
     }
 
     private void onClick(final MouseEvent e) {
