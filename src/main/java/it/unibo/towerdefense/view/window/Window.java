@@ -64,12 +64,6 @@ public interface Window {
     void setBuyMenuContent(JPanel panel);
 
     /**
-     * Updates the contents of the upgrades panel.
-     * @param panel the content to display
-     */
-    void setUpgradesContent(JPanel panel);
-
-    /**
      * Adds a drawable object to the canvas.
      * @param drawable the drawable object to add
      */

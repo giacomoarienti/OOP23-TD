@@ -57,14 +57,6 @@ public class RendererImpl implements Renderer {
      * {@inheritDoc}
      */
     @Override
-    public void renderUpgrades(final JPanel panel) {
-        this.window.setUpgradesContent(panel);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void renderCanvas() {
         this.window.renderCanvas();
     }
