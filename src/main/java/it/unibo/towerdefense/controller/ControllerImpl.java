@@ -202,10 +202,6 @@ public class ControllerImpl implements Controller {
             public Stream<DefenseDescription> getDefenses() {
                 return model.getDefensesDTOs();
             }
-            @Override
-            public Stream<BuildingOption> getBuildingOptions() {
-                return model.getBuildingOptions();
-            }
         });
     }
 
@@ -225,10 +221,16 @@ public class ControllerImpl implements Controller {
 
     private void handleCellSelection(final Position position) {
         model.selectCell(position);
+        updateBuyMenu();
     }
 
     private void handleDefenseBuild(final int index) {
         model.build(index);
+        updateBuyMenu();
+    }
+
+    private void updateBuyMenu() {
+        view.renderBuyMenu(model.getBuildingOptions());
     }
 
     private void afterStart() {

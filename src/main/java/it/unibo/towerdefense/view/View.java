@@ -2,9 +2,12 @@ package it.unibo.towerdefense.view;
 
 import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
+import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
+
+import java.util.stream.Stream;
+
 import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
@@ -81,12 +84,6 @@ public interface View {
     void render(GameState s);
 
     /**
-     * Hilight the current selected cell.
-     * @param selected selected cell position
-     */
-    void showSelected(LogicalPosition selected);
-
-    /**
      * Add an observer to the map cell selection.
      * Whenever a cell is selected, the observer will be notified.
      * @param observer the observer to add
@@ -106,4 +103,10 @@ public interface View {
      * @param object the observer to add.
      */
     void addControlsObserver(Observer<ControlAction> observer);
+
+    /*
+     * Render the menu for defenses building.
+     * @param options the aviable defenses.
+     */
+    void renderBuyMenu(Stream<BuildingOption> options);
 }
