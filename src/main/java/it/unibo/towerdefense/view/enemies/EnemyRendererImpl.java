@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,10 +23,13 @@ import it.unibo.towerdefense.view.graphics.ImageDrawable;
  */
 public class EnemyRendererImpl implements EnemyRenderer {
 
+    private final static List<Integer> HEALTH_VALUES = List.of(25, 50, 75, 100);
+    private final static double HEALTH_BAR_SCALE = 1.0;
     private final static String ROOT = "it/unibo/towerdefense/view/enemies/";
     private final static String EXTENSION = ".png";
     private Map<EnemyType, Double> sizes;
     private Map<EnemyType, List<BufferedImage>> images;
+    private SortedMap<Integer, BufferedImage> healthBars;
     private final Renderer renderer;
 
     /**
@@ -50,6 +55,14 @@ public class EnemyRendererImpl implements EnemyRenderer {
                 throw new RuntimeException("Failed to initialize the image for type " + et.toString(), e);
             }
         });
+        healthBars = new TreeMap<>();
+        HEALTH_VALUES.forEach(v -> {
+            try{
+                healthBars.put(v, loader.loadImage(ROOT + v.toString() + EXTENSION, HEALTH_BAR_SCALE));
+            }catch (Exception e) {
+                throw new RuntimeException("Failed to initialize the image for health value " + v, e);
+            }
+        });
     }
 
     /**
@@ -60,7 +73,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
         renderer.submitAllToCanvas(enemies
             .parallel()
             .sorted((e1, e2) -> Long.compare(e1.pos().getDistanceFromStart(), e2.pos().getDistanceFromStart()))
-            .map(e -> getDrawable(e))
+            .flatMap(e -> Stream.of(getDrawable(e), getHealthBar(e)))
             .toList());
     }
 
@@ -69,5 +82,9 @@ public class EnemyRendererImpl implements EnemyRenderer {
      */
     private ImageDrawable getDrawable(EnemyInfo enemy) {
         return new ImageDrawable(images.get(enemy.type()).get(enemy.pos().getDir().ordinal()), enemy.pos());
+    }
+
+    private ImageDrawable getHealthBar(EnemyInfo enemy) {
+        return new ImageDrawable(healthBars.get(healthBars.headMap(enemy.hp() + 1).lastKey()), enemy.pos());
     }
 }
