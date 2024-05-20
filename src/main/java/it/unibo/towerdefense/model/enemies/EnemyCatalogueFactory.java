@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.model.enemies;
 
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Set;
@@ -15,6 +16,7 @@ import com.google.common.math.IntMath;
 
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
+import it.unibo.towerdefense.commons.utils.file.FileUtils;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 
 /**
@@ -41,6 +43,11 @@ class EnemyCatalogueFactory {
         this.valueFactor = configValues.getLeft();
         this.rateos = configValues.getMiddle();
         this.powerlevels = configValues.getRight();
+    }
+
+    public static void main(String[] args) throws IOException{
+        var test = new EnemyCatalogueFactory(FileUtils.readFile(Filenames.typesConfig()));
+        test.compile().getEnemyTypes().stream().sorted().forEach(et -> System.out.println(et.toString() + " " + et.getPowerLevel() + " " + et.getSpeed() + " " + et.getMaxHP()));
     }
 
     /**

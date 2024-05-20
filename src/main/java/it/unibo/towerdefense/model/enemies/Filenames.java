@@ -19,11 +19,7 @@ abstract class Filenames {
      * @return the path of the waves config file.
      */
     static Path wavesConfig() {
-        try {
-            return Paths.get(ClassLoader.getSystemResource(ROOT + WAVECONF).toURI());
-        } catch (Throwable t) {
-            throw new RuntimeException("Could not find file " + ROOT + WAVECONF);
-        }
+        return getPath(ROOT + WAVECONF);
     }
 
     /**
@@ -32,10 +28,20 @@ abstract class Filenames {
      * @return the path of the types config file.
      */
     static Path typesConfig() {
+        return getPath(ROOT + TYPESCONF);
+    }
+
+    /**
+     * Returns the path of the resource with name filename.
+     *
+     * @param filename the logical path to the resource starting from classpath
+     * @return the actual path on the filesystem to the desired resource
+     */
+    private static Path getPath(String filename){
         try {
-            return Paths.get(ClassLoader.getSystemResource(ROOT + TYPESCONF).toURI());
+            return Paths.get(ClassLoader.getSystemResource(filename).toURI());
         } catch (Throwable t) {
-            throw new RuntimeException("Could not find file " + ROOT + TYPESCONF);
+            throw new RuntimeException("Could not find file " + filename);
         }
     }
 }

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * @see EnemyLevel
  * @see EnemyArchetype
  */
-public abstract class EnemyType {
+public abstract class EnemyType implements Comparable<EnemyType> {
 
     /**
      * Enum containing the different EnemyLevels in the game.
@@ -94,6 +94,18 @@ public abstract class EnemyType {
     @Override
     public final int hashCode() {
         return Objects.hash(this.level(), this.type());
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public final int compareTo(EnemyType other){
+        if(this.level().equals(other.level())){
+            return this.type().compareTo(other.type());
+        }else{
+            return this.level().compareTo(other.level());
+        }
     }
 
     /**

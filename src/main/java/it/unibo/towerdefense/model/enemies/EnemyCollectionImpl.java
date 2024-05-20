@@ -34,19 +34,12 @@ class EnemyCollectionImpl implements EnemyCollection {
      */
     @Override
     public void move() {
-        final List<RichEnemy> dead = enemies.stream().filter(
+        final List<RichEnemy> dead = enemies.parallelStream().filter(
                 e -> {
                     Optional<EnemyPosition> next = posFunction.apply(e.getPosition(), e.getSpeed());
                     if (next.isEmpty()) {
                         return true;
                     } else {
-                        /*
-                         * the new enemy direction will be that of the last movement it had to do to get
-                         * to the new position
-                         *
-                         * if the enemy can move e.getSpeed it should be able to move e.getSpeed - 1,
-                         * orElse added for more robustness
-                         */
                         e.move(next.get());
                         return false;
                     }

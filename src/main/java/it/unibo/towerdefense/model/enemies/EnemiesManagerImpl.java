@@ -70,6 +70,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
      * reached the end.
      *
      * @param pv the pathvector to convert
+     * @param distance the new distance from start
      * @return the corresponding Optional EnemyPosition
      */
     private Optional<EnemyPosition> convert(PathVector pv, long distance) {

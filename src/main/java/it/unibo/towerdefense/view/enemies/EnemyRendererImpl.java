@@ -37,7 +37,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
         ImageLoader loader = renderer.getImageLoader();
         images = new HashMap<>();
         sizes = EnemyType.getEnemyTypes().stream().collect(Collectors.toMap(et -> et, et -> 1.0));
-        EnemyType.getEnemyTypes().forEach(et -> {
+        EnemyType.getEnemyTypes().parallelStream().forEach(et -> {
             try {
                 BufferedImage source = loader.loadImage(ROOT + et.toString() + EXTENSION, sizes.get(et));
                 images.put(et, List.of(
