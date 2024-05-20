@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.model.enemies;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -23,7 +22,6 @@ public class EnemiesImpl implements Enemies {
     private final EnemyCollection enemies;
     private final EnemyFactory factory;
     private final Function<Integer, Wave> waveSupplier;
-    private final Set<Observer<Enemy>> enemyDeathObservers;
     private final Supplier<EnemyPosition> startingPosSupplier;
     private Optional<Wave> current = Optional.empty();
 
@@ -54,14 +52,13 @@ public class EnemiesImpl implements Enemies {
             throw new RuntimeException("Failed to load enemy types configuration from file.", t);
         }
         this.waveSupplier = new PredicateBasedRandomWaveGenerator(wp, ec);
-        this.enemyDeathObservers = new HashSet<>();
     }
 
     /**
      * {@inheritDoc}.
      */
     public void addDeathObserver(Observer<Enemy> o) {
-        enemyDeathObservers.add(o);
+        enemies.addDeathObserver(o);
     }
 
     /**
@@ -117,6 +114,5 @@ public class EnemiesImpl implements Enemies {
     private void spawnEnemy(RichEnemyType et) {
         RichEnemy spawned = factory.spawn(et, startingPosSupplier.get());
         enemies.add(spawned);
-        enemyDeathObservers.forEach(o -> spawned.addDeathObserver(o));
     }
 }

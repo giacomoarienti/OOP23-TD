@@ -43,4 +43,10 @@ interface EnemyCollection extends Observer<RichEnemy> {
      */
     boolean areDead();
 
+    /**
+     * Registers an observer to be notified on the death of every enemy.
+     *
+     * @param o the new observer
+     */
+    void addDeathObserver(Observer<Enemy> o);
 }
