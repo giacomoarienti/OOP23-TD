@@ -83,7 +83,7 @@ class SimpleEnemyFactory implements EnemyFactory {
          */
         @Override
         public int getHp() {
-            return hp;
+            return (hp/t.getMaxHP()) * 100;
         }
 
         /**

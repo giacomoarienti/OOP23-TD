@@ -12,9 +12,9 @@ public interface EnemyInfo {
     EnemyPosition pos();
 
     /**
-     * Getter for the Enemy's current hp.
+     * Getter for the Enemy's current hp percentage.
      *
-     * @return the hp
+     * @return the hp percentage
      */
     Integer hp();
 

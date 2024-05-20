@@ -85,6 +85,6 @@ public class EnemyRendererImpl implements EnemyRenderer {
     }
 
     private ImageDrawable getHealthBar(EnemyInfo enemy) {
-        return new ImageDrawable(healthBars.get(healthBars.headMap(enemy.hp() + 1).lastKey()), enemy.pos());
+        return new ImageDrawable(healthBars.get(healthBars.tailMap(enemy.hp()).firstKey()), enemy.pos());
     }
 }
