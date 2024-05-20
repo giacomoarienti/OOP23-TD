@@ -31,7 +31,7 @@ public class DefenseRendererImpl implements DefenseRenderer {
         try {
            BufferedImage image =
            renderer.getImageLoader().
-           loadImage(DefenseImagePaths.buildPath(def.getType(), def.getLevel()), DefenseImagePaths.IMAGE_SIZE);
+           loadImage(DefenseImagePaths.buildDefensePath(def.getType(), def.getLevel()), DefenseImagePaths.IMAGE_SIZE);
            renderer.submitToCanvas(new ImageDrawable(image, def.getPosition()));
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());

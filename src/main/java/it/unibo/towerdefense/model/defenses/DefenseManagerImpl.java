@@ -53,7 +53,7 @@ public class DefenseManagerImpl implements DefenseManager {
     */
     private Optional<MutablePair<Integer, Defense>> find(final LogicalPosition pos) {
         for (int i = 0; i < defenses.size(); i++) {
-            if (defenses.get(i).getKey().getPosition() == pos) {
+            if (defenses.get(i).getKey().getPosition().equals(pos)) {
                 return Optional.of(MutablePair.of(i, defenses.get(i).getKey()));
             }
         }
@@ -65,7 +65,7 @@ public class DefenseManagerImpl implements DefenseManager {
      * @return the defenseDescription of
      * @param def the defense to get description for.
      */
-    public static DefenseDescription getDescriptionFrom(final Defense def) {    //TODO quando lo rendi accessibile sistema il mio manager
+    public static DefenseDescription getDescriptionFrom(final Defense def) {
         return new DefenseDescription(
          def.getBuildingCost(),
          def.getSellingValue(),
@@ -83,10 +83,14 @@ public class DefenseManagerImpl implements DefenseManager {
         Optional<MutablePair<Integer, Defense>> currentDef = find(buildPosition);
         if (currentDef.isEmpty()) {
             return List.of(
-                factory.levelOneDefense(DefenseMapFilePaths.ARCHER_TOWER_LV1, buildPosition, Optional.empty()),
-                factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition, Optional.empty()),
-                factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition, Optional.empty()),
-                factory.levelOneDefense(DefenseMapFilePaths.THUNDER_INVOKER_LV1, buildPosition, Optional.empty())
+                factory.levelOneDefense(DefenseMapFilePaths.ARCHER_TOWER_LV1, buildPosition,
+                Optional.of(DefenseMapFilePaths.ARCHER_TOWER_UPGRADES)),
+                factory.levelOneDefense(DefenseMapFilePaths.BOMB_TOWER_LV1, buildPosition,
+                Optional.of(DefenseMapFilePaths.BOMB_TOWER_UPGRADES)),
+                factory.levelOneDefense(DefenseMapFilePaths.WIZARD_TOWER_LV1, buildPosition,
+                Optional.of(DefenseMapFilePaths.WIZARD_TOWER_UPGRADES)),
+                factory.levelOneDefense(DefenseMapFilePaths.THUNDER_INVOKER_LV1, buildPosition,
+                Optional.of(DefenseMapFilePaths.THUNDER_INVOKER_UPGRADES))
             );
         }
         return currentDef.get().getValue().getPossibleUpgrades().stream().toList();
@@ -132,7 +136,7 @@ public class DefenseManagerImpl implements DefenseManager {
             defenses.add(MutablePair.of(buildables.get(choice), 0));
         } else {
             defenses.set(upgradable.get().getKey(),
-            MutablePair.of(factory.upgrade(buildables.get(choice), choice,
+            MutablePair.of(factory.upgrade(upgradable.get().getValue(), choice,
             Optional.of(DefenseMapFilePaths.pathFromType(buildables.get(choice).getType()))), 0));
         }
     }

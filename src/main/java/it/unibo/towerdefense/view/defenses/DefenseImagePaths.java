@@ -6,7 +6,9 @@ import it.unibo.towerdefense.model.defenses.DefenseType;
 /**creates paths for the images of defenses.*/
 public final class DefenseImagePaths {
 
-    private static final String BASE_PATH = "it/unibo/towerdefense/view/defenses/";
+    private static final String BASE_PATH = "it/unibo/towerdefense/view/";
+    private static final String DEFENSE_FOLDER = "defenses/";
+    private static final String BULLET_FOLDER = "bullets/";
     private static final String EXTENSION = ".png";
     private static Map<DefenseType, String> ImagesBaseNames =Map.of
     (DefenseType.ARCHERTOWER, "Archer",
@@ -23,7 +25,16 @@ public final class DefenseImagePaths {
      * @param level level of defense.
      * @return path of the image for a given defense of type x level y.
      */
-    public static String buildPath(DefenseType type, int level) {
+    public static String buildDefensePath(DefenseType type, int level) {
+        return BASE_PATH + DEFENSE_FOLDER+ ImagesBaseNames.get(type) + level + EXTENSION;
+    }
+
+    /**
+     * @param type type of defense.
+     * @param level level of defense.
+     * @return path of the image for a given defense of type x level y.
+     */
+    public static String buildBulletPath(DefenseType type, int level) {
         return BASE_PATH + ImagesBaseNames.get(type) + level + EXTENSION;
     }
 
