@@ -59,7 +59,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
     public void render(Stream<EnemyInfo> enemies) {
         renderer.submitAllToCanvas(enemies
             .parallel()
-            .sorted((e1, e2) -> e2.pos().getDistance() - e1.pos().getDistance())
+            .sorted((e1, e2) -> Long.compare(e1.pos().getDistanceFromStart(), e2.pos().getDistanceFromStart()))
             .map(e -> getDrawable(e))
             .toList());
     }

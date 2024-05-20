@@ -44,11 +44,15 @@ public class EnemiesManagerImpl implements EnemiesManager {
             final MapManager map = mm.getMap();
             final GameManager game = mm.getGame();
 
-            posFunction.bind((pos, speed) -> convert(map.getNextPosition(LogicalPosition.copyOf(pos), speed)));
-            startingPosSupplier.bind(() -> convert(map.getSpawnPosition()).get());
+            posFunction.bind((pos, speed) -> convert(map.getNextPosition(LogicalPosition.copyOf(pos), speed), pos.getDistanceFromStart() + speed));
+            startingPosSupplier.bind(() -> convert(map.getSpawnPosition(), 0).get());
 
             enemies.addDeathObserver(e -> {
-                game.addMoney(e.getValue());
+                if(e.isDead()){
+                    game.addMoney(e.getValue());
+                }else{
+                    game.decreaseLives();
+                }
                 if (!enemies.isWaveActive()) {
                     game.advanceWave();
                 }
@@ -68,13 +72,13 @@ public class EnemiesManagerImpl implements EnemiesManager {
      * @param pv the pathvector to convert
      * @return the corresponding Optional EnemyPosition
      */
-    private Optional<EnemyPosition> convert(PathVector pv) {
+    private Optional<EnemyPosition> convert(PathVector pv, long distance) {
         return pv.distanceToEnd() > 0
                 ? Optional.of(new EnemyPosition(
                         pv.position().getX(),
                         pv.position().getY(),
                         pv.direction(),
-                        pv.distanceToEnd()))
+                        distance))
                 : Optional.empty();
     }
 

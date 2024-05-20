@@ -48,6 +48,7 @@ class SimpleEnemyFactory implements EnemyFactory {
         private final Set<Observer<? super RichEnemy>> deathObservers;
         private final RichEnemyType t;
         private int hp;
+        private long distanceFromStart = 0;
 
         /**
          * Constructor for the class.

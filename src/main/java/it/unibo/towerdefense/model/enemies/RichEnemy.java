@@ -24,13 +24,6 @@ interface RichEnemy extends Enemy {
     void die();
 
     /**
-     * Returns wheter the enemy is dead or not.
-     *
-     * @return wheter the enemy is dead or not
-     */
-    boolean isDead();
-
-    /**
      * Adds the given Observer to those
      * that will be notified on the enemy's death.
      *
