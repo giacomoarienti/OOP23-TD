@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.view.window;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,11 +19,9 @@ import it.unibo.towerdefense.view.modal.ModalImpl;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
-import java.awt.BorderLayout;
 
 /**
  * Implementation of BaseView.
