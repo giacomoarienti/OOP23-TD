@@ -20,7 +20,7 @@ public class BuyMenu {
     public JPanel getJPanel(List<BuildingOption> options) {
         JPanel jp = new JPanel(new GridLayout(options.size(), 1));
         options.stream().map(o -> {
-            JButton b = new JButton(o.getDescription() + "\n" + o.getCost());
+            JButton b = new JButton(o.getName() + " " + o.getCost());
             b.setEnabled(o.isPurchasable());
             b.addActionListener(e -> ob.notify(options.indexOf(o)));
             return b;

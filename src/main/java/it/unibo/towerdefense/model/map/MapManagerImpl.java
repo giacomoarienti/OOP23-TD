@@ -93,7 +93,7 @@ public class MapManagerImpl implements MapManager {
         if (c.equals(selected)) {
             selected = null;
         } else {
-            if (c instanceof BuildableCell) {
+            if (c instanceof BuildableCell && ((BuildableCell)c).isBuildable()) {
                 selected = (BuildableCell) c;
             }
         }
@@ -131,14 +131,15 @@ public class MapManagerImpl implements MapManager {
                 pos.getX() * dir.orizontal() + pos.getY() * dir.vertical(),
                 LogicalPosition.SCALING_FACTOR / 2 * i
             );
-
-            distanceToEnd -= positionInCell;
+            if (i == 2 || dir != pCell.getInDirection()) {
+                distanceToEnd -= positionInCell;
+            }
             if (distanceToEnd < distanceToMove) {
                 return new PathVector(getEndPosition(), map.getEndCell().getOutDirection().asDirection(), 0);
             }
             if (positionInCell < factor) {
                 int distanceToTravel = factor - positionInCell;
-                if (remaningDistance < distanceToTravel) {
+                if (remaningDistance <= distanceToTravel) {
                     tempPos = addDistance(tempPos, dir, remaningDistance);
                     return new PathVector(tempPos, dir.asDirection(), distanceToEnd - remaningDistance);
                 }
@@ -190,8 +191,8 @@ public class MapManagerImpl implements MapManager {
         return map.getMap().map(c -> new CellInfo() {
 
             @Override
-            public Position getPosition() {
-                return new PositionImpl(c);
+            public LogicalPosition getPosition() {
+                return c.getCenter();
             }
 
             @Override
