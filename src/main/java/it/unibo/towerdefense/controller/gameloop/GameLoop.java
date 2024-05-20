@@ -44,7 +44,6 @@ public class GameLoop implements Runnable {
                 currentTime = System.currentTimeMillis();
                 final double lastRenderTime = (currentTime - lastUpdate) / MILLISECONDS_IN_SECOND;
                 accumulator += lastRenderTime;
-                lastUpdate = currentTime;
                 /* render only if we do not exceed the UPDATE_RATE,
                 prevent rounding problems using int comparison */
                 while (accumulator - UPDATE_RATE > ROUNDING_DELTA) {
@@ -52,15 +51,11 @@ public class GameLoop implements Runnable {
                     this.render();
                     accumulator -= UPDATE_RATE;
                 }
+                lastUpdate = currentTime;
                 // print statistics for debug purposes
                 this.printStats();
             }
-            // if the game loop should not update, skip a frame
-            try {
-                Thread.sleep((int) MILLISECONDS_IN_SECOND / UPDATES_PER_SECOND);
-            } catch (final InterruptedException e) {
-                logger.error("Error in game loop", e);
-            }
+            this.waitForNextFrame();
         }
     }
 
@@ -88,6 +83,15 @@ public class GameLoop implements Runnable {
     private void render() {
         this.fps++;
         this.controller.render();
+    }
+
+    private void waitForNextFrame() {
+        // if the game loop should not update, skip a frame
+        try {
+            Thread.sleep((int) MILLISECONDS_IN_SECOND / UPDATES_PER_SECOND);
+        } catch (final InterruptedException e) {
+            logger.error("Error in game loop", e);
+        }
     }
 
     /**
