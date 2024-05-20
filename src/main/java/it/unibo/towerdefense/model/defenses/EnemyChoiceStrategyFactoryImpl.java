@@ -114,18 +114,17 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
     @Override
     public EnemyChoiceStrategy closestToEndMap(final int range,
     final LogicalPosition position) {
-        /*return genericModel((x1, x2) -> true,
+        return genericModel((x1, x2) -> true,
         map -> map.entrySet()
         .stream()
-        .filter(ent1 -> ent1.getValue().getPosition().getDistance() > range)
+        .filter(ent1 -> ent1.getValue().getPosition().getDistanceFromStart() > range)
         .sorted( (ent1, ent2) -> Double.compare(
-            ent2.getValue().getPosition().getDistance(), ent1.getValue().getPosition().getDistance()))
+            ent2.getValue().getPosition().getDistanceFromStart(), ent1.getValue().getPosition().getDistanceFromStart()))
         .limit(1)
         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
         (damage, map) -> map.entrySet()
         .stream()
         .collect(Collectors.toMap(m -> m.getKey(), m -> damage)),
-        position);*/
-        throw new UnsupportedOperationException();
+        position);
     }
 }
