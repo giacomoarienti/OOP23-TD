@@ -62,7 +62,8 @@ public class CanvasImpl extends JPanel implements Canvas {
         super.paintComponent(g);
         // create a copy of graphics and set rendering hints
         final Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         // clear the canvas
         g2d.clearRect(START_X, START_Y, this.getWidth(), this.getHeight());

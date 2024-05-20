@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
+import it.unibo.towerdefense.commons.patterns.Observer;
 
 /**
  * {@inheritDoc}.
@@ -15,6 +16,7 @@ class EnemyCollectionImpl implements EnemyCollection {
 
     private final Set<RichEnemy> enemies;
     private final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction;
+    private final Set<Observer<Enemy>> enemyDeathObservers;
 
     /**
      * Constructor for the class.
@@ -27,6 +29,7 @@ class EnemyCollectionImpl implements EnemyCollection {
     EnemyCollectionImpl(final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction) {
         this.posFunction = posFunction;
         this.enemies = new HashSet<>();
+        this.enemyDeathObservers = new HashSet<>();
     }
 
     /**
@@ -53,6 +56,14 @@ class EnemyCollectionImpl implements EnemyCollection {
     @Override
     public void notify(final RichEnemy which) {
         enemies.remove(which);
+        enemyDeathObservers.forEach(o -> o.notify(which));
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    public void addDeathObserver(Observer<Enemy> o) {
+        enemyDeathObservers.add(o);
     }
 
     /**
