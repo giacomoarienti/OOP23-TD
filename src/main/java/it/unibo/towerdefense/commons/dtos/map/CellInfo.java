@@ -1,10 +1,10 @@
 package it.unibo.towerdefense.commons.dtos.map;
 
-import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 public interface CellInfo {
 
-    Position getPosition();
+    LogicalPosition getPosition();
     boolean isPathCell();
     boolean isBuildable();
     boolean isSelected();

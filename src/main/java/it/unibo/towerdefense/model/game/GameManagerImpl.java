@@ -120,6 +120,8 @@ public class GameManagerImpl implements GameManager {
                 return true;
             }
         }
+        // set game state to GAME_OVER and return false
+        this.gameState = GameStatusEnum.GAME_OVER;
         return false;
     }
 

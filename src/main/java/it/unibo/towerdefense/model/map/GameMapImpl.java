@@ -25,7 +25,7 @@ public class GameMapImpl implements GameMap {
     private static final int OBSTACLE_RATE = 10;
     private static final int MAX_X_SIZE = 100;
     private static final int MAX_Y_SIZE = 100;
-    private static final MapDirection PATH_DIRECTION = MapDirection.E;
+    private static final MapDirection PATH_DIRECTION = MapDirection.N;
     private Cell[][] map;
 
     /**
@@ -40,7 +40,7 @@ public class GameMapImpl implements GameMap {
         this.size = size;
         map = new Cell[size.getWidth()][size.getHeight()];
         final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, PATH_DIRECTION);
-        Position pos = new PositionImpl(size.getWidth(), random.nextInt(size.getHeight() / 4, size.getHeight() / 4 * 3));
+        Position pos = generatePosition();
         int distanceToEnd = 0;
         end = new PathCellImpl(pos, path.next(), PATH_DIRECTION, distanceToEnd);
         PathCell newCell = end;
@@ -152,6 +152,16 @@ public class GameMapImpl implements GameMap {
         jObj.put("path", jArrayPath);
         jObj.put("buildable", jArrayBuildable);
         return jObj.toString();
+    }
+
+    private Position generatePosition() {
+        return new PositionImpl(
+            f(size.getWidth() , PATH_DIRECTION.orizontal()),
+            f(size.getHeight() , PATH_DIRECTION.vertical()));
+    }
+
+    private static int f(final int dimension, final int versor) {
+        return versor > 0 ? dimension : versor < 0 ? 0 : dimension / 2;
     }
 
     /**

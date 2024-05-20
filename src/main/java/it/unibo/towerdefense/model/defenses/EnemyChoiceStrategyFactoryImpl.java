@@ -119,7 +119,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
         .stream()
         .filter(ent1 -> ent1.getValue().getPosition().getDistance() > range)
         .sorted( (ent1, ent2) -> Double.compare(
-            ent1.getValue().getPosition().getDistance(), ent2.getValue().getPosition().getDistance()))
+            ent2.getValue().getPosition().getDistance(), ent1.getValue().getPosition().getDistance()))
         .limit(1)
         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
         (damage, map) -> map.entrySet()
