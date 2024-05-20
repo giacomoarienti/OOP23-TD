@@ -7,9 +7,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,7 +36,7 @@ public class DefenseManagerImpl implements DefenseManager {
     public DefenseManagerImpl(final String jsonString) {
         JSONArray serializedDefenses = new JSONArray(jsonString);
         for(Object def: serializedDefenses) {
-            this.defenses.add(new ImmutablePair<Defense,Integer>
+            this.defenses.add(MutablePair.of
             (Defense.fromJson(def.toString()), 0)
             );
         }
@@ -52,10 +51,10 @@ public class DefenseManagerImpl implements DefenseManager {
      * @return a defense if there is something on given position,a empty Optional otherwise.
      * @param pos the position to check.
     */
-    private Optional<Pair<Integer, Defense>> find(final LogicalPosition pos) {
+    private Optional<MutablePair<Integer, Defense>> find(final LogicalPosition pos) {
         for (int i = 0; i < defenses.size(); i++) {
             if (defenses.get(i).getKey().getPosition() == pos) {
-                return Optional.of(new ImmutablePair<>(i, defenses.get(i).getKey()));
+                return Optional.of(MutablePair.of(i, defenses.get(i).getKey()));
             }
         }
         return Optional.empty();
@@ -81,7 +80,7 @@ public class DefenseManagerImpl implements DefenseManager {
      * @param buildPosition the current model to check.
     */
     private List<Defense> getModelsOfBuildables(final LogicalPosition buildPosition) throws IOException {
-        Optional<Pair<Integer, Defense>> currentDef = find(buildPosition);
+        Optional<MutablePair<Integer, Defense>> currentDef = find(buildPosition);
         if (currentDef.isEmpty()) {
             return List.of(
                 factory.levelOneDefense(DefenseMapFilePaths.ARCHER_TOWER_LV1, buildPosition, Optional.empty()),
@@ -97,7 +96,7 @@ public class DefenseManagerImpl implements DefenseManager {
     private void updateMomentum() {
         for (Pair<Defense, Integer> def : this.defenses) {
             int speed = def.getKey().getAttackSpeed();
-            def.setValue(Math.max(def.getValue() + speed, DefenseFormulas.MOMENTUM_REQUIRED));
+            def.setValue(Math.min(def.getValue() + speed, DefenseFormulas.MOMENTUM_REQUIRED));
         }
     }
 
@@ -117,7 +116,7 @@ public class DefenseManagerImpl implements DefenseManager {
 
     @Override
     public Optional<Defense> getDefenseAt(LogicalPosition at) {
-        Optional<Pair<Integer, Defense>> def = find(at);
+        Optional<MutablePair<Integer, Defense>> def = find(at);
         return def.isEmpty() ? Optional.empty() : Optional.of(def.get().getValue());
     }
 
@@ -127,13 +126,13 @@ public class DefenseManagerImpl implements DefenseManager {
     @Override
     public void buildDefense(final int choice, final LogicalPosition position) throws IOException {
         List<Defense> buildables = getModelsOfBuildables(position);
-        Optional<Pair<Integer, Defense>> upgradable = find(position);
+        Optional<MutablePair<Integer, Defense>> upgradable = find(position);
 
         if (upgradable.isEmpty()) {
-            defenses.add(new ImmutablePair<>(buildables.get(choice), 0));
+            defenses.add(MutablePair.of(buildables.get(choice), 0));
         } else {
             defenses.set(upgradable.get().getKey(),
-            new ImmutablePair<>(factory.upgrade(buildables.get(choice), choice,
+            MutablePair.of(factory.upgrade(buildables.get(choice), choice,
             Optional.of(DefenseMapFilePaths.pathFromType(buildables.get(choice).getType()))), 0));
         }
     }
@@ -143,7 +142,7 @@ public class DefenseManagerImpl implements DefenseManager {
      */
     @Override
     public int disassembleDefense(final LogicalPosition position) {
-        Optional<Pair<Integer, Defense>> toDelete = find(position);
+        Optional<MutablePair<Integer, Defense>> toDelete = find(position);
         int returnValue = toDelete.get().getValue().getSellingValue();
         defenses.remove(toDelete.get().getKey());
         return returnValue;
@@ -168,7 +167,6 @@ public class DefenseManagerImpl implements DefenseManager {
             if (def.getValue() >= DefenseFormulas.MOMENTUM_REQUIRED) {
                 Map<Integer, Integer> attackResult = def.getKey().getStrategy()
                 .execute(availableTargets, def.getKey().getDamage());
-
                 /**merge map with result.*/
                 if (attackResult.size() > 0) {
                     def.setValue(0); /**reset only if there was an actual action.*/
