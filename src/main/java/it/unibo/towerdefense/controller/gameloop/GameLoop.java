@@ -12,9 +12,8 @@ public class GameLoop implements Runnable {
 
     private static final String THREAD_NAME = "GameLoop";
     private static final int UPDATES_PER_SECOND = 60;
-    private static final double UPDATE_RATE = 1.0d / UPDATES_PER_SECOND;
-    private static final double MILLISECONDS_IN_SECOND = 1000d;
-    private static final int ROUNDING_DELTA = 0;
+    private static final int MILLISECONDS_IN_SECOND = 1000;
+    private static final int UPDATE_RATE = MILLISECONDS_IN_SECOND / UPDATES_PER_SECOND;
 
     private final Logger logger;
     private final Controller controller;
@@ -35,28 +34,7 @@ public class GameLoop implements Runnable {
      */
     @Override
     public void run() {
-        double accumulator = 0;
-        long currentTime, lastUpdate = System.currentTimeMillis();
-        this.nextStatTime = System.currentTimeMillis() + (int) MILLISECONDS_IN_SECOND;
-        // while game is running update state and render
-        while (!this.controller.isTerminated()) {
-            while (this.controller.isRunning()) {
-                currentTime = System.currentTimeMillis();
-                final double lastRenderTime = (currentTime - lastUpdate) / MILLISECONDS_IN_SECOND;
-                accumulator += lastRenderTime;
-                /* render only if we do not exceed the UPDATE_RATE,
-                prevent rounding problems using int comparison */
-                while (accumulator - UPDATE_RATE > ROUNDING_DELTA) {
-                    this.update();
-                    this.render();
-                    accumulator -= UPDATE_RATE;
-                }
-                lastUpdate = currentTime;
-                // print statistics for debug purposes
-                this.printStats();
-            }
-            this.waitForNextFrame();
-        }
+        this.mainLoop();
     }
 
     /**
@@ -64,6 +42,27 @@ public class GameLoop implements Runnable {
      */
     public void start() {
         new Thread(this, THREAD_NAME).start();
+    }
+
+    /**
+     * Implementation inspired by {@link https://github.com/aricci303/game-as-a-lab/blob/master/Game-As-A-Lab-Step-5-component/src/rollball/core/GameEngine.java}.
+     */
+    private void mainLoop() {
+        this.nextStatTime = System.currentTimeMillis() + (int) MILLISECONDS_IN_SECOND;
+        long current = System.currentTimeMillis();
+        // while game is running update state and render
+        while (!this.controller.isTerminated()) {
+            while (this.controller.isRunning()) {
+                current = System.currentTimeMillis();
+                this.update();
+                this.render();
+                this.printStats();
+                this.waitForNextFrame(current);
+            }
+            // skip a frame if the game is paused
+            this.waitForNextFrame(current + UPDATE_RATE);
+            current = System.currentTimeMillis();
+        }
     }
 
     private void printStats() {
@@ -85,14 +84,14 @@ public class GameLoop implements Runnable {
         this.controller.render();
     }
 
-    private void waitForNextFrame() {
-        // if the game loop should not update, skip a frame
-        try {
-            Thread.sleep((int) MILLISECONDS_IN_SECOND / UPDATES_PER_SECOND);
-        } catch (final InterruptedException e) {
-            logger.error("Error in game loop", e);
-        }
-    }
+    private void waitForNextFrame(final long current){
+		final long dt = System.currentTimeMillis() - current;
+		if (dt < UPDATE_RATE){
+			try {
+				Thread.sleep(UPDATE_RATE - dt);
+			} catch (Exception ex){}
+		}
+	}
 
     /**
      * GameLoop builder.
