@@ -51,4 +51,11 @@ public interface Enemy {
      * @return the enemy's EnemyInfo.
      */
     EnemyInfo info();
+
+    /**
+     * Returns wheter the enemy is dead or not.
+     *
+     * @return wheter the enemy is dead or not
+     */
+    boolean isDead();
 }

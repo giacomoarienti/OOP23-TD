@@ -6,9 +6,9 @@ import it.unibo.towerdefense.commons.engine.LogicalPosition;
 public class EnemyPosition extends LogicalPosition{
 
     private Direction dir;
-    private int distance;
+    private long distance;
 
-    public EnemyPosition(int x, int y, Direction dir, int distance){
+    public EnemyPosition(int x, int y, Direction dir, long distance){
         super(x, y);
         this.dir = dir;
         this.distance = distance;
@@ -17,7 +17,7 @@ public class EnemyPosition extends LogicalPosition{
     public void setTo(final EnemyPosition pos){
         this.set(pos.getX(), pos.getY());
         this.setDir(pos.getDir());
-        this.setDistance(pos.getDistance());
+        this.setDistance(pos.getDistanceFromStart());
     }
 
     public Direction getDir() {
@@ -28,16 +28,16 @@ public class EnemyPosition extends LogicalPosition{
         this.dir = dir;
     }
 
-    public int getDistance() {
+    public long getDistanceFromStart() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(long distance) {
         this.distance = distance;
     }
 
     @Override
     public EnemyPosition clone(){
-        return new EnemyPosition(this.getX(), this.getY(), this.getDir(), this.getDistance());
+        return new EnemyPosition(this.getX(), this.getY(), this.getDir(), this.getDistanceFromStart());
     }
 }
