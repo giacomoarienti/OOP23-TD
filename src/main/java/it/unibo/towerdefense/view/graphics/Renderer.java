@@ -31,12 +31,6 @@ public interface Renderer {
     void renderBuyMenu(JPanel panel);
 
     /**
-     * Adds view contents to the upgrades panel.
-     * @param panel the panel to display
-     */
-    void renderUpgrades(JPanel panel);
-
-    /**
      * Adds a drawable object to the canvas.
      * @param drawable the drawable object to paint
      */

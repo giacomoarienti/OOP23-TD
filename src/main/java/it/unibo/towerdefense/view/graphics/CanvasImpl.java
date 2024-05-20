@@ -86,8 +86,10 @@ public class CanvasImpl extends JPanel implements Canvas {
      * {@inheritDoc}
      */
     @Override
-    public void render() {
-        this.repaint();
+    public synchronized void render() {
+        if (!this.queue.isEmpty()) {
+            this.repaint();
+        }
     }
 
     /**

@@ -18,7 +18,6 @@ import it.unibo.towerdefense.view.modal.ModalContent;
 import it.unibo.towerdefense.view.modal.ModalImpl;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
@@ -38,7 +37,6 @@ public class WindowImpl implements Window {
     private final Size resolution;
     private final JFrame frame;
     private final Canvas canvas;
-    private final JPanel upgradeMenu;
     private final JPanel buyMenu;
     private final JPanel infoPanel;
 
@@ -48,34 +46,27 @@ public class WindowImpl implements Window {
      */
     public WindowImpl(final Size resolution) {
         this.resolution = resolution.copy();
-        // create base frame
-        this.frame = new JFrame(WINDOW_TITLE);
-        this.frame.setLayout(null);
         // calculate sizes
         final int w = this.resolution.getWidth();
         final int h = this.resolution.getHeight();
         final int wMenu = (w - h) / 2;
+        // create base frame
+        this.frame = new JFrame(WINDOW_TITLE);
+        this.frame.setLayout(null);
         this.frame.setPreferredSize(new Dimension(w, h));
         // create canvas
         this.canvas = new CanvasImpl();
-        // create right menu
-        final var rightMenu = new JPanel();
+        // create menus;
         this.infoPanel = new JPanel();
         this.buyMenu = new JPanel();
-        // create upgrade menu
-        this.upgradeMenu = new JPanel();
         // set bounds for each component
-        this.upgradeMenu.setBounds(0, 0, wMenu, h);
+        this.infoPanel.setBounds(0, 0, wMenu, h);
         this.canvas.setBounds(wMenu, 0, h, h);
-        rightMenu.setBounds(wMenu + h, 0, wMenu, h);
+        this.buyMenu.setBounds(wMenu + h, 0, wMenu, h);
         // add panels to frame
         this.frame.add((JPanel) this.canvas);
-        this.frame.add(this.upgradeMenu);
-        this.frame.add(rightMenu);
-        // set right menu layout and add panels
-        rightMenu.setLayout(new FlowLayout());
-        rightMenu.add(this.infoPanel);
-        rightMenu.add(this.buyMenu);
+        this.frame.add(this.infoPanel);
+        this.frame.add(this.buyMenu);
     }
 
     /**
@@ -168,16 +159,6 @@ public class WindowImpl implements Window {
         this.buyMenu.removeAll();
         this.buyMenu.add(panel);
         this.buyMenu.revalidate();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setUpgradesContent(final JPanel panel) {
-        this.upgradeMenu.removeAll();
-        this.upgradeMenu.add(panel);
-        this.upgradeMenu.revalidate();
     }
 
     /**
