@@ -34,14 +34,16 @@ public abstract class Drawable {
     public Position getPosition() {
         return Position.of(
             (int) (
-               (this.position.getX() - this.size.getWidth() / 2)
+               this.position.getX()
                     * this.scale.getLeft()
                     / this.position.getScalingFactor()
+                    - this.size.getWidth() / 2
             ),
             (int) (
-                (this.position.getY() - this.size.getHeight() / 2)
+                this.position.getY()
                     * this.scale.getRight()
                     / this.position.getScalingFactor()
+                    - this.size.getHeight() / 2
             )
         );
     }
