@@ -71,7 +71,8 @@ public class DefenseManagerImpl implements DefenseManager {
          def.getSellingValue(),
          def.getLevel(),
          def.getType(),
-         def.getPosition());
+         def.getPosition(),
+         List.of());
     }
 
     /**gets the models of buildable defenses for given defense
