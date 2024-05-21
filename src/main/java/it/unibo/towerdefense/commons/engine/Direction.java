@@ -7,9 +7,9 @@ public enum Direction {
     /** East. */
     E,
     /** North. */
-    N,
+    S,
     /** West. */
     W,
     /** Sud. */
-    S;
+    N;
 }

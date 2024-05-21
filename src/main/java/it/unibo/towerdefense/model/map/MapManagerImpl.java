@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
+import it.unibo.towerdefense.commons.engine.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
@@ -211,12 +214,14 @@ public class MapManagerImpl implements MapManager {
             }
 
             @Override
-            public int getDirectionsSum() {
+            public Pair<Direction, Direction> getDirections() {
                 if (isPathCell()) {
-                    return (((PathCell) c).getInDirection().asDirection().ordinal()
-                        + ((PathCell) c).getOutDirection().asDirection().ordinal()) % 4;
+                    return Pair.of(
+                        ((PathCell) c).getInDirection().asDirection(),
+                        ((PathCell) c).getOutDirection().asDirection()
+                    );
                 }
-                throw new UnsupportedOperationException("This not represent a PathCell");
+                throw new UnsupportedOperationException("This does not represent a PathCell");
             }
         });
     }

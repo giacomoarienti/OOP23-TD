@@ -9,6 +9,7 @@ import org.imgscalr.Scalr.Rotation;
 import java.awt.image.BufferedImage;
 
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
+import it.unibo.towerdefense.commons.engine.Direction;
 import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 import it.unibo.towerdefense.commons.utils.images.ImageLoader;
@@ -38,14 +39,23 @@ public class MapRendererImpl implements MapRenderer {
 
 
     private BufferedImage getImage(CellInfo c) {
-        return c.isPathCell() ? path(c.getDirectionsSum()) : buildable(c);
+        return c.isPathCell() ? path(c.getDirections().getLeft(), c.getDirections().getRight()) : buildable(c);
     }
 
     private BufferedImage buildable(CellInfo c) {
         return !c.isBuildable() ? images.get(3) : c.isSelected() ? images.get(4) : images.get(2);
     }
 
-    private BufferedImage path(int i) {
-        return i < 2 ? images.get(i % 2) : Scalr.rotate(images.get(i % 2), Rotation.values()[i / 2 - 1]);
+    private BufferedImage path(final Direction in, final Direction out) {
+        int i = index(in, out);
+        return i < 2 ? images.get(i) : Scalr.rotate(images.get(i < 5 ? 1 : 0), Rotation.values()[2 - (i % 3)]);
+    }
+
+    private static int index(final Direction in, final Direction out) {
+        return Math.min(in.ordinal() * 4 + out.ordinal(), opposite(out) * 4 + opposite(in)) % 7;
+    }
+
+    private static int opposite(final Direction d) {
+        return (d.ordinal() + 2) % 4;
     }
 }
