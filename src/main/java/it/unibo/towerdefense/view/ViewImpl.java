@@ -176,15 +176,6 @@ public class ViewImpl implements View {
 
     }
 
-    private void initRenderers(final Size mapSize) {
-        this.renderer = new RendererImpl(mapSize, this.window);
-        // init renderers
-        this.mapRenderer = new MapRendererImpl(this.renderer.getImageLoader());
-        this.gameRenderer = new GameRendererImpl(this.renderer);
-        this.defenseRenderer = new DefenseRendererImpl(this.renderer);
-        this.enemyRenderer = new EnemyRendererImpl(this.renderer);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -207,5 +198,22 @@ public class ViewImpl implements View {
     @Override
     public void addControlsObserver(Observer<ControlAction> observer) {
         this.gameRenderer.addControlsObserver(observer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clearBuyMenu() {
+        this.window.setBuyMenuContent(null);
+    }
+
+    private void initRenderers(final Size mapSize) {
+        this.renderer = new RendererImpl(mapSize, this.window);
+        // init renderers
+        this.mapRenderer = new MapRendererImpl(this.renderer.getImageLoader());
+        this.gameRenderer = new GameRendererImpl(this.renderer);
+        this.defenseRenderer = new DefenseRendererImpl(this.renderer);
+        this.enemyRenderer = new EnemyRendererImpl(this.renderer);
     }
 }

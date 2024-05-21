@@ -22,6 +22,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.awt.Color;
 
 /**
@@ -178,8 +179,11 @@ public class WindowImpl implements Window {
     @Override
     public void setBuyMenuContent(final JPanel panel) {
         this.buyMenu.removeAll();
-        this.buyMenu.add(panel);
+        if (Objects.nonNull(panel)) {
+            this.buyMenu.add(panel);
+        }
         this.buyMenu.revalidate();
+        this.buyMenu.repaint();
     }
 
     /**
