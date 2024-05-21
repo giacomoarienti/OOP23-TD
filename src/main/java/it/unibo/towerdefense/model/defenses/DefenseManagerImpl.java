@@ -153,9 +153,7 @@ public class DefenseManagerImpl implements DefenseManager {
     public int disassembleDefense(final LogicalPosition position) {
         Optional<MutablePair<Integer, Defense>> toDelete = find(position);
         int returnValue = toDelete.get().getValue().getSellingValue();
-        logger.info("size before sell-->"+defenses.size());
         defenses.remove(toDelete.get().getKey().intValue());
-        logger.info("size after sell-->"+defenses.size());
         return returnValue;
     }
 
@@ -184,6 +182,9 @@ public class DefenseManagerImpl implements DefenseManager {
                     attackResult.entrySet().stream().forEach(x ->
                         result.merge(x.getKey(), x.getValue(), Integer::sum)
                     );
+                    /**add attacks */
+                    List<LogicalPosition> hitEnemies = new LinkedList<>();
+                    attackResult.entrySet().forEach(x->hitEnemies.add(availableTargets.get(x.getKey()).getPosition()));
                 }
             }
         }
