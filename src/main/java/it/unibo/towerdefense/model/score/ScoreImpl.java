@@ -3,6 +3,9 @@ package it.unibo.towerdefense.model.score;
 import org.json.JSONObject;
 import com.google.common.base.Objects;
 
+import it.unibo.towerdefense.commons.dtos.score.ScoreDTO;
+import it.unibo.towerdefense.commons.dtos.score.ScoreDTOImpl;
+
 /**
  * Implementation of the Score interface.
  */
@@ -43,14 +46,6 @@ public class ScoreImpl implements Score {
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(final Score o) {
-        return Integer.compare(o.getWave(), this.getWave());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public boolean equals(final Object o) {
         if (o instanceof ScoreImpl) {
             final Score scoreObject = (ScoreImpl) o;
@@ -77,6 +72,14 @@ public class ScoreImpl implements Score {
             .put(NAME_FIELD, this.getName())
             .put(WAVE_FIELD, this.getWave())
             .toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ScoreDTO toDTO() {
+       return new ScoreDTOImpl(this);
     }
 
     /**

@@ -1,11 +1,12 @@
 package it.unibo.towerdefense.model.score;
 
 import it.unibo.towerdefense.commons.api.JsonSerializable;
+import it.unibo.towerdefense.commons.dtos.score.ScoreDTO;
 
 /**
  * Interface that defines the methods to manage the game's scoreboard.
  */
-public interface Score extends JsonSerializable, Comparable<Score> {
+public interface Score extends JsonSerializable {
 
     /**
      * Returns the name of the player.
@@ -18,6 +19,12 @@ public interface Score extends JsonSerializable, Comparable<Score> {
      * @return the wave number
      */
     int getWave();
+
+    /**
+     * Returns the DTO representation of the score.
+     * @return the DTO object
+     */
+    ScoreDTO toDTO();
 
     /**
      * Returns the score object from JSON string.
