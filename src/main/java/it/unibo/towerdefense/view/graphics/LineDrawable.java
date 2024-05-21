@@ -36,8 +36,8 @@ public class LineDrawable extends Drawable {
         // draw line
         g2d.setColor(this.color);
         final var line = new Line2D.Double(
-            this.from.getX(),
-            this.from.getY(),
+            this.from.getCellX() * this.scale.getLeft(),
+            this.from.getCellY() * this.scale.getRight(),
             this.to.getCellX() * this.scale.getLeft(),
             this.to.getCellY() * this.scale.getRight()
         );

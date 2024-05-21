@@ -14,6 +14,7 @@ import it.unibo.towerdefense.model.defenses.DefenseType;
 import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.CircleDrawable;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
+import it.unibo.towerdefense.view.graphics.LineDrawable;
 
 public class DefenseRendererImpl implements DefenseRenderer {
 
@@ -54,7 +55,7 @@ public class DefenseRendererImpl implements DefenseRenderer {
     /**Adds attacks to list.*/
     private void addAttacks(DefenseDescription def) {
         def.getTargets().forEach(x ->
-            attacks.add(new AttackAnimationImpl(true,
+            attacks.add(new AttackAnimationImpl(def.getType()==DefenseType.BOMBTOWER,
             def.getPosition(), x))
         );
     }
@@ -67,6 +68,10 @@ public class DefenseRendererImpl implements DefenseRenderer {
         this.attacks.removeIf(x -> !x.isAlive());
 
         this.attacks.forEach(x -> {
+            renderer.submitToCanvas(new LineDrawable(x.getAttacked(), x.getAttacker(), Color.WHITE));
+            if(x.isAreaBased()) {
+                renderer.submitToCanvas(new CircleDrawable(x.getAttacked(), new SizeImpl(2,2), Color.ORANGE));
+            }
             x.decreaseTimeToLive();
         });
     }

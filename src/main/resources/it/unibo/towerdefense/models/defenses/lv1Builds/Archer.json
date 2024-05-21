@@ -3,7 +3,7 @@
     "type" : "ARCHERTOWER",
     "damage" : 60,
     "speed" : 20,
-    "range" : 12000,
+    "range" : 15000,
     "buildingCost" : 80,
     "sellingValue" : 40
 }

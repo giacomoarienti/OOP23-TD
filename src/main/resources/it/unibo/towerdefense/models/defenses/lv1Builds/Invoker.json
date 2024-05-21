@@ -3,7 +3,7 @@
     "type" : "THUNDERINVOKER",
     "damage" : 20,
     "speed" : 3,
-    "range" : 5,
+    "range" : 23000,
     "buildingCost" : 100,
     "sellingValue" : 55
 }
