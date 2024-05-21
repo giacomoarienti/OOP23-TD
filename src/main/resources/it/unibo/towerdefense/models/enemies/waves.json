@@ -2,7 +2,7 @@
     {
         "wave" : 1,
         "power" : 50000,
-        "rate" : 60,
+        "rate" : 120,
         "types" : [
             "IB",
             "IC"
@@ -16,7 +16,22 @@
         ]
     },
     {
-        "wave" : 4,
-        "rate" : 3
+        "wave" : 5,
+        "power" : 150000,
+        "rate" : 80,
+        "types" : [
+            "IIB",
+            "IIA"
+        ]
+    },
+    {
+        "wave" : 10,
+        "power" : 150000,
+        "rate" : 80,
+        "types" : [
+            "IIC",
+            "IIIC",
+            "IIIB"
+        ]
     }
 ]

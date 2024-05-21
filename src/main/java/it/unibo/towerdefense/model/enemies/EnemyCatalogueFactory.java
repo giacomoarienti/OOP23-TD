@@ -45,11 +45,6 @@ class EnemyCatalogueFactory {
         this.powerlevels = configValues.getRight();
     }
 
-    public static void main(String[] args) throws IOException{
-        var test = new EnemyCatalogueFactory(FileUtils.readFile(Filenames.typesConfig()));
-        test.compile().getEnemyTypes().stream().sorted().forEach(et -> System.out.println(et.toString() + " " + et.getPowerLevel() + " " + et.getSpeed() + " " + et.getMaxHP()));
-    }
-
     /**
      * Compiles a Catalogue with the information and returns it.
      *

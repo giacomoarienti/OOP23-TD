@@ -48,9 +48,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
             startingPosSupplier.bind(() -> convert(map.getSpawnPosition(), 0).get());
 
             enemies.addDeathObserver(e -> {
-                System.out.println("Enemy dead!");
                 if(e.isDead()){
-                    System.out.println("Enemy was dead.");
                     game.addMoney(e.getValue());
                 }else{
                     game.decreaseLives();
