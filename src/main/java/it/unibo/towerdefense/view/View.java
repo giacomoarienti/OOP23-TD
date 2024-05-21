@@ -3,7 +3,9 @@ package it.unibo.towerdefense.view;
 import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
+import it.unibo.towerdefense.commons.dtos.map.BuildingOptionImpl;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.GameState;
@@ -108,5 +110,5 @@ public interface View {
      * Render the menu for defenses building.
      * @param options the aviable defenses.
      */
-    void renderBuyMenu(Stream<BuildingOption> options);
+    void renderBuyMenu(List<BuildingOption> options);
 }

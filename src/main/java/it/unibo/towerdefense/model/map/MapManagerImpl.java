@@ -1,13 +1,16 @@
 package it.unibo.towerdefense.model.map;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
+import it.unibo.towerdefense.commons.dtos.map.BuildingOptionImpl;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
@@ -15,10 +18,9 @@ import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.ModelManager;
-import it.unibo.towerdefense.model.defenses.Defense;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
-import it.unibo.towerdefense.model.defenses.DefenseManagerImpl;
 import it.unibo.towerdefense.model.game.GameManager;
+import it.unibo.towerdefense.model.game.GameStatus;
 
 /**
  * Class to interact with map methods.
@@ -27,7 +29,7 @@ public class MapManagerImpl implements MapManager {
 
     private final GameMap map;
     private BuildableCell selected = null;
-    private List<Defense> options;
+    private List<DefenseDescription> options;
     private DefenseManager defenses;
     private GameManager game;
 
@@ -159,20 +161,21 @@ public class MapManagerImpl implements MapManager {
      */
     @Override
     public void build(final int optionNumber) {
-        if (selected == null || options.isEmpty() || optionNumber > options.size() - 1) {
+        if (selected == null || optionNumber < 0) {
             throw new IllegalStateException("ERROR, can't build!");
         }
-        var choice = options.get(optionNumber);
-        if (optionNumber < 0) {
+        if (optionNumber > options.size() - 1) {
             game.addMoney(defenses.disassembleDefense(selected.getCenter()));
-        }
-        if (!game.purchase(choice.getBuildingCost())) {
-            throw new IllegalArgumentException("Not enought money!");
-        }
-        try {
-            defenses.buildDefense(optionNumber, selected.getCenter());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } else {
+            var choice = options.get(optionNumber);
+            if (!game.purchase(choice.getCost())) {
+                throw new IllegalArgumentException("Not enought money!");
+            }
+            try {
+                defenses.buildDefense(optionNumber, selected.getCenter());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }
@@ -181,12 +184,35 @@ public class MapManagerImpl implements MapManager {
      * {@inheritDoc}
      */
     @Override
-    public Stream<BuildingOption> getBuildingOptions() {
+    public List<BuildingOption> getBuildingOptions() {
+        List<BuildingOption> l = new ArrayList<>();
+
         if (updateBuildinOption()) {
-            return options.stream().map(dd ->
-                new BuildingOption(DefenseManagerImpl.getDescriptionFrom(dd), game.isPurchasable(dd.getBuildingCost())));
+            var optDef = defenses.getDefenseAt(selected.getCenter());
+            options.stream().forEach(dd ->
+                l.add(new BuildingOptionImpl(dd, game.isPurchasable(dd.getCost()) && game.getGameStatus() == GameStatus.PLAYING)));
+            if (optDef.isPresent()) {
+                l.add(new BuildingOption() {
+
+                    @Override
+                    public String getText() {
+                        return "Sell";
+                    }
+
+                    @Override
+                    public String getCost() {
+                        return Integer.toString(optDef.get().getSellingValue());
+                    }
+
+                    @Override
+                    public boolean isPurchasable() {
+                        return game.getGameStatus() == GameStatus.PLAYING;
+                    }
+
+                });
+            }
         }
-        return Stream.of();
+        return l;
     }
 
     @Override

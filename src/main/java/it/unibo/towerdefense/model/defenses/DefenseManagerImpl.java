@@ -12,6 +12,8 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
@@ -29,7 +31,9 @@ public class DefenseManagerImpl implements DefenseManager {
     private List<Pair<Defense, Integer>> defenses;
     /**for getting end of map and entities.*/
     private ModelManager manager;
-
+    /**gets the attacks that occured in one loop.*/
+    private Map<Integer,List<LogicalPosition>> attacksOnLoop = Map.of();
+    private static Logger logger = LoggerFactory.getLogger(DefenseManagerImpl.class);
     /**A constructor that recovers defense state from a json file.
      * @param jsonString the json content.
     */
@@ -65,7 +69,7 @@ public class DefenseManagerImpl implements DefenseManager {
      * @return the defenseDescription of
      * @param def the defense to get description for.
      */
-    public static DefenseDescription getDescriptionFrom(final Defense def) {
+    private DefenseDescription getDescriptionFrom(final Defense def) {
         return new DefenseDescription(
          def.getBuildingCost(),
          def.getSellingValue(),
@@ -149,7 +153,7 @@ public class DefenseManagerImpl implements DefenseManager {
     public int disassembleDefense(final LogicalPosition position) {
         Optional<MutablePair<Integer, Defense>> toDelete = find(position);
         int returnValue = toDelete.get().getValue().getSellingValue();
-        defenses.remove(toDelete.get().getKey());
+        defenses.remove(toDelete.get().getKey().intValue());
         return returnValue;
     }
 
@@ -157,8 +161,8 @@ public class DefenseManagerImpl implements DefenseManager {
      *{@inheritDoc}
      */
     @Override
-    public List<Defense> getBuildables(final LogicalPosition position) throws IOException {
-        return getModelsOfBuildables(position).stream().toList();
+    public List<DefenseDescription> getBuildables(final LogicalPosition position) throws IOException {
+        return getModelsOfBuildables(position).stream().map(x -> getDescriptionFrom(x)).toList();
     }
 
     /**
@@ -178,6 +182,9 @@ public class DefenseManagerImpl implements DefenseManager {
                     attackResult.entrySet().stream().forEach(x ->
                         result.merge(x.getKey(), x.getValue(), Integer::sum)
                     );
+                    /**add attacks */
+                    List<LogicalPosition> hitEnemies = new LinkedList<>();
+                    attackResult.entrySet().forEach(x->hitEnemies.add(availableTargets.get(x.getKey()).getPosition()));
                 }
             }
         }
@@ -205,6 +212,9 @@ public class DefenseManagerImpl implements DefenseManager {
     }
 
     @Override
+    /**
+     * {@inheritDoc}
+     */
     public List<DefenseDescription> getDefenses() {
         List<DefenseDescription> descs = new LinkedList<>();
         for(int i = 0; i < this.defenses.size(); i++) {

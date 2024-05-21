@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.model.map;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -57,7 +58,7 @@ public interface MapManager extends JsonSerializable, Manager {
      * Returns the building options in the selected cell, and if they are purchasable.
      * @return a list of Pair: defense description on left, is purchasable on right.
      */
-    Stream<BuildingOption> getBuildingOptions();
+    List<BuildingOption> getBuildingOptions();
 
     /**
      * All map cells DTOs getter.
