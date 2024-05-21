@@ -165,6 +165,8 @@ public class ViewImpl implements View {
         if (Objects.isNull(this.renderer)) {
             throw new IllegalStateException("GameRenderer not created yet");
         }
+        // clear the canvas
+        this.renderer.clearCanvasQueue();
         // render state
         this.mapRenderer.renderPath(this.renderer, state.getMap());
         this.defenseRenderer.render(state.getDefenses());
