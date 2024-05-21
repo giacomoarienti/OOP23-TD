@@ -1,14 +1,15 @@
 package it.unibo.towerdefense.view;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
+import it.unibo.towerdefense.commons.dtos.map.BuildingOptionImpl;
 import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
-import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
@@ -153,8 +154,8 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void renderBuyMenu(Stream<BuildingOption> options) {
-        window.setBuyMenuContent(buyMenu.getJPanel(options.toList()));
+    public void renderBuyMenu(List<BuildingOption> options) {
+        window.setBuyMenuContent(buyMenu.getJPanel(options));
     }
 
     /**

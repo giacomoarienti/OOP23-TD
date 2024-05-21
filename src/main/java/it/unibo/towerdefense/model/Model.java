@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.model;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
@@ -7,6 +8,7 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
+import it.unibo.towerdefense.commons.dtos.map.BuildingOptionImpl;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -63,7 +65,7 @@ public interface Model {
      */
     Stream<CellInfo> getMapDTOs();
 
-    Stream<BuildingOption> getBuildingOptions();
+    List<BuildingOption> getBuildingOptions();
 
     /**
      * Select the cell at given poition.
