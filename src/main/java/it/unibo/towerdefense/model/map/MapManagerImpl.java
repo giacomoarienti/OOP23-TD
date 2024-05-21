@@ -20,6 +20,7 @@ import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.ModelManager;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
 import it.unibo.towerdefense.model.game.GameManager;
+import it.unibo.towerdefense.model.game.GameStatus;
 
 /**
  * Class to interact with map methods.
@@ -160,7 +161,7 @@ public class MapManagerImpl implements MapManager {
      */
     @Override
     public void build(final int optionNumber) {
-        if (selected == null || options.isEmpty() || optionNumber < 0) {
+        if (selected == null || optionNumber < 0) {
             throw new IllegalStateException("ERROR, can't build!");
         }
         if (optionNumber > options.size() - 1) {
@@ -185,31 +186,31 @@ public class MapManagerImpl implements MapManager {
     @Override
     public List<BuildingOption> getBuildingOptions() {
         List<BuildingOption> l = new ArrayList<>();
-        var optDef = defenses.getDefenseAt(selected.getCenter());
 
         if (updateBuildinOption()) {
+            var optDef = defenses.getDefenseAt(selected.getCenter());
             options.stream().forEach(dd ->
-                l.add(new BuildingOptionImpl(dd, game.isPurchasable(dd.getCost()))));
-        }
-        if (optDef.isPresent()) {
-            l.add(new BuildingOption() {
+                l.add(new BuildingOptionImpl(dd, game.isPurchasable(dd.getCost()) && game.getGameStatus() == GameStatus.PLAYING)));
+            if (optDef.isPresent()) {
+                l.add(new BuildingOption() {
 
-                @Override
-                public String getText() {
-                    return "Sell";
-                }
+                    @Override
+                    public String getText() {
+                        return "Sell";
+                    }
 
-                @Override
-                public String getCost() {
-                    return Integer.toString(optDef.get().getSellingValue());
-                }
+                    @Override
+                    public String getCost() {
+                        return Integer.toString(optDef.get().getSellingValue());
+                    }
 
-                @Override
-                public boolean isPurchasable() {
-                    return true;
-                }
+                    @Override
+                    public boolean isPurchasable() {
+                        return game.getGameStatus() == GameStatus.PLAYING;
+                    }
 
-            });
+                });
+            }
         }
         return l;
     }
