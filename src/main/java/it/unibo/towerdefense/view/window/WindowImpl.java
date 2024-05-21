@@ -229,6 +229,14 @@ public class WindowImpl implements Window {
         this.canvas.setMapSize(mapSize);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clearCanvasQueue() {
+        this.canvas.clearCanvasQueue();
+    }
+
     private void hideAllModals() {
         this.openModals.forEach((m )-> m.setVisible(false));
     }

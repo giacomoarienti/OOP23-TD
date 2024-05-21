@@ -59,4 +59,9 @@ public interface Renderer {
      * Forces the canvas to be rendered.
      */
     void renderCanvas();
+
+    /**
+     * Clear the canvas queue.
+     */
+    void clearCanvasQueue();
 }

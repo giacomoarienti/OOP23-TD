@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOptionImpl;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
@@ -17,9 +18,7 @@ import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.ModelManager;
-import it.unibo.towerdefense.model.defenses.Defense;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
-import it.unibo.towerdefense.model.defenses.DefenseManagerImpl;
 import it.unibo.towerdefense.model.game.GameManager;
 
 /**
@@ -29,7 +28,7 @@ public class MapManagerImpl implements MapManager {
 
     private final GameMap map;
     private BuildableCell selected = null;
-    private List<Defense> options;
+    private List<DefenseDescription> options;
     private DefenseManager defenses;
     private GameManager game;
 
@@ -168,7 +167,7 @@ public class MapManagerImpl implements MapManager {
             game.addMoney(defenses.disassembleDefense(selected.getCenter()));
         } else {
             var choice = options.get(optionNumber);
-            if (!game.purchase(choice.getBuildingCost())) {
+            if (!game.purchase(choice.getCost())) {
                 throw new IllegalArgumentException("Not enought money!");
             }
             try {
@@ -190,7 +189,7 @@ public class MapManagerImpl implements MapManager {
 
         if (updateBuildinOption()) {
             options.stream().forEach(dd ->
-                l.add(new BuildingOptionImpl(DefenseManagerImpl.getDescriptionFrom(dd), game.isPurchasable(dd.getBuildingCost()))));
+                l.add(new BuildingOptionImpl(dd, game.isPurchasable(dd.getCost()))));
         }
         if (optDef.isPresent()) {
             l.add(new BuildingOption() {

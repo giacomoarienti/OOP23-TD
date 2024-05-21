@@ -44,7 +44,7 @@ public interface DefenseManager extends JsonSerializable, Manager {
      * @param position the position where to build.
      * @return the possibles types of buildable defenses and their mapped cost.
      */
-    List<Defense> getBuildables(LogicalPosition position) throws IOException;
+    List<DefenseDescription> getBuildables(LogicalPosition position) throws IOException;
 
     /**
      * makes the current ready defenses attack the available enemies.

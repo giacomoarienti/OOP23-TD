@@ -104,4 +104,9 @@ public interface Window {
      * @param mapSize the size of the map
      */
     void setMapSize(Size mapSize);
+
+    /**
+     * Clear the canvas queue.
+     */
+    void clearCanvasQueue();
 }
