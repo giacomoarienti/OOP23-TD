@@ -221,6 +221,19 @@ public class ControllerImpl implements Controller {
         if (!model.isPlaying()) {
             this.view.clearBuyMenu();
         }
+        // check if game is over
+        if (model.isGameOver()) {
+            this.handleGameOver();
+        }
+    }
+
+    private void handleGameOver() {
+        // stop game
+        this.stop();
+        // save score
+        final var score = model.saveScore();
+        // display game over
+        this.view.displayGameOver(score.toDTO());
     }
 
     private void handleCellSelection(final Position position) {
@@ -256,11 +269,16 @@ public class ControllerImpl implements Controller {
     }
 
     private void handleControls(final ControlAction action) {
-        // update model
-        this.model.handleControls(action);
         // handle quit
         if (action.equals(ControlAction.QUIT)) {
-            this.saveAndExit();
+            // if is still playing save before exiting
+            if (model.isPlaying()) {
+                this.saveAndExit();
+            } else {
+                this.exit();
+            }
         }
+        // update model
+        this.model.handleControls(action);
     }
 }

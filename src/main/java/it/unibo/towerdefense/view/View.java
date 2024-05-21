@@ -5,6 +5,7 @@ import java.util.List;
 import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
+import it.unibo.towerdefense.commons.dtos.score.ScoreDTO;
 import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.Position;
@@ -113,4 +114,10 @@ public interface View {
      * Clear the buy menu.
      */
     void clearBuyMenu();
+
+    /**
+     * Display the game over view.
+     * @param dto the score dto
+     */
+    void displayGameOver(ScoreDTO dto);
 }

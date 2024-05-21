@@ -6,6 +6,7 @@ import java.util.Objects;
 import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
+import it.unibo.towerdefense.commons.dtos.score.ScoreDTO;
 import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.commons.engine.Position;
@@ -22,6 +23,7 @@ import it.unibo.towerdefense.view.enemies.EnemyRendererImpl;
 import it.unibo.towerdefense.view.game.GameRenderer;
 import it.unibo.towerdefense.view.game.GameRendererImpl;
 import it.unibo.towerdefense.view.gamelauncher.GameLauncherViewImpl;
+import it.unibo.towerdefense.view.gameover.GameOverViewImpl;
 import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.RendererImpl;
 import it.unibo.towerdefense.view.map.BuyMenu;
@@ -206,6 +208,14 @@ public class ViewImpl implements View {
     @Override
     public void clearBuyMenu() {
         this.window.setBuyMenuContent(null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayGameOver(final ScoreDTO dto) {
+        this.window.displayModal("Game Over", new GameOverViewImpl(dto));
     }
 
     private void initRenderers(final Size mapSize) {

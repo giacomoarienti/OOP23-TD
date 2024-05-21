@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.model;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -9,7 +10,6 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
-import it.unibo.towerdefense.commons.dtos.map.BuildingOptionImpl;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -24,6 +24,8 @@ import it.unibo.towerdefense.model.game.GameStatus;
 import it.unibo.towerdefense.model.map.MapManager;
 import it.unibo.towerdefense.model.map.MapManagerImpl;
 import it.unibo.towerdefense.model.saving.Saving;
+import it.unibo.towerdefense.model.score.Score;
+import it.unibo.towerdefense.model.scoreboard.ScoreboardImpl;
 
 /**
  * Implementation of the ModelManager interface.
@@ -207,6 +209,27 @@ public class ModelImpl implements ModelManager, Model {
     public void handleControls(ControlAction action) {
         this.initializationCheck();
         game.setGameStatus(GameStatus.fromControlAction(action));
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public boolean isGameOver() {
+        return game.isGameOver();
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public Score saveScore() {
+        try {
+            final var scoreboard = new ScoreboardImpl();
+            return scoreboard.saveScore(game.getPlayerName(), game.getWave());
+        } catch (final IOException e) {
+           throw new RuntimeException("Error saving score", e);
+        }
     }
 
     private void bindManagers() {

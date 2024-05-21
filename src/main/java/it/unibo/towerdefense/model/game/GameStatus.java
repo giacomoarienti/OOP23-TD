@@ -29,11 +29,10 @@ public enum GameStatus {
     public static GameStatus fromControlAction(final ControlAction action) {
         switch (action) {
             case PAUSE:
+            case QUIT:
                 return PAUSE;
             case RESUME:
                 return PLAYING;
-            case QUIT:
-                return GAME_OVER;
             default:
                 throw new IllegalArgumentException("Invalid action");
         }

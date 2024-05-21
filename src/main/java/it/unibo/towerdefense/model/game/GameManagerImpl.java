@@ -114,14 +114,15 @@ public class GameManagerImpl implements GameManager {
         // if lives is positive decrease them
         if (this.lives > 0) {
             this.lives -= 1;
-            this.notifyObservers();
             // return true if positive
             if (this.lives > 0) {
+                this.notifyObservers();
                 return true;
             }
         }
         // set game state to GAME_OVER and return false
         this.gameStatus = GameStatus.GAME_OVER;
+        this.notifyObservers();
         return false;
     }
 
@@ -287,6 +288,14 @@ public class GameManagerImpl implements GameManager {
             this.waveHandler.accept(this.wave);
             this.shouldWaveStart = false;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isGameOver() {
+        return this.getGameStatus().equals(GameStatus.GAME_OVER);
     }
 
     private void notifyObservers() {

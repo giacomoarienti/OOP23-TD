@@ -27,8 +27,8 @@ public interface Scoreboard {
      * Saves the current score to the local storage.
      * @param name the name of the player
      * @param wave the wave reached by the player
-     * @return true if score was saved
+     * @return the saved score
      * @throws IOException if the file cannot be read
      */
-    boolean saveScore(String name, int wave) throws IOException;
+    Score saveScore(String name, int wave) throws IOException;
 }

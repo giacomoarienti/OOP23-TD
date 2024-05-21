@@ -118,6 +118,12 @@ public interface GameManager extends Manager, Observable<GameDTO>, JsonSerializa
     void update();
 
     /**
+     * Check if the game is over.
+     * @return true if the game is over
+     */
+    boolean isGameOver();
+
+    /**
      * Returns the Game object from a GameDTO object.
      * @param dto the GameDTO object
      * @return the Game object

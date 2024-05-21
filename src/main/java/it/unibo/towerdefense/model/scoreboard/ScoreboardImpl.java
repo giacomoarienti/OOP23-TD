@@ -88,17 +88,20 @@ public class ScoreboardImpl implements Scoreboard {
      * {@inheritDoc}
      */
     @Override
-    public boolean saveScore(final String name, final int wave) throws IOException {
+    public Score saveScore(final String name, final int wave) throws IOException {
         // load the current scores
         this.loadScores();
         // add the new score
-        this.scores.add(new ScoreImpl(name, wave));
+        final var score = new ScoreImpl(name, wave);
+        System.out.println(score.toJSON());
+        this.scores.add(score);
         try {
             // add each score to the a JSON array
             final JSONArray jsonArray =  new JSONArray();
-            this.scores.forEach((score) ->
-                jsonArray.put(new JSONObject(score.toJSON()))
+            this.scores.forEach((s) ->
+                jsonArray.put(new JSONObject(s.toJSON()))
             );
+            System.out.println(jsonArray.toString());
             // save the json string to file
             FileUtils.writeFile(filePath, jsonArray.toString());
         } catch (final JSONException e) {
@@ -106,6 +109,6 @@ public class ScoreboardImpl implements Scoreboard {
             throw new IOException("Scoreboard file is corrupted!", e);
         }
         // score saved
-        return true;
+        return score;
     }
 }

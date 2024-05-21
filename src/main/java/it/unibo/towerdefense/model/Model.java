@@ -8,12 +8,12 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.map.BuildingOption;
-import it.unibo.towerdefense.commons.dtos.map.BuildingOptionImpl;
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.model.saving.Saving;
+import it.unibo.towerdefense.model.score.Score;
 
 public interface Model {
 
@@ -94,4 +94,16 @@ public interface Model {
      * @param action the control action
      */
     void handleControls(ControlAction action);
+
+    /**
+     * Returns if the game is over.
+     * @return true if the game is over
+     */
+    boolean isGameOver();
+
+    /**
+     * Saves the score.
+     * @return the saved score
+     */
+    Score saveScore();
 }
