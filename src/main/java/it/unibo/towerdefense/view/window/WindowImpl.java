@@ -63,7 +63,11 @@ public class WindowImpl implements Window {
         this.buyMenu = new JPanel();
         // create infoPanel
         final var infoPanel = new JPanel();
-        infoPanel.setLayout(new FlowLayout(BoxLayout.Y_AXIS));
+        infoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        // create container for infoPanel
+        final var container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        // create gamePanel and controlsPanel
         this.gamePanel = new JPanel();
         this.controlsPanel = new JPanel();
         // set bounds for each component
@@ -74,9 +78,10 @@ public class WindowImpl implements Window {
         this.frame.add((JPanel) this.canvas);
         this.frame.add(infoPanel);
         this.frame.add(this.buyMenu);
-        // add gamePanel and controlsPanel to infoPanel
-        infoPanel.add(this.gamePanel);
-        infoPanel.add(this.controlsPanel);
+        // add gamePanel and controlsPanel to container
+        infoPanel.add(container);
+        container.add(this.gamePanel);
+        container.add(this.controlsPanel);
     }
 
     /**
