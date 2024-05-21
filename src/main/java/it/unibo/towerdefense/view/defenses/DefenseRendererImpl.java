@@ -1,13 +1,18 @@
 package it.unibo.towerdefense.view.defenses;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
+import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.SizeImpl;
 import it.unibo.towerdefense.model.defenses.DefenseType;
 import it.unibo.towerdefense.view.graphics.Renderer;
+import it.unibo.towerdefense.view.graphics.CircleDrawable;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 
 public class DefenseRendererImpl implements DefenseRenderer {
@@ -17,7 +22,8 @@ public class DefenseRendererImpl implements DefenseRenderer {
 
     public DefenseRendererImpl(Renderer renderer) {
         this.renderer = renderer;
-        this.attacks = List.of();
+        attacks = new LinkedList<>();
+        attacks.add(new AttackAnimationImpl(false, new LogicalPosition(0, 0), new LogicalPosition(0, 0)));
     }
 
     @Override
@@ -47,8 +53,8 @@ public class DefenseRendererImpl implements DefenseRenderer {
     }
     /**Adds attacks to list.*/
     private void addAttacks(DefenseDescription def) {
-        def.getTargets().stream().forEach(x ->
-            attacks.add(new AttackAnimationImpl(def.getType()==DefenseType.BOMBTOWER,
+        def.getTargets().forEach(x ->
+            attacks.add(new AttackAnimationImpl(true,
             def.getPosition(), x))
         );
     }
@@ -58,9 +64,10 @@ public class DefenseRendererImpl implements DefenseRenderer {
     */
     private void renderAttacks() {
         /**remove finished animations*/
-        this.attacks = attacks.stream().filter(x->x.isAlive()).toList();
-        this.attacks.forEach(x -> {
+        this.attacks.removeIf(x -> !x.isAlive());
 
+        this.attacks.forEach(x -> {
+            x.decreaseTimeToLive();
         });
     }
 }
