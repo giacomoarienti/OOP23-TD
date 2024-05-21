@@ -49,16 +49,15 @@ class EnemyGraphicsImpl implements EnemyGraphics {
         }
 
         EnemyType.getEnemyTypes().parallelStream().forEach(et -> {
-            try {
-                BufferedImage source = loader.loadImage(ROOT + et.toString() + EXTENSION, sizes[et.level().ordinal()][et.type().ordinal()]);
-                BufferedImage[] sprites = enemiesSprites[et.level().ordinal()][et.type().ordinal()];
-                sprites[Direction.N.ordinal()] = source;
-                sprites[Direction.E.ordinal()] = Scalr.rotate(source, Rotation.CW_90);
-                sprites[Direction.S.ordinal()] = Scalr.rotate(source, Rotation.CW_180);
-                sprites[Direction.W.ordinal()] = Scalr.rotate(source, Rotation.CW_270);
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to initialize the image for type " + et.toString(), e);
-            }
+            Arrays.stream(Direction.values()).forEach(d -> {
+                    try {
+                        enemiesSprites[et.level().ordinal()][et.type().ordinal()][d.ordinal()] =
+                            loader.loadImage(ROOT + et.type().name() + d.name() + EXTENSION, sizes[et.level().ordinal()][et.type().ordinal()]);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to initialize the image for type " + et.toString() + " and direction " + d.toString(), e);
+                    };
+                }
+            );
         });
 
         healthBars = new BufferedImage[(EnemyInfo.HP_SCALE/HP_INCREMENT) + 1];

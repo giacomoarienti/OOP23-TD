@@ -140,7 +140,7 @@ public class ModelImpl implements ModelManager, Model {
      * {@inheritDoc}
      */
     public Stream<EnemyInfo> getEnemiesDTOs() {
-        return enemies.getEnemies().stream().map(e -> e.info());
+        return enemies.getEnemies().stream().map(e -> e.info()).peek(e -> System.out.println(e.pos().getDir()));
     }
 
     /**
