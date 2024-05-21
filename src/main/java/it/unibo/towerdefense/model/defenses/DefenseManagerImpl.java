@@ -12,6 +12,8 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
@@ -31,7 +33,7 @@ public class DefenseManagerImpl implements DefenseManager {
     private ModelManager manager;
     /**gets the attacks that occured in one loop.*/
     private Map<Integer,List<LogicalPosition>> attacksOnLoop = Map.of();
-
+    private static Logger logger = LoggerFactory.getLogger(DefenseManagerImpl.class);
     /**A constructor that recovers defense state from a json file.
      * @param jsonString the json content.
     */
@@ -151,7 +153,9 @@ public class DefenseManagerImpl implements DefenseManager {
     public int disassembleDefense(final LogicalPosition position) {
         Optional<MutablePair<Integer, Defense>> toDelete = find(position);
         int returnValue = toDelete.get().getValue().getSellingValue();
-        defenses.remove(toDelete.get().getKey());
+        logger.info("size before sell-->"+defenses.size());
+        defenses.remove(toDelete.get().getKey().intValue());
+        logger.info("size after sell-->"+defenses.size());
         return returnValue;
     }
 
