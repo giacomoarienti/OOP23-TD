@@ -4,6 +4,9 @@ package it.unibo.towerdefense.commons.dtos.enemies;
  * Data about an Enemy to be passed around (DTO).
  */
 public interface EnemyInfo {
+
+    static final int HP_SCALE = 100;
+
     /**
      * Getter for the LogicalPosition of the Enemy.
      *
@@ -12,9 +15,9 @@ public interface EnemyInfo {
     EnemyPosition pos();
 
     /**
-     * Getter for the Enemy's current hp percentage.
+     * Getter for the Enemy's current hp/HP_SCALE rateo.
      *
-     * @return the hp percentage
+     * @return the hp rateo
      */
     Integer hp();
 
