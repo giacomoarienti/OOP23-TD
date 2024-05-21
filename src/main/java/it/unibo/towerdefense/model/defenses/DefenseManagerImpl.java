@@ -32,7 +32,7 @@ public class DefenseManagerImpl implements DefenseManager {
     /**for getting end of map and entities.*/
     private ModelManager manager;
     /**gets the attacks that occured in one loop.*/
-    private Map<Integer,List<LogicalPosition>> attacksOnLoop = Map.of();
+    private Map<Defense,List<LogicalPosition>> attacksOnLoop = new HashMap<>();
     private static Logger logger = LoggerFactory.getLogger(DefenseManagerImpl.class);
     /**A constructor that recovers defense state from a json file.
      * @param jsonString the json content.
@@ -76,7 +76,7 @@ public class DefenseManagerImpl implements DefenseManager {
          def.getLevel(),
          def.getType(),
          def.getPosition(),
-         List.of());
+         attacksOnLoop.computeIfAbsent(def, x-> List.of()));
     }
 
     /**gets the models of buildable defenses for given defense
@@ -171,7 +171,7 @@ public class DefenseManagerImpl implements DefenseManager {
     @Override
     public Map<Integer, Integer> attackEnemies(final List<? extends Enemy> availableTargets) {
         Map<Integer, Integer> result = new HashMap<>();
-        for (Pair<Defense, Integer> def : this.defenses) {
+        for (Pair<Defense,Integer> def:defenses) {
             /**execute only if momentum is reached.*/
             if (def.getValue() >= DefenseFormulas.MOMENTUM_REQUIRED) {
                 Map<Integer, Integer> attackResult = def.getKey().getStrategy()
@@ -185,6 +185,7 @@ public class DefenseManagerImpl implements DefenseManager {
                     /**add attacks */
                     List<LogicalPosition> hitEnemies = new LinkedList<>();
                     attackResult.entrySet().forEach(x->hitEnemies.add(availableTargets.get(x.getKey()).getPosition()));
+                    attacksOnLoop.put(def.getKey(),hitEnemies);
                 }
             }
         }
@@ -220,6 +221,7 @@ public class DefenseManagerImpl implements DefenseManager {
         for(int i = 0; i < this.defenses.size(); i++) {
             descs.add(getDescriptionFrom(this.defenses.get(i).getKey()));
         }
+        attacksOnLoop.clear();
         return descs;
     }
 }
