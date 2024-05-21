@@ -32,11 +32,16 @@ public class CircleDrawable extends Drawable {
     @Override
     protected void paint(final Graphics2D g2d) {
         final Position pos = this.getPosition();
-        final Size size = this.getSize();
-        // draw rectangle
+        final Size size = this.getScaledSize();
+        // calc radius
+        final var radius = Math.min(size.getWidth(), size.getHeight()) / 2;
+        // draw circle
         g2d.setColor(this.color);
         final var circle = new Ellipse2D.Double(
-            pos.getX(), pos.getY(), size.getWidth(), size.getHeight()
+            pos.getX() - radius,
+            pos.getY() - radius,
+            2.0 * radius,
+            2.0 * radius
         );
         g2d.fill(circle);
     }

@@ -57,6 +57,16 @@ public abstract class Drawable {
     }
 
     /**
+     * Returns the scaled size of the drawable.
+     */
+    public Size getScaledSize() {
+        return Size.of(
+            (int) (this.size.getWidth() * this.scale.getLeft()),
+            (int) (this.size.getHeight() * this.scale.getRight())
+        );
+    }
+
+    /**
      * Sets the scale factor which the position will be multiplied by.
      * @param scale the scale factor
      */
