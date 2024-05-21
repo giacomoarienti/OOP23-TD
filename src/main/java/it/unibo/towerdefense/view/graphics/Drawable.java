@@ -49,6 +49,14 @@ public abstract class Drawable {
     }
 
     /**
+     * Returns the size of the drawable.
+     * @return the size of the object.
+     */
+    public Size getSize() {
+        return this.size.copy();
+    }
+
+    /**
      * Sets the scale factor which the position will be multiplied by.
      * @param scale the scale factor
      */
