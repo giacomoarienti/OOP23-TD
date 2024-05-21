@@ -14,7 +14,7 @@ import it.unibo.towerdefense.commons.engine.Size;
 public abstract class Drawable {
 
     private LogicalPosition position;
-    private Pair<Double, Double> scale = Pair.of(1.0, 1.0);
+    protected Pair<Double, Double> scale = Pair.of(1.0, 1.0);
     private Size size;
 
     /**
@@ -26,6 +26,11 @@ public abstract class Drawable {
         this.position = pos.clone();
         this.size = size.copy();
     }
+
+    /**
+     * Empty-constructor.
+     */
+    public Drawable() { }
 
     /**
      * Returns the position of the drawable.
