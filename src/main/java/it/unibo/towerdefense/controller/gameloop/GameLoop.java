@@ -89,7 +89,9 @@ public class GameLoop implements Runnable {
 		if (dt < UPDATE_RATE){
 			try {
 				Thread.sleep(UPDATE_RATE - dt);
-			} catch (Exception ex){}
+			} catch (Exception ex) {
+                logger.error("Error during waitForNextFrame()", ex);
+            }
 		}
 	}
 
