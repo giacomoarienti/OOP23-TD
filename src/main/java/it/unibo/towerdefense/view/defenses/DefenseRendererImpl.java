@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
+import it.unibo.towerdefense.model.defenses.DefenseType;
 import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 
@@ -23,6 +24,7 @@ public class DefenseRendererImpl implements DefenseRenderer {
     public void render(Stream<DefenseDescription> defenses) {
             defenses.forEach(x -> {
                 renderDefenses(x);
+                addAttacks(x);
             }
         );
         renderAttacks();
@@ -37,15 +39,28 @@ public class DefenseRendererImpl implements DefenseRenderer {
            renderer.getImageLoader().
            loadImage(DefenseImagePaths.buildDefensePath(def.getType(), def.getLevel()), DefenseImagePaths.IMAGE_SIZE);
            renderer.submitToCanvas(new ImageDrawable(image, def.getPosition()));
+           /**add attacks.*/
+
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+    /**Adds attacks to list.*/
+    private void addAttacks(DefenseDescription def) {
+        def.getTargets().stream().forEach(x ->
+            attacks.add(new AttackAnimationImpl(def.getType()==DefenseType.BOMBTOWER,
+            def.getPosition(), x))
+        );
     }
 
     /**loads attacks for given defense description.
      * @param def the description to load.
     */
     private void renderAttacks() {
+        /**remove finished animations*/
+        this.attacks = attacks.stream().filter(x->x.isAlive()).toList();
+        this.attacks.forEach(x -> {
 
+        });
     }
 }
