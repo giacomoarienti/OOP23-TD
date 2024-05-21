@@ -65,21 +65,30 @@ public class CanvasImpl extends JPanel implements Canvas {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        // clear the canvas
-        g2d.clearRect(START_X, START_Y, this.getWidth(), this.getHeight());
-        // draw all the elements in queue
+        // get synchronized copy of the queue
         final var syncQueue = Collections.synchronizedList(new ArrayList<>(this.queue).stream().filter(Objects::nonNull).toList());
         synchronized (syncQueue) {
-            for (final Drawable drawable: syncQueue) {
-                drawable.setScale(this.scale);
-                drawable.paint(g2d);
+            if (!syncQueue.isEmpty()) {
+                // clear the canvas
+                g2d.clearRect(START_X, START_Y, this.getWidth(), this.getHeight());
+                // draw each element
+                for (final Drawable drawable: syncQueue) {
+                    drawable.setScale(this.scale);
+                    drawable.paint(g2d);
+                }
             }
         }
-        // clear the queue and dispose the graphics
+        g2d.dispose();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void clearCanvasQueue() {
         synchronized (this.queue) {
             this.queue.clear();
         }
-        g2d.dispose();
     }
 
     /**

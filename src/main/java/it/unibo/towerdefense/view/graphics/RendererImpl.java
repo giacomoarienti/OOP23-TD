@@ -72,6 +72,13 @@ public class RendererImpl implements Renderer {
     /**
      * {@inheritDoc}
      */
+    public void clearCanvasQueue() {
+        this.window.clearCanvasQueue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void submitToCanvas(final Drawable drawable) {
         this.window.submitToCanvas(drawable);

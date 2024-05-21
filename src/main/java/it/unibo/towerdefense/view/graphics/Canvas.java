@@ -69,4 +69,9 @@ public interface Canvas {
      * @param height the height
      */
     void setBounds(int x, int y, int width, int height);
+
+    /**
+     * Clear the canvas queue.
+     */
+    void clearCanvasQueue();
 }

@@ -3,6 +3,8 @@ package it.unibo.towerdefense.commons.dtos.defenses;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.model.defenses.DefenseType;
 
+import java.util.List;
+
 /**Contains data that can be visualized in the build menu about defenses.*/
 public class DefenseDescription {
     /**Cost.*/
@@ -15,6 +17,8 @@ public class DefenseDescription {
     private DefenseType type;
     /**Position.*/
     private LogicalPosition position;
+    /**List of attacking targets */
+    private List<LogicalPosition> targets;
 
     /**simple constructor with all fields.
      * @param description
@@ -22,13 +26,14 @@ public class DefenseDescription {
      * @param cost
      * @param level
     */
-    public DefenseDescription(final int cost,
-    final int sell,final int level, final DefenseType type, final LogicalPosition pos) {
+    public DefenseDescription(final int cost,final int sell,final int level,
+     final DefenseType type, final LogicalPosition pos, final List<LogicalPosition> targets) {
         this.level = level;
         this.cost = cost;
         this.type = type;
         this.sellValue = sell;
         this.position = pos;
+        this.targets = targets;
     }
 
     /**getter for description.
@@ -78,5 +83,13 @@ public class DefenseDescription {
     */
     public LogicalPosition getPosition() {
         return this.position;
+    }
+
+    /**
+     *
+     * @return a List of positions being attacked
+     */
+    public List<LogicalPosition> getTargets() {
+        return this.targets;
     }
 }
