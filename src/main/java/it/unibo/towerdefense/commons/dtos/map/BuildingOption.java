@@ -8,7 +8,7 @@ public class BuildingOption extends DefenseDescription{
     private final boolean isPurchasable;
 
     public BuildingOption(DefenseDescription dd, boolean isPurchasable) {
-        super(dd.getCost(), dd.getSellValue(), dd.getLevel(), dd.getType(), dd.getPosition());
+        super(dd.getCost(), dd.getSellValue(), dd.getLevel(), dd.getType(), dd.getPosition(), dd.getTargets());
         this.isPurchasable = isPurchasable;
     }
 
