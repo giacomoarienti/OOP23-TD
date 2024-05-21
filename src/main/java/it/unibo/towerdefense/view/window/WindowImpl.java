@@ -88,13 +88,9 @@ public class WindowImpl implements Window {
         this.frame.setBackground(Color.BLACK);
         // set default closing operation
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        /*
-         * Instead of appearing at (0,0), upper left corner of the screen, this
-         * flag makes the OS window manager take care of the default positioning
-         * on screen. Results may vary, but it is generally the best choice.
-         */
+        // position the frame on top left corner
         this.frame.pack();
-        this.frame.setLocationByPlatform(true);
+        this.frame.setLocation(0, 0);
         // set frame not resizable
         this.frame.setResizable(false);
         // push frame on screen
