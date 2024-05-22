@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.model.scoreboard;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import it.unibo.towerdefense.model.score.Score;
 
@@ -12,10 +12,10 @@ import it.unibo.towerdefense.model.score.Score;
 public interface Scoreboard {
 
     /**
-     * Returns a unmodifiable ordered set of the loaded Scores.
-     * @return the ordered set
+     * Returns a unmodifiable list of the loaded Scores.
+     * @return the list of Scores
      */
-    Set<Score> getScoreboard();
+    List<Score> getScoreboard();
 
     /**
      * Reads and loads the score from the local storage.

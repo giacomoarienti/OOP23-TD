@@ -2,10 +2,9 @@ package it.unibo.towerdefense.model.scoreboard;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,10 +26,7 @@ public class ScoreboardImpl implements Scoreboard {
             + File.separator
             + "scoreboard.json";
 
-    private final Comparator<Score> comparator = Comparator
-            .comparing(Score::getWave, (o1, o2) -> -1 * Integer.compare(o1, o2))
-            .thenComparing(Score::getName, String::compareTo);
-    private final Set<Score> scores = new TreeSet<>(comparator);
+    private final List<Score> scores = new ArrayList<>();
     private final String filePath;
     private final Logger logger;
 
@@ -58,8 +54,8 @@ public class ScoreboardImpl implements Scoreboard {
      * {@inheritDoc}
      */
     @Override
-    public Set<Score> getScoreboard() {
-        return Collections.unmodifiableSet(this.scores);
+    public List<Score> getScoreboard() {
+        return Collections.unmodifiableList(this.scores);
     }
 
     /**
