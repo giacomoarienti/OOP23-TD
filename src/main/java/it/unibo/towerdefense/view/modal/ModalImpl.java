@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.view.modal;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.util.function.Consumer;
 
@@ -15,6 +16,8 @@ import javax.swing.JFrame;
  */
 public class ModalImpl implements Modal {
 
+    private static final Dimension PREFERRED_SIZE =
+        new Dimension(400, 300);
     private static final int BORDER_SIZE = 20;
     private static final String TITLE_FONT_NAME = "Calibri";
     private static final int TITLE_FONT_SIZE = 24;
@@ -39,7 +42,9 @@ public class ModalImpl implements Modal {
         this.onClose = onClose;
         // create the dialog frame
         this.dialog = new JDialog(parent, "", true);
+        this.dialog.getContentPane().setLayout(new BorderLayout());
         this.dialog.setUndecorated(true);
+        this.dialog.setPreferredSize(PREFERRED_SIZE);
         // create main panel
         final JPanel panel = new JPanel(new BorderLayout());
         this.dialog.getContentPane().add(panel);
