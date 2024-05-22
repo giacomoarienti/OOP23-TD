@@ -143,8 +143,8 @@ public class DefenseManagerImpl implements DefenseManager {
             defenses.add(MutablePair.of(buildables.get(choice), 0));
         } else {
             defenses.set(upgradable.get().getKey(),
-            MutablePair.of(factory.upgrade(upgradable.get().getValue(), choice,
-            Optional.of(DefenseMapFilePaths.pathFromType(buildables.get(choice).getType()))), 0));
+            MutablePair.of(new DefenseImpl(factory.upgrade(upgradable.get().getValue(), choice,
+            Optional.of(DefenseMapFilePaths.pathFromType(buildables.get(choice).getType())))), 0));
         }
     }
 
@@ -201,7 +201,8 @@ public class DefenseManagerImpl implements DefenseManager {
     public String toJSON() {
         JSONArray result = new JSONArray();
         for (Pair<Defense, Integer> def : this.defenses) {
-            result.put(new JSONObject(def.getKey().toJSON()));
+            Defense d = def.getLeft();
+            result.put(new JSONObject(d.toJSON()));
         }
         return result.toString();
     }
