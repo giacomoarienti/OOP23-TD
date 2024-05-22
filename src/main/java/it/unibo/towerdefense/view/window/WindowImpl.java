@@ -83,6 +83,8 @@ public class WindowImpl implements Window {
         infoPanel.add(container);
         container.add(this.gamePanel);
         container.add(this.controlsPanel);
+        // ignore repaint from os
+        this.frame.setIgnoreRepaint(true);
     }
 
     /**

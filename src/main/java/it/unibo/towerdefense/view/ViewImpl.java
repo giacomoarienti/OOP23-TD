@@ -171,8 +171,8 @@ public class ViewImpl implements View {
         this.renderer.clearCanvasQueue();
         // render state
         this.mapRenderer.renderPath(this.renderer, state.getMap());
-        this.defenseRenderer.render(state.getDefenses());
         this.enemyRenderer.render(state.getEnemies());
+        this.defenseRenderer.render(state.getDefenses());
         // repaint canvas
         this.renderer.renderCanvas();
 
