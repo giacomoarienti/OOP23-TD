@@ -83,8 +83,6 @@ public class WindowImpl implements Window {
         infoPanel.add(container);
         container.add(this.gamePanel);
         container.add(this.controlsPanel);
-        // ignore repaint from os
-        this.frame.setIgnoreRepaint(true);
     }
 
     /**
@@ -242,6 +240,18 @@ public class WindowImpl implements Window {
     @Override
     public void clearCanvasQueue() {
         this.canvas.clearCanvasQueue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void closeModal() {
+        if (!this.openModals.isEmpty()) {
+            final int lastIdx = this.openModals.size() - 1;
+            this.openModals.get(lastIdx).close();
+            this.openModals.remove(lastIdx);
+        }
     }
 
     private void hideAllModals() {

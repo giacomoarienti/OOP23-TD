@@ -109,4 +109,9 @@ public interface Window {
      * Clear the canvas queue.
      */
     void clearCanvasQueue();
+
+    /**
+     * Close the current modal.
+     */
+    void closeModal();
 }
