@@ -53,7 +53,7 @@ class TestScoreboardImpl {
      */
     @Test
     void testSaveScore() throws IOException {
-        Assertions.assertTrue(this.scoreboard.saveScore(NAME_1, WAVE_1));
+        Assertions.assertNotNull(this.scoreboard.saveScore(NAME_1, WAVE_1));
     }
 
     /**
@@ -63,9 +63,9 @@ class TestScoreboardImpl {
      */
     @Test
     void testLoadScoresWithData() throws IOException {
-        Assertions.assertTrue(this.scoreboard.saveScore(NAME_1, WAVE_1));
-        Assertions.assertTrue(this.scoreboard.saveScore(NAME_2, WAVE_2));
-        Assertions.assertTrue(this.scoreboard.saveScore(NAME_3, WAVE_3));
+        Assertions.assertNotNull(this.scoreboard.saveScore(NAME_1, WAVE_1));
+        Assertions.assertNotNull(this.scoreboard.saveScore(NAME_2, WAVE_2));
+        Assertions.assertNotNull(this.scoreboard.saveScore(NAME_3, WAVE_3));
         // load the scoreboard
         this.scoreboard.loadScores();
         final var scores = this.scoreboard.getScoreboard();

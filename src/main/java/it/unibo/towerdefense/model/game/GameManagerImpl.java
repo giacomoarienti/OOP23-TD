@@ -318,7 +318,7 @@ public class GameManagerImpl implements GameManager {
         }
 
         /**
-         * Constructs the Consu,er in a non-binded state.
+         * Constructs the Consumer in a non-binded state.
          * Calls to methods other than bind in this state will result in an
          * IllegalStateException.
          */
