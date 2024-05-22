@@ -14,16 +14,17 @@ import it.unibo.towerdefense.commons.engine.Size;
 public class EmptyCircleDrawable extends Drawable {
 
     private final Color color;
+    private final int radius;
 
     /**
      * Constructor from Size, LogicalPosition and Color.
      * @param pos center position of the shape
-     * @param size the size of the shape
-     * @param color the color of the border
+     * @param radius radius of the circle
      */
-    public EmptyCircleDrawable(final LogicalPosition pos, final Size size, final Color color) {
-        super(pos, size);
+    public EmptyCircleDrawable(final LogicalPosition pos, final int radius, final Color color) {
+        super(pos, Size.of(radius * 2, radius * 2));
         this.color = color;
+        this.radius = radius;
     }
 
     /**
@@ -31,17 +32,15 @@ public class EmptyCircleDrawable extends Drawable {
      */
     @Override
     protected void paint(final Graphics2D g2d) {
-        final Position pos = this.getPosition();
-        final Size size = this.getScaledSize();
-        // calc radius
-        final var radius = Math.min(size.getWidth(), size.getHeight()) / 2;
+        final Position pos = this.getCenterPosition();
+        final var scaledRadius = this.scale(this.radius);
         // draw circle
         g2d.setColor(this.color);
         final var circle = new Ellipse2D.Double(
-            pos.getX() - radius,
-            pos.getY() - radius,
-            2.0 * radius,
-            2.0 * radius
+            pos.getX() - scaledRadius,
+            pos.getY() - scaledRadius,
+            2.0 * scaledRadius,
+            2.0 * scaledRadius
         );
         g2d.draw(circle);
     }

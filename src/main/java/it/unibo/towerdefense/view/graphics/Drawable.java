@@ -54,6 +54,33 @@ public abstract class Drawable {
     }
 
     /**
+     * Returns the position of center the drawable.
+     * @return the size of the object.
+     */
+    public Position getCenterPosition() {
+        return Position.of(
+            (int) (
+               this.position.getX()
+                    * this.scale.getLeft()
+                    / this.position.getScalingFactor()
+            ),
+            (int) (
+                this.position.getY()
+                    * this.scale.getRight()
+                    / this.position.getScalingFactor()
+            )
+        );
+    }
+
+    /**
+     * Returns the scaled value of the given value.
+     * @param value the value to scale
+     */
+    public double scale(final int value) {
+        return value * this.scale.getLeft() / this.position.getScalingFactor();
+    }
+
+    /**
      * Returns the size of the drawable.
      * @return the size of the object.
      */
