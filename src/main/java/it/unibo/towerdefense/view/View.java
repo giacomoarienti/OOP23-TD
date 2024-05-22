@@ -120,4 +120,9 @@ public interface View {
      * @param dto the score dto
      */
     void displayGameOver(ScoreDTO dto);
+
+    /**
+     * Close the current open modal.
+     */
+    void closeModal();
 }

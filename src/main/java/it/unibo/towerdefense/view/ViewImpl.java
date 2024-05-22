@@ -218,6 +218,14 @@ public class ViewImpl implements View {
         this.window.displayModal("Game Over", new GameOverViewImpl(dto));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void closeModal() {
+        this.window.closeModal();
+    }
+
     private void initRenderers(final Size mapSize) {
         this.renderer = new RendererImpl(mapSize, this.window);
         // init renderers
