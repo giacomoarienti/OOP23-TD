@@ -3,9 +3,15 @@ package it.unibo.towerdefense.view.defenses;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
+
+import javax.management.RuntimeErrorException;
+
+import java.awt.Image;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
@@ -18,13 +24,14 @@ import it.unibo.towerdefense.view.graphics.LineDrawable;
 
 public class DefenseRendererImpl implements DefenseRenderer {
 
-    private Renderer renderer;
+    final private Renderer renderer;
     private List<AttackAnimation> attacks;
+    private Map<DefenseType,List<Image>> mappedDefenseImages;
 
     public DefenseRendererImpl(Renderer renderer) {
         this.renderer = renderer;
         attacks = new LinkedList<>();
-        attacks.add(new AttackAnimationImpl(false, new LogicalPosition(0, 0), new LogicalPosition(0, 0)));
+        loadImages();
     }
 
     @Override
@@ -41,16 +48,8 @@ public class DefenseRendererImpl implements DefenseRenderer {
      * @param def the description to load.
     */
     private void renderDefenses(DefenseDescription def) {
-        try {
-           BufferedImage image =
-           renderer.getImageLoader().
-           loadImage(DefenseImagePaths.buildDefensePath(def.getType(), def.getLevel()), DefenseImagePaths.IMAGE_SIZE);
+           Image image = this.mappedDefenseImages.get(def.getType()).get(def.getLevel()-1);
            renderer.submitToCanvas(new ImageDrawable(image, def.getPosition()));
-           /**add attacks.*/
-
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
-        }
     }
     /**Adds attacks to list.*/
     private void addAttacks(DefenseDescription def) {
@@ -69,10 +68,28 @@ public class DefenseRendererImpl implements DefenseRenderer {
 
         this.attacks.forEach(x -> {
             renderer.submitToCanvas(new LineDrawable(x.getAttacked(), x.getAttacker(), Color.WHITE));
-            if(x.isAreaBased()) {
-                renderer.submitToCanvas(new CircleDrawable(x.getAttacked(), new SizeImpl(2,2), Color.ORANGE));
-            }
             x.decreaseTimeToLive();
         });
+    }
+
+    private void loadImages() {
+        this.mappedDefenseImages = new HashMap<>();
+        for (DefenseType defType : DefenseType.values()) {
+            if (defType == DefenseType.NOTOWER) {
+                continue;
+            }
+            List<Image> images = new LinkedList<>();
+            for(int i=1; i<=4; i++){
+                try{
+                    System.out.println(defType);
+                    Image image = renderer.getImageLoader().loadImage(DefenseImagePaths.buildDefensePath(defType, i), 1);
+                    images.add(image);
+                }
+                catch (IOException e){
+                    throw new RuntimeException(e.getMessage());
+                }
+            }
+            mappedDefenseImages.put(defType, images);
+        }
     }
 }

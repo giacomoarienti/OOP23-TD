@@ -16,7 +16,7 @@ public class AttackAnimationImpl implements AttackAnimation {
      * @param Attacked
     */
     public AttackAnimationImpl(boolean isAreaBased,LogicalPosition attacker, LogicalPosition attacked) {
-        this.timeToLive = 90;
+        this.timeToLive = 50;
         this.isAreaBased = isAreaBased;
         this.attacked = attacked;
         this.attacker = attacker;
