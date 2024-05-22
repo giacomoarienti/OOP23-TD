@@ -97,6 +97,14 @@ public class ModalImpl implements Modal {
      * {@inheritDoc}
      */
     @Override
+    public void dispose() {
+        this.closeModal();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setVisible(final boolean b) {
         this.dialog.setVisible(b);
     }

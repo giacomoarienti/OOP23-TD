@@ -16,6 +16,11 @@ public interface Modal {
     void close();
 
     /**
+     * Closes the modal window without performing any action.
+     */
+    void dispose();
+
+    /**
      * Sets the visibility of the modal window.
      */
     void setVisible(boolean b);
