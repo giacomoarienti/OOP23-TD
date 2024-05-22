@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.view.savings;
 
-import java.awt.FlowLayout;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -8,6 +7,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import it.unibo.towerdefense.controller.savings.SavingsController;
 import it.unibo.towerdefense.model.saving.Saving;
@@ -37,7 +38,8 @@ public class SavingsViewImpl implements SavingsView {
         // get the list of savings
         final List<Saving> savings = this.controller.getSavings();
         // create main panel
-        final JPanel panel = new JPanel(new FlowLayout());
+        final JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         // create inner panel
         final JPanel innerPanel = new JPanel();
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
@@ -63,9 +65,13 @@ public class SavingsViewImpl implements SavingsView {
         final JButton closeButton = new JButton("Close");
         closeButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
         closeButton.addActionListener(e -> onClose.run());
-        innerPanel.add(closeButton);
-        // return the main panel
-        panel.add(innerPanel);
+        // create scroll pane
+        final JScrollPane scrollPane = new JScrollPane(innerPanel);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        // add components to the main panel
+        panel.add(scrollPane);
+        panel.add(closeButton);
         return panel;
     }
 
