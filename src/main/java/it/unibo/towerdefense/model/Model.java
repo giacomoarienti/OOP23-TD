@@ -65,6 +65,10 @@ public interface Model {
      */
     Stream<CellInfo> getMapDTOs();
 
+    /**
+     * Return the possible building options in the selected Cell.
+     * @return list of options
+     */
     List<BuildingOption> getBuildingOptions();
 
     /**
