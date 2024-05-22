@@ -6,14 +6,35 @@ import it.unibo.towerdefense.commons.engine.PositionImpl;
 /**
  * An abstract class that implements methods of a generic Cell.
  */
-public abstract class CellAbs extends PositionImpl implements Cell {
+public abstract class CellAbs implements Cell {
+
+    private final int x;
+    private final int y;
+
 
     /**
      * Constructor from coordinates.
      * @param coords coordinates to identify the cell in the map.
      */
     public CellAbs(final Position coords) {
-        super(coords);
+        this.x = coords.getX();
+        this.y = coords.getY();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getY() {
+        return y;
     }
 
     /**

@@ -1,12 +1,12 @@
 package it.unibo.towerdefense.model.map;
 
+import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.commons.engine.Position;
 
 /**
  * Interface that model a Cell, the square spatial unit of game.
  */
-public interface Cell extends Position {
+public interface Cell extends JsonSerializable {
 
     /**
      *I getter.

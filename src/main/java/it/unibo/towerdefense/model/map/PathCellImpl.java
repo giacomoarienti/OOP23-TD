@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
+import it.unibo.towerdefense.commons.engine.PositionImpl;
 
 /**
  * Class that implements PathCell methods.
@@ -67,7 +68,7 @@ public class PathCellImpl extends CellAbs implements PathCell {
     @Override
     public String toJSON() {
         return new JSONObject()
-            .put("pos", ((Position) this).toJSON())
+            .put("pos", new PositionImpl(getX(), getY()).toJSON())
             .put("in", this.in)
             .put("out", this.out)
             .put("distance", distanceToEnd)

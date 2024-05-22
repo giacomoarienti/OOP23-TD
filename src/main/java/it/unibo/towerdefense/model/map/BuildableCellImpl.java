@@ -44,7 +44,7 @@ public class BuildableCellImpl extends CellAbs implements BuildableCell {
     @Override
     public String toJSON() {
         return new JSONObject()
-            .put("pos", ((Position) this).toJSON())
+        .put("pos", new PositionImpl(getX(), getY()).toJSON())
             .put("isBuildable", isBuildable)
             .toString();
     }
