@@ -42,6 +42,11 @@ public final class Constants {
      */
     public static final Size MAP_SIZE = new SizeImpl(20, 20);
 
+    /**
+     * The default background color.
+     */
+    public static final String BACKGROUND_COLOR = "#CF9C3C";
+
     private Constants() {
     }
 }

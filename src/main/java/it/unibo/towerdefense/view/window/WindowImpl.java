@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
@@ -84,6 +85,11 @@ public class WindowImpl implements Window {
         infoPanel.add(container);
         container.add(this.gamePanel);
         container.add(this.controlsPanel);
+        // set background color
+        this.setPanelBackground(controlsPanel);
+        this.setPanelBackground(gamePanel);
+        this.setPanelBackground(buyMenu);
+        this.setPanelBackground(infoPanel);
     }
 
     /**
@@ -172,9 +178,7 @@ public class WindowImpl implements Window {
      */
     @Override
     public void setGameContent(final JPanel panel) {
-        this.gamePanel.removeAll();
-        this.gamePanel.add(panel);
-        this.gamePanel.revalidate();
+        this.addContent(this.gamePanel, panel);
     }
 
     /**
@@ -182,9 +186,7 @@ public class WindowImpl implements Window {
      */
     @Override
     public void setControlsContent(final JPanel panel) {
-        this.controlsPanel.removeAll();
-        this.controlsPanel.add(panel);
-        this.controlsPanel.revalidate();
+        this.addContent(this.controlsPanel, panel);
     }
 
     /**
@@ -192,12 +194,7 @@ public class WindowImpl implements Window {
      */
     @Override
     public void setBuyMenuContent(final JPanel panel) {
-        this.buyMenu.removeAll();
-        if (Objects.nonNull(panel)) {
-            this.buyMenu.add(panel);
-        }
-        this.buyMenu.revalidate();
-        this.buyMenu.repaint();
+        this.addContent(this.buyMenu, panel);
     }
 
     /**
@@ -290,5 +287,19 @@ public class WindowImpl implements Window {
         System.out.println("closeAllModals");
         this.openModals.forEach(Modal::dispose);
         this.openModals.clear();
+    }
+
+    private void setPanelBackground(final JPanel panel) {
+        panel.setBackground(Color.decode(Constants.BACKGROUND_COLOR));
+    }
+
+    private void addContent(final JPanel panel, final JPanel content) {
+        panel.removeAll();
+        if (Objects.nonNull(content)) {
+            panel.add(content);
+            this.setPanelBackground(content);
+        }
+        panel.revalidate();
+        panel.repaint();
     }
 }
