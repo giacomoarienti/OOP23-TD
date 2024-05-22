@@ -38,7 +38,7 @@ public final class DefenseMapFilePaths {
             case ARCHERTOWER:
                 return ARCHER_TOWER_UPGRADES;
             case BOMBTOWER:
-                return ARCHER_TOWER_UPGRADES;
+                return BOMB_TOWER_UPGRADES;
             case WIZARDTOWER:
                 return WIZARD_TOWER_UPGRADES;
             case THUNDERINVOKER:

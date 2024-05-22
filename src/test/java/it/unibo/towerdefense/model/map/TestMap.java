@@ -24,6 +24,13 @@ public class TestMap {
     }
 
     @Test
+    void testSerializable() {
+        String jsondata = map.toJSON();
+        map = new MapManagerImpl(jsondata);
+        Assertions.assertEquals(spawn, map.getSpawnPosition());
+    }
+
+    @Test
     void testGetNextPosition() {
         System.out.println(spawn);
         try {
@@ -40,4 +47,5 @@ public class TestMap {
             Assertions.fail();
         }
     }
+
 }

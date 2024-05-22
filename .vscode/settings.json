@@ -5,11 +5,15 @@
         "drawables",
         "dtos",
         "gamelauncher",
+        "jsondata",
         "savingloader",
         "towerdefense",
         "unibo"
     ],
     "files.eol": "\n",
     "cSpell.enabled": true,
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    "cSpell.ignoreWords": [
+        "Buildable"
+    ]
 }

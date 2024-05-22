@@ -18,32 +18,32 @@ public enum MapDirection {
     /** Sud. */
     S(0, +1, Direction.S);
 
-    private final int orizontal;
+    private final int horizontal;
     private final int vertical;
     private final Direction dir;
 
     /**
-     * Constructor from versor component.
-     * @param orizontal
-     * @param vertical
-     * @dir equivalent direction in commons.engine.Direction
+     * Constructor from verser component.
+     * @param horizontal horizontal verser component.
+     * @param vertical vertical verser component.
+     * @param dir equivalent direction in commons.engine.Direction
      */
-    MapDirection(final int orizontal, final int vertical, final Direction dir) {
-        this.orizontal = orizontal;
+    MapDirection(final int horizontal, final int vertical, final Direction dir) {
+        this.horizontal = horizontal;
         this.vertical = vertical;
         this.dir = dir;
     }
 
     /**
-     * Orizontal versor component getter.
+     * Horizontal verser component getter.
      * @return values -1, 0 or +1
      */
-    public int orizontal() {
-        return orizontal;
+    public int horizontal() {
+        return horizontal;
     }
 
     /**
-     * Vertical versor component getter.
+     * Vertical verser component getter.
      * @return values -1, 0 or +1
      */
     public int vertical() {
@@ -51,11 +51,11 @@ public enum MapDirection {
     }
 
     /**
-     * Versor getter.
-     * @return Return versor as a Position
+     * Verser getter.
+     * @return Return verser as a Position
      */
     public Position asPosition() {
-        return new PositionImpl(orizontal, vertical);
+        return new PositionImpl(horizontal, vertical);
     }
 
     /**

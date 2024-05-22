@@ -121,6 +121,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     public Defense upgrade(final Defense current, final int upgradeIndex, final Optional<String> upgradesFileName)
     throws IOException {
         LogicalPosition defPosition = current.getPosition();
+        System.out.println("defPosition="+defPosition);
         Defense upgradedVersion = current.getPossibleUpgrades().stream().toList().get(upgradeIndex);
         upgradedVersion.setPosition(defPosition);
         setStrategyFor(upgradedVersion);
@@ -130,6 +131,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
             upgradedVersion.getType(),
             upgradedVersion.getLevel()));
         }
+        System.out.println("new tower pos="+upgradedVersion.getPosition());
         return upgradedVersion;
     }
 }

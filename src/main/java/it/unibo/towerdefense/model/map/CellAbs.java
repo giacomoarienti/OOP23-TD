@@ -2,7 +2,7 @@ package it.unibo.towerdefense.model.map;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
-import it.unibo.towerdefense.commons.engine.PositionImpl;
+
 /**
  * An abstract class that implements methods of a generic Cell.
  */
