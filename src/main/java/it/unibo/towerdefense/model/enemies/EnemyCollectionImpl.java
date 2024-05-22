@@ -13,7 +13,6 @@ import it.unibo.towerdefense.commons.patterns.Observer;
  * {@inheritDoc}.
  */
 class EnemyCollectionImpl implements EnemyCollection {
-
     private final Set<RichEnemy> enemies;
     private final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction;
     private final Set<Observer<Enemy>> enemyDeathObservers;
@@ -51,7 +50,7 @@ class EnemyCollectionImpl implements EnemyCollection {
     }
 
     /**
-     * Method called by the dying enemies to notify the collection of their death.
+     * {@inheritDoc}.
      */
     @Override
     public void notify(final RichEnemy which) {
@@ -93,5 +92,4 @@ class EnemyCollectionImpl implements EnemyCollection {
     public boolean areDead() {
         return enemies.isEmpty();
     }
-
 }

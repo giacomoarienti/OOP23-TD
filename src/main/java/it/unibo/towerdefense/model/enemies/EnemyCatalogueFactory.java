@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.model.enemies;
 
-import java.io.IOException;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Set;
@@ -16,7 +15,6 @@ import com.google.common.math.IntMath;
 
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
-import it.unibo.towerdefense.commons.utils.file.FileUtils;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 
 /**

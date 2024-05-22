@@ -30,7 +30,6 @@ public class EnemyRendererImpl implements EnemyRenderer {
         renderer.submitAllToCanvas(enemies
             .parallel()
             .sorted((e1, e2) -> Long.compare(e1.pos().getDistanceFromStart(), e2.pos().getDistanceFromStart()))
-            .peek(e -> System.out.println(e.hp()))
             .flatMap(e -> graphics.getDrawablesFor(e))
             .toList());
     }
