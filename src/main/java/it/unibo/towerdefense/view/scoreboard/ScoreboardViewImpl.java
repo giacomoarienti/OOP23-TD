@@ -77,16 +77,18 @@ public class ScoreboardViewImpl implements ScoreboardView {
                 );
             }
         }
-        // add close button
+        // create close button
         final JButton closeButton = new JButton(CLOSE);
         closeButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
         closeButton.addActionListener(e -> onClose.run());
-        innerPnl.add(closeButton);
-        // return the main panel
+        // create scroll panel
         final JScrollPane scrollPane = new JScrollPane(innerPnl);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        // add components to the main panel
         panel.add(scrollPane);
+        panel.add(closeButton);
+        // return the main panel
         return panel;
     }
 
