@@ -83,7 +83,7 @@ public class ViewImpl implements View {
             throw new IllegalStateException("Window not created yet");
         }
         final var savingsView = new SavingsViewImpl(controller);
-        this.window.displayModal("Savings", savingsView, true);
+        this.window.displayModal("Savings", savingsView);
     }
 
     /**
@@ -223,8 +223,8 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void closeModal() {
-        this.window.closeModal();
+    public void closeModals() {
+        this.window.closeModals();
     }
 
     private void initRenderers(final Size mapSize) {

@@ -3,7 +3,6 @@ package it.unibo.towerdefense.view.gameover;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,8 +16,6 @@ import it.unibo.towerdefense.commons.dtos.score.ScoreDTO;
 public class GameOverViewImpl implements GameOverView {
 
     private static final int FONT_SIZE = 20;
-    private static final int BORDER_SIZE = 10;
-    private static final int RIGHT_BORDER = 0;
     private static final String CLOSE = "Close";
     private static final String SCORE = "Score: ";
 

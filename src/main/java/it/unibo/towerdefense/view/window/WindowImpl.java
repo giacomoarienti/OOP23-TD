@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.awt.Color;
 
 import javax.swing.BoxLayout;
@@ -150,27 +149,17 @@ public class WindowImpl implements Window {
     @Override
     public void displayModal(
         final String title,
-        final ModalContent content,
-        final boolean closeAll
+        final ModalContent content
     ) {
         this.hideAllModals();
-        final Consumer<Modal> action = closeAll ? this::closeAllModals : this::removeModal;
         final Modal modal = new ModalImpl(
             this.frame,
             title,
             content,
-            action
+            this::removeModal
         );
         this.addModal(modal);
         modal.display();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void displayModal(final String title, final ModalContent content) {
-        this.displayModal(title, content, false);
     }
 
     /**
@@ -257,12 +246,9 @@ public class WindowImpl implements Window {
      * {@inheritDoc}
      */
     @Override
-    public void closeModal() {
-        if (!this.openModals.isEmpty()) {
-            final int lastIdx = this.openModals.size() - 1;
-            this.openModals.get(lastIdx).close();
-            this.openModals.remove(lastIdx);
-        }
+    public void closeModals() {
+        this.openModals.forEach(Modal::dispose);
+        this.openModals.clear();
     }
 
     private void hideAllModals() {
@@ -281,12 +267,6 @@ public class WindowImpl implements Window {
             this.openModals.get(this.openModals.size() - 1)
                 .setVisible(true);
         }
-    }
-
-    private void closeAllModals(final Modal modal) {
-        System.out.println("closeAllModals");
-        this.openModals.forEach(Modal::dispose);
-        this.openModals.clear();
     }
 
     private void setPanelBackground(final JPanel panel) {

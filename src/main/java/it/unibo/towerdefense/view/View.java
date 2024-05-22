@@ -122,7 +122,7 @@ public interface View {
     void displayGameOver(ScoreDTO dto);
 
     /**
-     * Close the current open modal.
+     * Close all the open modal.
      */
-    void closeModal();
+    void closeModals();
 }

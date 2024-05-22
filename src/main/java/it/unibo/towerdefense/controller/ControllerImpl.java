@@ -92,6 +92,8 @@ public class ControllerImpl implements Controller {
         // init the model with saving
         this.model.init(saving);
         this.afterStart();
+        // close all open modals
+        this.view.closeModals();
     }
 
     /**
