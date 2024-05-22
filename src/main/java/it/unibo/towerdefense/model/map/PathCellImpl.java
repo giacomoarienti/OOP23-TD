@@ -58,8 +58,11 @@ public class PathCellImpl extends CellAbs implements PathCell {
      */
     @Override
     public LogicalPosition inSideMidpoint() {
-        return new LogicalPosition(getCenter().getX() - getInDirection().orizontal() * LogicalPosition.SCALING_FACTOR / 2 + getInDirection().orizontal(),
-            getCenter().getY() - getInDirection().vertical() * LogicalPosition.SCALING_FACTOR / 2 + getInDirection().vertical());
+        int factor = LogicalPosition.SCALING_FACTOR / 2;
+        return new LogicalPosition(
+            getCenter().getX() - getInDirection().horizontal() * factor + getInDirection().horizontal(),
+            getCenter().getY() - getInDirection().vertical() * factor + getInDirection().vertical()
+        );
     }
 
     /**

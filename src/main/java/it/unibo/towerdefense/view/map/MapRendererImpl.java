@@ -14,6 +14,9 @@ import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 import it.unibo.towerdefense.commons.utils.images.ImageLoader;
 
+/**
+ * Class that implements MapRenderer with images from specific files.
+ */
 public class MapRendererImpl implements MapRenderer {
 
     private final static String ROOT = "it/unibo/towerdefense/view/map/";
@@ -31,18 +34,21 @@ public class MapRendererImpl implements MapRenderer {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void renderPath(Renderer gr, final Stream<CellInfo> map) {
-        final var mapDrawables = map.map(c -> new ImageDrawable(getImage(c), c.getPosition())).toList();
-        gr.submitBackgroundAllToCanvas(mapDrawables);
+    public void render(final Renderer renderer, final Stream<CellInfo> mapInfo) {
+        final var mapDrawables = mapInfo.map(c -> new ImageDrawable(getImage(c), c.getPosition())).toList();
+        renderer.submitBackgroundAllToCanvas(mapDrawables);
     }
 
 
-    private BufferedImage getImage(CellInfo c) {
+    private BufferedImage getImage(final CellInfo c) {
         return c.isPathCell() ? path(c.getDirections().getLeft(), c.getDirections().getRight()) : buildable(c);
     }
 
-    private BufferedImage buildable(CellInfo c) {
+    private BufferedImage buildable(final CellInfo c) {
         return !c.isBuildable() ? images.get(3) : c.isSelected() ? images.get(4) : images.get(2);
     }
 

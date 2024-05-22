@@ -124,6 +124,9 @@ public class GameMapImpl implements GameMap {
         return pos.getX() >= 0 && pos.getX() < size.getWidth() && pos.getY() >= 0 && pos.getY() < size.getHeight();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Stream<Cell> getMap() {
         return toStream(map, size);
@@ -156,8 +159,8 @@ public class GameMapImpl implements GameMap {
 
     private Position generatePosition() {
         return new PositionImpl(
-            f(size.getWidth() , PATH_DIRECTION.orizontal()),
-            f(size.getHeight() , PATH_DIRECTION.vertical()));
+            f(size.getWidth(), PATH_DIRECTION.horizontal()),
+            f(size.getHeight(), PATH_DIRECTION.vertical()));
     }
 
     private static int f(final int dimension, final int versor) {

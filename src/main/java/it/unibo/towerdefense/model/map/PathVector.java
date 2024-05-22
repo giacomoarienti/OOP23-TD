@@ -9,4 +9,4 @@ import it.unibo.towerdefense.commons.engine.LogicalPosition;
  * @param direction direction in this position
  * @param distanceToEnd distance from end of path
  */
-public record PathVector(LogicalPosition position, Direction direction, int distanceToEnd) {};
+public record PathVector(LogicalPosition position, Direction direction, int distanceToEnd) { };
