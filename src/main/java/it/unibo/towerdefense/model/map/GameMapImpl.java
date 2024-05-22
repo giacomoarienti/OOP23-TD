@@ -74,7 +74,7 @@ public class GameMapImpl implements GameMap {
      * @param spawn the spawn cell.
      * @param end the end of path.
      */
-    public GameMapImpl(final Stream<PathCell> path, final Stream<BuildableCell> buildable,
+    private GameMapImpl(final Stream<PathCell> path, final Stream<BuildableCell> buildable,
         final Size size, final PathCell spawn, final PathCell end) {
 
         this.size = size;
@@ -141,7 +141,7 @@ public class GameMapImpl implements GameMap {
         final JSONArray jArrayPath = new JSONArray();
         final JSONArray jArrayBuildable = new JSONArray();
 
-        jObj.put("spawn", end.toJSON()).put("end", end.toJSON())
+        jObj.put("spawn", spawn.toJSON()).put("end", end.toJSON())
             .put("height", size.getHeight()).put("width", size.getWidth());
 
         getMap().forEach(c -> {
@@ -163,8 +163,8 @@ public class GameMapImpl implements GameMap {
             f(size.getHeight(), PATH_DIRECTION.vertical()));
     }
 
-    private static int f(final int dimension, final int versor) {
-        return versor > 0 ? dimension : versor < 0 ? 0 : dimension / 2;
+    private static int f(final int dimension, final int verser) {
+        return verser > 0 ? dimension : verser < 0 ? 0 : dimension / 2;
     }
 
     /**
