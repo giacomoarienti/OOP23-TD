@@ -2,6 +2,7 @@ package it.unibo.towerdefense.commons.dtos.scoreboard;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import it.unibo.towerdefense.model.score.Score;
 import it.unibo.towerdefense.model.scoreboard.Scoreboard;
@@ -27,5 +28,15 @@ public class ScoreboardDTO {
      */
     public Set<Score> getScores() {
         return Collections.unmodifiableSet(this.scores);
+    }
+
+    /**
+     * Returns the top ten scores.
+     * @return the top ten scores
+     */
+    public Set<Score> getTopTenScores() {
+        return this.scores.stream()
+            .limit(10)
+            .collect(Collectors.toSet());
     }
 }

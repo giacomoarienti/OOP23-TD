@@ -65,7 +65,7 @@ public class ScoreboardViewImpl implements ScoreboardView {
             // add scoreboard header
             innerPnl.add(new ScoreboardEntry(COLUMN_1, COLUMN_2, true));
             // for each scoreboard entry, create a panel and add to inner panel
-            for (final Score entry : this.scoreboard.getScores()) {
+            for (final Score entry: this.scoreboard.getTopTenScores()) {
                 innerPnl.add(
                     new ScoreboardEntry(
                         entry.getName(),
