@@ -28,7 +28,7 @@ public class ReversedPathFactory {
      * @return the path
      */
     public Iterator<MapDirection> diagonal() {
-        return repeatPattern(List.of(MapDirection.E, MapDirection.S));
+        return repeatPattern(List.of(MapDirection.W, MapDirection.S));
     }
 
     /**
@@ -46,9 +46,9 @@ public class ReversedPathFactory {
 
             @Override
             public MapDirection apply(final MapDirection d) {
-                if (counter <
-                random.nextInt(Math.abs(direciton.orizontal() * size.getHeight() + direciton.vertical() * size.getWidth()) /
-                (d == direciton ? 4 : 2)
+                if (counter
+                < random.nextInt(Math.abs(direciton.horizontal() * size.getHeight() + direciton.vertical() * size.getWidth())
+                / (d == direciton ? 4 : 2)
                 )) {
                     counter++;
                     return d;
@@ -61,7 +61,12 @@ public class ReversedPathFactory {
         }).map(d -> opposite(d)).peek(d -> System.out.println(d)).iterator();
     }
 
-    private Iterator<MapDirection> repeatPattern(final List<MapDirection> list) {
+    /**
+     * Repeat cyclically the given pattern.
+     * @param list list of directions to repeat.
+     * @return iterator of repeated directions.
+     */
+    public Iterator<MapDirection> repeatPattern(final List<MapDirection> list) {
         return Stream.generate(() -> list).flatMap(l -> l.stream().map(d -> opposite(d))).iterator();
     }
 

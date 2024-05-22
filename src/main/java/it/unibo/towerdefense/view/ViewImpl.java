@@ -27,6 +27,7 @@ import it.unibo.towerdefense.view.gameover.GameOverViewImpl;
 import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.RendererImpl;
 import it.unibo.towerdefense.view.map.BuyMenu;
+import it.unibo.towerdefense.view.map.BuyMenuImpl;
 import it.unibo.towerdefense.view.map.MapRenderer;
 import it.unibo.towerdefense.view.map.MapRendererImpl;
 import it.unibo.towerdefense.view.menus.StartMenuViewImpl;
@@ -170,7 +171,7 @@ public class ViewImpl implements View {
         // clear the canvas
         this.renderer.clearCanvasQueue();
         // render state
-        this.mapRenderer.renderPath(this.renderer, state.getMap());
+        this.mapRenderer.render(this.renderer, state.getMap());
         this.enemyRenderer.render(state.getEnemies());
         this.defenseRenderer.render(state.getDefenses());
         // repaint canvas
@@ -191,7 +192,7 @@ public class ViewImpl implements View {
      */
     @Override
     public void addBuyMenuObserver(final Observer<Integer> observer) {
-        this.buyMenu = new BuyMenu(observer);
+        this.buyMenu = new BuyMenuImpl(observer);
     }
 
     /**

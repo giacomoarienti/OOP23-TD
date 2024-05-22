@@ -20,7 +20,6 @@ import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.model.ModelManager;
 import it.unibo.towerdefense.model.defenses.DefenseManager;
 import it.unibo.towerdefense.model.game.GameManager;
-import it.unibo.towerdefense.model.game.GameStatus;
 
 /**
  * Class to interact with map methods.
@@ -35,11 +34,10 @@ public class MapManagerImpl implements MapManager {
 
 
     /**
-     *Constructor from size of map and the mediator.
+     *Constructor from size of map.
      * @param size size of map in terms of game cells.
-     * @param masterController the mediator controller.
      */
-    public MapManagerImpl(Size size) {
+    public MapManagerImpl(final Size size) {
         try {
             this.map = new GameMapImpl(size);
         } catch (IllegalArgumentException e) {
@@ -48,9 +46,8 @@ public class MapManagerImpl implements MapManager {
     }
 
     /**
-     *Constructor from jasondata of map and the mediator.
+     *Constructor from jsondata of map.
      * @param jsondata JSON representation of GameMap Object.
-     * @param masterController the mediator controller.
      */
     public MapManagerImpl(final String jsondata) {
         this.map = GameMapImpl.fromJson(jsondata);
@@ -70,11 +67,11 @@ public class MapManagerImpl implements MapManager {
      */
     @Override
     public PathVector getSpawnPosition() {
-        final PathCell spawCell = map.getSpawnCell();
+        final PathCell spawnCell = map.getSpawnCell();
         return new PathVector(
-            spawCell.inSideMidpoint(),
-            spawCell.getInDirection().asDirection(),
-            spawCell.distanceToEnd() * LogicalPosition.SCALING_FACTOR
+            spawnCell.inSideMidpoint(),
+            spawnCell.getInDirection().asDirection(),
+            spawnCell.distanceToEnd() * LogicalPosition.SCALING_FACTOR
         );
     }
 
@@ -93,12 +90,12 @@ public class MapManagerImpl implements MapManager {
     public void select(final Position position) {
         Cell c = map.getCellAt(position);
         if (c == null) {
-            return ;
+            return;
         }
         if (c.equals(selected)) {
             selected = null;
         } else {
-            if (c instanceof BuildableCell && ((BuildableCell)c).isBuildable()) {
+            if (c instanceof BuildableCell && ((BuildableCell) c).isBuildable()) {
                 selected = (BuildableCell) c;
             }
         }
@@ -126,14 +123,14 @@ public class MapManagerImpl implements MapManager {
         LogicalPosition tempPos = pos;
         PathCell pCell = (PathCell) cell;
         MapDirection dir = pCell.getInDirection();
-        int remaningDistance = distanceToMove;
+        int remainingDistance = distanceToMove;
         int distanceToEnd = pCell.distanceToEnd() * LogicalPosition.SCALING_FACTOR;
 
         for (int i = 2; i > 0; i--) {
 
             int factor = LogicalPosition.SCALING_FACTOR / i;
             int positionInCell = realModule(
-                pos.getX() * dir.orizontal() + pos.getY() * dir.vertical(),
+                pos.getX() * dir.horizontal() + pos.getY() * dir.vertical(),
                 LogicalPosition.SCALING_FACTOR / 2 * i
             );
             if (i == 2 || dir != pCell.getInDirection()) {
@@ -144,16 +141,16 @@ public class MapManagerImpl implements MapManager {
             }
             if (positionInCell < factor) {
                 int distanceToTravel = factor - positionInCell;
-                if (remaningDistance <= distanceToTravel) {
-                    tempPos = addDistance(tempPos, dir, remaningDistance);
-                    return new PathVector(tempPos, dir.asDirection(), distanceToEnd - remaningDistance);
+                if (remainingDistance <= distanceToTravel) {
+                    tempPos = addDistance(tempPos, dir, remainingDistance);
+                    return new PathVector(tempPos, dir.asDirection(), distanceToEnd - remainingDistance);
                 }
-                remaningDistance -=  distanceToTravel;
+                remainingDistance -=  distanceToTravel;
                 tempPos = addDistance(tempPos, dir, distanceToTravel);
             }
             dir = pCell.getOutDirection();
         }
-        return getNextPosition(tempPos, remaningDistance);
+        return getNextPosition(tempPos, remainingDistance);
     }
 
     /**
@@ -169,7 +166,7 @@ public class MapManagerImpl implements MapManager {
         } else {
             var choice = options.get(optionNumber);
             if (!game.purchase(choice.getCost())) {
-                throw new IllegalArgumentException("Not enought money!");
+                throw new IllegalArgumentException("Not enough money!");
             }
             try {
                 defenses.buildDefense(optionNumber, selected.getCenter());
@@ -187,10 +184,10 @@ public class MapManagerImpl implements MapManager {
     public List<BuildingOption> getBuildingOptions() {
         List<BuildingOption> l = new ArrayList<>();
 
-        if (updateBuildinOption()) {
+        if (updateBuildingOption()) {
             var optDef = defenses.getDefenseAt(selected.getCenter());
             options.stream().forEach(dd ->
-                l.add(new BuildingOptionImpl(dd, game.isPurchasable(dd.getCost()) && game.getGameStatus() == GameStatus.PLAYING)));
+                l.add(new BuildingOptionImpl(dd, game.isPurchasable(dd.getCost()))));
             if (optDef.isPresent()) {
                 l.add(new BuildingOption() {
 
@@ -205,8 +202,8 @@ public class MapManagerImpl implements MapManager {
                     }
 
                     @Override
-                    public boolean isPurchasable() {
-                        return game.getGameStatus() == GameStatus.PLAYING;
+                    public boolean isAvailable() {
+                        return true;
                     }
 
                 });
@@ -215,6 +212,9 @@ public class MapManagerImpl implements MapManager {
         return l;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Stream<CellInfo> getMap() {
         return map.getMap().map(c -> new CellInfo() {
@@ -260,7 +260,7 @@ public class MapManagerImpl implements MapManager {
         return map.toJSON();
     }
 
-    private boolean updateBuildinOption() {
+    private boolean updateBuildingOption() {
         if (selected == null) {
             return false;
         }
@@ -283,6 +283,6 @@ public class MapManagerImpl implements MapManager {
     }
 
     private static LogicalPosition addDistance(final LogicalPosition pos, final MapDirection dir, final int distance) {
-        return new LogicalPosition(pos.getX() + distance * dir.orizontal(), pos.getY() + distance * dir.vertical());
+        return new LogicalPosition(pos.getX() + distance * dir.horizontal(), pos.getY() + distance * dir.vertical());
     }
 }

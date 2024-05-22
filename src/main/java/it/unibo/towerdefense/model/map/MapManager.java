@@ -52,7 +52,7 @@ public interface MapManager extends JsonSerializable, Manager {
      * Build a tower in the selected Cell.
      * @param optionNumber the index of tower to build in the option list.
      */
-    void build (int optionNumber);
+    void build(int optionNumber);
 
     /**
      * Returns the building options in the selected cell, and if they are purchasable.

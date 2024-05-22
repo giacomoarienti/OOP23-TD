@@ -2,28 +2,45 @@ package it.unibo.towerdefense.commons.dtos.map;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 
-public class BuildingOptionImpl implements BuildingOption{
+/**
+ * Class that implement BuildingOption for a defense building or upgrading.
+ */
+public class BuildingOptionImpl implements BuildingOption {
 
-    private final boolean isPurchasable;
+    private final boolean isAvailable;
     private final String text;
     private final String cost;
 
-    public BuildingOptionImpl(DefenseDescription dd, boolean isPurchasable) {
+    /**
+     * Constructor from a defense description and if option is available.
+     * @param dd
+     * @param isAvailable
+     */
+    public BuildingOptionImpl(final DefenseDescription dd, final boolean isAvailable) {
         text = dd.getName();
         cost = Integer.toString(dd.getCost());
-        this.isPurchasable = isPurchasable;
+        this.isAvailable = isAvailable;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean isPurchasable() {
-        return isPurchasable;
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getText() {
         return text;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getCost() {
         return cost;
