@@ -1,10 +1,11 @@
 package it.unibo.towerdefense.model.saving;
 
 import java.util.Map;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.text.SimpleDateFormat;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 
 /**
@@ -12,9 +13,9 @@ import org.json.JSONObject;
  */
 public class SavingImpl implements Saving {
 
-    private static final int FILE_NAME_LENGTH = 16;
     private static final String NAME_FIELD = "name";
-    private static final String EXTENSION = ".json";
+    private static final String EXTENSION = "json";
+    private static final String DATE_FORMAT = "yyyy-MM-dd_HH-mm-ss-SSS";
 
     private final String name;
     private final Map<SavingFieldsEnum, String> json;
@@ -28,8 +29,9 @@ public class SavingImpl implements Saving {
         final Map<SavingFieldsEnum, String> json
     ) {
         this.json = json;
-        // random generated name
-        this.name = RandomStringUtils.randomAlphanumeric(FILE_NAME_LENGTH);
+        // time-based name
+        this.name = new SimpleDateFormat(DATE_FORMAT)
+            .format(new Date());
     }
 
     /**
