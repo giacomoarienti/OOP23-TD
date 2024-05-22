@@ -63,7 +63,7 @@ class EnemyGraphicsImpl implements EnemyGraphics {
         healthBars = new BufferedImage[(EnemyInfo.HP_SCALE/HP_INCREMENT) + 1];
         IntStream.range(0, EnemyInfo.HP_SCALE + 1).filter(i -> i % HP_INCREMENT == 0).forEach(v -> {
             try{
-                healthBars[v / 25] = loader.loadImage(ROOT + String.valueOf(v) + EXTENSION, HP_BAR_SCALE);
+                healthBars[v / HP_INCREMENT] = loader.loadImage(ROOT + String.valueOf(v) + EXTENSION, HP_BAR_SCALE);
             }catch (Exception e) {
                 throw new RuntimeException("Failed to initialize the image for health value " + String.valueOf(v), e);
             }
