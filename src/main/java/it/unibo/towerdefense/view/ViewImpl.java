@@ -83,7 +83,7 @@ public class ViewImpl implements View {
             throw new IllegalStateException("Window not created yet");
         }
         final var savingsView = new SavingsViewImpl(controller);
-        this.window.displayModal("Savings", savingsView);
+        this.window.displayModal("Savings", savingsView, true);
     }
 
     /**
