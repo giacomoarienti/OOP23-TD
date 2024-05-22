@@ -203,6 +203,7 @@ public class DefenseImpl implements Defense {
         parser.put(DefenseMapKeys.SELLING_COST, this.sellingValue);
         parser.put(DefenseMapKeys.POSITION, this.position.toJSON());
         parser.put(DefenseMapKeys.RANGE, this.range);
+        parser.put(DefenseMapKeys.TYPE, this.type);
 
         /**Handle updates.*/
         JSONArray upgrades = new JSONArray();

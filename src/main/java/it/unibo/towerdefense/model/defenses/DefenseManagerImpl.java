@@ -38,6 +38,7 @@ public class DefenseManagerImpl implements DefenseManager {
      * @param jsonString the json content.
     */
     public DefenseManagerImpl(final String jsonString) {
+        this();
         JSONArray serializedDefenses = new JSONArray(jsonString);
         for(Object def: serializedDefenses) {
             this.defenses.add(MutablePair.of
