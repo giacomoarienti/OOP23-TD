@@ -31,10 +31,10 @@ public class DefenseImpl implements Defense {
     private Set<Defense> upgrades;
     private LogicalPosition position;
 
-    /**A private constructor that copies another defense.
+    /**A constructor that copies another defense.
      *@param copy the defense to copy.
     */
-    private DefenseImpl(final Defense copy) {
+    public DefenseImpl(final Defense copy) {
         this.type = copy.getType();
         this.level = copy.getLevel();
         this.damage = copy.getDamage();
@@ -201,7 +201,10 @@ public class DefenseImpl implements Defense {
         parser.put(DefenseMapKeys.SPEED, this.attackSpeed);
         parser.put(DefenseMapKeys.BUILDING_COST, this.buildingCost);
         parser.put(DefenseMapKeys.SELLING_COST, this.sellingValue);
-        parser.put(DefenseMapKeys.POSITION, this.position.toJSON());
+        /**upgrades won't have a position.*/
+        if (this.position != null) {
+            parser.put(DefenseMapKeys.POSITION, this.position.toJSON());
+        }
         parser.put(DefenseMapKeys.RANGE, this.range);
         parser.put(DefenseMapKeys.TYPE, this.type);
 
