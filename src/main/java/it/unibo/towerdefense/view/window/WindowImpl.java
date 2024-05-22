@@ -1,5 +1,13 @@
 package it.unibo.towerdefense.view.window;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.awt.Color;
+
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -17,13 +25,6 @@ import it.unibo.towerdefense.view.graphics.Drawable;
 import it.unibo.towerdefense.view.modal.Modal;
 import it.unibo.towerdefense.view.modal.ModalContent;
 import it.unibo.towerdefense.view.modal.ModalImpl;
-
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.awt.Color;
 
 /**
  * Implementation of BaseView.
@@ -141,16 +142,29 @@ public class WindowImpl implements Window {
      * {@inheritDoc}
      */
     @Override
-    public void displayModal(final String title, final ModalContent content) {
+    public void displayModal(
+        final String title,
+        final ModalContent content,
+        final boolean closeAll
+    ) {
         this.hideAllModals();
+        final Consumer<Modal> action = closeAll ? this::closeAllModals : this::removeModal;
         final Modal modal = new ModalImpl(
             this.frame,
             title,
             content,
-            this::removeModal
+            action
         );
         this.addModal(modal);
         modal.display();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayModal(final String title, final ModalContent content) {
+        this.displayModal(title, content, false);
     }
 
     /**
@@ -270,5 +284,11 @@ public class WindowImpl implements Window {
             this.openModals.get(this.openModals.size() - 1)
                 .setVisible(true);
         }
+    }
+
+    private void closeAllModals(final Modal modal) {
+        System.out.println("closeAllModals");
+        this.openModals.forEach(Modal::dispose);
+        this.openModals.clear();
     }
 }
