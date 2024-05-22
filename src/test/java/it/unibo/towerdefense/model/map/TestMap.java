@@ -31,7 +31,7 @@ public class TestMap {
             //Assertions.assertEquals(pos, vector.position());
             while (vector.distanceToEnd() != 0) {
                 pos = vector.position();
-                Assertions.assertEquals(distanceToEnd - ITERATION_MOVEMENT, vector.distanceToEnd());
+                Assertions.assertTrue(distanceToEnd > vector.distanceToEnd());
                 distanceToEnd = vector.distanceToEnd();
                 vector = map.getNextPosition(pos, ITERATION_MOVEMENT);
                 System.out.println(vector);

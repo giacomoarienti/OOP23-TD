@@ -12,11 +12,11 @@ public enum MapDirection {
     /** East. */
     E(+1, 0, Direction.E),
     /** North. */
-    N(0, +1, Direction.N),
+    N(0, -1, Direction.N),
     /** West. */
     W(-1, 0, Direction.W),
     /** Sud. */
-    S(0, -1, Direction.S);
+    S(0, +1, Direction.S);
 
     private final int orizontal;
     private final int vertical;
