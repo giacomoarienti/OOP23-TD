@@ -99,7 +99,7 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void save() {
-        // TODO
+        model.save();
     }
 
     /**

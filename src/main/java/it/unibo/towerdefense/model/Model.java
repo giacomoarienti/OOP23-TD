@@ -106,4 +106,9 @@ public interface Model {
      * @return the saved score
      */
     Score saveScore();
+
+    /**
+     * Saves the game.
+     */
+    void save();
 }
