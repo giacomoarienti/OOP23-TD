@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.view.scoreboard;
 
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -8,6 +7,8 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JButton;
 
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
@@ -41,7 +42,8 @@ public class ScoreboardViewImpl implements ScoreboardView {
     @Override
     public JPanel build(final Runnable onClose) {
         // create main panel
-        final JPanel panel = new JPanel(new FlowLayout());
+        final JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(
             BorderFactory.createEmptyBorder(
                 BORDER_SIZE,
@@ -81,7 +83,10 @@ public class ScoreboardViewImpl implements ScoreboardView {
         closeButton.addActionListener(e -> onClose.run());
         innerPnl.add(closeButton);
         // return the main panel
-        panel.add(innerPnl);
+        final JScrollPane scrollPane = new JScrollPane(innerPnl);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        panel.add(scrollPane);
         return panel;
     }
 
