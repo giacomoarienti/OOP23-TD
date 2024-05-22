@@ -2,6 +2,7 @@ package it.unibo.towerdefense.model;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -24,6 +25,9 @@ import it.unibo.towerdefense.model.game.GameStatus;
 import it.unibo.towerdefense.model.map.MapManager;
 import it.unibo.towerdefense.model.map.MapManagerImpl;
 import it.unibo.towerdefense.model.saving.Saving;
+import it.unibo.towerdefense.model.saving.SavingFieldsEnum;
+import it.unibo.towerdefense.model.saving.SavingImpl;
+import it.unibo.towerdefense.model.saving.SavingsImpl;
 import it.unibo.towerdefense.model.score.Score;
 import it.unibo.towerdefense.model.scoreboard.ScoreboardImpl;
 
@@ -229,6 +233,26 @@ public class ModelImpl implements ModelManager, Model {
             return scoreboard.saveScore(game.getPlayerName(), game.getWave());
         } catch (final IOException e) {
            throw new RuntimeException("Error saving score", e);
+        }
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public void save() {
+        // create saving
+        final var saving = new SavingImpl(Map.of(
+            SavingFieldsEnum.GAME, game.toJSON(),
+            SavingFieldsEnum.MAP, map.toJSON(),
+            SavingFieldsEnum.DEFENSES, defenses.toJSON()
+        ));
+        // create savingloader
+        try {
+            final var savingLoader = new SavingsImpl(game.getPlayerName());
+            savingLoader.writeSaving(saving);
+        } catch (final IOException e) {
+            throw new RuntimeException("Error saving game", e);
         }
     }
 
