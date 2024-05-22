@@ -18,7 +18,7 @@ import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.SizeImpl;
 import it.unibo.towerdefense.model.defenses.DefenseType;
 import it.unibo.towerdefense.view.graphics.Renderer;
-import it.unibo.towerdefense.view.graphics.CircleDrawable;
+import it.unibo.towerdefense.view.graphics.EmptyCircleDrawable;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 import it.unibo.towerdefense.view.graphics.LineDrawable;
 
@@ -50,6 +50,7 @@ public class DefenseRendererImpl implements DefenseRenderer {
     private void renderDefenses(DefenseDescription def) {
            Image image = this.mappedDefenseImages.get(def.getType()).get(def.getLevel()-1);
            renderer.submitToCanvas(new ImageDrawable(image, def.getPosition()));
+           renderer.submitToCanvas(new EmptyCircleDrawable(def.getPosition(), def.getRange(), Color.BLUE));
     }
     /**Adds attacks to list.*/
     private void addAttacks(DefenseDescription def) {

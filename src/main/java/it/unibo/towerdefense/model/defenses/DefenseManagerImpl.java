@@ -75,6 +75,7 @@ public class DefenseManagerImpl implements DefenseManager {
          def.getBuildingCost(),
          def.getSellingValue(),
          def.getLevel(),
+         def.getRange(),
          def.getType(),
          def.getPosition(),
          attacksOnLoop.computeIfAbsent(def, x-> List.of()));

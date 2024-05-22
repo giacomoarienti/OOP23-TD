@@ -19,6 +19,8 @@ public class DefenseDescription {
     private LogicalPosition position;
     /**List of attacking targets */
     private List<LogicalPosition> targets;
+    /**range.*/
+    private int range;
 
     /**simple constructor with all fields.
      * @param description
@@ -26,7 +28,7 @@ public class DefenseDescription {
      * @param cost
      * @param level
     */
-    public DefenseDescription(final int cost,final int sell,final int level,
+    public DefenseDescription(final int cost,final int sell,final int level, int range,
      final DefenseType type, final LogicalPosition pos, final List<LogicalPosition> targets) {
         this.level = level;
         this.cost = cost;
@@ -34,6 +36,7 @@ public class DefenseDescription {
         this.sellValue = sell;
         this.position = pos;
         this.targets = targets;
+        this.range = range;
     }
 
     /**getter for description.
@@ -83,6 +86,10 @@ public class DefenseDescription {
     */
     public LogicalPosition getPosition() {
         return this.position;
+    }
+
+    public int getRange() {
+        return this.range;
     }
 
     /**
