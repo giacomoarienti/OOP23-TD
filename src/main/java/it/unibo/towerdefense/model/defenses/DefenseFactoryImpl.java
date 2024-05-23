@@ -92,8 +92,8 @@ public class DefenseFactoryImpl implements DefenseFactory {
      * {@inheritDoc}
      */
     @Override
-    public Defense defenseFromSaveFile(final String saveFile) throws IOException {
-        Defense result = new DefenseImpl(saveFile);
+    public Defense defenseFromJsonSave(final String jsonData) {
+        Defense result = Defense.fromJson(jsonData);
         setStrategyFor(result);
         return result;
     }

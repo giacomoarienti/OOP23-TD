@@ -5,12 +5,13 @@ import java.nio.file.NoSuchFileException;
 import java.util.Set;
 import java.util.Optional;
 
-
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.utils.file.FileUtils;
 
 public class TestDefenseFactoryImpl {
     private DefenseFactory factory = new DefenseFactoryImpl();
@@ -42,8 +43,8 @@ public class TestDefenseFactoryImpl {
         final int expectedSellCost = 10;
         final LogicalPosition expectedPosition = new LogicalPosition(10, 10);
 
-        /**Test getters using save file constructor.*/
-        Defense tower = factory.defenseFromSaveFile(ARCHER_TEST_PATH);
+        /**Test getters using save file.*/
+        Defense tower = factory.defenseFromJsonSave(new JSONObject(FileUtils.readFile(ARCHER_TEST_PATH)).toString());
         Assertions.assertEquals(expectedLevel, tower.getLevel());
         Assertions.assertEquals(expectedType, tower.getType());
         Assertions.assertEquals(expectedDamage, tower.getDamage());
@@ -53,9 +54,6 @@ public class TestDefenseFactoryImpl {
         Assertions.assertEquals(expectedSellCost, tower.getSellingValue());
         Assertions.assertEquals(expectedPosition, tower.getPosition());
         Assertions.assertEquals(Set.of(), tower.getPossibleUpgrades());
-
-        /**Test exception thrown.*/
-        Assertions.assertThrowsExactly(NoSuchFileException.class, () -> factory.defenseFromSaveFile("src/unexistent"));
     }
 
     /**Test building from stat file.*/

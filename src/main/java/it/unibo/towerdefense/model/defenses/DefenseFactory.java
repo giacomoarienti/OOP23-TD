@@ -15,7 +15,7 @@ public interface DefenseFactory {
      * @param saveFile the save file with all the informations.
      * @throws IOException if errors occur during file reading.
     */
-    Defense defenseFromSaveFile(String saveFile) throws IOException;
+    Defense defenseFromJsonSave(String saveFile) throws IOException;
     /**
      * @return a defense from pre-built stat file.
      * @param statFile the file with the statistics of the defense.
