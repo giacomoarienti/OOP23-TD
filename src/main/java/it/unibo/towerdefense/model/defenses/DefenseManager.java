@@ -3,6 +3,7 @@ package it.unibo.towerdefense.model.defenses;
 import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.model.Manager;
 import it.unibo.towerdefense.model.enemies.Enemy;
 
@@ -46,7 +47,8 @@ public interface DefenseManager extends JsonSerializable, Manager {
      */
     List<DefenseDescription> getBuildables(LogicalPosition position) throws IOException;
 
-
-
+    /**returns all the defenses as a dto.
+     * @return the defenseDescriptions.
+    */
     List<DefenseDescription> getDefenses();
 }

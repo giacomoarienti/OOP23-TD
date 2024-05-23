@@ -78,7 +78,7 @@ public class DefenseManagerImpl implements DefenseManager {
          def.getSellingValue(),
          def.getLevel(),
          def.getRange(),
-         false,
+         focusedDef.isPresent() && focusedDef.get().equals(def),
          def.getType(),
          def.getPosition(),
          attacksOnLoop.computeIfAbsent(def, x-> List.of()));
@@ -149,6 +149,7 @@ public class DefenseManagerImpl implements DefenseManager {
             MutablePair.of(new DefenseImpl(factory.upgrade(upgradable.get().getValue(), choice,
             Optional.of(DefenseMapFilePaths.pathFromType(buildables.get(choice).getType())))), 0));
         }
+        setSelectedDefense(position);
     }
 
     /**
@@ -159,6 +160,7 @@ public class DefenseManagerImpl implements DefenseManager {
         Optional<MutablePair<Integer, Defense>> toDelete = find(position);
         int returnValue = toDelete.get().getValue().getSellingValue();
         defenses.remove(toDelete.get().getKey().intValue());
+        setSelectedDefense(position);
         return returnValue;
     }
 
@@ -167,6 +169,7 @@ public class DefenseManagerImpl implements DefenseManager {
      */
     @Override
     public List<DefenseDescription> getBuildables(final LogicalPosition position) throws IOException {
+        setSelectedDefense(position);
         return getModelsOfBuildables(position).stream().map(x -> getDescriptionFrom(x)).toList();
     }
 
@@ -226,5 +229,15 @@ public class DefenseManagerImpl implements DefenseManager {
         }
         attacksOnLoop.clear();
         return descs;
+    }
+
+    private void setSelectedDefense(LogicalPosition pos) {
+        Optional<MutablePair<Integer,Defense>> def = find(pos);
+        if(!def.isEmpty()) {
+            this.focusedDef = Optional.of(def.get().getRight());
+        }
+        else {
+            this.focusedDef = Optional.empty();
+        }
     }
 }
