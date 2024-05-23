@@ -21,6 +21,9 @@ import it.unibo.towerdefense.view.graphics.Renderer;
  */
 public class GameRendererImpl implements GameRenderer {
 
+    private static final String RESUME_LABEL = "Resume";
+    private static final String PAUSE_LABEL = "Pause";
+    private static final String QUIT_LABEL = "Save & Quit";
     private final Renderer renderer;
     private final List<Observer<ControlAction>> observers =
         new ArrayList<>();
@@ -62,9 +65,9 @@ public class GameRendererImpl implements GameRenderer {
         final JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         // add stop resume and quit buttons
-        final var pauseButton = new JButton("Pause");
-        final var resumeButton = new JButton("Resume");
-        final var quitButton = new JButton("Quit");
+        final var pauseButton = new JButton(PAUSE_LABEL);
+        final var resumeButton = new JButton(RESUME_LABEL);
+        final var quitButton = new JButton(QUIT_LABEL);
         // set callbacks
         pauseButton.addActionListener(e -> this.notifyObservers(ControlAction.PAUSE));
         resumeButton.addActionListener(e -> this.notifyObservers(ControlAction.RESUME));
