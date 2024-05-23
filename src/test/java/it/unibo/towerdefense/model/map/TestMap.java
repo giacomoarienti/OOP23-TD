@@ -18,11 +18,6 @@ public class TestMap {
     private LogicalPosition pos = spawn.position();
     private int distanceToEnd = spawn.distanceToEnd();
 
-
-    @Test void testGetMap() {
-        map.getMap();
-    }
-
     @Test
     void testSerializable() {
         String jsondata = map.toJSON();
@@ -32,16 +27,13 @@ public class TestMap {
 
     @Test
     void testGetNextPosition() {
-        System.out.println(spawn);
         try {
             var vector = map.getNextPosition(pos, ITERATION_MOVEMENT);
-            //Assertions.assertEquals(pos, vector.position());
             while (vector.distanceToEnd() != 0) {
                 pos = vector.position();
                 Assertions.assertTrue(distanceToEnd > vector.distanceToEnd());
                 distanceToEnd = vector.distanceToEnd();
                 vector = map.getNextPosition(pos, ITERATION_MOVEMENT);
-                System.out.println(vector);
             }
         } catch (IllegalArgumentException e) {
             Assertions.fail();

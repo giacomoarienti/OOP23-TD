@@ -34,11 +34,11 @@ public class ReversedPathFactory {
     /**
      * Returns a random generate path that never go back or cross itself.
      * @param size size of map.
-     * @param direciton initial direction of path.
+     * @param direction initial direction of path.
      * @return the path as list of directions, where first is direction.
      */
-    public Iterator<MapDirection> generate(final Size size, final MapDirection direciton) {
-        return Stream.iterate(opposite(direciton), new UnaryOperator<MapDirection>() {
+    public Iterator<MapDirection> generate(final Size size, final MapDirection direction) {
+        return Stream.iterate(opposite(direction), new UnaryOperator<MapDirection>() {
 
             private final Random random = new Random();
             private int n = random.nextInt(2) * 2;
@@ -47,8 +47,8 @@ public class ReversedPathFactory {
             @Override
             public MapDirection apply(final MapDirection d) {
                 if (counter
-                < random.nextInt(Math.abs(direciton.horizontal() * size.getHeight() + direciton.vertical() * size.getWidth())
-                / (d == direciton ? 4 : 2)
+                < random.nextInt(Math.abs(direction.horizontal() * size.getHeight() + direction.vertical() * size.getWidth())
+                / (d == direction ? 4 : 2)
                 )) {
                     counter++;
                     return d;
@@ -58,7 +58,7 @@ public class ReversedPathFactory {
                 return n < 2 ? turnLeft(d) : turnRight(d);
             }
 
-        }).map(d -> opposite(d)).peek(d -> System.out.println(d)).iterator();
+        }).map(d -> opposite(d)).iterator();
     }
 
     /**

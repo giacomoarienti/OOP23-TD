@@ -45,7 +45,6 @@ public class GameMapImpl implements GameMap {
         end = new PathCellImpl(pos, path.next(), PATH_DIRECTION, distanceToEnd);
         PathCell newCell = end;
         pos.subtract(newCell.getInDirection().asPosition());
-        System.out.println(newCell);
 
         while (isInMap(pos)) {
             distanceToEnd++;
@@ -53,7 +52,6 @@ public class GameMapImpl implements GameMap {
             map[pos.getX()][pos.getY()] = newCell;
             pos.subtract(newCell.getInDirection().asPosition());
         }
-        System.out.println(newCell);
         spawn = newCell;
 
         for (int i = 0; i < size.getWidth(); i++) {
