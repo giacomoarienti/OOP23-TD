@@ -34,8 +34,8 @@ public final class DefenseImagePaths {
      * @param level level of defense.
      * @return path of the image for a given defense of type x level y.
      */
-    public static String buildBulletPath(DefenseType type, int level) {
-        return BASE_PATH + ImagesBaseNames.get(type) + level + EXTENSION;
+    public static String buildBulletPath(DefenseType type) {
+        return BASE_PATH + BULLET_FOLDER +ImagesBaseNames.get(type) + EXTENSION;
     }
 
     /**Private constructor.*/

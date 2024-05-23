@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.view.defenses;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
+import it.unibo.towerdefense.model.defenses.DefenseType;
 
 /**A class for rendering attacks */
 public interface AttackAnimation {
@@ -14,4 +15,6 @@ public interface AttackAnimation {
     LogicalPosition getAttacked();
     /**decreases life of animation.*/
     void decreaseTimeToLive();
+    /**@return type of bullet to render.*/
+    DefenseType bulletToRender();
 }
