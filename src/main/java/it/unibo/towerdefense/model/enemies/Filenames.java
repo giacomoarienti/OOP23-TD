@@ -8,10 +8,13 @@ import java.nio.file.Paths;
  * need them.
  * Stored this way to access them from test classes.
  */
-abstract class Filenames {
+final class Filenames {
     private static final String ROOT = "it/unibo/towerdefense/models/enemies/";
     private static final String WAVECONF = "waves.json";
     private static final String TYPESCONF = "types.json";
+
+    private Filenames(){
+    }
 
     /**
      * Returns the path of the waves config file.

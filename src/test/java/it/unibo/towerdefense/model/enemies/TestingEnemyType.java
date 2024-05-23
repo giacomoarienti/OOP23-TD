@@ -11,11 +11,11 @@ abstract class TestingEnemyType {
         /**
          * Builds a RichEnemyType with the given characteristics.
          *
-         * @param level the level
-         * @param type  the type
-         * @param hp    the maxHp
-         * @param speed the speed
-         * @param value the value
+         * @param level      the level
+         * @param type       the type
+         * @param hp         the maxHp
+         * @param speed      the speed
+         * @param value      the value
          * @param powerlevel the powerlevel
          * @return the built RichEnemyType
          */

@@ -4,6 +4,9 @@ import java.util.Set;
 
 import it.unibo.towerdefense.model.Manager;
 
+/**
+ * The class which binds this part of the model to the others.
+ */
 public interface EnemiesManager extends Manager {
     /**
      * Returns a Set of all Enemies currently alive.

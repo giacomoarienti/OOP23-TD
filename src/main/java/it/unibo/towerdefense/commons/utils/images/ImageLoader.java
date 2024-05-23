@@ -23,7 +23,7 @@ public class ImageLoader {
      *
      * @param cellSize the side of a cell
      */
-    public ImageLoader(int cellSize) {
+    public ImageLoader(final int cellSize) {
         if(cellSize <= 0){
             throw new IllegalArgumentException("Cell size must be > 0");
         }
@@ -40,7 +40,7 @@ public class ImageLoader {
      *             the image will be the same length as a cell.
      * @return the loaded image
      */
-    public BufferedImage loadImage(String name, double size) throws IOException {
+    public BufferedImage loadImage(final String name, final double size) throws IOException {
         if (size <= 0) {
             throw new IllegalArgumentException("size can't be <= 0");
         }

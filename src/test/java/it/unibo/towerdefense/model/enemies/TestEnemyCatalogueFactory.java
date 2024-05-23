@@ -21,7 +21,7 @@ import it.unibo.towerdefense.commons.utils.file.FileUtils;
 /**
  * Test for ConfigurableEnemyCataloge.
  */
-public class TestEnemyCatalogueFactory {
+class TestEnemyCatalogueFactory {
 
     /**
      * Common prefix for all test files.
@@ -51,7 +51,7 @@ public class TestEnemyCatalogueFactory {
      * Tests on functionality.
      */
     @Nested
-    public class NestedTestBlock {
+    class NestedTestBlock {
 
         private final static String TEST_FILE = "types.json";
         private EnemyCatalogue tested;
@@ -62,7 +62,7 @@ public class TestEnemyCatalogueFactory {
          * the game.
          */
         @BeforeEach
-        void init() throws URISyntaxException, IOException {
+        private void init() throws URISyntaxException, IOException {
             tested = new EnemyCatalogueFactory(
                     FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + TEST_FILE).toURI()))).compile();
             types = EnemyType.getEnemyTypes();

@@ -14,13 +14,12 @@ import it.unibo.towerdefense.model.map.MapManager;
  * Since all other functionality of this class are implemented elsewhere they
  * have already been tested along with the class which implements them.
  */
-public class TestEnemiesManagerImpl {
+class TestEnemiesManagerImpl {
 
     /**
      * Simple testing ModelManager which always returns null.
      */
     private class TestingModelManager implements ModelManager {
-
         /**
          * {@inheritDoc}.
          */

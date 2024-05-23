@@ -117,9 +117,9 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
         return genericModel((x1, x2) -> true,
         map -> map.entrySet()
         .stream()
-        .filter(ent1 -> ent1.getValue().getPosition().getDistanceFromStart() > range)
+        .filter(ent1 -> ent1.getValue().getPosition().getDistanceWalked() > range)
         .sorted( (ent1, ent2) -> Double.compare(
-            ent2.getValue().getPosition().getDistanceFromStart(), ent1.getValue().getPosition().getDistanceFromStart()))
+            ent2.getValue().getPosition().getDistanceWalked(), ent1.getValue().getPosition().getDistanceWalked()))
         .limit(1)
         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
         (damage, map) -> map.entrySet()

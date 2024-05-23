@@ -4,9 +4,17 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.commons.patterns.Observer;
 
 /**
- * Class which extends Enemy with details known only to the package.
+ * Class which extends Enemy with implementation-related details known only to
+ * this package.
  */
 interface RichEnemy extends Enemy {
+
+    /**
+     * Returns the powerlevel of the enemy (roughly hp * speed).
+     *
+     * @return the powerlevel of the enemy.
+     */
+    int getPowerLevel();
 
     /**
      * Sets the enemy's position and facing direction to be the same of those of the
@@ -30,5 +38,4 @@ interface RichEnemy extends Enemy {
      * @param observer the Observer to add to the collection
      */
     void addDeathObserver(Observer<? super RichEnemy> observer);
-
 }

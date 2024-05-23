@@ -13,9 +13,6 @@ import it.unibo.towerdefense.commons.patterns.Observer;
  */
 class SimpleEnemyFactory implements EnemyFactory {
 
-    public SimpleEnemyFactory(){
-    }
-
     /**
      * {@inheritDoc}.
      */
@@ -156,6 +153,14 @@ class SimpleEnemyFactory implements EnemyFactory {
         @Override
         public boolean isDead() {
             return hp <= 0;
+        }
+
+        /**
+         * {@inheritDoc}.
+         */
+        @Override
+        public int getPowerLevel() {
+            return t.getPowerLevel();
         }
     }
 }

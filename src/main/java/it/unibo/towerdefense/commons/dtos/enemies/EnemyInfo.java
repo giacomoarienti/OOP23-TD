@@ -15,7 +15,7 @@ public interface EnemyInfo {
     EnemyPosition pos();
 
     /**
-     * Getter for the Enemy's current hp/HP_SCALE rateo.
+     * Getter for the Enemy's current hp in a scale of HP_SCALE.
      *
      * @return the hp rateo
      */

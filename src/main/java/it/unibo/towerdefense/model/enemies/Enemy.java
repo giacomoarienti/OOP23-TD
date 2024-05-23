@@ -4,7 +4,7 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 
 /**
- * The single Enemy.
+ * The single Enemy as seen from outside this package.
  */
 public interface Enemy {
 
@@ -25,7 +25,8 @@ public interface Enemy {
     int getHp();
 
     /**
-     * Returns the speed.
+     * Returns the speed of the enemy in 1 / LogicalPosition.SCALING_FACTOR of a
+     * cell.
      *
      * @return the speed
      */

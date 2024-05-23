@@ -61,8 +61,11 @@ class TestEnemyChoiceStrategyFactoryImpl {
             }
             @Override
             public boolean isDead() {
-                // TODO Auto-generated method stub
                 throw new UnsupportedOperationException("Unimplemented method 'isDead'");
+            }
+            @Override
+            public int getPowerLevel() {
+                throw new UnsupportedOperationException("Unimplemented method 'getPowerLevel'");
             }
         };
     }

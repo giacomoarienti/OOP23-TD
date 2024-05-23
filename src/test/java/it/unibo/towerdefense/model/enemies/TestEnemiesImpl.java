@@ -14,7 +14,7 @@ import it.unibo.towerdefense.commons.utils.file.FileUtils;
 /**
  * Tests for EnemiesImpl.
  */
-public class TestEnemiesImpl {
+class TestEnemiesImpl {
 
     /**
      * Arbitrary starting position.
@@ -31,7 +31,7 @@ public class TestEnemiesImpl {
      * needed for testing EnemiesImpl.
      */
     @BeforeEach
-    void init() throws IOException {
+    private void init() throws IOException {
         testing_wp = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
         tested = new EnemiesImpl((pos, speed) -> Optional.of(STARTING_POSITION.clone()), () -> STARTING_POSITION.clone());
         dead = 0;
@@ -95,7 +95,7 @@ public class TestEnemiesImpl {
         int wave = 1;
         int p = testing_wp.getPower(wave);
         tested.spawn(wave);
-        while(tested.getEnemies().stream().reduce(0, (i, u) -> i+= u.getValue(), (i1, i2) -> i1+i2) < p ){
+        while(tested.getEnemies().stream().reduce(0, (i, u) -> i += u.getPowerLevel(), (i1, i2) -> i1+i2) < p ){
             Assertions.assertTrue(tested.isWaveActive());
             tested.update();
         }

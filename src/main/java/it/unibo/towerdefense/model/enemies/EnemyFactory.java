@@ -3,7 +3,7 @@ package it.unibo.towerdefense.model.enemies;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 
 /**
- * A factory which produces Enemy entities from a given EnemyType.
+ * A factory which produces RichEnemy objects from a given RichEnemyType.
  */
 interface EnemyFactory {
     /**

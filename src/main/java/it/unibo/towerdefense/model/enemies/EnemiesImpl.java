@@ -17,7 +17,7 @@ import it.unibo.towerdefense.commons.utils.file.FileUtils;
  * @see Enemies
  *      Responsible of instantiating every other model class.
  */
-public class EnemiesImpl implements Enemies {
+class EnemiesImpl implements Enemies {
 
     private final EnemyCollection enemies;
     private final EnemyFactory factory;
@@ -32,9 +32,9 @@ public class EnemiesImpl implements Enemies {
      *                    an enemy and how much it should adance and gives back an
      *                    optional containing the new position or an empty optional
      *                    if the enemy has reached the end of the map
-     * @param startingPos the starting position of enemies
+     * @param startingPosSupplier the supplier for the starting position of enemies
      */
-    public EnemiesImpl(final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction,
+    EnemiesImpl(final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction,
             final Supplier<EnemyPosition> startingPosSupplier) {
         this.startingPosSupplier = startingPosSupplier;
         this.enemies = new EnemyCollectionImpl(posFunction);
@@ -57,7 +57,7 @@ public class EnemiesImpl implements Enemies {
     /**
      * {@inheritDoc}.
      */
-    public void addDeathObserver(Observer<Enemy> o) {
+    public void addDeathObserver(final Observer<Enemy> o) {
         enemies.addDeathObserver(o);
     }
 
@@ -111,7 +111,7 @@ public class EnemiesImpl implements Enemies {
      *
      * @param et the type of the enemy to spawn.
      */
-    private void spawnEnemy(RichEnemyType et) {
+    private void spawnEnemy(final RichEnemyType et) {
         RichEnemy spawned = factory.spawn(et, startingPosSupplier.get());
         enemies.add(spawned);
     }

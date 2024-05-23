@@ -7,7 +7,7 @@ import it.unibo.towerdefense.commons.patterns.Observer;
 /**
  * The main interface for the model of this part of the program.
  */
-public interface Enemies {
+interface Enemies {
     /**
      * Called on every cycle, updates the model.
      *

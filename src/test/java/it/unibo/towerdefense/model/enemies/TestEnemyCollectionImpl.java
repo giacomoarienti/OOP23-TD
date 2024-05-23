@@ -20,7 +20,7 @@ import it.unibo.towerdefense.commons.patterns.Observer;
 /**
  * Tests for EnemyCollectionImpl.
  */
-public class TestEnemyCollectionImpl {
+class TestEnemyCollectionImpl {
 
     private static final EnemyPosition STARTING_POSITION = new EnemyPosition(0, 0, Direction.E, 100);
     private EnemyCollectionImpl tested;

@@ -15,7 +15,7 @@ import it.unibo.towerdefense.commons.utils.file.FileUtils;
 /**
  * Tests for PredicateBasedRandomWaveGenerator.
  */
-public class TestPredicateBasedRandomWaveGenerator {
+class TestPredicateBasedRandomWaveGenerator {
 
     private final static String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
     private final static int N = 10000;
@@ -27,7 +27,7 @@ public class TestPredicateBasedRandomWaveGenerator {
      * Initializes the classes needed for testing.
      */
     @BeforeEach
-    void init() throws URISyntaxException, IOException {
+    private void init() throws URISyntaxException, IOException {
         wps = new WavePolicySupplierImpl(
                 FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "waves.json").toURI())));
         catalogue = new EnemyCatalogueFactory(

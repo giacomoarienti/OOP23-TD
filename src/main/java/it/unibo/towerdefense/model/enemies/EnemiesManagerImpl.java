@@ -39,12 +39,12 @@ public class EnemiesManagerImpl implements EnemiesManager {
      * Binds the other managers to this part of the model.
      */
     @Override
-    public void bind(ModelManager mm) {
+    public void bind(final ModelManager mm) {
         if (!bound) {
             final MapManager map = mm.getMap();
             final GameManager game = mm.getGame();
 
-            posFunction.bind((pos, speed) -> convert(map.getNextPosition(LogicalPosition.copyOf(pos), speed), pos.getDistanceFromStart() + speed));
+            posFunction.bind((pos, speed) -> convert(map.getNextPosition(LogicalPosition.copyOf(pos), speed), pos.getDistanceWalked() + speed));
             startingPosSupplier.bind(() -> convert(map.getSpawnPosition(), 0).get());
 
             enemies.addDeathObserver(e -> {
@@ -73,7 +73,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
      * @param distance the new distance from start
      * @return the corresponding Optional EnemyPosition
      */
-    private Optional<EnemyPosition> convert(PathVector pv, long distance) {
+    private Optional<EnemyPosition> convert(final PathVector pv, final long distance) {
         return pv.distanceToEnd() > 0
                 ? Optional.of(new EnemyPosition(
                         pv.position().getX(),
@@ -98,7 +98,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
      * {@inheritDoc}.
      */
     @Override
-    public void spawn(int wave) {
+    public void spawn(final int wave) {
         if (!bound) {
             throw new IllegalStateException("bind() has not been called yet on EnemiesManager");
         }

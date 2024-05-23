@@ -13,7 +13,7 @@ import it.unibo.towerdefense.commons.patterns.Observer;
 /**
  * Tests for SimpleEnemyFactory.
  */
-public class TestSimpleEnemyFactory {
+class TestSimpleEnemyFactory {
 
     private SimpleEnemyFactory tested;
     private RichEnemyType t;
@@ -25,7 +25,7 @@ public class TestSimpleEnemyFactory {
      * Initializes the class for testing.
      */
     @BeforeEach
-    void init() {
+    private void init() {
         tested = new SimpleEnemyFactory();
         t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100, 10000);
         created = tested.spawn(t, STARTING_POSITION);

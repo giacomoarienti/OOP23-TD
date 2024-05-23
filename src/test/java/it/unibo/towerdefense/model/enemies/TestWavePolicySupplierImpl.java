@@ -17,7 +17,7 @@ import it.unibo.towerdefense.commons.utils.file.FileUtils;
 /**
  * Tests for WavePolicySupplierImpl.
  */
-public class TestWavePolicySupplierImpl {
+class TestWavePolicySupplierImpl {
 
     private final static String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
 
@@ -52,7 +52,7 @@ public class TestWavePolicySupplierImpl {
          * Initializes the class for testing.
          */
         @BeforeEach
-        void init() throws URISyntaxException, IOException {
+        private void init() throws URISyntaxException, IOException {
             tested = new WavePolicySupplierImpl(
                     FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + TEST_FILE).toURI())));
         }

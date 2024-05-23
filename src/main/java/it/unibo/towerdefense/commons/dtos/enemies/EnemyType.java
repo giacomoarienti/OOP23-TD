@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 /**
  * At the highest level of abstraction an enemy type is defined by its level and
- * archetype.
+ * archetype which can be any of those contained here.
  *
  * @see EnemyLevel
  * @see EnemyArchetype
@@ -65,14 +65,14 @@ public abstract class EnemyType implements Comparable<EnemyType> {
     }
 
     /**
-     * Getter for the level that characterizes this EnemyType.
+     * Getter for the level of this EnemyType.
      *
      * @return the corresponding EnemyLevel
      */
     abstract public EnemyLevel level();
 
     /**
-     * Getter for the archetype that characterizes this EnemyType.
+     * Getter for the archetype of this EnemyType.
      *
      * @return the corresponding EnemyArchetype
      */

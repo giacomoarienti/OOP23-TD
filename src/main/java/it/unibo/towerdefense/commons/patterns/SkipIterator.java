@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.Iterator;
 
 /**
- * [Pattern]Decorator for an iterator which returns the next item of the
+ * Decorator for an iterator which returns the next item of the
  * decorated iterator only every "skip" calls on next().
  *
  * @param <T> the type of the decorated iterator
