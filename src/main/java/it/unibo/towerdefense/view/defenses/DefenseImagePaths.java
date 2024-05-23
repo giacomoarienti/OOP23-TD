@@ -1,7 +1,8 @@
 package it.unibo.towerdefense.view.defenses;
 
 import java.util.Map;
-import it.unibo.towerdefense.model.defenses.DefenseType;
+
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseType;
 
 /**creates paths for the images of defenses.*/
 public final class DefenseImagePaths {

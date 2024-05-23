@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.view.defenses;
 
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseType;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.model.defenses.DefenseType;
 
 /**A class for rendering attacks */
 public interface AttackAnimation {

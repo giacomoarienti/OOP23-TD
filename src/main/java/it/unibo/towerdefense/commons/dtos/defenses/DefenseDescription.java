@@ -1,8 +1,6 @@
 package it.unibo.towerdefense.commons.dtos.defenses;
 
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.model.defenses.DefenseType;
-
 import java.util.List;
 
 /**Contains data that can be visualized in the build menu about defenses.*/
@@ -88,6 +86,9 @@ public class DefenseDescription {
         return this.position;
     }
 
+    /**getter for range.
+     * @return the range.
+     */
     public int getRange() {
         return this.range;
     }

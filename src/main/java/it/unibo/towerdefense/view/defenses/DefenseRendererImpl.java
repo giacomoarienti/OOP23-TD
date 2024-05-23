@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import java.awt.Image;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
-import it.unibo.towerdefense.model.defenses.DefenseType;
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseType;
 import it.unibo.towerdefense.view.graphics.Renderer;
 import it.unibo.towerdefense.view.graphics.EmptyCircleDrawable;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
@@ -81,7 +81,7 @@ public class DefenseRendererImpl implements DefenseRenderer {
             }
             /**Load bullets.*/
             try {
-                Image bul = renderer.getImageLoader().loadImage(DefenseImagePaths.buildBulletPath(defType), 1);
+                Image bul = renderer.getImageLoader().loadImage(DefenseImagePaths.buildBulletPath(defType), 0.5);
                 mappedBulletsImages.put(defType, bul);
             } catch (IOException e) {
                 throw new RuntimeException(e.getMessage());

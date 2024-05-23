@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.model.defenses;
+package it.unibo.towerdefense.commons.dtos.defenses;
 
 /**
  * Enum for identifying the type of tower.

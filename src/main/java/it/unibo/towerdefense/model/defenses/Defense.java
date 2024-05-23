@@ -3,6 +3,7 @@ package it.unibo.towerdefense.model.defenses;
 import java.util.Set;
 
 import it.unibo.towerdefense.commons.api.JsonSerializable;
+import it.unibo.towerdefense.commons.dtos.defenses.DefenseType;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 /**
