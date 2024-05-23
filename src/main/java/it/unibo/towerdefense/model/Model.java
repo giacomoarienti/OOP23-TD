@@ -72,7 +72,7 @@ public interface Model {
     List<BuildingOption> getBuildingOptions();
 
     /**
-     * Select the cell at given poition.
+     * Select the cell at given position.
      * @param position position of cell.
      */
     void selectCell(Position position);

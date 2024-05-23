@@ -19,11 +19,15 @@ import it.unibo.towerdefense.commons.utils.images.ImageLoader;
  */
 public class MapRendererImpl implements MapRenderer {
 
-    private final static String ROOT = "it/unibo/towerdefense/view/map/";
-    private final static String EXTENSION = ".png";
-    private final static List<String> NAMES = List.of("straight", "curve", "buildable", "obstacle", "selected");
+    private static final String ROOT = "it/unibo/towerdefense/view/map/";
+    private static final String EXTENSION = ".png";
+    private static final List<String> NAMES = List.of("straight", "curve", "buildable", "obstacle", "selected");
     private final List<BufferedImage> images = new ArrayList<>();
 
+    /**
+     * Constructor from ImageLoader
+     * @param imLo Object to load images from files.
+     */
     public MapRendererImpl(final ImageLoader imLo) {
         for (int i = 0; i < NAMES.size(); i++) {
             try {

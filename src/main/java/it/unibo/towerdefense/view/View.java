@@ -100,13 +100,13 @@ public interface View {
     /**
      * Add an observer for the controls.
      * Whenever a control button is pushed, the observer will be notified.
-     * @param object the observer to add.
+     * @param observer the observer to add.
      */
     void addControlsObserver(Observer<ControlAction> observer);
 
     /*
      * Render the menu for defenses building.
-     * @param options the aviable defenses.
+     * @param options the available defenses.
      */
     void renderBuyMenu(List<BuildingOption> options);
 

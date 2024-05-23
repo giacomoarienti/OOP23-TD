@@ -144,7 +144,7 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void renderControls(GameStatus status) {
+    public void renderControls(final GameStatus status) {
         if (Objects.isNull(this.gameRenderer)) {
             throw new IllegalStateException("GameRenderer not created yet");
         }
@@ -155,7 +155,7 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void renderBuyMenu(List<BuildingOption> options) {
+    public void renderBuyMenu(final List<BuildingOption> options) {
         window.setBuyMenuContent(buyMenu.getJPanel(options));
     }
 
@@ -199,7 +199,7 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void addControlsObserver(Observer<ControlAction> observer) {
+    public void addControlsObserver(final Observer<ControlAction> observer) {
         this.gameRenderer.addControlsObserver(observer);
     }
 

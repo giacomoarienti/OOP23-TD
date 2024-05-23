@@ -188,8 +188,11 @@ public class ModelImpl implements ModelManager, Model {
         map.select(position);
     }
 
+    /**
+     * {@InheritDoc}
+     */
     @Override
-    public void build(int index) {
+    public void build(final int index) {
         map.build(index);
     }
 
@@ -217,7 +220,7 @@ public class ModelImpl implements ModelManager, Model {
      * {@InheritDoc}
      */
     @Override
-    public void handleControls(ControlAction action) {
+    public void handleControls(final ControlAction action) {
         this.initializationCheck();
         game.setGameStatus(GameStatus.fromControlAction(action));
     }
