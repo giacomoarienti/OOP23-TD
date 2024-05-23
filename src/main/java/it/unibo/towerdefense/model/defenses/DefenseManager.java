@@ -46,12 +46,7 @@ public interface DefenseManager extends JsonSerializable, Manager {
      */
     List<DefenseDescription> getBuildables(LogicalPosition position) throws IOException;
 
-    /**
-     * makes the current ready defenses attack the available enemies.
-     * @param availableTargets a list of the targets position and health.
-     * @return the targets index and the amount of damage to deal (key=index and damage=value).
-     */
-    Map<Integer, Integer> attackEnemies(List<? extends Enemy> availableTargets);
+
 
     List<DefenseDescription> getDefenses();
 }

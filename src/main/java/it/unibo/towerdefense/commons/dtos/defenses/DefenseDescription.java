@@ -19,6 +19,8 @@ public class DefenseDescription {
     private List<LogicalPosition> targets;
     /**range.*/
     private int range;
+    /**check if the defense has been selected.*/
+    private boolean isFocused;
 
     /**simple constructor with all fields.
      * @param description
@@ -26,7 +28,7 @@ public class DefenseDescription {
      * @param cost
      * @param level
     */
-    public DefenseDescription(final int cost,final int sell,final int level, int range,
+    public DefenseDescription(final int cost,final int sell,final int level, int range, boolean focused,
      final DefenseType type, final LogicalPosition pos, final List<LogicalPosition> targets) {
         this.level = level;
         this.cost = cost;
@@ -35,6 +37,7 @@ public class DefenseDescription {
         this.position = pos;
         this.targets = targets;
         this.range = range;
+        this.isFocused = focused;
     }
 
     /**getter for description.
@@ -99,5 +102,10 @@ public class DefenseDescription {
      */
     public List<LogicalPosition> getTargets() {
         return this.targets;
+    }
+
+    /**Reuturns boolean that  */
+    public boolean getIsFocused() {
+        return this.isFocused;
     }
 }

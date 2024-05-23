@@ -33,7 +33,9 @@ public class DefenseManagerImpl implements DefenseManager {
     private ModelManager manager;
     /**gets the attacks that occured in one loop.*/
     private Map<Defense,List<LogicalPosition>> attacksOnLoop = new HashMap<>();
-    private static Logger logger = LoggerFactory.getLogger(DefenseManagerImpl.class);
+    /**gets wich defense is being focused.*/
+    private Optional<Defense> focusedDef = Optional.empty();
+
     /**A constructor that recovers defense state from a json file.
      * @param jsonString the json content.
     */
@@ -76,6 +78,7 @@ public class DefenseManagerImpl implements DefenseManager {
          def.getSellingValue(),
          def.getLevel(),
          def.getRange(),
+         false,
          def.getType(),
          def.getPosition(),
          attacksOnLoop.computeIfAbsent(def, x-> List.of()));
@@ -167,11 +170,8 @@ public class DefenseManagerImpl implements DefenseManager {
         return getModelsOfBuildables(position).stream().map(x -> getDescriptionFrom(x)).toList();
     }
 
-    /**
-     *{@inheritDoc}
-     */
-    @Override
-    public Map<Integer, Integer> attackEnemies(final List<? extends Enemy> availableTargets) {
+
+    private Map<Integer, Integer> attackEnemies(final List<? extends Enemy> availableTargets) {
         Map<Integer, Integer> result = new HashMap<>();
         for (Pair<Defense,Integer> def:defenses) {
             /**execute only if momentum is reached.*/
