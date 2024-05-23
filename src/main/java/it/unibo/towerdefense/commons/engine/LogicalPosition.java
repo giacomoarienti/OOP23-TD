@@ -79,6 +79,22 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
     }
 
     /**
+     * Returns the relative x of position in map.
+     * @return x as a double in cells unit of measure.
+     */
+    public double getRelativeX() {
+        return getX() / (double) SCALING_FACTOR;
+    }
+
+    /**
+     * Returns the relative y of position in map.
+     * @return y as a double in cells unit of measure.
+     */
+    public double getRelativeY() {
+        return getY() / (double) SCALING_FACTOR;
+    }
+
+    /**
      * overload for fromJson method.
      */
     public static LogicalPosition fromJson(final String jsonData) {
