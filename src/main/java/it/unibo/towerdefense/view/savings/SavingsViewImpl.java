@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.view.savings;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -77,6 +78,7 @@ public class SavingsViewImpl implements SavingsView {
 
     private class SavingsPanel extends JPanel {
         private static final long serialVersionUID = 1L;
+        private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
         private final Saving saving;
         private final Runnable onClose;
 
@@ -89,7 +91,7 @@ public class SavingsViewImpl implements SavingsView {
             this.saving = saving;
             this.onClose = onClose;
             // build the view
-            this.add(new JLabel(saving.getName()));
+            this.add(new JLabel(this.formatDate(saving)));
             // create load button and add it to the panel
             final JButton loadButton = new JButton("Load");
             loadButton.addActionListener(e -> onClick());
@@ -100,6 +102,10 @@ public class SavingsViewImpl implements SavingsView {
             this.setBorder(
                 BorderFactory.createEmptyBorder(0, 0, BOTTOM_BORDER, 0)
             );
+        }
+
+        private String formatDate (final Saving saving) {
+            return new SimpleDateFormat(DATE_FORMAT).format(saving.getDate());
         }
     }
 }

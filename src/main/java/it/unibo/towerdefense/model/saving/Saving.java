@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.model.saving;
 
+import java.util.Date;
+
 import it.unibo.towerdefense.commons.api.JsonSerializable;
 
 /**
@@ -13,10 +15,16 @@ import it.unibo.towerdefense.commons.api.JsonSerializable;
 public interface Saving extends JsonSerializable {
 
     /**
-     * Returns the saving name.
-     * @return the saving name
+     * Returns the saving file name.
+     * @return the file name
      */
-    String getName();
+    String getFileName();
+
+    /**
+     * Returns the saving date.
+     * @return the date
+     */
+    Date getDate();
 
     /**
      * Returns the game json presentation.

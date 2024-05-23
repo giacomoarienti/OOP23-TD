@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.json.JSONObject;
@@ -13,11 +14,11 @@ import org.json.JSONObject;
  */
 public class SavingImpl implements Saving {
 
-    private static final String NAME_FIELD = "name";
+    private static final String DATE_FIELD = "name";
     private static final String EXTENSION = "json";
     private static final String DATE_FORMAT = "yyyy-MM-dd_HH-mm-ss-SSS";
 
-    private final String name;
+    private final Date date;
     private final Map<SavingFieldsEnum, String> json;
 
     /**
@@ -29,9 +30,7 @@ public class SavingImpl implements Saving {
         final Map<SavingFieldsEnum, String> json
     ) {
         this.json = json;
-        // time-based name
-        this.name = new SimpleDateFormat(DATE_FORMAT)
-            .format(new Date());
+        this.date = new Date();
     }
 
     /**
@@ -41,22 +40,34 @@ public class SavingImpl implements Saving {
      */
     public SavingImpl(
         final Map<SavingFieldsEnum, String> json,
-        final String name
+        final String date
     ) {
         this.json = json;
-        this.name = name;
+        try {
+            this.date = new SimpleDateFormat(DATE_FORMAT).parse(date);
+        } catch (final ParseException e) {
+            throw new IllegalArgumentException("Invalid date format");
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getName() {
+    public String getFileName() {
         return String.format(
             "%s.%s",
-            this.name,
+            this.getFormattedDate(),
             SavingImpl.EXTENSION
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Date getDate() {
+        return (Date) this.date.clone();
     }
 
     /**
@@ -89,7 +100,7 @@ public class SavingImpl implements Saving {
     @Override
     public String toJSON() {
         final JSONObject obj = new JSONObject()
-            .put(NAME_FIELD, this.name);
+            .put(DATE_FIELD, this.getFormattedDate());
         // Add all the fields to the JSON object
         List.of(SavingFieldsEnum.values())
             .forEach(field ->
@@ -105,7 +116,7 @@ public class SavingImpl implements Saving {
      */
     public static Saving fromJson(final String jsonData) {
         final JSONObject jsonObject = new JSONObject(jsonData);
-        final String name = jsonObject.getString(NAME_FIELD);
+        final String date = jsonObject.getString(DATE_FIELD);
         // create the map from the JSON object
         final Map<SavingFieldsEnum, String> json = List.of(SavingFieldsEnum.values())
             .stream()
@@ -118,7 +129,11 @@ public class SavingImpl implements Saving {
         // return the saving object
         return new SavingImpl(
             json,
-            name
+            date
         );
+    }
+
+    private String getFormattedDate() {
+        return new SimpleDateFormat(DATE_FORMAT).format(this.date);
     }
 }

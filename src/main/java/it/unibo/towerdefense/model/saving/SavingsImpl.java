@@ -82,7 +82,7 @@ public class SavingsImpl implements Savings {
         // convert the Saving object to a JSON string
         final String jsonData = saving.toJSON();
         // construct the file name
-        final String filePath = this.folderPath + File.separator + saving.getName();
+        final String filePath = this.folderPath + File.separator + saving.getFileName();
         // save the JSON string to file
         try {
             FileUtils.writeFile(filePath, jsonData);
