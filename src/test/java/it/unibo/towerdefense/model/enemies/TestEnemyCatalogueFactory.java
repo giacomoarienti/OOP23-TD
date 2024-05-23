@@ -36,17 +36,15 @@ public class TestEnemyCatalogueFactory {
     @Test
     void testFileRead() throws URISyntaxException, IOException {
         List<String> goodFilenames = List.of("types.json");
-        List<String> evilFilenames = List.of("types1.json", "types2.json", "types3.json", "types4.json");
+        List<String> evilFilenames = List.of("types1.json", "types2.json", "types3.json", "types4.json", "types5.json");
         for (String s : goodFilenames) {
             String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertDoesNotThrow(() -> new EnemyCatalogueFactory(config));
-        }
-        ;
+        };
         for (String s : evilFilenames) {
             String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertThrows(RuntimeException.class, () -> new EnemyCatalogueFactory(config));
-        }
-        ;
+        };
     }
 
     /**

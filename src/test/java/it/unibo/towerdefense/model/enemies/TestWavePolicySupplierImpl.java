@@ -28,17 +28,15 @@ public class TestWavePolicySupplierImpl {
     @Test
     void testLoadConfig() throws URISyntaxException, IOException {
         List<String> goodFilenames = List.of("waves.json");
-        List<String> evilFilenames = List.of("waves1.json", "waves2.json");
+        List<String> evilFilenames = List.of("waves1.json", "waves2.json", "waves3.json", "waves4.json", "waves5.json");
         for (String s : goodFilenames) {
             String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertDoesNotThrow(() -> new WavePolicySupplierImpl(config));
-        }
-        ;
+        };
         for (String s : evilFilenames) {
             String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertThrows(RuntimeException.class, () -> new WavePolicySupplierImpl(config));
-        }
-        ;
+        };
     }
 
     /**

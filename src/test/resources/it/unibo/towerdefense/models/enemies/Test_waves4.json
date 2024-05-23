@@ -1,0 +1,38 @@
+[
+    {
+        "wave" : 2,
+        "power" : 10000,
+        "rate" : 5,
+        "types" : [
+            "IB",
+            "IC"
+        ]
+    },
+    {
+        "wave" : 3,
+        "power" : 15000,
+        "types" : [
+            "IA"
+        ]
+    },
+    {
+        "wave" : 4,
+        "rate" : 3,
+        "types" : [
+            "IIIC",
+            "VA"
+        ]
+    },
+    {
+        "wave" : 10,
+        "power" : 200000
+    },
+    {
+        "wave" : 1000,
+        "rate" : 1,
+        "types" : [
+            "IVB",
+            "IVA"
+        ]
+    }
+]

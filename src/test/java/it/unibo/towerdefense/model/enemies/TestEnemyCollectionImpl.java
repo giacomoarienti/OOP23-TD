@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +15,7 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
 import it.unibo.towerdefense.commons.engine.Direction;
+import it.unibo.towerdefense.commons.patterns.Observer;
 
 /**
  * Tests for EnemyCollectionImpl.
@@ -24,6 +27,14 @@ public class TestEnemyCollectionImpl {
     private SimpleEnemyFactory helper;
     private RichEnemyType t;
     private RichEnemy spawned;
+
+    private class TestObserver implements Observer<Enemy> {
+        List<Enemy> notified = new LinkedList<>();
+        @Override
+        public void notify(Enemy source) {
+            this.notified.add(source);
+        }
+    }
 
     /**
      * Initializes the classes needed for testing.
@@ -61,20 +72,25 @@ public class TestEnemyCollectionImpl {
     }
 
     /**
-     * Tests the collection works when supplied multiple enemies.
+     * Tests the collection works when supplied multiple enemies
+     * and the added observer is correctly signaled.
      */
     @Test
     void testMultipleEnemies() {
         int number = 100;
+        TestObserver to = new TestObserver();
+        tested.addDeathObserver(to);
         Set<RichEnemy> spawned = IntStream.range(0, number).mapToObj(i -> {
             RichEnemy e = helper.spawn(t, STARTING_POSITION);
             tested.add(e);
             return e;
         }).collect(Collectors.toSet());
         Assertions.assertTrue(tested.getEnemies().containsAll(spawned));
+        Assertions.assertTrue(to.notified.isEmpty());
         spawned.forEach(e -> e.die());
         Assertions.assertTrue(tested.areDead());
         Assertions.assertTrue(tested.getEnemies().isEmpty());
+        Assertions.assertTrue(to.notified.containsAll(spawned));
     }
 
     /**

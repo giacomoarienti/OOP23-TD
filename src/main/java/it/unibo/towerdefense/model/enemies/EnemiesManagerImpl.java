@@ -60,7 +60,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
 
             bound = true;
         } else {
-            throw new IllegalArgumentException("EnemiesManagerImpl has already been bound.");
+            throw new IllegalStateException("EnemiesManagerImpl has already been bound.");
         }
     }
 

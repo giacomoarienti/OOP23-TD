@@ -1,7 +1,8 @@
 [
     {
         "wave" : 1,
-        "rate" : 5,
+        "rate" : 2,
+        "powerlevel" : -5,
         "types" : [
             "IB",
             "IC"
@@ -9,6 +10,7 @@
     },
     {
         "wave" : 3,
+        "length" : 15,
         "types" : [
             "IAL"
         ]
