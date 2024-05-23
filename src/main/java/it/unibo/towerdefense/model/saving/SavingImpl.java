@@ -22,33 +22,45 @@ public class SavingImpl implements Saving {
     private final Map<SavingFieldsEnum, String> json;
 
     /**
-     * SavingImpl constructor from the json representation of objects
-     * defined in SavingFieldsEnum.
+     * SavingImpl constructor from the json representation and date.
+     * @param json the json representation of the saving
+     * @param date the date of the saving
+     */
+    public SavingImpl(
+        final Map<SavingFieldsEnum, String> json,
+        final Date date
+    ) {
+        this.json = json;
+        this.date = date;
+    }
+
+    /**
+     * SavingImpl constructor from the json representation.
      * @param json the json representation of the saving
      */
     public SavingImpl(
         final Map<SavingFieldsEnum, String> json
     ) {
-        this.json = json;
-        this.date = new Date();
+        this(json, new Date());
     }
 
     /**
-     * SavingImpl constructor from the json representation of objects
-     * defined in SavingFieldsEnum.
+     * SavingImpl constructor from the json representation and date string.
      * @param json the json representation of the saving
+     * @param date the date of the saving
+     * @throws ParseException if the date is not in the correct format
      */
     public SavingImpl(
         final Map<SavingFieldsEnum, String> json,
         final String date
-    ) {
-        this.json = json;
-        try {
-            this.date = new SimpleDateFormat(DATE_FORMAT).parse(date);
-        } catch (final ParseException e) {
-            throw new IllegalArgumentException("Invalid date format");
-        }
+    ) throws ParseException {
+        this(
+            json,
+            new SimpleDateFormat(DATE_FORMAT).parse(date)
+        );
     }
+
+
 
     /**
      * {@inheritDoc}
@@ -127,10 +139,14 @@ public class SavingImpl implements Saving {
                 )
             );
         // return the saving object
-        return new SavingImpl(
-            json,
-            date
-        );
+        try {
+            return new SavingImpl(
+                json,
+                date
+            );
+        } catch (ParseException e) {
+            throw new RuntimeException("Error parsing date", e);
+        }
     }
 
     private String getFormattedDate() {
