@@ -40,7 +40,8 @@ public class ModelImpl implements ModelManager, Model {
     private DefenseManager defenses;
     private EnemiesManager enemies;
     private GameManager game;
-    private  boolean initialized;
+    private boolean initialized;
+    private Saving saving;
 
     /**
      * Empty constructor.
@@ -53,10 +54,12 @@ public class ModelImpl implements ModelManager, Model {
      */
     @Override
     public void init(final String playerName, final Size cellSize){
+        // init model managers
         map = new MapManagerImpl(cellSize);
         defenses = new DefenseManagerImpl();
         enemies = new EnemiesManagerImpl();
         game = new GameManagerImpl(playerName);
+        // bind managers
         this.bindManagers();
     }
 
@@ -65,12 +68,16 @@ public class ModelImpl implements ModelManager, Model {
      */
     @Override
     public void init(final Saving s){
+        // init model managers
         map = new MapManagerImpl(s.getMapJson());
         defenses = new DefenseManagerImpl(s.getDefensesJson());
         enemies = new EnemiesManagerImpl();
         game = new GameManagerImpl(
             GameDTO.fromJson(s.getGameJson())
         );
+        // save the saving
+        this.saving = s;
+        // bind managers
         this.bindManagers();
     }
 
@@ -241,16 +248,26 @@ public class ModelImpl implements ModelManager, Model {
      */
     @Override
     public void save() {
-        // create saving
-        final var saving = new SavingImpl(Map.of(
+        // create json saving map
+        final var json = Map.of(
             SavingFieldsEnum.GAME, game.toJSON(),
             SavingFieldsEnum.MAP, map.toJSON(),
             SavingFieldsEnum.DEFENSES, defenses.toJSON()
-        ));
+        );
+        if (Objects.isNull(saving)) {
+            // create saving
+            this.saving = new SavingImpl(json);
+        } else {
+            // update saving
+            this.saving = new SavingImpl(
+                json,
+                saving.getDate()
+            );
+        }
         // create savingloader
         try {
             final var savingLoader = new SavingsImpl(game.getPlayerName());
-            savingLoader.writeSaving(saving);
+            savingLoader.writeSaving(this.saving);
         } catch (final IOException e) {
             throw new RuntimeException("Error saving game", e);
         }
