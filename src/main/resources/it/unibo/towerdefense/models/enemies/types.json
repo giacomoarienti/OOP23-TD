@@ -25,15 +25,15 @@
     "archetypes" : [
         {
             "archetype" : "A",
-            "rateo" : 120
+            "rateo" : 1.2
         },
         {
             "archetype" : "B",
-            "rateo" : 60
+            "rateo" : 0.6
         },
         {
             "archetype" : "C",
-            "rateo" : 10
+            "rateo" : 0.05
         }
     ]
 }

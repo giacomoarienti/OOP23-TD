@@ -1,6 +1,5 @@
 package it.unibo.towerdefense.model.enemies;
 
-import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
@@ -11,7 +10,6 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONObject;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.math.IntMath;
 
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
@@ -22,8 +20,8 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
  */
 class EnemyCatalogueFactory {
 
-    private final int valueFactor; // scaling factor to adjust value from powerlevel
-    private final Map<EnemyArchetype, Integer> rateos; // speed = hp * rateo/100
+    private final Double valueFactor; // scaling factor to adjust value from powerlevel
+    private final Map<EnemyArchetype, Double> rateos; // speed = hp * rateo
     private final Map<EnemyLevel, Integer> powerlevels; // powerlevel = speed * hp
 
     /**
@@ -32,8 +30,8 @@ class EnemyCatalogueFactory {
      * @param configFile name of the file from which to load configurations.
      */
     EnemyCatalogueFactory(final String configFile) {
-        final Triple<Integer,
-            Map<EnemyArchetype, Integer>,
+        final Triple<Double,
+            Map<EnemyArchetype, Double>,
             Map<EnemyLevel, Integer>> configValues = loadConfig(configFile);
 
         checkConstraints(configValues);
@@ -78,19 +76,19 @@ class EnemyCatalogueFactory {
      * @return a Pair containing the two maps which represent the information stored
      *         in the file.
      */
-    private Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> loadConfig(
+    private Triple<Double, Map<EnemyArchetype, Double>, Map<EnemyLevel, Integer>> loadConfig(
             final String configString) {
-        final Integer vf;
-        final Map<EnemyArchetype, Integer> r = new HashMap<>();
+        final Double vf;
+        final Map<EnemyArchetype, Double> r = new HashMap<>();
         final Map<EnemyLevel, Integer> pl = new HashMap<>();
         try {
             JSONObject config = new JSONObject(configString);
-            vf = config.getInt("vf");
+            vf = config.getDouble("vf");
             config.getJSONArray("archetypes").forEach(
                     (Object o) -> {
                         assert o instanceof JSONObject;
                         JSONObject level = (JSONObject) o;
-                        r.put(EnemyArchetype.valueOf(level.getString("archetype")), level.getInt("rateo"));
+                        r.put(EnemyArchetype.valueOf(level.getString("archetype")), level.getDouble("rateo"));
                     });
             config.getJSONArray("levels").forEach(
                     (Object o) -> {
@@ -115,10 +113,10 @@ class EnemyCatalogueFactory {
      * @param config the triple containing the configuration to check.
      */
     private void checkConstraints(
-            final Triple<Integer, Map<EnemyArchetype, Integer>, Map<EnemyLevel, Integer>> config) {
+            final Triple<Double, Map<EnemyArchetype, Double>, Map<EnemyLevel, Integer>> config) {
 
-        final int valueFactor = config.getLeft();
-        final Map<EnemyArchetype, Integer> r = config.getMiddle();
+        final Double valueFactor = config.getLeft();
+        final Map<EnemyArchetype, Double> r = config.getMiddle();
         final Map<EnemyLevel, Integer> pl = config.getRight();
 
         try {
@@ -136,7 +134,6 @@ class EnemyCatalogueFactory {
                 "Configuration string for enemy catalogue is semantically incorrect.",
                 t);
         }
-
     }
 
     /**
@@ -150,9 +147,9 @@ class EnemyCatalogueFactory {
         final EnemyLevel l = enemyType.level();
         final EnemyArchetype t = enemyType.type();
         final int powerLevel = powerlevels.get(l);
-        final int speed = IntMath.sqrt((powerlevels.get(l) * rateos.get(t)) / 100, RoundingMode.DOWN);
-        final int hp = (speed * 100) / rateos.get(t);
-        final int value = powerlevels.get(l) * (valueFactor / 100);
+        final int hp = (int)Math.sqrt(powerLevel / rateos.get(t));
+        final int speed = (int)(hp * rateos.get(t));
+        final int value = (int)(powerlevels.get(l) * valueFactor);
         /**
          * Anonymous class which implements a RichEnemyType.
          */
