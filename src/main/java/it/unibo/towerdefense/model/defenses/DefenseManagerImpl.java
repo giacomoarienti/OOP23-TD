@@ -42,7 +42,7 @@ public class DefenseManagerImpl implements DefenseManager {
         JSONArray serializedDefenses = new JSONArray(jsonString);
         for(Object def: serializedDefenses) {
             this.defenses.add(MutablePair.of
-            (Defense.fromJson(def.toString()), 0)
+            (factory.defenseFromJsonSave(def.toString()), 0)
             );
         }
     }
