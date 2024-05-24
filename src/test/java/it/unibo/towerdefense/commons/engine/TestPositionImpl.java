@@ -1,10 +1,6 @@
 package it.unibo.towerdefense.commons.engine;
 
 import org.junit.jupiter.api.Test;
-
-import it.unibo.towerdefense.commons.engine.Position;
-import it.unibo.towerdefense.commons.engine.PositionImpl;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 

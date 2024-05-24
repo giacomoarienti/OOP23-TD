@@ -1,10 +1,6 @@
 package it.unibo.towerdefense.commons.engine;
 
 import org.junit.jupiter.api.Test;
-
-import it.unibo.towerdefense.commons.engine.Size;
-import it.unibo.towerdefense.commons.engine.SizeImpl;
-
 import org.junit.jupiter.api.Assertions;
 
 /**
