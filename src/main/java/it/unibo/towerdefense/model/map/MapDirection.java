@@ -5,7 +5,7 @@ import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
 
 /**
- * 4 cardinal directions as 2D verosr.
+ * 4 cardinal directions as 2D veresr.
  */
 public enum MapDirection {
 
