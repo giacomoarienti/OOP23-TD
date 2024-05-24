@@ -21,6 +21,11 @@ public interface Modal {
     void dispose();
 
     /**
+     * Sets the position of the modal window relative to its parent.
+     */
+    void setPositionRelativeToParent();
+
+    /**
      * Sets the visibility of the modal window.
      * @param b the visibility
      */
