@@ -24,12 +24,16 @@ import it.unibo.towerdefense.model.Model;
 import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.view.View;
 
+/**
+ * Class implementing the main controller of the game.
+ * 
+ */
 public class ControllerImpl implements Controller {
 
-    private final static Logger logger =
-        LoggerFactory.getLogger(ControllerImpl.class);
-    private final static Size MAP_SIZE = Constants.MAP_SIZE; // might be a variable in the future
+    private static final Size MAP_SIZE = Constants.MAP_SIZE; // might be a variable in the future
 
+    private final Logger logger =
+        LoggerFactory.getLogger(ControllerImpl.class);
     private final View view;
     private final Model model;
 

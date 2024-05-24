@@ -28,7 +28,8 @@ public class ScoreboardImpl implements Scoreboard {
 
     private final List<Score> scores = new ArrayList<>();
     private final String filePath;
-    private final Logger logger;
+    private final Logger logger =
+        LoggerFactory.getLogger(ScoreboardImpl.class);
 
     /**
      * Constructor with file path.
@@ -36,7 +37,6 @@ public class ScoreboardImpl implements Scoreboard {
      * @throws IOException if the scoreboard file cannot be created
      */
     public ScoreboardImpl(final String path) throws IOException {
-        this.logger = LoggerFactory.getLogger(this.getClass());
         this.filePath = path;
         // create the file in case it does not exist
         FileUtils.createFile(filePath);

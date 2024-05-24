@@ -23,9 +23,9 @@ public class GameManagerImpl implements GameManager {
     private static final int START_WAVE = 1;
     private static final int PLAYING_GAME_SPEED = 1;
     private static final int PAUSE_GAME_SPEED = 0;
-    private static final Logger logger =
-        LoggerFactory.getLogger(GameManagerImpl.class);
 
+    private final Logger logger =
+        LoggerFactory.getLogger(GameManagerImpl.class);
     private final List<Observer<GameDTO>> observers;
     private final String playerName;
     private BindableConsumer<Integer> waveHandler;
@@ -307,7 +307,7 @@ public class GameManagerImpl implements GameManager {
     /**
      * Class for a Consumer which can be defined after initialization.
      */
-    private class BindableConsumer<T> implements Consumer<T> {
+    private final class BindableConsumer<T> implements Consumer<T> {
         private Optional<Consumer<T>> c;
 
         /**
@@ -321,6 +321,7 @@ public class GameManagerImpl implements GameManager {
          * Constructs the Consumer in a non-binded state.
          * Calls to methods other than bind in this state will result in an
          * IllegalStateException.
+         * @param t the object to consume
          */
         @Override
         public void accept(final T t) {

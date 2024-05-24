@@ -71,7 +71,7 @@ public class ModalImpl implements Modal {
         final String title,
         final ModalContent content
     ) {
-        this(parent, title, content, (m) -> {});
+        this(parent, title, content, (m) -> { });
     }
 
     /**

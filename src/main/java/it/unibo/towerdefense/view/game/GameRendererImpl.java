@@ -29,7 +29,8 @@ public class GameRendererImpl implements GameRenderer {
         new ArrayList<>();
 
     /**
-     * Zero-argument constructor.
+     * GameRendererImpl constructor.
+     * @param renderer the renderer to use
      */
     public GameRendererImpl(final Renderer renderer) {
         this.renderer = renderer;
@@ -84,6 +85,9 @@ public class GameRendererImpl implements GameRenderer {
                 pauseButton.setEnabled(false);
                 resumeButton.setEnabled(false);
             }
+            default -> {
+                throw new IllegalArgumentException("Invalid game status");
+            }
         }
         // add the buttons to the panel
         panel.add(pauseButton);
@@ -111,7 +115,7 @@ public class GameRendererImpl implements GameRenderer {
         private static final int BOTTOM_BORDER = 5;
         private static final int SIZE = 20;
 
-        public Title(final String text) {
+        Title(final String text) {
             super(text);
             this.setFont(new Font(FONT, Font.BOLD, SIZE));
             this.setBorder(

@@ -104,7 +104,7 @@ public interface View {
      */
     void addControlsObserver(Observer<ControlAction> observer);
 
-    /*
+    /**
      * Render the menu for defenses building.
      * @param options the available defenses.
      */

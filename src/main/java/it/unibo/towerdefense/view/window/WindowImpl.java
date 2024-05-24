@@ -33,9 +33,9 @@ public class WindowImpl implements Window {
 
     private static final String WINDOW_TITLE = "Tower Defense";
     private static final String ERROR_ALERT_TITLE = "Error";
-    private static final Logger logger =
-        LoggerFactory.getLogger(WindowImpl.class);
 
+    private final Logger logger =
+        LoggerFactory.getLogger(WindowImpl.class);
     private final List<Modal> openModals =
         new ArrayList<>();
     private final Size resolution;
@@ -206,7 +206,7 @@ public class WindowImpl implements Window {
      * {@inheritDoc}
      */
     @Override
-    public void submitBackgroundAll(List<? extends Drawable> drawables) {
+    public void submitBackgroundAll(final List<? extends Drawable> drawables) {
         this.canvas.submitBackgroundAll(drawables);
     }
 
@@ -252,7 +252,7 @@ public class WindowImpl implements Window {
     }
 
     private void hideAllModals() {
-        this.openModals.forEach((m )-> m.setVisible(false));
+        this.openModals.forEach((m) -> m.setVisible(false));
     }
 
     private void addModal(final Modal modal) {

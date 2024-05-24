@@ -87,7 +87,7 @@ public class SavingsViewImpl implements SavingsView {
             this.onClose.run();
         }
 
-        public SavingsPanel(final Saving saving, final Runnable onClose) {
+        SavingsPanel(final Saving saving, final Runnable onClose) {
             this.saving = saving;
             this.onClose = onClose;
             // build the view
@@ -104,7 +104,7 @@ public class SavingsViewImpl implements SavingsView {
             );
         }
 
-        private String formatDate (final Saving saving) {
+        private String formatDate(final Saving saving) {
             return new SimpleDateFormat(DATE_FORMAT).format(saving.getDate());
         }
     }

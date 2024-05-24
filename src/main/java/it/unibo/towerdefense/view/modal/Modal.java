@@ -22,6 +22,7 @@ public interface Modal {
 
     /**
      * Sets the visibility of the modal window.
+     * @param b the visibility
      */
     void setVisible(boolean b);
 }

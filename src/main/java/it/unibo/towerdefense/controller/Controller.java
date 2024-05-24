@@ -18,7 +18,7 @@ public interface Controller {
      * @param playerName the player name
      * @param resolution the resolution of the screen
      */
-    void run(final String playerName, final Size resolution);
+    void run(String playerName, Size resolution);
 
     /**
      * Starts the game.

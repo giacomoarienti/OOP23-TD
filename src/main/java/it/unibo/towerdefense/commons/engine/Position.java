@@ -65,6 +65,7 @@ public interface Position extends JsonSerializable, Copyable<Position> {
     /**
      * Factory method to create a new Position object.
      * The position is initialized with the origin (0,0).
+     * @return the new Position object
      */
     static Position origin() {
         return Position.of(0, 0);
