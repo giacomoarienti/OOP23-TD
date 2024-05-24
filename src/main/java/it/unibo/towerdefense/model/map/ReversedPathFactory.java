@@ -48,7 +48,7 @@ public class ReversedPathFactory {
             public MapDirection apply(final MapDirection d) {
                 if (counter
                 < random.nextInt(Math.abs(direction.horizontal() * size.getHeight() + direction.vertical() * size.getWidth())
-                / (d == direction ? 4 : 2)
+                / (d == opposite(direction) ? 4 : 2)
                 )) {
                     counter++;
                     return d;
