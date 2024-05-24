@@ -2,6 +2,8 @@ package it.unibo.towerdefense.view.window;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -89,6 +91,22 @@ public class WindowImpl implements Window {
         this.setPanelBackground(gamePanel);
         this.setPanelBackground(buyMenu);
         this.setPanelBackground(infoPanel);
+        // create component adapter
+        final ComponentAdapter componentAdapter = new ComponentAdapter() {
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                final var openModals = WindowImpl.this.openModals;
+                // move the dialog to the center of the frame
+                if (openModals.isEmpty()) {
+                    return;
+                }
+                // update last modal position
+                final Modal dialog = openModals.get(openModals.size() - 1);
+                dialog.setPositionRelativeToParent();
+            }
+        };
+        // add the component listener
+        frame.addComponentListener(componentAdapter);
     }
 
     /**
