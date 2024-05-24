@@ -125,4 +125,9 @@ public interface View {
      * Close all the open modal.
      */
     void closeModals();
+
+    /**
+     * Get the maximum resolution of the screen.
+     */
+    Size getMaxResolution();
 }

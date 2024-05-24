@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.view;
 
+import java.awt.Toolkit;
 import java.util.List;
 import java.util.Objects;
 
@@ -225,6 +226,18 @@ public class ViewImpl implements View {
     @Override
     public void closeModals() {
         this.window.closeModals();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Size getMaxResolution() {
+        final var d = Toolkit.getDefaultToolkit().getScreenSize();
+        return Size.of(
+            (int) d.getWidth(),
+            (int) d.getHeight()
+        );
     }
 
     private void initRenderers(final Size mapSize) {
