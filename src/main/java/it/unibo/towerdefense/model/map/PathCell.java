@@ -3,7 +3,7 @@ package it.unibo.towerdefense.model.map;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 /**
- * Cell where enemyes can move, and where the player can't build defenses.
+ * Cell where enemies can move, and where the player can't build defenses.
  */
 public interface PathCell extends Cell {
 

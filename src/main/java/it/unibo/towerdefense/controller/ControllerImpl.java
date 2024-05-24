@@ -222,6 +222,8 @@ public class ControllerImpl implements Controller {
         // update buy menu
         if (!model.isPlaying()) {
             this.view.clearBuyMenu();
+        } else {
+            this.view.renderBuyMenu(model.getBuildingOptions());
         }
         // check if game is over
         if (model.isGameOver()) {

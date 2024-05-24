@@ -10,7 +10,7 @@ public interface Cell extends JsonSerializable {
 
     /**
      *I getter.
-     * @return the orizontal index of the cell in the map.
+     * @return the horizontal index of the cell in the map.
      */
     int getX();
 

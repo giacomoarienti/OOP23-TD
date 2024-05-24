@@ -7,7 +7,7 @@ import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 
 /**
- * The entity that contain game map informations, with some utility methods to use in 2D space.
+ * The entity that contain game map information, with some utility methods to use in 2D space.
  */
 public interface GameMap extends JsonSerializable {
 

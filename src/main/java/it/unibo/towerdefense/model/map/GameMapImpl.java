@@ -184,7 +184,7 @@ public class GameMapImpl implements GameMap {
     }
 
     /**
-     * Create a stream of T objects from T bidimensional array.
+     * Create a stream of T objects from T two-dimensional array.
      * @param <T> tipe of array elements
      * @param array
      * @param size size of array
