@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
 
 import java.io.IOException;
@@ -16,6 +17,10 @@ import org.junit.jupiter.api.Assertions;
 /**
  * Test class for the SavingsImpl class.
  */
+@SuppressFBWarnings(
+    value = "UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR",
+    justification = "Field is initialized in @BeforeEach method."
+)
 class TestSavingsImpl {
     private static final String TEST_PLAYER_NAME = "TEST";
     private static final String RESOURCES_ROOT =
@@ -28,16 +33,18 @@ class TestSavingsImpl {
 
     /**
      * Configuration step: this is performed BEFORE each test.
+     * @param tempDir the temporary directory
      * @throws IOException if the file cannot be created
      * @throws URISyntaxException if the SAVING_FILE path is not correct
      */
     @BeforeEach
-    void setUp(@TempDir() Path tempDir) throws IOException, URISyntaxException {
+    void setUp(final @TempDir() Path tempDir) throws IOException, URISyntaxException {
         // create a scoreboard implementation using a temporary directory
         this.savings = new SavingsImpl(
             TEST_PLAYER_NAME,
             tempDir.toAbsolutePath().toString()
         );
+        Assertions.assertNotNull(this.savings);
         // load the saving json from the file
         this.savingJson = FileUtils.readFile(
             Paths.get(

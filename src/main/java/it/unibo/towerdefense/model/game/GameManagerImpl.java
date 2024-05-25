@@ -8,6 +8,8 @@ import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Objects;
+
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.dtos.game.GameDTOImpl;
 import it.unibo.towerdefense.commons.patterns.Observer;
@@ -296,6 +298,32 @@ public class GameManagerImpl implements GameManager {
     @Override
     public boolean isGameOver() {
         return this.getGameStatus().equals(GameStatus.GAME_OVER);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(
+            this.playerName,
+            this.lives,
+            this.money,
+            this.wave,
+            this.gameStatus
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof GameManagerImpl) {
+            final GameManagerImpl other = (GameManagerImpl) obj;
+            return this.hashCode() == other.hashCode();
+        }
+        return false;
     }
 
     private void notifyObservers() {

@@ -22,6 +22,7 @@ repositories { // Where to search for dependencies
 dependencies {
     // Suppressions for SpotBugs
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.8.1")
+    testImplementation("com.github.spotbugs:spotbugs-annotations:4.8.1")
 
     // Maven dependencies are composed by a group name, a name and a version, separated by colons
     implementation("org.jooq:jool:0.9.15")
