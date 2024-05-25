@@ -128,6 +128,7 @@ public interface View {
 
     /**
      * Get the maximum resolution of the screen.
+     * @return the maximum resolution
      */
     Size getMaxResolution();
 }

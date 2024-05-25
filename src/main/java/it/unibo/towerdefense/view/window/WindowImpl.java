@@ -94,7 +94,7 @@ public class WindowImpl implements Window {
         // create component adapter
         final ComponentAdapter componentAdapter = new ComponentAdapter() {
             @Override
-            public void componentMoved(ComponentEvent e) {
+            public void componentMoved(final ComponentEvent e) {
                 final var openModals = WindowImpl.this.openModals;
                 // move the dialog to the center of the frame
                 if (openModals.isEmpty()) {
