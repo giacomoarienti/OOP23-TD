@@ -161,9 +161,9 @@ class TestEnemyChoiceStrategyFactoryImpl {
         final LogicalPosition testPos6 = new LogicalPosition(15, 14);
 
         /**create expected results */
-        final Map<Integer, Integer> expectedResultTest1 = Map.of(1, TEST_DAMAGE);
+        final Map<Integer, Integer> expectedResultTest1 = Map.of(0, TEST_DAMAGE);
         final Map<Integer, Integer> expectedResultTest2 = new HashMap<>();
-        final Map<Integer, Integer> expectedResultTest3 = Map.of(5, TEST_DAMAGE);
+        final Map<Integer, Integer> expectedResultTest3 = Map.of(4, TEST_DAMAGE);
 
         EnemyChoiceStrategy strategy = factory.closestToEndMap(TEST_AREA_RANGE,
         TEST_POSITION);

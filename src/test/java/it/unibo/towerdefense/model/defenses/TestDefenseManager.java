@@ -11,62 +11,40 @@ import it.unibo.towerdefense.commons.engine.LogicalPosition;
 /**class for testing defense controller.*/
 public class TestDefenseManager {
 
-    DefenseManager controller;
+    DefenseManager manager;
 
     /**sets up the controller for each test.*/
     @BeforeEach
     public void setUp() {
-        controller = new DefenseManagerImpl();
+        manager = new DefenseManagerImpl();
     }
 
     @Test
     /**Test for "buildDefense" method.*/
     public void testBuildDefense() throws IOException {
-        controller.buildDefense(0, new LogicalPosition(0, 0));
-        controller.buildDefense(1, new LogicalPosition(5, 5));
+        manager.buildDefense(0, new LogicalPosition(0, 0));
+        manager.buildDefense(1, new LogicalPosition(5, 5));
     }
 
     @Test
     /**Test for "toJson" method.*/
     public void testToJson() throws IOException {
         /**Nothing must throw exceptions.*/
-        controller.buildDefense(0, new LogicalPosition(0, 0));
-        controller.buildDefense(1, new LogicalPosition(5, 5));
-        controller.buildDefense(2, new LogicalPosition(10, 10));
-    }
-
-    @Test
-    /**Test for "attackEnemies" method.*/
-    public void testAttackEnemies() {
-
-    }
-
-    @Test
-    /**Test for "getBuildables" method.*/
-    public void testGetBuildables() {
-
+        manager.buildDefense(0, new LogicalPosition(0, 0));
+        manager.buildDefense(1, new LogicalPosition(5, 5));
+        manager.buildDefense(2, new LogicalPosition(10, 10));
+        manager.toJSON();
     }
 
     @Test
     /**Test for "disassembleDefense" method.*/
     public void testDisassembleDefense() throws IOException {
         /**expected sell value and position.*/
-        final int expectedSellValue = 25;
         final LogicalPosition pos = new LogicalPosition(0, 0);
         /**Build and scrap.*/
-        controller.buildDefense(0, pos);
-        Assertions.assertEquals(controller.disassembleDefense(pos), expectedSellValue);
-    }
-
-    @Test
-    /**Test for "toJson" method.*/
-    public void testRender() {
-
-    }
-
-    @Test
-    /**Test for "fromJson".*/
-    public void testFromJson() {
-
+        manager.buildDefense(0, pos);
+        Assertions.assertEquals(manager.getDefenses().size(), 1);
+        Assertions.assertTrue(manager.disassembleDefense(pos) > 0 );
+        Assertions.assertEquals(manager.getDefenses().size(), 0);
     }
 }

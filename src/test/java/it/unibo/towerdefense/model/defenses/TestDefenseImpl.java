@@ -71,6 +71,7 @@ public class TestDefenseImpl {
         jsonVersion.put(DefenseMapKeys.POSITION, testPosition.toJSON());
         jsonVersion.put(DefenseMapKeys.UPGRADES, Set.of());
         jsonVersion.put(DefenseMapKeys.RANGE, testRange);
+        jsonVersion.put(DefenseMapKeys.TYPE, DefenseType.WIZARDTOWER);
         /**Assertions.*/
         Assertions.assertEquals(result.toJSON(), jsonVersion.toString());
     }
