@@ -63,10 +63,6 @@ class TestEnemyChoiceStrategyFactoryImpl {
             public boolean isDead() {
                 throw new UnsupportedOperationException("Unimplemented method 'isDead'");
             }
-            @Override
-            public int getPowerLevel() {
-                throw new UnsupportedOperationException("Unimplemented method 'getPowerLevel'");
-            }
         };
     }
 
