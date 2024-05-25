@@ -5,8 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -38,39 +36,40 @@ class TestFileUtils {
 
     /**
      * Test createFolder method.
-     * @throws IOException if folder could not be opened
      */
     @Test
-    void testCreateFolder() throws IOException {
-        FileUtils.createFolder(TEST_DIR);
+    void testCreateFolder() {
+        Assertions.assertDoesNotThrow(() -> FileUtils.createFolder(TEST_DIR));
         this.assertFileExists(TEST_DIR);
     }
 
     /**
      * Test createFile method.
-     * @throws IOException if file could not be created
      */
     @Test
-    void testCreateFile() throws IOException {
-        FileUtils.createFile(TEST_FILE);
+    void testCreateFile() {
+        Assertions.assertDoesNotThrow(() -> FileUtils.createFile(TEST_FILE));
         this.assertFileExists(TEST_FILE);
     }
 
     /**
      * Test readFile and writeFile methods.
-     * @throws IOException if the file could not be written or read.
      */
     @Test
-    void testReadWriteFile() throws IOException {
-        FileUtils.createFile(TEST_FILE);
-        FileUtils.writeFile(TEST_FILE, TEST_CONTENT);
+    void testReadWriteFile() {
+        Assertions.assertDoesNotThrow(() -> FileUtils.createFile(TEST_FILE));
+        Assertions.assertDoesNotThrow(() -> FileUtils.writeFile(TEST_FILE, TEST_CONTENT));
         // read content and verify
-        final String content = FileUtils.readFile(TEST_FILE);
-        Assertions.assertEquals(content, TEST_CONTENT);
+        Assertions.assertDoesNotThrow(() ->
+            Assertions.assertEquals(
+                FileUtils.readFile(TEST_FILE),
+                TEST_CONTENT
+            )
+        );
     }
 
     @Test
-    void testReadFileOptional() throws InvalidPathException {
+    void testReadFileOptional() {
         final Path path = Paths.get(TEST_FILE);
         Assertions.assertEquals(Optional.empty(), FileUtils.readFileOptional(path));
     }

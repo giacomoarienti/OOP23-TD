@@ -11,6 +11,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
@@ -24,6 +25,11 @@ import java.awt.event.MouseEvent;
 /**
  * Main canvas of the game.
  */
+@SuppressFBWarnings(
+    value = {"SE_TRANSIENT_FIELD_NOT_RESTORED", "SE_BAD_FIELD"},
+    justification = "Transient fields are not intended to be restored during deserialization,"
+        +  "non-serializable fields are marked transient"
+)
 public class CanvasImpl extends JPanel implements Canvas {
 
     private static final long serialVersionUID = 1L;
@@ -31,10 +37,10 @@ public class CanvasImpl extends JPanel implements Canvas {
     private static final int START_Y = 0;
     private static final int START_X = 0;
 
-    private final Logger logger =
+    private final transient Logger logger =
         LoggerFactory.getLogger(CanvasImpl.class);
     private final transient List<Drawable> queue = new ArrayList<>();
-    private final List<Observer<Position>> observers = new ArrayList<>();
+    private final transient List<Observer<Position>> observers = new ArrayList<>();
 
     private Size mapSize;
     private Pair<Double, Double> scale = Pair.of(1.0, 1.0);
@@ -46,6 +52,7 @@ public class CanvasImpl extends JPanel implements Canvas {
         super();
         // bind on click event
         this.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(final MouseEvent e) {
                 CanvasImpl.this.onClick(e);
             }

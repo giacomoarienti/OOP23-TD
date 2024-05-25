@@ -3,6 +3,7 @@ package it.unibo.towerdefense.model.saving;
 import java.util.Map;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,8 +33,8 @@ public class SavingImpl implements Saving {
         final Map<SavingFieldsEnum, String> json,
         final Date date
     ) {
-        this.json = json;
-        this.date = date;
+        this.json = Map.copyOf(json);
+        this.date = new Date(date.getTime());
     }
 
     /**
@@ -58,7 +59,7 @@ public class SavingImpl implements Saving {
     ) throws ParseException {
         this(
             json,
-            new SimpleDateFormat(DATE_FORMAT).parse(date)
+            new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).parse(date)
         );
     }
 
@@ -146,8 +147,8 @@ public class SavingImpl implements Saving {
                 json,
                 date
             );
-        } catch (ParseException e) {
-            throw new RuntimeException("Error parsing date", e);
+        } catch (final ParseException e) {
+            throw new IllegalStateException("Invalid date", e);
         }
     }
 

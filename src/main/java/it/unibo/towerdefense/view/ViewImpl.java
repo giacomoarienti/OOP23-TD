@@ -42,6 +42,8 @@ import it.unibo.towerdefense.view.window.WindowImpl;
  */
 public class ViewImpl implements View {
 
+    private static final String WINDOW_ERROR = "Window not created yet";
+
     private Window window;
     private Renderer renderer;
     private GameRenderer gameRenderer;
@@ -49,12 +51,6 @@ public class ViewImpl implements View {
     private DefenseRenderer defenseRenderer;
     private EnemyRenderer enemyRenderer;
     private BuyMenu buyMenu;
-
-    /**
-     * Empty constructor.
-     */
-    public ViewImpl() {
-    }
 
     /**
      * {@inheritDoc}
@@ -81,7 +77,7 @@ public class ViewImpl implements View {
     @Override
     public void displaySavings(final SavingsController controller) {
         if (Objects.isNull(this.window)) {
-            throw new IllegalStateException("Window not created yet");
+            throw new IllegalStateException(WINDOW_ERROR);
         }
         final var savingsView = new SavingsViewImpl(controller);
         this.window.displayModal("Savings", savingsView);
@@ -93,7 +89,7 @@ public class ViewImpl implements View {
     @Override
     public void displayStartMenu(final StartMenuController controller) {
         if (Objects.isNull(this.window)) {
-            throw new IllegalStateException("Window not created yet");
+            throw new IllegalStateException(WINDOW_ERROR);
         }
         final var startMenu = new StartMenuViewImpl(controller);
         this.window.displayModal("Start Menu", startMenu);
@@ -105,7 +101,7 @@ public class ViewImpl implements View {
     @Override
     public void close() {
         if (Objects.isNull(this.window)) {
-            throw new IllegalStateException("Window not created yet");
+            throw new IllegalStateException(WINDOW_ERROR);
         }
         this.window.close();
     }
@@ -116,7 +112,7 @@ public class ViewImpl implements View {
     @Override
     public void displayScoreboard(final ScoreboardDTO dto) {
         if (Objects.isNull(this.window)) {
-            throw new IllegalStateException("Window not created yet");
+            throw new IllegalStateException(WINDOW_ERROR);
         }
         this.window.displayModal("Scoreboard", new ScoreboardViewImpl(dto));
     }

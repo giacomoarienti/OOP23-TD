@@ -92,7 +92,7 @@ public class ScoreboardViewImpl implements ScoreboardView {
         return panel;
     }
 
-    private class ScoreboardEntry extends JPanel {
+    private static class ScoreboardEntry extends JPanel {
         private static final long serialVersionUID = 1L;
         private static final String FONT_NAME = "Calibri";
         private static final int ENTRY_V_SPACING = 20;

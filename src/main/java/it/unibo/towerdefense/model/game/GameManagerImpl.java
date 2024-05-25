@@ -334,8 +334,9 @@ public class GameManagerImpl implements GameManager {
 
     /**
      * Class for a Consumer which can be defined after initialization.
+     * @param <T> the type of the object to consume
      */
-    private final class BindableConsumer<T> implements Consumer<T> {
+    private static final class BindableConsumer<T> implements Consumer<T> {
         private Optional<Consumer<T>> c;
 
         /**
@@ -365,7 +366,7 @@ public class GameManagerImpl implements GameManager {
          * Must only be called once.
          * @param c the consumer to bind
          */
-        private void bind(final Consumer<T> c) {
+        public void bind(final Consumer<T> c) {
             if (this.c.isEmpty()) {
                 this.c = Optional.of(c);
             } else {

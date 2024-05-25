@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.controller.savings;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -15,7 +16,7 @@ import it.unibo.towerdefense.view.View;
 public class SavingsControllerImpl implements SavingsController {
 
     private final Consumer<Saving> start;
-    private final View view;
+    private final Consumer<SavingsController> run;
     private final List<Saving> savings;
 
     /**
@@ -30,13 +31,13 @@ public class SavingsControllerImpl implements SavingsController {
         final Consumer<Saving> start
     ) {
         this.start = start;
-        this.view = view;
+        this.run = controller -> view.displaySavings(controller);
         // load savings
         try {
             final var savingLoader = new SavingsImpl(playerName);
             this.savings = savingLoader.loadSavings();
         } catch (final IOException e) {
-           throw new RuntimeException("Error while loading savings", e);
+           throw new UncheckedIOException("Error while loading savings", e);
         }
     }
 
@@ -53,7 +54,7 @@ public class SavingsControllerImpl implements SavingsController {
      */
     @Override
     public void run() {
-        this.view.displaySavings(this);
+        this.run.accept(this);
     }
 
     /**

@@ -1,11 +1,13 @@
 package it.unibo.towerdefense.model;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.game.ControlAction;
@@ -42,12 +44,6 @@ public class ModelImpl implements ModelManager, Model {
     private GameManager game;
     private boolean initialized;
     private Saving saving;
-
-    /**
-     * Empty constructor.
-     */
-    public ModelImpl() {
-    }
 
     /**
      * {@inheritDoc}
@@ -118,6 +114,10 @@ public class ModelImpl implements ModelManager, Model {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(
+        value = "EI",
+        justification = "Safe to return internal representation of game"
+    )
     public GameManager getGame() {
         if (Objects.isNull(game)) {
             throw new IllegalStateException("Game not initialized");
@@ -242,7 +242,7 @@ public class ModelImpl implements ModelManager, Model {
             final var scoreboard = new ScoreboardImpl();
             return scoreboard.saveScore(game.getPlayerName(), game.getWave());
         } catch (final IOException e) {
-           throw new RuntimeException("Error saving score", e);
+           throw new UncheckedIOException("Error saving score", e);
         }
     }
 
@@ -272,7 +272,7 @@ public class ModelImpl implements ModelManager, Model {
             final var savingLoader = new SavingsImpl(game.getPlayerName());
             savingLoader.writeSaving(this.saving);
         } catch (final IOException e) {
-            throw new RuntimeException("Error saving game", e);
+            throw new UncheckedIOException("Error saving game", e);
         }
     }
 

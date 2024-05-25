@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.controller.menu;
 
+import java.util.function.Consumer;
+
 import it.unibo.towerdefense.controller.Controller;
 import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.view.View;
@@ -10,7 +12,7 @@ import it.unibo.towerdefense.view.View;
 public class StartMenuControllerImpl implements StartMenuController {
 
     private final Controller controller;
-    private final View view;
+    private final Consumer<StartMenuController> run;
 
     /**
      * Constructor with GameController.
@@ -22,7 +24,7 @@ public class StartMenuControllerImpl implements StartMenuController {
         final View view
     ) {
         this.controller = controller;
-        this.view = view;
+        this.run = menuController -> view.displayStartMenu(menuController);
     }
 
     /**
@@ -30,7 +32,7 @@ public class StartMenuControllerImpl implements StartMenuController {
      */
     @Override
     public void run() {
-        this.view.displayStartMenu(this);
+        this.run.accept(this);
     }
 
     /**

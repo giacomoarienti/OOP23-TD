@@ -40,7 +40,7 @@ public class GameOverViewImpl implements GameOverView {
         final JPanel innerPnl = new JPanel();
         innerPnl.setLayout(new BoxLayout(innerPnl, BoxLayout.Y_AXIS));
         // score label
-        final JLabel scoreLabel = new JLabel(SCORE + String.valueOf(score.getWave()));
+        final JLabel scoreLabel = new JLabel(SCORE + score.getWave());
         scoreLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         scoreLabel.setFont(new Font(scoreLabel.getFont().getName(), Font.PLAIN, FONT_SIZE));
         innerPnl.add(scoreLabel);

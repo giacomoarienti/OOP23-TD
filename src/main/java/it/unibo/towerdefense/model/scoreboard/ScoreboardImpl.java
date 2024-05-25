@@ -22,6 +22,7 @@ import it.unibo.towerdefense.model.score.ScoreImpl;
  */
 public class ScoreboardImpl implements Scoreboard {
 
+    private static final String MESSAGE_ERROR = "Scoreboard file is corrupted!";
     private static final String SCOREBOARD_PATH = Constants.GAME_FOLDER
             + File.separator
             + "scoreboard.json";
@@ -79,8 +80,8 @@ public class ScoreboardImpl implements Scoreboard {
             }
         } catch (final JSONException e) {
             this.scores.clear();
-            logger.error("Scoreboard file is corrupted!");
-            throw new IOException("Scoreboard file is corrupted!", e);
+            logger.error(MESSAGE_ERROR);
+            throw new IOException(MESSAGE_ERROR, e);
         }
     }
 
@@ -93,7 +94,6 @@ public class ScoreboardImpl implements Scoreboard {
         this.loadScores();
         // add the new score
         final var score = new ScoreImpl(name, wave);
-        System.out.println(score.toJSON());
         this.scores.add(score);
         try {
             // add each score to the a JSON array
@@ -101,12 +101,11 @@ public class ScoreboardImpl implements Scoreboard {
             this.scores.forEach((s) ->
                 jsonArray.put(new JSONObject(s.toJSON()))
             );
-            System.out.println(jsonArray.toString());
             // save the json string to file
             FileUtils.writeFile(filePath, jsonArray.toString());
         } catch (final JSONException e) {
-            logger.error("Scoreboard file is corrupted!");
-            throw new IOException("Scoreboard file is corrupted!", e);
+            logger.error(MESSAGE_ERROR);
+            throw new IOException(MESSAGE_ERROR, e);
         }
         // score saved
         return score;

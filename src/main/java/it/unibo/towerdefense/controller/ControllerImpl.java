@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.dtos.GameState;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
@@ -26,7 +27,6 @@ import it.unibo.towerdefense.view.View;
 
 /**
  * Class implementing the main controller of the game.
- * 
  */
 public class ControllerImpl implements Controller {
 
@@ -34,7 +34,9 @@ public class ControllerImpl implements Controller {
 
     private final Logger logger =
         LoggerFactory.getLogger(ControllerImpl.class);
+    @SuppressFBWarnings(value = "EI2", justification = "Model is intentionally mutable and safe to store.")
     private final View view;
+    @SuppressFBWarnings(value = "EI2", justification = "View is intentionally mutable and safe to store.")
     private final Model model;
 
     private String playerName;

@@ -15,8 +15,8 @@ import it.unibo.towerdefense.commons.engine.LogicalPosition;
 public class LineDrawable extends Drawable {
 
     private final Color color;
-    private LogicalPosition to;
-    private LogicalPosition from;
+    private final LogicalPosition to;
+    private final LogicalPosition from;
 
     /**
      * Constructor from LogicalPosition and Color.

@@ -24,12 +24,14 @@ public interface GameLauncherController {
     /**
      * Select the resolution of the game.
      * @param selection the index of the resolution
+     * @throws IllegalArgumentException if the selection is out of bounds
      */
     void selectResolution(int selection);
 
     /**
      * Saves player's name.
      * @param name the player's name
+     * @throws IllegalArgumentException if the name is empty or invalid length
      */
     void setPlayerName(String name);
 

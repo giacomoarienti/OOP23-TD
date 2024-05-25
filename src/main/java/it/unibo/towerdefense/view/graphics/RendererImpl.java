@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.utils.images.ImageLoader;
 import it.unibo.towerdefense.view.window.Window;
@@ -13,6 +14,7 @@ import it.unibo.towerdefense.view.window.Window;
  */
 public class RendererImpl implements Renderer {
 
+    @SuppressFBWarnings(value = "EI2", justification = "Window is intentionally mutable and safe to store.")
     private final Window window;
     private final ImageLoader imageLoader;
 
@@ -72,6 +74,7 @@ public class RendererImpl implements Renderer {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clearCanvasQueue() {
         this.window.clearCanvasQueue();
     }

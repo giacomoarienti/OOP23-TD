@@ -3,6 +3,7 @@ package it.unibo.towerdefense.view.graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -12,6 +13,10 @@ import it.unibo.towerdefense.commons.engine.Size;
  */
 public class ImageDrawable extends Drawable {
 
+    @SuppressFBWarnings(
+        value = "EI2",
+        justification = "Image is intentionally mutable and safe to store."
+    )
     private final Image image;
 
     /**

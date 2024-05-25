@@ -2,6 +2,7 @@ package it.unibo.towerdefense.view.savings;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -105,7 +106,7 @@ public class SavingsViewImpl implements SavingsView {
         }
 
         private String formatDate(final Saving saving) {
-            return new SimpleDateFormat(DATE_FORMAT).format(saving.getDate());
+            return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(saving.getDate());
         }
     }
 }

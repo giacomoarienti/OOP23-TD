@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.dtos.game.ControlAction;
 import it.unibo.towerdefense.commons.dtos.game.GameDTO;
 import it.unibo.towerdefense.commons.patterns.Observer;
@@ -24,6 +25,11 @@ public class GameRendererImpl implements GameRenderer {
     private static final String RESUME_LABEL = "Resume";
     private static final String PAUSE_LABEL = "Pause";
     private static final String QUIT_LABEL = "Save & Quit";
+
+    @SuppressFBWarnings(
+        value = "EI2",
+        justification = "Renderer is intentionally mutable and safe to store."
+    )
     private final Renderer renderer;
     private final List<Observer<ControlAction>> observers =
         new ArrayList<>();
