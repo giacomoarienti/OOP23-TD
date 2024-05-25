@@ -30,9 +30,9 @@ public class CanvasImpl extends JPanel implements Canvas {
     private static final int FIRST_INDEX = 0;
     private static final int START_Y = 0;
     private static final int START_X = 0;
-    private static final Logger logger =
-        LoggerFactory.getLogger(CanvasImpl.class);
 
+    private final Logger logger =
+        LoggerFactory.getLogger(CanvasImpl.class);
     private final transient List<Drawable> queue = new ArrayList<>();
     private final List<Observer<Position>> observers = new ArrayList<>();
 
@@ -64,9 +64,9 @@ public class CanvasImpl extends JPanel implements Canvas {
         final Graphics2D g2d = (Graphics2D) g.create();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         // get synchronized copy of the queue
-        final var syncQueue = Collections.synchronizedList(new ArrayList<>(this.queue).stream().filter(Objects::nonNull).toList());
+        final var syncQueue = Collections.synchronizedList(new ArrayList<>(this.queue));
         synchronized (syncQueue) {
             if (!syncQueue.isEmpty()) {
                 // clear the canvas

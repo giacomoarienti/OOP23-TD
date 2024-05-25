@@ -104,7 +104,7 @@ public class ScoreboardViewImpl implements ScoreboardView {
             return label;
         }
 
-        public ScoreboardEntry(final String col1, final String col2, final boolean header) {
+        ScoreboardEntry(final String col1, final String col2, final boolean header) {
             // set layout
             final GridLayout layout = new GridLayout(1, 2);
             layout.setHgap(ENTRY_V_SPACING);

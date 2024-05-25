@@ -104,7 +104,7 @@ public interface View {
      */
     void addControlsObserver(Observer<ControlAction> observer);
 
-    /*
+    /**
      * Render the menu for defenses building.
      * @param options the available defenses.
      */
@@ -125,4 +125,10 @@ public interface View {
      * Close all the open modal.
      */
     void closeModals();
+
+    /**
+     * Get the maximum resolution of the screen.
+     * @return the maximum resolution
+     */
+    Size getMaxResolution();
 }

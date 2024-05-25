@@ -1,6 +1,9 @@
 package it.unibo.towerdefense.view.graphics;
 
 import java.awt.geom.Line2D;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.awt.Graphics2D;
 import java.awt.Color;
 
@@ -33,13 +36,14 @@ public class LineDrawable extends Drawable {
      */
     @Override
     protected void paint(final Graphics2D g2d) {
+        final Pair<Double, Double> scale = this.getScale();
         // draw line
         g2d.setColor(this.color);
         final var line = new Line2D.Double(
-            this.from.getCellX() * this.scale.getLeft(),
-            this.from.getCellY() * this.scale.getRight(),
-            this.to.getCellX() * this.scale.getLeft(),
-            this.to.getCellY() * this.scale.getRight()
+            this.from.getRelativeX() * scale.getLeft(),
+            this.from.getRelativeY() * scale.getRight(),
+            this.to.getRelativeX() * scale.getLeft(),
+            this.to.getRelativeY() * scale.getRight()
         );
         g2d.draw(line);
     }

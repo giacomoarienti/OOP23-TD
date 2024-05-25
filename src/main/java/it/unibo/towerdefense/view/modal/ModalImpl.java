@@ -71,7 +71,7 @@ public class ModalImpl implements Modal {
         final String title,
         final ModalContent content
     ) {
-        this(parent, title, content, (m) -> {});
+        this(parent, title, content, (m) -> { });
     }
 
     /**
@@ -82,9 +82,7 @@ public class ModalImpl implements Modal {
         // pack the content
         this.dialog.pack();
         // set position relative to the parent frame
-        this.dialog.setLocationRelativeTo(
-            this.dialog.getParent()
-        );
+        this.setPositionRelativeToParent();
         // show the dialog
         this.dialog.setVisible(true);
     }
@@ -112,6 +110,14 @@ public class ModalImpl implements Modal {
     @Override
     public void setVisible(final boolean b) {
         this.dialog.setVisible(b);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPositionRelativeToParent() {
+        this.dialog.setLocationRelativeTo(this.dialog.getParent());
     }
 
     private void closeModal() {

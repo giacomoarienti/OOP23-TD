@@ -53,7 +53,7 @@ public class ModelImpl implements ModelManager, Model {
      * {@inheritDoc}
      */
     @Override
-    public void init(final String playerName, final Size cellSize){
+    public void init(final String playerName, final Size cellSize) {
         // init model managers
         map = new MapManagerImpl(cellSize);
         defenses = new DefenseManagerImpl();
@@ -67,7 +67,7 @@ public class ModelImpl implements ModelManager, Model {
      * {@inheritDoc}
      */
     @Override
-    public void init(final Saving s){
+    public void init(final Saving s) {
         // init model managers
         map = new MapManagerImpl(s.getMapJson());
         defenses = new DefenseManagerImpl(s.getDefensesJson());
@@ -157,7 +157,7 @@ public class ModelImpl implements ModelManager, Model {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public Stream<DefenseDescription> getDefensesDTOs() {
@@ -165,7 +165,7 @@ public class ModelImpl implements ModelManager, Model {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public Stream<CellInfo> getMapDTOs() {
@@ -173,7 +173,7 @@ public class ModelImpl implements ModelManager, Model {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public List<BuildingOption> getBuildingOptions() {
@@ -181,15 +181,15 @@ public class ModelImpl implements ModelManager, Model {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public void selectCell(Position position) {
+    public void selectCell(final Position position) {
         map.select(position);
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void build(final int index) {
@@ -197,7 +197,7 @@ public class ModelImpl implements ModelManager, Model {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void startWave() {
@@ -205,7 +205,7 @@ public class ModelImpl implements ModelManager, Model {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void update() {
@@ -217,7 +217,7 @@ public class ModelImpl implements ModelManager, Model {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void handleControls(final ControlAction action) {
@@ -226,7 +226,7 @@ public class ModelImpl implements ModelManager, Model {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public boolean isGameOver() {
@@ -234,7 +234,7 @@ public class ModelImpl implements ModelManager, Model {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public Score saveScore() {
@@ -247,7 +247,7 @@ public class ModelImpl implements ModelManager, Model {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void save() {

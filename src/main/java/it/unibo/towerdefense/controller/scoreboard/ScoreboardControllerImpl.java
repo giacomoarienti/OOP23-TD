@@ -6,6 +6,9 @@ import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
 import it.unibo.towerdefense.model.scoreboard.ScoreboardImpl;
 import it.unibo.towerdefense.view.View;
 
+/**
+ * Implementation of the ScoreboardController interface.
+ */
 public class ScoreboardControllerImpl implements ScoreboardController {
 
     private final View view;

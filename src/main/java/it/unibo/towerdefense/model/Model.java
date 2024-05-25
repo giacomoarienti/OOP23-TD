@@ -15,6 +15,11 @@ import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.model.saving.Saving;
 import it.unibo.towerdefense.model.score.Score;
 
+/**
+ * Interface that represents the main model.
+ * This interface should be used by the Controller since
+ * it hides the implementation details of the model.
+ */
 public interface Model {
 
     /**

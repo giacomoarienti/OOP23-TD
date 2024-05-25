@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 
 import org.json.JSONObject;
 
+import com.google.common.base.Objects;
+
 /**
  * Class implementing the Saving interface.
  */
@@ -147,6 +149,31 @@ public class SavingImpl implements Saving {
         } catch (ParseException e) {
             throw new RuntimeException("Error parsing date", e);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(
+            this.getDate(),
+            this.getGameJson(),
+            this.getMapJson(),
+            this.getDefensesJson()
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof SavingImpl) {
+            final SavingImpl savingObject = (SavingImpl) obj;
+            return this.hashCode() == savingObject.hashCode();
+        }
+        return false;
     }
 
     private String getFormattedDate() {

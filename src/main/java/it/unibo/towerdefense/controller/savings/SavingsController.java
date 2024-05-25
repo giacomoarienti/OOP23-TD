@@ -4,6 +4,9 @@ import java.util.List;
 
 import it.unibo.towerdefense.model.saving.Saving;
 
+/**
+ * Interface that models the controller of the savings.
+ */
 public interface SavingsController {
 
     /**

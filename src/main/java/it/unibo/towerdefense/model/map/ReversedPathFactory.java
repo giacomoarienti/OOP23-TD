@@ -10,13 +10,13 @@ import it.unibo.towerdefense.commons.engine.Size;
 
 
 /**
- * Class that generate different tipes of path.
+ * Class that generate different types of path.
  */
 public class ReversedPathFactory {
 
 
     /**
-     *Return a path corresponding to an orizontal line from left to right.
+     *Return a path corresponding to an horizontal line from left to right.
      * @return the path
      */
     public Iterator<MapDirection> line() {
@@ -48,7 +48,7 @@ public class ReversedPathFactory {
             public MapDirection apply(final MapDirection d) {
                 if (counter
                 < random.nextInt(Math.abs(direction.horizontal() * size.getHeight() + direction.vertical() * size.getWidth())
-                / (d == direction ? 4 : 2)
+                / (d == opposite(direction) ? 4 : 2)
                 )) {
                     counter++;
                     return d;

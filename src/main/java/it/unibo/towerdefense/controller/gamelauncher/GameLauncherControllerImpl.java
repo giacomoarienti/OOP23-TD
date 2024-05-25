@@ -13,8 +13,7 @@ import it.unibo.towerdefense.view.View;
  */
 public class GameLauncherControllerImpl implements GameLauncherController {
 
-    private static final List<Size> RESOLUTIONS = Constants.RESOLUTIONS;
-
+    private final List<Size> resolutions;
     private final View view;
     private final BiConsumer<String, Size> start;
 
@@ -29,6 +28,13 @@ public class GameLauncherControllerImpl implements GameLauncherController {
     public GameLauncherControllerImpl(final View view, final BiConsumer<String, Size> start) {
         this.start = start;
         this.view = view;
+        // set resolutions
+        final Size maxResolution = this.view.getMaxResolution();
+        this.resolutions = Constants.RESOLUTIONS.stream()
+            .filter(res -> res.getWidth() <= maxResolution.getWidth()
+                && res.getHeight() <= maxResolution.getHeight()
+            )
+            .toList();
     }
 
     /**
@@ -44,7 +50,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
      */
     @Override
     public List<Size> getResolutions() {
-        return Collections.unmodifiableList(RESOLUTIONS);
+        return Collections.unmodifiableList(this.resolutions);
     }
 
     /**
@@ -52,7 +58,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
      */
     @Override
     public void selectResolution(final int selection) {
-        if (selection < 0 || selection >= RESOLUTIONS.size()) {
+        if (selection < 0 || selection >= this.resolutions.size()) {
             throw new IllegalArgumentException("Invalid resolution selection");
         }
         this.resolution = selection;
@@ -79,7 +85,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
     public void startGame() {
         this.start.accept(
             playerName,
-            RESOLUTIONS.get(resolution)
+            this.resolutions.get(resolution)
         );
     }
 }

@@ -32,7 +32,7 @@ public interface MapManager extends JsonSerializable, Manager {
      * Returns the PathPosition where a enemy have to move next update.
      * @param pos current position
      * @param distanceToMove the distance an enemy travels each update
-     * @return the PathPositon where the enemy will be located, if distanceToEnd is equal to 0 the enemy arrives at the end.
+     * @return the PathPosition where the enemy will be located, if distanceToEnd is equal to 0 the enemy arrives at the end.
      */
     PathVector getNextPosition(LogicalPosition pos, int distanceToMove);
 
@@ -62,7 +62,7 @@ public interface MapManager extends JsonSerializable, Manager {
 
     /**
      * All map cells DTOs getter.
-     * @return stream of all map cells view needed informations.
+     * @return stream of all map cells view needed information.
      */
     Stream<CellInfo> getMap();
 

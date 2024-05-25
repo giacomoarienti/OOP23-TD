@@ -15,7 +15,8 @@ public class GameLoop implements Runnable {
     private static final int MILLISECONDS_IN_SECOND = 1000;
     private static final int UPDATE_RATE = MILLISECONDS_IN_SECOND / UPDATES_PER_SECOND;
 
-    private final Logger logger;
+    private final Logger logger =
+        LoggerFactory.getLogger(GameLoop.class);
     private final Controller controller;
     private long nextStatTime;
     private int fps, ups;
@@ -26,7 +27,6 @@ public class GameLoop implements Runnable {
      */
     public GameLoop(final Controller controller) {
         this.controller = controller;
-        this.logger = LoggerFactory.getLogger(this.getClass());
     }
 
     /**
@@ -45,7 +45,7 @@ public class GameLoop implements Runnable {
     }
 
     /**
-     * Implementation inspired by {@link https://github.com/aricci303/game-as-a-lab/blob/master/Game-As-A-Lab-Step-5-component/src/rollball/core/GameEngine.java}.
+     * Implementation inspired by {@link https://github.com/aricci303/game-as-a-lab/}.
      */
     private void mainLoop() {
         this.nextStatTime = System.currentTimeMillis() + (int) MILLISECONDS_IN_SECOND;
@@ -84,16 +84,16 @@ public class GameLoop implements Runnable {
         this.controller.render();
     }
 
-    private void waitForNextFrame(final long current){
-		final long dt = System.currentTimeMillis() - current;
-		if (dt < UPDATE_RATE){
-			try {
-				Thread.sleep(UPDATE_RATE - dt);
-			} catch (Exception ex) {
+    private void waitForNextFrame(final long current) {
+        final long dt = System.currentTimeMillis() - current;
+        if (dt < UPDATE_RATE) {
+            try {
+                Thread.sleep(UPDATE_RATE - dt);
+            } catch (Exception ex) {
                 logger.error("Error during waitForNextFrame()", ex);
             }
-		}
-	}
+        }
+    }
 
     /**
      * GameLoop builder.

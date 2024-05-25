@@ -26,7 +26,8 @@ public class SavingsImpl implements Savings {
             + File.separator
             + "savings";
 
-    private final Logger logger;
+    private final Logger logger =
+         LoggerFactory.getLogger(SavingsImpl.class);
     private final String folderPath;
 
     /**
@@ -36,7 +37,6 @@ public class SavingsImpl implements Savings {
      * @throws IOException if the path cannot be created
      */
     public SavingsImpl(final String playerName, final String path) throws IOException {
-        this.logger = LoggerFactory.getLogger(this.getClass());
         this.folderPath = path + File.separator + playerName;
         // create the SAVED_GAMES_FOLDER if it does not exist
         FileUtils.createFolder(this.folderPath);

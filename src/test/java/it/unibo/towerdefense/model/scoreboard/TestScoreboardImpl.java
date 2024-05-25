@@ -72,8 +72,8 @@ class TestScoreboardImpl {
         Assertions.assertEquals(3, scores.size());
         // check the order
         final var it = scores.iterator();
-        Assertions.assertEquals(NAME_2, it.next().getName());
         Assertions.assertEquals(NAME_1, it.next().getName());
+        Assertions.assertEquals(NAME_2, it.next().getName());
         Assertions.assertEquals(NAME_3, it.next().getName());
     }
 

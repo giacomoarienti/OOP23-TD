@@ -48,7 +48,9 @@ public class DefenseRendererImpl implements DefenseRenderer {
     private void renderDefenses(DefenseDescription def) {
            Image image = this.mappedDefenseImages.get(def.getType()).get(def.getLevel()-1);
            renderer.submitToCanvas(new ImageDrawable(image, def.getPosition()));
-           renderer.submitToCanvas(new EmptyCircleDrawable(def.getPosition(), def.getRange(), Color.BLUE));
+           if(def.getIsFocused()) {
+                renderer.submitToCanvas(new EmptyCircleDrawable(def.getPosition(), def.getRange(), Color.BLUE));
+           }
     }
     /**Adds attacks to list.*/
     private void addAttacks(DefenseDescription def) {

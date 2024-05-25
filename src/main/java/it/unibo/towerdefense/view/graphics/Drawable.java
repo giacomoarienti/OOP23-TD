@@ -14,7 +14,7 @@ import it.unibo.towerdefense.commons.engine.Size;
 public abstract class Drawable {
 
     private LogicalPosition position;
-    protected Pair<Double, Double> scale = Pair.of(1.0, 1.0);
+    private Pair<Double, Double> scale = Pair.of(1.0, 1.0);
     private Size size;
 
     /**
@@ -75,9 +75,18 @@ public abstract class Drawable {
     /**
      * Returns the scaled value of the given value.
      * @param value the value to scale
+     * @return the scaled value
      */
     public double scale(final int value) {
         return value * this.scale.getLeft() / this.position.getScalingFactor();
+    }
+
+    /**
+     * Returns the scale factor.
+     * @return the scale factor
+     */
+    public Pair<Double, Double> getScale() {
+        return this.scale;
     }
 
     /**
@@ -90,6 +99,7 @@ public abstract class Drawable {
 
     /**
      * Returns the scaled size of the drawable.
+     * @return the scaled size of the object.
      */
     public Size getScaledSize() {
         return Size.of(

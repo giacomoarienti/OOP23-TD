@@ -20,6 +20,7 @@ public class EmptyCircleDrawable extends Drawable {
      * Constructor from Size, LogicalPosition and Color.
      * @param pos center position of the shape
      * @param radius radius of the circle
+     * @param color the color of the circle
      */
     public EmptyCircleDrawable(final LogicalPosition pos, final int radius, final Color color) {
         super(pos, Size.of(radius * 2, radius * 2));

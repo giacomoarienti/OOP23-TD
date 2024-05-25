@@ -2,6 +2,8 @@ package it.unibo.towerdefense.view.window;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,9 +35,9 @@ public class WindowImpl implements Window {
 
     private static final String WINDOW_TITLE = "Tower Defense";
     private static final String ERROR_ALERT_TITLE = "Error";
-    private static final Logger logger =
-        LoggerFactory.getLogger(WindowImpl.class);
 
+    private final Logger logger =
+        LoggerFactory.getLogger(WindowImpl.class);
     private final List<Modal> openModals =
         new ArrayList<>();
     private final Size resolution;
@@ -89,6 +91,22 @@ public class WindowImpl implements Window {
         this.setPanelBackground(gamePanel);
         this.setPanelBackground(buyMenu);
         this.setPanelBackground(infoPanel);
+        // create component adapter
+        final ComponentAdapter componentAdapter = new ComponentAdapter() {
+            @Override
+            public void componentMoved(final ComponentEvent e) {
+                final var openModals = WindowImpl.this.openModals;
+                // move the dialog to the center of the frame
+                if (openModals.isEmpty()) {
+                    return;
+                }
+                // update last modal position
+                final Modal dialog = openModals.get(openModals.size() - 1);
+                dialog.setPositionRelativeToParent();
+            }
+        };
+        // add the component listener
+        frame.addComponentListener(componentAdapter);
     }
 
     /**
@@ -206,7 +224,7 @@ public class WindowImpl implements Window {
      * {@inheritDoc}
      */
     @Override
-    public void submitBackgroundAll(List<? extends Drawable> drawables) {
+    public void submitBackgroundAll(final List<? extends Drawable> drawables) {
         this.canvas.submitBackgroundAll(drawables);
     }
 
@@ -252,7 +270,7 @@ public class WindowImpl implements Window {
     }
 
     private void hideAllModals() {
-        this.openModals.forEach((m )-> m.setVisible(false));
+        this.openModals.forEach((m) -> m.setVisible(false));
     }
 
     private void addModal(final Modal modal) {
