@@ -52,8 +52,8 @@ public class TestImageLoader {
          */
         @Test
         void testAbsentImage() {
-            Assertions.assertThrows(IOException.class, () -> tested.loadImage("nonexistent.png", 1.0));
-            Assertions.assertThrows(IOException.class,
+            Assertions.assertThrows(IllegalArgumentException.class, () -> tested.loadImage("nonexistent.png", 1.0));
+            Assertions.assertThrows(IllegalArgumentException.class,
                     () -> tested.loadImage("it/unibo/towerdefense/utils/images/test.svg", 1.0));
         }
 
