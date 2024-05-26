@@ -37,7 +37,9 @@ class WavePolicySupplierImpl implements WavePolicySupplier {
      * @param configFile the file from which to read the configuration.
      */
     WavePolicySupplierImpl(final String configFile) {
-        Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> configValues = loadConfig(
+        Triple<SortedMap<Integer, Predicate<EnemyType>>,
+               SortedMap<Integer, Integer>,
+               SortedMap<Integer, Integer>> configValues = loadConfig(
                 configFile);
 
         checkConstraints(configValues);
@@ -96,7 +98,9 @@ class WavePolicySupplierImpl implements WavePolicySupplier {
      * @param values the triple containing the configuration to check.
      */
     private void checkConstraints(
-            final Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> values) {
+            final Triple<SortedMap<Integer, Predicate<EnemyType>>,
+                         SortedMap<Integer, Integer>,
+                         SortedMap<Integer, Integer>> values) {
 
         final SortedMap<Integer, Predicate<EnemyType>> types = values.getLeft();
         final SortedMap<Integer, Integer> powerIncrements = values.getMiddle();

@@ -13,6 +13,15 @@ import org.junit.jupiter.api.Test;
  */
 public class TestImageLoader {
 
+    private static final double RSCALE2 = 4.5567;
+    private static final int RSIZE2 = 1030;
+    private static final double RSCALE1 = 1;
+    private static final int RSIZE1 = 100;
+    private static final double SSCALE2 = 0.6345;
+    private static final int SSIZE2 = 384;
+    private static final double SSCALE1 = 1;
+    private static final int SSIZE1 = 100;
+
     /**
      * Tests on wrong initialization.
      */
@@ -88,8 +97,8 @@ public class TestImageLoader {
      */
     @Test
     void testLoadSquareImage() throws IOException {
-        testScaling("it/unibo/towerdefense/utils/images/test.png", 100, 1);
-        testScaling("it/unibo/towerdefense/utils/images/test.png", 384, 0.6345);
+        testScaling("it/unibo/towerdefense/utils/images/test.png", SSIZE1, SSCALE1);
+        testScaling("it/unibo/towerdefense/utils/images/test.png", SSIZE2, SSCALE2);
     }
 
     /**
@@ -97,7 +106,7 @@ public class TestImageLoader {
      */
     @Test
     void testLoadRectangularImage() throws IOException {
-        testScaling("it/unibo/towerdefense/utils/images/test2.jpg", 100, 1);
-        testScaling("it/unibo/towerdefense/utils/images/test2.jpg", 1030, 4.5567);
+        testScaling("it/unibo/towerdefense/utils/images/test2.jpg", RSIZE1, RSCALE1);
+        testScaling("it/unibo/towerdefense/utils/images/test2.jpg", RSIZE2, RSCALE2);
     }
 }

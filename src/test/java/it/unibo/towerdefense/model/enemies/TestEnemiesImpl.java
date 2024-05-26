@@ -19,7 +19,7 @@ class TestEnemiesImpl {
     /**
      * Arbitrary starting position.
      */
-    private final static EnemyPosition STARTING_POSITION = new EnemyPosition(0, 0, Direction.E, 100);
+    private static final EnemyPosition STARTING_POSITION = new EnemyPosition(0, 0, Direction.E, 100);
     private WavePolicySupplierImpl testingWPS;
     private EnemiesImpl tested;
     private int dead;

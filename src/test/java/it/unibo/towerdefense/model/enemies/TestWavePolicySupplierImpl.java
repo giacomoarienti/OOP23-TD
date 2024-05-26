@@ -48,7 +48,16 @@ class TestWavePolicySupplierImpl {
     @Nested
     class NestedTestBlock {
 
-        private final static String TEST_FILE = "waves.json";
+        private static final long WAVE4 = 1000000L;
+        private static final long WAVE3 = 700000L;
+        private static final long WAVE2 = 400000L;
+        private static final long WAVE1 = 100000L;
+        private static final int V3 = 100;
+        private static final int K3 = 3;
+        private static final int K2 = 2;
+        private static final int V1 = 120;
+        private static final int K1 = 1;
+        private static final String TEST_FILE = "waves.json";
         private WavePolicySupplierImpl tested;
 
         /**
@@ -64,9 +73,8 @@ class TestWavePolicySupplierImpl {
          * Tests the method getCyclesPerSpawn works as intended.
          */
         @Test
-        @SuppressWarnings("checkstyle:MagicNumberCheck")
         void testGetCyclesPerSpawn() {
-            Map<Integer, Integer> expected = Map.of(1, 120, 2, 120, 3, 100);
+            Map<Integer, Integer> expected = Map.of(K1, V1, K2, V1, K3, V3);
             Assertions.assertThrows(RuntimeException.class, () -> tested.getCyclesPerSpawn(0));
             Assertions.assertTrue(expected.entrySet().stream()
                     .allMatch(e -> e.getValue().equals(tested.getCyclesPerSpawn(e.getKey()))));
@@ -76,8 +84,9 @@ class TestWavePolicySupplierImpl {
          * Tests the method getPower works as intended.
          */
         @Test
+        @SuppressWarnings("checkstyle:magicnumbercheck")
         void testGetPower() {
-            List<Long> expectedPowers = List.of(100000L, 400000L, 700000L, 1000000L);
+            List<Long> expectedPowers = List.of(WAVE1, WAVE2, WAVE3, WAVE4);
             Assertions.assertThrows(RuntimeException.class, () -> tested.getPower(0));
             for (int i = 1; i <= expectedPowers.size(); i++) {
                 Assertions.assertEquals(expectedPowers.get(i - 1), tested.getPower(i));

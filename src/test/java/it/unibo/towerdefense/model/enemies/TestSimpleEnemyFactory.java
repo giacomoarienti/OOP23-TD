@@ -25,10 +25,10 @@ class TestSimpleEnemyFactory {
      * Initializes the class for testing.
      */
     @BeforeEach
-    @SuppressWarnings("checkstyle:magicnumber")
     private void init() {
         tested = new SimpleEnemyFactory();
-        t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100, 10000);
+        int val = 100;
+        t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, val, val, val * val, val * val);
         created = tested.spawn(t, STARTING_POSITION);
     }
 

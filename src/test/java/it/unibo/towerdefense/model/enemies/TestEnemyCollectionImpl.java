@@ -45,11 +45,11 @@ class TestEnemyCollectionImpl {
      * @see TestSimpleEnemyFactory
      */
     @BeforeEach
-    @SuppressWarnings("checkstyle:magicnumber")
     private void init() {
         tested = new EnemyCollectionImpl((pos, speed) -> Optional.empty());
         helper = new SimpleEnemyFactory();
-        t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100, 10000);
+        int val = 100;
+        t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, val, val, val * val, val * val);
         spawned = helper.spawn(t, STARTING_POSITION);
     }
 
@@ -100,7 +100,8 @@ class TestEnemyCollectionImpl {
      */
     @Test
     void testMove() {
-        Set<RichEnemy> spawned = IntStream.range(0, 100).mapToObj(i -> {
+        int end = 100;
+        Set<RichEnemy> spawned = IntStream.range(0, end).mapToObj(i -> {
             RichEnemy e = helper.spawn(t, STARTING_POSITION);
             tested.add(e);
             return e;
