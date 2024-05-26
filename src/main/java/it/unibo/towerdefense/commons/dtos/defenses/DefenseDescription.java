@@ -3,6 +3,7 @@ package it.unibo.towerdefense.commons.dtos.defenses;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**Contains data that can be visualized in the build menu about defenses.*/
 public class DefenseDescription {
@@ -19,7 +20,7 @@ public class DefenseDescription {
     /**Type.*/
     private DefenseType type;
     /**Position.*/
-    private LogicalPosition position;
+    private Optional<LogicalPosition> position;
     /**List of attacking targets.*/
     private List<LogicalPosition> targets;
     /**range.*/
@@ -41,14 +42,14 @@ public class DefenseDescription {
     */
     public DefenseDescription(final int damage, final int speed, final int cost,
     final int sell, final int level, final int range, final boolean focused,
-     final DefenseType type, final LogicalPosition pos, final List<LogicalPosition> targets) {
+     final DefenseType type, final Optional<LogicalPosition> pos, final List<LogicalPosition> targets) {
         this.damage = damage;
         this.speed = speed;
         this.level = level;
         this.cost = cost;
         this.type = type;
         this.sellValue = sell;
-        this.position = LogicalPosition.copyOf(pos);
+        this.position = pos;
         this.targets = List.copyOf(targets);
         this.range = range;
         this.isFocused = focused;
@@ -119,8 +120,8 @@ public class DefenseDescription {
     /**getter for position.
      * @return the position.
     */
-    public LogicalPosition getPosition() {
-        return LogicalPosition.copyOf(this.position);
+    public Optional<LogicalPosition> getPosition() {
+        return this.position;
     }
 
     /**getter for range.

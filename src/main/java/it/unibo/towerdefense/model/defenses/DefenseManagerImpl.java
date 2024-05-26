@@ -80,7 +80,7 @@ public class DefenseManagerImpl implements DefenseManager {
          def.getRange(),
          focusedDef.isPresent() && focusedDef.get().equals(def),
          def.getType(),
-         LogicalPosition.copyOf(def.getPosition().get()),
+         def.getPosition(), 
          List.copyOf(attacksOnLoop.computeIfAbsent(def, x -> List.of())));
     }
 

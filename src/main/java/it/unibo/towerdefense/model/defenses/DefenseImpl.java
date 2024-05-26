@@ -71,7 +71,7 @@ public class DefenseImpl implements Defense {
         this.buildingCost = cost;
         this.sellingValue = sellValue;
         this.strategy = strat;
-        this.upgrades = Set.copyOf(upgrades);
+        this.upgrades = new HashSet<>(upgrades);
         this.position = position;
     }
 
@@ -155,7 +155,7 @@ public class DefenseImpl implements Defense {
      */
     @Override
     public Set<Defense> getPossibleUpgrades() {
-        return Set.copyOf(upgrades);
+        return new HashSet<>(upgrades);
     }
 
     /**
@@ -187,7 +187,7 @@ public class DefenseImpl implements Defense {
      */
     @Override
     public void addUpgrades(final Set<Defense> newUpgrades) {
-        this.upgrades = Set.copyOf(newUpgrades);
+        this.upgrades.addAll(newUpgrades);
     }
 
     /**
