@@ -48,8 +48,8 @@ public class DefenseDescription {
         this.cost = cost;
         this.type = type;
         this.sellValue = sell;
-        this.position = pos;
-        this.targets = targets;
+        this.position = LogicalPosition.copyOf(pos);
+        this.targets = List.copyOf(targets);
         this.range = range;
         this.isFocused = focused;
     }
@@ -120,7 +120,7 @@ public class DefenseDescription {
      * @return the position.
     */
     public LogicalPosition getPosition() {
-        return this.position;
+        return LogicalPosition.copyOf(this.position);
     }
 
     /**getter for range.
@@ -134,7 +134,7 @@ public class DefenseDescription {
      * @return a List of positions being attacked.
      */
     public List<LogicalPosition> getTargets() {
-        return this.targets;
+        return List.copyOf(this.targets);
     }
 
     /**@return boolean that indicates if the defense is selected in game.*/

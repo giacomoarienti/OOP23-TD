@@ -58,7 +58,7 @@ public class DefenseManagerImpl implements DefenseManager {
     */
     private Optional<MutablePair<Integer, Defense>> find(final LogicalPosition pos) {
         for (int i = 0; i < defenses.size(); i++) {
-            if (defenses.get(i).getKey().getPosition().equals(pos)) {
+            if (defenses.get(i).getKey().getPosition().get().equals(pos)) {
                 return Optional.of(MutablePair.of(i, defenses.get(i).getKey()));
             }
         }
@@ -80,8 +80,8 @@ public class DefenseManagerImpl implements DefenseManager {
          def.getRange(),
          focusedDef.isPresent() && focusedDef.get().equals(def),
          def.getType(),
-         def.getPosition(),
-         attacksOnLoop.computeIfAbsent(def, x -> List.of()));
+         LogicalPosition.copyOf(def.getPosition().get()),
+         List.copyOf(attacksOnLoop.computeIfAbsent(def, x -> List.of())));
     }
 
     /**gets the models of buildable defenses for given defense

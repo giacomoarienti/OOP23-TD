@@ -7,7 +7,7 @@ import java.util.HashSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseType;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
@@ -30,7 +30,7 @@ public class DefenseImpl implements Defense {
     private DefenseType type;
     private EnemyChoiceStrategy strategy;
     private Set<Defense> upgrades;
-    private LogicalPosition position;
+    private Optional<LogicalPosition> position;
 
     /**A constructor that copies another defense.
      *@param copy the defense to copy.
@@ -62,7 +62,7 @@ public class DefenseImpl implements Defense {
      */
     public DefenseImpl(final DefenseType type, final int level, final int damage,
     final int range, final int attackSpeed, final int cost, final int sellValue,
-    final LogicalPosition position, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
+    final Optional<LogicalPosition> position, final EnemyChoiceStrategy strat, final Set<Defense> upgrades) {
         this.type = type;
         this.level = level;
         this.damage = damage;
@@ -71,7 +71,7 @@ public class DefenseImpl implements Defense {
         this.buildingCost = cost;
         this.sellingValue = sellValue;
         this.strategy = strat;
-        this.upgrades = upgrades;
+        this.upgrades = Set.copyOf(upgrades);
         this.position = position;
     }
 
@@ -155,15 +155,15 @@ public class DefenseImpl implements Defense {
      */
     @Override
     public Set<Defense> getPossibleUpgrades() {
-        return upgrades;
+        return Set.copyOf(upgrades);
     }
 
     /**
      *{@inheritDoc}
      */
     @Override
-    public LogicalPosition getPosition() {
-        return position;
+    public Optional<LogicalPosition> getPosition() {
+        return this.position;
     }
 
     /**
@@ -179,7 +179,7 @@ public class DefenseImpl implements Defense {
      */
     @Override
     public void setPosition(final LogicalPosition newPos) {
-        this.position = newPos;
+        this.position = Optional.of(newPos);
     }
 
     /**
@@ -187,7 +187,7 @@ public class DefenseImpl implements Defense {
      */
     @Override
     public void addUpgrades(final Set<Defense> newUpgrades) {
-        this.upgrades.addAll(newUpgrades);
+        this.upgrades = Set.copyOf(newUpgrades);
     }
 
     /**
@@ -203,8 +203,8 @@ public class DefenseImpl implements Defense {
         parser.put(DefenseMapKeys.BUILDING_COST, this.buildingCost);
         parser.put(DefenseMapKeys.SELLING_COST, this.sellingValue);
         /**upgrades won't have a position.*/
-        if (this.position != null) {
-            parser.put(DefenseMapKeys.POSITION, this.position.toJSON());
+        if (this.position.isPresent()) {
+            parser.put(DefenseMapKeys.POSITION, this.position.get().toJSON());
         }
         parser.put(DefenseMapKeys.RANGE, this.range);
         parser.put(DefenseMapKeys.TYPE, this.type);
@@ -235,7 +235,7 @@ public class DefenseImpl implements Defense {
         /**Obtain  position,if it exists*/
         Optional<LogicalPosition> position =
         json.has(DefenseMapKeys.POSITION) ? Optional.of(LogicalPosition.fromJson(json.getString(DefenseMapKeys.POSITION)))
-        : Optional.absent();
+        : Optional.empty();
 
         return new DefenseImpl(
         DefenseType.valueOf(json.get(DefenseMapKeys.TYPE).toString()),
@@ -245,7 +245,7 @@ public class DefenseImpl implements Defense {
         json.getInt(DefenseMapKeys.SPEED),
         json.getInt(DefenseMapKeys.BUILDING_COST),
         json.getInt(DefenseMapKeys.SELLING_COST),
-        position.isPresent() ? position.get() : null,
+        position,
         null,
         upgrades);
     }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.awt.Image;
 
@@ -25,6 +26,12 @@ public class DefenseRendererImpl implements DefenseRenderer {
     private List<AttackAnimation> attacks;
     private Map<DefenseType, List<Image>> mappedDefenseImages;
     private Map<DefenseType, Image> mappedBulletsImages;
+
+    /**suppressing a warning to pass the renderer without errors.*/
+    @SuppressFBWarnings(
+        value = "EI2",
+        justification = "Renderer is intentionally mutable and safe to store."
+    )
 
     /**Constructor for this class.
      * @param renderer used to submit images.

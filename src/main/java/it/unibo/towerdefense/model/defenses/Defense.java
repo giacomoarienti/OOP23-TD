@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.model.defenses;
 
+import java.util.Optional;
 import java.util.Set;
 
 import it.unibo.towerdefense.commons.api.JsonSerializable;
@@ -57,7 +58,7 @@ public interface Defense extends JsonSerializable {
     /**
      * @return the position of the Defense.
      */
-    LogicalPosition getPosition();
+    Optional<LogicalPosition> getPosition();
 
     /**Sets the strategy for the defense.
      * @param strat the strategy to set.
