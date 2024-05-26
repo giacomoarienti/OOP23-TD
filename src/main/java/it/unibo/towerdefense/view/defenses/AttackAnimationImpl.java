@@ -11,17 +11,17 @@ public class AttackAnimationImpl implements AttackAnimation {
     private boolean isAreaBased;
     private LogicalPosition attacker, attacked;
     private DefenseType type;
-    final static private int TIME_TO_LIVE = 35;
+    private static final int INITIAL_TIME_TO_LIVE = 35;
 
     /**Constructor.
-     * @param isAreaBased
-     * @param attacker
-     * @param Attacked
+     * @param isAreaBased if it is true it may change scaling of projectile.
+     * @param attacker position of the attacking entity.
+     * @param attacked position of the attacked entity.
      * @param type
     */
     public AttackAnimationImpl(final boolean isAreaBased, final LogicalPosition attacker,
     final LogicalPosition attacked, final DefenseType type) {
-        this.timeToLive = TIME_TO_LIVE;
+        this.timeToLive = INITIAL_TIME_TO_LIVE;
         this.isAreaBased = isAreaBased;
         this.attacked = attacked;
         this.attacker = attacker;

@@ -51,7 +51,6 @@ public class DefenseFactoryImpl implements DefenseFactory {
 
     /**sets the strategy for a defense based on its type.
      * @param def the defense to set the strategy to.
-     * @param customPos used for Thunder summoner,and any other possible defense that uses a custom position.
      * @throws IllegalStateException if defense type is none
     */
     private void setStrategyFor(final Defense def) {
@@ -82,8 +81,8 @@ public class DefenseFactoryImpl implements DefenseFactory {
      * method clones such data.
      * @param defense the defense to pass data to.
      */
-    private void cloneNonSerializableDataInUpdates(Defense defense) {
-        for(Defense def : defense.getPossibleUpgrades()) {
+    private void cloneNonSerializableDataInUpdates(final Defense defense) {
+        for (Defense def : defense.getPossibleUpgrades()) {
             def.setPosition(defense.getPosition());
             def.setStrategy(defense.getStrategy());
         }
@@ -122,7 +121,6 @@ public class DefenseFactoryImpl implements DefenseFactory {
     public Defense upgrade(final Defense current, final int upgradeIndex, final Optional<String> upgradesFileName)
     throws IOException {
         LogicalPosition defPosition = current.getPosition();
-        System.out.println("defPosition="+defPosition);
         Defense upgradedVersion = current.getPossibleUpgrades().stream().toList().get(upgradeIndex);
         upgradedVersion.setPosition(defPosition);
         setStrategyFor(upgradedVersion);
@@ -132,7 +130,6 @@ public class DefenseFactoryImpl implements DefenseFactory {
             upgradedVersion.getType(),
             upgradedVersion.getLevel()));
         }
-        System.out.println("new tower pos="+upgradedVersion.getPosition());
         return upgradedVersion;
     }
 }

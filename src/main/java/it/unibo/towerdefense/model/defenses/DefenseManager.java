@@ -3,11 +3,8 @@ package it.unibo.towerdefense.model.defenses;
 import it.unibo.towerdefense.commons.api.JsonSerializable;
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
-import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.model.Manager;
-import it.unibo.towerdefense.model.enemies.Enemy;
 
-import java.util.Map;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +15,9 @@ import java.util.Optional;
  */
 public interface DefenseManager extends JsonSerializable, Manager {
 
+    /**
+     * Method called by the model at every loop.
+    */
     void update();
     /**returns defense built at given position.
      * @param at position to check

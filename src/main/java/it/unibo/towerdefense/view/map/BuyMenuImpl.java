@@ -54,7 +54,7 @@ public class BuyMenuImpl implements BuyMenu {
      * @return a html encoded string for the option tooltip.
      * @param tooltip the original string.
      */
-    private static String htmlEncode(String tooltip) {
-        return "<html>"+tooltip.replace("\n", "<br>")+"</html>";
+    private static String htmlEncode(final String tooltip) {
+        return "<html>" + tooltip.replace("\n", "<br>") + "</html>";
     }
 }
