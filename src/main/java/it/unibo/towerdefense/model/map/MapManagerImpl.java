@@ -94,9 +94,11 @@ public class MapManagerImpl implements MapManager {
         }
         if (c.equals(selected)) {
             selected = null;
+            defenses.setSelectedDefense(c.getCenter(), false);
         } else {
             if (c instanceof BuildableCell && ((BuildableCell) c).isBuildable()) {
                 selected = (BuildableCell) c;
+                defenses.setSelectedDefense(selected.getCenter(), true);
             }
         }
     }
@@ -170,6 +172,7 @@ public class MapManagerImpl implements MapManager {
             }
             try {
                 defenses.buildDefense(optionNumber, selected.getCenter());
+                defenses.setSelectedDefense(selected.getCenter(), true);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

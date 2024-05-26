@@ -51,4 +51,10 @@ public interface DefenseManager extends JsonSerializable, Manager {
      * @return the defenseDescriptions.
     */
     List<DefenseDescription> getDefenses();
+
+    /**
+     * @param pos the position of selection.
+     * @param toSelect if this value is false it means that the position is being de-selected.
+     */
+    void setSelectedDefense(LogicalPosition pos, boolean toSelect);
 }
