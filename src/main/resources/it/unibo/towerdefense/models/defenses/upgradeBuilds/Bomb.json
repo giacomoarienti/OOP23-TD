@@ -2,7 +2,7 @@
     {
         "level" : 2,
         "type" : "BOMBTOWER",
-        "damage" : 25,
+        "damage" : 30,
         "speed" : 5,
         "range" : 8000,
         "buildingCost" : 130,
@@ -11,7 +11,7 @@
     {
         "level" : 3,
         "type" : "BOMBTOWER",
-        "damage" : 29,
+        "damage" : 35,
         "speed" : 6,
         "range" : 8500,
         "buildingCost" : 175,
@@ -20,7 +20,7 @@
     {
         "level" : 4,
         "type" : "BOMBTOWER",
-        "damage" : 36,
+        "damage" : 38,
         "speed" : 8,
         "range" : 9000,
         "buildingCost" : 215,
@@ -29,7 +29,7 @@
     {
         "level" : 4,
         "type" : "BOMBTOWER",
-        "damage" : 29,
+        "damage" : 45,
         "speed" : 7,
         "range" : 10000,
         "buildingCost" : 220,

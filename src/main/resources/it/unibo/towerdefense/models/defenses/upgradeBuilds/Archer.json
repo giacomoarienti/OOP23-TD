@@ -2,7 +2,7 @@
     {
         "level" : 2,
         "type" : "ARCHERTOWER",
-        "damage" : 38,
+        "damage" : 43,
         "speed" : 6,
         "range" : 10000,
         "buildingCost" : 120,
@@ -11,7 +11,7 @@
     {
         "level" : 3,
         "type" : "ARCHERTOWER",
-        "damage" : 46,
+        "damage" : 49,
         "speed" : 7,
         "range" : 11000,
         "buildingCost" : 170,
@@ -29,7 +29,7 @@
     {
         "level" : 4,
         "type" : "ARCHERTOWER",
-        "damage" : 44,
+        "damage" : 55,
         "speed" : 7,
         "range" : 14000,
         "buildingCost" : 210,
