@@ -12,7 +12,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JButton;
 
 import it.unibo.towerdefense.commons.dtos.scoreboard.ScoreboardDTO;
-import it.unibo.towerdefense.model.score.Score;
+import it.unibo.towerdefense.model.scoreboard.Score;
 
 /**
  * Scoreboard View implementation.
@@ -57,12 +57,12 @@ public class ScoreboardViewImpl implements ScoreboardView {
         innerPnl.setLayout(new BoxLayout(innerPnl, BoxLayout.Y_AXIS));
         // if no scores are available, display a message
         if (this.scoreboard.getScores().isEmpty()) {
-            final JLabel noSavingsLabel = new JLabel(NO_SCORES_AVAILABLE);
-            noSavingsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-            noSavingsLabel.setBorder(
+            final JLabel noSavesLabel = new JLabel(NO_SCORES_AVAILABLE);
+            noSavesLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            noSavesLabel.setBorder(
                 BorderFactory.createEmptyBorder(0, 0, BORDER_SIZE, 0)
             );
-            innerPnl.add(noSavingsLabel);
+            innerPnl.add(noSavesLabel);
         } else {
             // add scoreboard header
             innerPnl.add(new ScoreboardEntry(COLUMN_1, COLUMN_2, true));

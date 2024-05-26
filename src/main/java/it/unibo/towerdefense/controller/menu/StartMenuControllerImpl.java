@@ -3,7 +3,7 @@ package it.unibo.towerdefense.controller.menu;
 import java.util.function.Consumer;
 
 import it.unibo.towerdefense.controller.Controller;
-import it.unibo.towerdefense.model.saving.Saving;
+import it.unibo.towerdefense.model.saves.Save;
 import it.unibo.towerdefense.view.View;
 
 /**
@@ -47,8 +47,8 @@ public class StartMenuControllerImpl implements StartMenuController {
      * {@inheritDoc}
      */
     @Override
-    public void play(final Saving saving) {
-        this.controller.start(saving);
+    public void play(final Save save) {
+        this.controller.start(save);
     }
 
     /**
@@ -63,8 +63,8 @@ public class StartMenuControllerImpl implements StartMenuController {
      * {@inheritDoc}
      */
     @Override
-    public void displaySavings() {
-        this.controller.displaySavings();
+    public void displaySaves() {
+        this.controller.displaySaves();
     }
 
     /**

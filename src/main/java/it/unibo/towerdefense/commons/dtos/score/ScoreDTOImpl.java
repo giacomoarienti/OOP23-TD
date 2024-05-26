@@ -1,6 +1,6 @@
 package it.unibo.towerdefense.commons.dtos.score;
 
-import it.unibo.towerdefense.model.score.ScoreImpl;
+import it.unibo.towerdefense.model.scoreboard.ScoreImpl;
 
 /**
  * Data transfer object for Score.

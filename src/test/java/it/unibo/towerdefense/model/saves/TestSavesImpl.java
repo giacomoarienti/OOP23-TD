@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.model.saving;
+package it.unibo.towerdefense.model.saves;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,21 +15,21 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Assertions;
 
 /**
- * Test class for the SavingsImpl class.
+ * Test class for the SavesImpl class.
  */
 @SuppressFBWarnings(
     value = "UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR",
     justification = "Field is initialized in @BeforeEach method."
 )
-class TestSavingsImpl {
+class TestSavesImpl {
     private static final String TEST_PLAYER_NAME = "TEST";
     private static final String RESOURCES_ROOT =
-        "it/unibo/towerdefense/models/saving/";
+        "it/unibo/towerdefense/models/save/";
     private static final String SAVING_FILE =
-        RESOURCES_ROOT + "test-saving.json";
+        RESOURCES_ROOT + "test-save.json";
 
-    private Savings savings;
-    private String savingJson;
+    private Saves saves;
+    private String saveJson;
 
     /**
      * Configuration step: this is performed BEFORE each test.
@@ -40,13 +40,13 @@ class TestSavingsImpl {
     @BeforeEach
     void setUp(final @TempDir() Path tempDir) throws IOException, URISyntaxException {
         // create a scoreboard implementation using a temporary directory
-        this.savings = new SavingsImpl(
+        this.saves = new SavesImpl(
             TEST_PLAYER_NAME,
             tempDir.toAbsolutePath().toString()
         );
-        Assertions.assertNotNull(this.savings);
-        // load the saving json from the file
-        this.savingJson = FileUtils.readFile(
+        Assertions.assertNotNull(this.saves);
+        // load the save json from the file
+        this.saveJson = FileUtils.readFile(
             Paths.get(
                 ClassLoader.getSystemResource(SAVING_FILE).toURI()
             )
@@ -54,33 +54,33 @@ class TestSavingsImpl {
     }
 
     /**
-     * Test saving loading fromJson.
+     * Test save loading fromJson.
      */
     @Test
-    void testFileSavingLoadFromJson() {
-        // check that the saving is not null
-        final var saving = this.loadSavingFromFile();
-        Assertions.assertNotNull(saving);
+    void testFileSaveLoadFromJson() {
+        // check that the save is not null
+        final var save = this.loadSaveFromFile();
+        Assertions.assertNotNull(save);
     }
 
     /**
-     * Test the writing and load of a saving.
-     * @throws IOException if the saving cannot be loaded
+     * Test the writing and load of a save.
+     * @throws IOException if the save cannot be loaded
      */
     @Test
-    void testWriteLoadSaving() throws IOException {
-        // create a new saving
-        final Saving saving = this.loadSavingFromFile();
-        // write the saving
-        Assertions.assertTrue(this.savings.writeSaving(saving));
-        // load all the savings
-        final var savings = this.savings.loadSavings();
-        // check that the saving is present
-        Assertions.assertTrue(savings.contains(saving));
+    void testWriteLoadSave() throws IOException {
+        // create a new save
+        final Save save = this.loadSaveFromFile();
+        // write the save
+        Assertions.assertTrue(this.saves.writeSave(save));
+        // load all the saves
+        final var saves = this.saves.loadSaves();
+        // check that the save is present
+        Assertions.assertTrue(saves.contains(save));
     }
 
-    private Saving loadSavingFromFile() {
-        // create a new saving from the JSON string
-        return Saving.fromJson(savingJson);
+    private Save loadSaveFromFile() {
+        // create a new save from the JSON string
+        return Save.fromJson(saveJson);
     }
 }

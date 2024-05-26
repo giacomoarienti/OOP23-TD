@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
-import it.unibo.towerdefense.model.score.Score;
-import it.unibo.towerdefense.model.score.ScoreImpl;
 
 /**
  * Class implementing the Scoreboard interface.

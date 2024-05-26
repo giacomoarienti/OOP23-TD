@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.view.savings;
+package it.unibo.towerdefense.view.saves;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -12,23 +12,23 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import it.unibo.towerdefense.controller.savings.SavingsController;
-import it.unibo.towerdefense.model.saving.Saving;
+import it.unibo.towerdefense.controller.saves.SavesController;
+import it.unibo.towerdefense.model.saves.Save;
 
 /**
- * Savings View implementation.
+ * Saves View implementation.
  *
  */
-public class SavingsViewImpl implements SavingsView {
+public class SavesViewImpl implements SavesView {
 
     private static final int BOTTOM_BORDER = 10;
-    private final SavingsController controller;
+    private final SavesController controller;
 
     /**
-     * Create a new instance of SavingsViewImpl.
+     * Create a new instance of SavesViewImpl.
      * @param controller the view's controller
      */
-    public SavingsViewImpl(final SavingsController controller) {
+    public SavesViewImpl(final SavesController controller) {
         this.controller = controller;
     }
 
@@ -37,28 +37,28 @@ public class SavingsViewImpl implements SavingsView {
      */
     @Override
     public JPanel build(final Runnable onClose) {
-        // get the list of savings
-        final List<Saving> savings = this.controller.getSavings();
+        // get the list of saves
+        final List<Save> saves = this.controller.getSaves();
         // create main panel
         final JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         // create inner panel
         final JPanel innerPanel = new JPanel();
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
-        // if there are no savings, display a message
-        if (savings.isEmpty()) {
-            final JLabel noSavingsLabel = new JLabel("No savings available");
-            noSavingsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-            noSavingsLabel.setBorder(
+        // if there are no saves, display a message
+        if (saves.isEmpty()) {
+            final JLabel noSavesLabel = new JLabel("No saves available");
+            noSavesLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            noSavesLabel.setBorder(
                 BorderFactory.createEmptyBorder(0, 0, BOTTOM_BORDER, 0)
             );
-            innerPanel.add(noSavingsLabel);
+            innerPanel.add(noSavesLabel);
         }
-        // create a panel for each saving
-        for (final Saving saving: savings) {
+        // create a panel for each save
+        for (final Save save: saves) {
             innerPanel.add(
-                new SavingsPanel(
-                    saving,
+                new SavesPanel(
+                    save,
                     onClose
                 )
             );
@@ -77,22 +77,22 @@ public class SavingsViewImpl implements SavingsView {
         return panel;
     }
 
-    private class SavingsPanel extends JPanel {
+    private class SavesPanel extends JPanel {
         private static final long serialVersionUID = 1L;
         private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
-        private final Saving saving;
+        private final Save save;
         private final Runnable onClose;
 
         private void onClick() {
-            controller.loadSaving(this.saving);
+            controller.loadSave(this.save);
             this.onClose.run();
         }
 
-        SavingsPanel(final Saving saving, final Runnable onClose) {
-            this.saving = saving;
+        SavesPanel(final Save save, final Runnable onClose) {
+            this.save = save;
             this.onClose = onClose;
             // build the view
-            this.add(new JLabel(this.formatDate(saving)));
+            this.add(new JLabel(this.formatDate(save)));
             // create load button and add it to the panel
             final JButton loadButton = new JButton("Load");
             loadButton.addActionListener(e -> onClick());
@@ -105,8 +105,8 @@ public class SavingsViewImpl implements SavingsView {
             );
         }
 
-        private String formatDate(final Saving saving) {
-            return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(saving.getDate());
+        private String formatDate(final Save save) {
+            return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(save.getDate());
         }
     }
 }

@@ -15,7 +15,7 @@ import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
-import it.unibo.towerdefense.controller.savings.SavingsController;
+import it.unibo.towerdefense.controller.saves.SavesController;
 import it.unibo.towerdefense.model.game.GameStatus;
 import it.unibo.towerdefense.view.defenses.DefenseRenderer;
 import it.unibo.towerdefense.view.defenses.DefenseRendererImpl;
@@ -32,7 +32,7 @@ import it.unibo.towerdefense.view.map.BuyMenuImpl;
 import it.unibo.towerdefense.view.map.MapRenderer;
 import it.unibo.towerdefense.view.map.MapRendererImpl;
 import it.unibo.towerdefense.view.menus.StartMenuViewImpl;
-import it.unibo.towerdefense.view.savings.SavingsViewImpl;
+import it.unibo.towerdefense.view.saves.SavesViewImpl;
 import it.unibo.towerdefense.view.scoreboard.ScoreboardViewImpl;
 import it.unibo.towerdefense.view.window.Window;
 import it.unibo.towerdefense.view.window.WindowImpl;
@@ -75,12 +75,12 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void displaySavings(final SavingsController controller) {
+    public void displaySaves(final SavesController controller) {
         if (Objects.isNull(this.window)) {
             throw new IllegalStateException(WINDOW_ERROR);
         }
-        final var savingsView = new SavingsViewImpl(controller);
-        this.window.displayModal("Savings", savingsView);
+        final var savesView = new SavesViewImpl(controller);
+        this.window.displayModal("Saves", savesView);
     }
 
     /**
