@@ -28,7 +28,7 @@ class SimpleEnemyFactory implements EnemyFactory {
      * object common
      * to all instances of Enemy entities of that type
      */
-    private class MinimalEnemy implements RichEnemy {
+    private static final class MinimalEnemy implements RichEnemy {
 
         /**
          * A record to keep track of the information about an Enemy.

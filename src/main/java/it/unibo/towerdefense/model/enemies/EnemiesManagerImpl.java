@@ -124,7 +124,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
      * @param <B> the BiFunction's second argument's type
      * @param <O> the BiFunction's return value's type
      */
-    private final class BindableBiFunction<A, B, O> implements BiFunction<A, B, O> {
+    private static final class BindableBiFunction<A, B, O> implements BiFunction<A, B, O> {
         private Optional<BiFunction<A, B, O>> f;
 
         /**
@@ -170,7 +170,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
      *
      * @param <O> the supplied value's type
      */
-    private final class BindableSupplier<O> implements Supplier<O> {
+    private static final class BindableSupplier<O> implements Supplier<O> {
         private Optional<Supplier<O>> s;
 
         /**

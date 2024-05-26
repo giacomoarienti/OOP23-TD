@@ -70,7 +70,7 @@ class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave> {
     /**
      * Class created to inherit both from SkipIterator and Wave.
      */
-    private class SkipWave extends SkipIterator<RichEnemyType> implements Wave {
+    private static final class SkipWave extends SkipIterator<RichEnemyType> implements Wave {
         /**
          * Constructor for the class.
          *
