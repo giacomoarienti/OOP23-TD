@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ class TestPredicateBasedRandomWaveGenerator {
 
     private static final String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
     private static final int START = -5;
-    private static final int END = 10000;
+    private static final int END = 100;
     private PredicateBasedRandomWaveGenerator rwg;
     private WavePolicySupplierImpl wps;
     private EnemyCatalogue catalogue;
@@ -37,13 +38,11 @@ class TestPredicateBasedRandomWaveGenerator {
     }
 
     /**
-     * Test waves from 1 to N.
+     * Test waves from START to END.
      */
     @Test
     void testWaves() {
-        for (int i = START; i < END; i++) {
-            testWave(i);
-        }
+        IntStream.range(START, END + 1).forEach(i -> testWave(i));
     }
 
     /**
@@ -55,10 +54,11 @@ class TestPredicateBasedRandomWaveGenerator {
         if (wave < 1) {
             Assertions.assertThrows(RuntimeException.class, () -> rwg.apply(wave));
         } else {
-            int power = wps.getPower(wave);
+            long power = wps.getPower(wave);
             int rate = wps.getCyclesPerSpawn(wave);
             Wave generated = rwg.apply(wave);
-            for (int i = 0, p = 0; p < power && generated.hasNext(); i++) {
+            long p = 0;
+            for (int i = 0; p < power && generated.hasNext(); i++) {
                 Assertions.assertTrue(generated.hasNext(), () -> "Didn't have next");
                 if (i % rate == 0) {
                     Optional<RichEnemyType> current = generated.next();

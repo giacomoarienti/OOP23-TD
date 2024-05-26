@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
@@ -63,56 +66,39 @@ class TestWavePolicySupplierImpl {
         @Test
         @SuppressWarnings("checkstyle:MagicNumberCheck")
         void testGetCyclesPerSpawn() {
+            Map<Integer, Integer> expected = Map.of(1, 120, 2, 120, 3, 100);
             Assertions.assertThrows(RuntimeException.class, () -> tested.getCyclesPerSpawn(0));
-            Assertions.assertEquals(5, tested.getCyclesPerSpawn(1));
-            Assertions.assertEquals(5, tested.getCyclesPerSpawn(2));
-            Assertions.assertEquals(5, tested.getCyclesPerSpawn(3));
-            Assertions.assertEquals(3, tested.getCyclesPerSpawn(4));
-            Assertions.assertEquals(3, tested.getCyclesPerSpawn(10));
-            Assertions.assertEquals(3, tested.getCyclesPerSpawn(990));
-            Assertions.assertEquals(1, tested.getCyclesPerSpawn(1000));
-            Assertions.assertEquals(1, tested.getCyclesPerSpawn(132094));
+            Assertions.assertTrue(expected.entrySet().stream()
+                    .allMatch(e -> e.getValue().equals(tested.getCyclesPerSpawn(e.getKey()))));
         }
 
         /**
          * Tests the method getPower works as intended.
          */
         @Test
-        @SuppressWarnings("checkstyle:MagicNumberCheck")
         void testGetPower() {
+            List<Long> expectedPowers = List.of(100000L, 400000L, 700000L, 1000000L);
             Assertions.assertThrows(RuntimeException.class, () -> tested.getPower(0));
-            Assertions.assertEquals(10000, tested.getPower(1));
-            Assertions.assertEquals(10000, tested.getPower(2));
-            Assertions.assertEquals(15000, tested.getPower(3));
-            Assertions.assertEquals(200000, tested.getPower(10));
-            Assertions.assertEquals(200000, tested.getPower(20000));
+            for (int i = 1; i <= expectedPowers.size(); i++) {
+                Assertions.assertEquals(expectedPowers.get(i - 1), tested.getPower(i));
+            }
         }
 
         /**
          * Tests the method getPredicate works as intended.
          */
         @Test
-        @SuppressWarnings("checkstyle:MagicNumberCheck")
         void testGetPredicate() {
             Assertions.assertThrows(RuntimeException.class, () -> tested.getPredicate(0));
-            Assertions.assertTrue(tested.getPredicate(1).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.B)));
-            Assertions.assertTrue(tested.getPredicate(1).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.C)));
-            Assertions.assertFalse(tested.getPredicate(1).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A)));
-
-            Assertions.assertFalse(tested.getPredicate(2).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A)));
-
-            Assertions
-                    .assertTrue(tested.getPredicate(200).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.B)));
-            Assertions
-                    .assertTrue(tested.getPredicate(200).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.C)));
-
-            Assertions.assertTrue(
-                    tested.getPredicate(10000).test(TestingEnemyType.build(EnemyLevel.IV, EnemyArchetype.A)));
-            Assertions.assertTrue(
-                    tested.getPredicate(3809).test(TestingEnemyType.build(EnemyLevel.IV, EnemyArchetype.B)));
-
-            Assertions.assertFalse(
-                    tested.getPredicate(2000).test(TestingEnemyType.build(EnemyLevel.II, EnemyArchetype.A)));
+            Map<Integer, Set<EnemyType>> expected = Map.of(1,
+                    Set.of(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.B),
+                            TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.C)),
+                    3,
+                    Set.of(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A),
+                            TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.B),
+                            TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.C)));
+            Assertions.assertTrue(expected.entrySet().stream()
+                    .allMatch(e -> e.getValue().stream().allMatch(tested.getPredicate(e.getKey()))));
         }
     }
 }

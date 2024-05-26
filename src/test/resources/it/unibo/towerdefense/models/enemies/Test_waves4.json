@@ -1,38 +1,57 @@
 [
     {
+        "wave" : 1,
+        "power_increment" : 100000,
+        "rate" : 120
+    },
+    {
         "wave" : 2,
-        "power" : 10000,
-        "rate" : 5,
-        "types" : [
-            "IB",
-            "IC"
-        ]
+        "power_increment" : 300000
     },
     {
         "wave" : 3,
-        "power" : 15000,
         "types" : [
-            "IA"
-        ]
+            "IA",
+            "IIC"
+        ],
+        "rate" : 100
     },
     {
-        "wave" : 4,
-        "rate" : 3,
+        "wave" : 7,
         "types" : [
-            "IIIC",
-            "VA"
+            "IIB",
+            "IIA"
         ]
     },
     {
         "wave" : 10,
-        "power" : 200000
+        "types" : [
+            "IIIA",
+            "IIIB",
+            "IIIC"
+        ],
+        "rate" : 80
     },
     {
-        "wave" : 1000,
-        "rate" : 1,
+        "wave" : 15,
         "types" : [
+            "IVA",
             "IVB",
-            "IVA"
+            "IVC"
+        ],
+        "rate" : 60
+    },
+    {
+        "wave" : 20,
+        "types" : [
+            "VA",
+            "VB",
+            "VC"
         ]
+    },
+    {
+        "wave" : 25,
+        "power_increment" : 400000,
+        "rate" : 30
     }
 ]

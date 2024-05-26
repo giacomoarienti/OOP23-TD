@@ -56,7 +56,7 @@ class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave> {
                 r.ints(0, availableTypes.size())
                         .mapToObj(i -> availableTypes.get(i))
                         .takeWhile(new Predicate<RichEnemyType>() {
-                            private int power = 0;
+                            private long power = 0;
 
                             @Override
                             public boolean test(final RichEnemyType t) {
