@@ -74,6 +74,8 @@ public class DefenseManagerImpl implements DefenseManager {
      */
     private DefenseDescription getDescriptionFrom(final Defense def) {
         return new DefenseDescription(
+         def.getDamage(),
+         def.getAttackSpeed(),
          def.getBuildingCost(),
          def.getSellingValue(),
          def.getLevel(),

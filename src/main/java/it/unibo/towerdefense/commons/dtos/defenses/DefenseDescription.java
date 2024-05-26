@@ -6,6 +6,10 @@ import java.util.Map;
 
 /**Contains data that can be visualized in the build menu about defenses.*/
 public class DefenseDescription {
+    /**Attack.*/
+    private int damage;
+    /**Speed.*/
+    private int speed;
     /**Cost.*/
     private int cost;
     /**Sell value.*/
@@ -29,8 +33,11 @@ public class DefenseDescription {
      * @param cost
      * @param level
     */
-    public DefenseDescription(final int cost,final int sell,final int level, int range, boolean focused,
+    public DefenseDescription(final int damage, final int speed, final int cost,
+    final int sell,final int level, int range, boolean focused,
      final DefenseType type, final LogicalPosition pos, final List<LogicalPosition> targets) {
+        this.damage = damage;
+        this.speed = speed;
         this.level = level;
         this.cost = cost;
         this.type = type;
@@ -55,9 +62,9 @@ public class DefenseDescription {
             DefenseType.THUNDERINVOKER,"This building will shoot at the furthest enemy in the map,if out of his range"
         );
         String result ="";
-        result+=(speed_prefix+this.getCost()+"\n");
+        result+=(speed_prefix+this.speed+"\n");
         result+=(range_prefix+this.getRange()+"\n");
-        result+=(damage_prefix+this.getCost()+"\n");
+        result+=(damage_prefix+this.damage+"\n");
         result+=mappedDescriptions.get(this.type);
         return result;
     }
