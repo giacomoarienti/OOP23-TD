@@ -1,9 +1,9 @@
 {
     "level" : 1,
     "type" : "THUNDERINVOKER",
-    "damage" : 20,
-    "speed" : 3,
-    "range" : 23000,
+    "damage" : 50,
+    "speed" : 2,
+    "range" : 5000,
     "buildingCost" : 100,
     "sellingValue" : 55
 }

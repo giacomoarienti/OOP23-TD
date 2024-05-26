@@ -1,9 +1,9 @@
 {
     "level" : 1,
     "type" : "WIZARDTOWER",
-    "damage" : 7,
-    "speed" : 6,
-    "range" : 12000,
+    "damage" : 20,
+    "speed" : 4,
+    "range" : 7500,
     "buildingCost" : 90,
     "sellingValue" : 50
 }

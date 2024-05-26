@@ -1,7 +1,7 @@
 {
     "level" : 1,
     "type" : "ARCHERTOWER",
-    "damage" : 30,
+    "damage" : 35,
     "speed" : 6,
     "range" : 9000,
     "buildingCost" : 80,
