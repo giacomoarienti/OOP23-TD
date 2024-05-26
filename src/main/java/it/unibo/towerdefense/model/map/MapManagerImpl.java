@@ -3,7 +3,6 @@ package it.unibo.towerdefense.model.map;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -93,22 +92,14 @@ public class MapManagerImpl implements MapManager {
             return;
         }
         if (c.equals(selected)) {
+            defenseSelection(false);
             selected = null;
-            defenses.setSelectedDefense(c.getCenter(), false);
         } else {
             if (c instanceof BuildableCell && ((BuildableCell) c).isBuildable()) {
                 selected = (BuildableCell) c;
-                defenses.setSelectedDefense(selected.getCenter(), true);
+                defenseSelection(true);
             }
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<Position> getSelected() {
-        return selected == null ? Optional.empty() : Optional.of(new PositionImpl(selected.getX(), selected.getY()));
     }
 
     /**
@@ -172,7 +163,7 @@ public class MapManagerImpl implements MapManager {
             }
             try {
                 defenses.buildDefense(optionNumber, selected.getCenter());
-                defenses.setSelectedDefense(selected.getCenter(), true);
+                defenseSelection(true);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -266,6 +257,10 @@ public class MapManagerImpl implements MapManager {
     @Override
     public String toJSON() {
         return map.toJSON();
+    }
+
+    private void defenseSelection(boolean isSelected) {
+        defenses.setSelectedDefense(selected.getCenter(), isSelected);
     }
 
     private boolean updateBuildingOption() {

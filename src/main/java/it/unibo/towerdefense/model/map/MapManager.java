@@ -1,7 +1,6 @@
 package it.unibo.towerdefense.model.map;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import it.unibo.towerdefense.commons.api.JsonSerializable;
@@ -41,12 +40,6 @@ public interface MapManager extends JsonSerializable, Manager {
      * @param position the position clicked by user
      */
     void select(Position position);
-
-    /**
-     *Return an optional of the current selected cell.
-     * @return Optional of the cell if a cell is currently selected and is a BuildableCell, else Optional.empty.
-     */
-    Optional<Position> getSelected();
 
     /**
      * Build a tower in the selected Cell.
