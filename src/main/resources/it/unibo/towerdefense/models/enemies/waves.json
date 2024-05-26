@@ -1,12 +1,16 @@
 [
     {
         "wave" : 1,
-        "power_increment" : 300000,
+        "power_increment" : 100000,
         "rate" : 120,
         "types" : [
             "IB",
             "IC"
         ]
+    },
+    {
+        "wave" : 2,
+        "power_increment" : 300000
     },
     {
         "wave" : 3,

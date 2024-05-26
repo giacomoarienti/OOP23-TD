@@ -175,16 +175,13 @@ class WavePolicySupplierImpl implements WavePolicySupplier {
     @Override
     public Integer getPower(final Integer wave) {
         check(wave);
-        Integer last = powerIncrements.get(1);
-        int sum = 0;
-        if(wave == 1){
-            sum += last;
-        }else{
-            for(Integer w : powerIncrements.tailMap(2).headMap(wave + 1).keySet()){
-                sum += last * (w - 1);
-                last = powerIncrements.get(w);
+        int currentIncrement = powerIncrements.get(1);
+        int sum = currentIncrement;
+        for (int i = 2; i <= wave; i++){
+            if(powerIncrements.containsKey(i)){
+                currentIncrement = powerIncrements.get(i);
             }
-            sum += last * (powerIncrements.headMap(wave + 1).lastKey() - wave);
+            sum += currentIncrement;
         }
         return sum;
     }
