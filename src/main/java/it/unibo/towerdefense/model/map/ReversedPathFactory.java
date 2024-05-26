@@ -41,7 +41,7 @@ public class ReversedPathFactory {
         return Stream.iterate(opposite(direction), new UnaryOperator<MapDirection>() {
 
             private final Random random = new Random();
-            private int n = random.nextInt(2) * 2;
+            private int n = new Random().nextInt(2) * 2;
             private int counter = 0;
 
             @Override

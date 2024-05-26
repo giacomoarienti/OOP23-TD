@@ -1,7 +1,5 @@
 package it.unibo.towerdefense.model.map;
 
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +11,8 @@ import it.unibo.towerdefense.commons.engine.SizeImpl;
  * Map tester with "generate" path.
  */
 public class TestMap {
-    private final static Size TEST_SIZE = new SizeImpl(20, 20);
-    private final static int ITERATION_MOVEMENT = 100;
+    private static final Size TEST_SIZE = new SizeImpl(20, 20);
+    private static final int ITERATION_MOVEMENT = 36;
     private MapManager map = new MapManagerImpl(TEST_SIZE);
     private PathVector spawn = map.getSpawnPosition();
     private LogicalPosition pos = spawn.position();
@@ -23,17 +21,16 @@ public class TestMap {
     @Test
     void testGeneration() {
         int n = 0;
-        for (int i = 0; i < 1000; i++) {
-            n += new MapManagerImpl(TEST_SIZE).getMap().filter(c -> c.isPathCell()).count() < 20 ? 1 : 0;
+        for (int i = 0; i < 100; i++) {
+            n += new MapManagerImpl(TEST_SIZE).getMap().filter(c -> c.isPathCell()).count() < TEST_SIZE.getWidth() ? 1 : 0;
         }
-        System.out.println("Path shortest than 30 cell: " + n*0.1 + "%");
+        System.out.println("Path shortest than map side are: " + n + "%");
     }
 
     @Test
     void testSerializable() {
         String jsondata = map.toJSON();
-        map = new MapManagerImpl(jsondata);
-        Assertions.assertEquals(spawn, map.getSpawnPosition());
+        Assertions.assertEquals(spawn,  new MapManagerImpl(jsondata).getSpawnPosition());
     }
 
     @Test

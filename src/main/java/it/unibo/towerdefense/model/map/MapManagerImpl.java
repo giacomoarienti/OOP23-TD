@@ -57,7 +57,7 @@ public class MapManagerImpl implements MapManager {
      * {@inheritDoc}
      */
     @Override
-    public void bind(ModelManager mm) {
+    public void bind(final ModelManager mm) {
         defenses = mm.getDefenses();
         game = mm.getGame();
     }
