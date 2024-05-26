@@ -40,7 +40,7 @@ public final class FileUtils {
                     throw new IOException("Unable to create folder" + folderPath);
                 }
             } catch (final SecurityException e) {
-                throw new IOException("Unable to create folder " + folderPath);
+                throw new IOException("Unable to create folder " + folderPath, e);
             }
         }
     }
@@ -88,11 +88,7 @@ public final class FileUtils {
     public static void writeFile(final String filePath, final String content) throws IOException {
         final Path path = stringToPath(filePath);
         // write to path
-        try {
-            Files.writeString(path, content, StandardCharsets.UTF_8);
-        } catch (final IOException e) {
-            throw new IOException("Error writing to file " + path.getFileName());
-        }
+        Files.writeString(path, content, StandardCharsets.UTF_8);
     }
 
     /**
@@ -114,7 +110,7 @@ public final class FileUtils {
         try {
             return Paths.get(filePath);
         } catch (final InvalidPathException e) {
-            throw new IOException("Error converting file to Path " + filePath);
+            throw new IOException("Error converting file to Path " + filePath, e);
         }
     }
 }

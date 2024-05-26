@@ -1,4 +1,4 @@
-package it.unibo.towerdefense.model.score;
+package it.unibo.towerdefense.model.scoreboard;
 
 import org.json.JSONObject;
 import com.google.common.base.Objects;

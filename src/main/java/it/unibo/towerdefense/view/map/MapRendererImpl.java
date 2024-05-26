@@ -25,7 +25,7 @@ public class MapRendererImpl implements MapRenderer {
     private final List<BufferedImage> images = new ArrayList<>();
 
     /**
-     * Constructor from ImageLoader
+     * Constructor from ImageLoader.
      * @param imLo Object to load images from files.
      */
     public MapRendererImpl(final ImageLoader imLo) {
@@ -57,12 +57,21 @@ public class MapRendererImpl implements MapRenderer {
     }
 
     private BufferedImage path(final Direction in, final Direction out) {
-        int i = index(in, out);
-        return i < 2 ? images.get(i) : Scalr.rotate(images.get(i < 5 ? 1 : 0), Rotation.values()[2 - (i % 3)]);
+        final int i = index(in, out);
+        final int straightIndex = 5;
+        return i < 2 ? images.get(i) : Scalr.rotate(images.get(i < straightIndex ? 1 : 0), Rotation.values()[2 - (i % 3)]);
     }
 
+    /**
+     * Hash function that returns a unique index from a ordered pair of directions.
+     * It returns same index for anti-reciprocal pairs: es. E,N = S,O.
+     * @param in direction.
+     * @param out direction.
+     * @return the index witch values from 0 to 6.
+     */
     private static int index(final Direction in, final Direction out) {
-        return Math.min(in.ordinal() * 4 + out.ordinal(), opposite(out) * 4 + opposite(in)) % 7;
+        final int q = 7;
+        return Math.min(in.ordinal() * 4 + out.ordinal(), opposite(out) * 4 + opposite(in)) % q;
     }
 
     private static int opposite(final Direction d) {

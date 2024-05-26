@@ -3,7 +3,6 @@ package it.unibo.towerdefense.model.map;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -57,7 +56,7 @@ public class MapManagerImpl implements MapManager {
      * {@inheritDoc}
      */
     @Override
-    public void bind(ModelManager mm) {
+    public void bind(final ModelManager mm) {
         defenses = mm.getDefenses();
         game = mm.getGame();
     }
@@ -93,20 +92,14 @@ public class MapManagerImpl implements MapManager {
             return;
         }
         if (c.equals(selected)) {
+            defenseSelection(false);
             selected = null;
         } else {
             if (c instanceof BuildableCell && ((BuildableCell) c).isBuildable()) {
                 selected = (BuildableCell) c;
+                defenseSelection(true);
             }
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<Position> getSelected() {
-        return selected == null ? Optional.empty() : Optional.of(new PositionImpl(selected.getX(), selected.getY()));
     }
 
     /**
@@ -170,6 +163,7 @@ public class MapManagerImpl implements MapManager {
             }
             try {
                 defenses.buildDefense(optionNumber, selected.getCenter());
+                defenseSelection(true);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -204,6 +198,11 @@ public class MapManagerImpl implements MapManager {
                     @Override
                     public boolean isAvailable() {
                         return true;
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "Sell this defense.";
                     }
 
                 });
@@ -258,6 +257,10 @@ public class MapManagerImpl implements MapManager {
     @Override
     public String toJSON() {
         return map.toJSON();
+    }
+
+    private void defenseSelection(boolean isSelected) {
+        defenses.setSelectedDefense(selected.getCenter(), isSelected);
     }
 
     private boolean updateBuildingOption() {

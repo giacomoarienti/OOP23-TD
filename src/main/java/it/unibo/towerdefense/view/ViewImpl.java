@@ -15,7 +15,7 @@ import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
-import it.unibo.towerdefense.controller.savings.SavingsController;
+import it.unibo.towerdefense.controller.saves.SavesController;
 import it.unibo.towerdefense.model.game.GameStatus;
 import it.unibo.towerdefense.view.defenses.DefenseRenderer;
 import it.unibo.towerdefense.view.defenses.DefenseRendererImpl;
@@ -32,7 +32,7 @@ import it.unibo.towerdefense.view.map.BuyMenuImpl;
 import it.unibo.towerdefense.view.map.MapRenderer;
 import it.unibo.towerdefense.view.map.MapRendererImpl;
 import it.unibo.towerdefense.view.menus.StartMenuViewImpl;
-import it.unibo.towerdefense.view.savings.SavingsViewImpl;
+import it.unibo.towerdefense.view.saves.SavesViewImpl;
 import it.unibo.towerdefense.view.scoreboard.ScoreboardViewImpl;
 import it.unibo.towerdefense.view.window.Window;
 import it.unibo.towerdefense.view.window.WindowImpl;
@@ -42,6 +42,8 @@ import it.unibo.towerdefense.view.window.WindowImpl;
  */
 public class ViewImpl implements View {
 
+    private static final String WINDOW_ERROR = "Window not created yet";
+
     private Window window;
     private Renderer renderer;
     private GameRenderer gameRenderer;
@@ -49,12 +51,6 @@ public class ViewImpl implements View {
     private DefenseRenderer defenseRenderer;
     private EnemyRenderer enemyRenderer;
     private BuyMenu buyMenu;
-
-    /**
-     * Empty constructor.
-     */
-    public ViewImpl() {
-    }
 
     /**
      * {@inheritDoc}
@@ -79,12 +75,12 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public void displaySavings(final SavingsController controller) {
+    public void displaySaves(final SavesController controller) {
         if (Objects.isNull(this.window)) {
-            throw new IllegalStateException("Window not created yet");
+            throw new IllegalStateException(WINDOW_ERROR);
         }
-        final var savingsView = new SavingsViewImpl(controller);
-        this.window.displayModal("Savings", savingsView);
+        final var savesView = new SavesViewImpl(controller);
+        this.window.displayModal("Saves", savesView);
     }
 
     /**
@@ -93,7 +89,7 @@ public class ViewImpl implements View {
     @Override
     public void displayStartMenu(final StartMenuController controller) {
         if (Objects.isNull(this.window)) {
-            throw new IllegalStateException("Window not created yet");
+            throw new IllegalStateException(WINDOW_ERROR);
         }
         final var startMenu = new StartMenuViewImpl(controller);
         this.window.displayModal("Start Menu", startMenu);
@@ -105,7 +101,7 @@ public class ViewImpl implements View {
     @Override
     public void close() {
         if (Objects.isNull(this.window)) {
-            throw new IllegalStateException("Window not created yet");
+            throw new IllegalStateException(WINDOW_ERROR);
         }
         this.window.close();
     }
@@ -116,7 +112,7 @@ public class ViewImpl implements View {
     @Override
     public void displayScoreboard(final ScoreboardDTO dto) {
         if (Objects.isNull(this.window)) {
-            throw new IllegalStateException("Window not created yet");
+            throw new IllegalStateException(WINDOW_ERROR);
         }
         this.window.displayModal("Scoreboard", new ScoreboardViewImpl(dto));
     }

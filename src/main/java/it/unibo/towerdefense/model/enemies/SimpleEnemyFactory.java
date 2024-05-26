@@ -24,7 +24,7 @@ class SimpleEnemyFactory implements EnemyFactory {
     /**
      * Private class which implements Enemy storing the least possible information.
      *
-     * Used a flyweight pattern saving all common information in a single EnemyType
+     * Used a flyweight pattern save all common information in a single EnemyType
      * object common
      * to all instances of Enemy entities of that type
      */

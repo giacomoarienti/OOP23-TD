@@ -12,8 +12,8 @@ import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
-import it.unibo.towerdefense.model.saving.Saving;
-import it.unibo.towerdefense.model.score.Score;
+import it.unibo.towerdefense.model.saves.Save;
+import it.unibo.towerdefense.model.scoreboard.Score;
 
 /**
  * Interface that represents the main model.
@@ -30,10 +30,10 @@ public interface Model {
     void init(String playerName, Size mapSize);
 
     /**
-     * Initialize the model from a saving object.
-     * @param saving the saving object
+     * Initialize the model from a save object.
+     * @param save the save object
      */
-    void init(Saving saving);
+    void init(Save save);
 
     /**
      * Checks if the game is playing.

@@ -14,6 +14,7 @@ import it.unibo.towerdefense.commons.dtos.defenses.DefenseType;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
 
+/**Test class for DefenseFactory.*/
 public class TestDefenseFactoryImpl {
     private DefenseFactory factory = new DefenseFactoryImpl();
 

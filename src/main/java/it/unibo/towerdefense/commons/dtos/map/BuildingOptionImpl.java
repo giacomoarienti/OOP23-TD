@@ -10,6 +10,7 @@ public class BuildingOptionImpl implements BuildingOption {
     private final boolean isAvailable;
     private final String text;
     private final String cost;
+    private final String description;
 
     /**
      * Constructor from a defense description and if option is available.
@@ -20,6 +21,7 @@ public class BuildingOptionImpl implements BuildingOption {
         text = dd.getName();
         cost = Integer.toString(dd.getCost());
         this.isAvailable = isAvailable;
+        this.description = dd.getDescription();
     }
 
     /**
@@ -45,4 +47,13 @@ public class BuildingOptionImpl implements BuildingOption {
     public String getCost() {
         return cost;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
 }

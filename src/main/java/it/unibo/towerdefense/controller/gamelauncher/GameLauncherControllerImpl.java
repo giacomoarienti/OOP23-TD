@@ -3,6 +3,7 @@ package it.unibo.towerdefense.controller.gamelauncher;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -14,7 +15,7 @@ import it.unibo.towerdefense.view.View;
 public class GameLauncherControllerImpl implements GameLauncherController {
 
     private final List<Size> resolutions;
-    private final View view;
+    private final Consumer<GameLauncherController> run;
     private final BiConsumer<String, Size> start;
 
     private String playerName;
@@ -27,9 +28,9 @@ public class GameLauncherControllerImpl implements GameLauncherController {
      */
     public GameLauncherControllerImpl(final View view, final BiConsumer<String, Size> start) {
         this.start = start;
-        this.view = view;
+        this.run = controller -> view.displayLauncher(controller);
         // set resolutions
-        final Size maxResolution = this.view.getMaxResolution();
+        final Size maxResolution = view.getMaxResolution();
         this.resolutions = Constants.RESOLUTIONS.stream()
             .filter(res -> res.getWidth() <= maxResolution.getWidth()
                 && res.getHeight() <= maxResolution.getHeight()
@@ -42,7 +43,7 @@ public class GameLauncherControllerImpl implements GameLauncherController {
      */
     @Override
     public void run() {
-        this.view.displayLauncher(this);
+        this.run.accept(this);
     }
 
     /**

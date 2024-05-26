@@ -86,8 +86,8 @@ public class PositionImpl implements Position {
      */
     @Override
     public double distanceTo(final Position other) {
-        final int deltaX = this.getX() - other.getX();
-        final int deltaY = this.getY() - other.getY();
+        final long deltaX = this.getX() - other.getX();
+        final long deltaY = this.getY() - other.getY();
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
 

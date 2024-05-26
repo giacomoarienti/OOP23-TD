@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -51,6 +52,10 @@ public class WindowImpl implements Window {
      * Creates a window with the specified size.
      * @param resolution the size of the window
      */
+    @SuppressFBWarnings(
+        value = "EI2",
+        justification = "Internal representation exposure is intentional or managed."
+    )
     public WindowImpl(final Size resolution) {
         this.resolution = resolution.copy();
         // calculate sizes

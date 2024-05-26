@@ -25,7 +25,7 @@ public class GameMapImpl implements GameMap {
     private static final int OBSTACLE_RATE = 10;
     private static final int MAX_X_SIZE = 100;
     private static final int MAX_Y_SIZE = 100;
-    private static final MapDirection PATH_DIRECTION = MapDirection.E;
+    private final MapDirection pathDirection = MapDirection.values()[random.nextInt(4)];
     private Cell[][] map;
 
     /**
@@ -33,16 +33,15 @@ public class GameMapImpl implements GameMap {
      * @param size size of map in terms of Cells
      */
     public GameMapImpl(final Size size) {
-
         if (size.getHeight() > MAX_Y_SIZE || size.getWidth() > MAX_X_SIZE) {
             throw new IllegalArgumentException("Max dimension allowed are: " + MAX_X_SIZE + ", " + MAX_Y_SIZE);
         }
         this.size = size;
         map = new Cell[size.getWidth()][size.getHeight()];
-        final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, PATH_DIRECTION);
+        final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, pathDirection);
         Position pos = generatePosition();
         int distanceToEnd = 0;
-        end = new PathCellImpl(pos, path.next(), PATH_DIRECTION, distanceToEnd);
+        end = new PathCellImpl(pos, path.next(), pathDirection, distanceToEnd);
         PathCell newCell = end;
         pos.subtract(newCell.getInDirection().asPosition());
 
@@ -74,7 +73,6 @@ public class GameMapImpl implements GameMap {
      */
     private GameMapImpl(final Stream<PathCell> path, final Stream<BuildableCell> buildable,
         final Size size, final PathCell spawn, final PathCell end) {
-
         this.size = size;
         this.spawn = spawn;
         this.end = end;
@@ -157,12 +155,12 @@ public class GameMapImpl implements GameMap {
 
     private Position generatePosition() {
         return new PositionImpl(
-            f(size.getWidth(), PATH_DIRECTION.horizontal()),
-            f(size.getHeight(), PATH_DIRECTION.vertical()));
+            f(size.getWidth(), pathDirection.horizontal()),
+            f(size.getHeight(), pathDirection.vertical()));
     }
 
     private static int f(final int dimension, final int verser) {
-        return verser > 0 ? dimension : verser < 0 ? 0 : dimension / 2;
+        return verser > 0 ? dimension : verser < 0 ? -1 : dimension / 2;
     }
 
     /**
@@ -185,7 +183,7 @@ public class GameMapImpl implements GameMap {
 
     /**
      * Create a stream of T objects from T two-dimensional array.
-     * @param <T> tipe of array elements
+     * @param <T> type of array elements
      * @param array
      * @param size size of array
      * @return Stream of array elements.

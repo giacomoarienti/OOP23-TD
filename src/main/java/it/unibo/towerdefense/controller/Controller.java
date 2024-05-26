@@ -1,7 +1,7 @@
 package it.unibo.towerdefense.controller;
 
 import it.unibo.towerdefense.commons.engine.Size;
-import it.unibo.towerdefense.model.saving.Saving;
+import it.unibo.towerdefense.model.saves.Save;
 
 /**
  * Interface that models a standard Controller.
@@ -26,10 +26,10 @@ public interface Controller {
     void start();
 
     /**
-     * Starts the game from select saving.
-     * @param saving the saving object
+     * Starts the game from select save.
+     * @param save the save object
      */
-    void start(Saving saving);
+    void start(Save save);
 
     /**
      * Save the game.
@@ -64,9 +64,9 @@ public interface Controller {
     boolean isTerminated();
 
     /**
-     * Displays the saving selection view.
+     * Displays the save selection view.
      */
-    void displaySavings();
+    void displaySaves();
 
     /**
      * Displays the scoreboard view.

@@ -9,6 +9,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import javax.swing.JFrame;
 
 /**
@@ -33,6 +36,10 @@ public class ModalImpl implements Modal {
      * @param content the content to be displayed
      * @param onClose the action to be performed when the modal is closed
      */
+    @SuppressFBWarnings(
+        value = "MC",
+        justification = "Calling accept method from constructor is intended behavior"
+    )
     public ModalImpl(
         final JFrame parent,
         final String title,
@@ -57,7 +64,7 @@ public class ModalImpl implements Modal {
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         panel.add(titleLabel, BorderLayout.NORTH);
         // build and add the content view to the dialog
-        panel.add(content.build(this::close), BorderLayout.CENTER);
+        panel.add(content.build(this::closeModal), BorderLayout.CENTER);
     }
 
     /**
@@ -92,8 +99,7 @@ public class ModalImpl implements Modal {
      */
     @Override
     public void close() {
-        this.closeModal();
-        this.onClose.accept(this);
+       this.closeModal();
     }
 
     /**
@@ -101,7 +107,7 @@ public class ModalImpl implements Modal {
      */
     @Override
     public void dispose() {
-        this.closeModal();
+        this.disposeModal();
     }
 
     /**
@@ -120,7 +126,12 @@ public class ModalImpl implements Modal {
         this.dialog.setLocationRelativeTo(this.dialog.getParent());
     }
 
-    private void closeModal() {
+    private void disposeModal() {
         this.dialog.dispose();
+    }
+
+    private void closeModal() {
+        this.disposeModal();
+        this.onClose.accept(this);
     }
 }

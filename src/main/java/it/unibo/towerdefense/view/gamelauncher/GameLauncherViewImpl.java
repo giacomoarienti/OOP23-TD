@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.Constants;
 import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
@@ -31,6 +32,7 @@ public class GameLauncherViewImpl implements GameLauncherView {
     private static final int HEIGHT_PROPORTION = 3;
 
     private final JFrame frame;
+    @SuppressFBWarnings(value = "EI2", justification = "The controller is intended to be mutable and accessed externally.")
     private final GameLauncherController controller;
 
     /**
@@ -50,7 +52,7 @@ public class GameLauncherViewImpl implements GameLauncherView {
         resolutionPanel.setLayout(new BoxLayout(resolutionPanel, BoxLayout.X_AXIS));
         final List<String> resolutionsStrings = this.getResolutionStrings();
         // create the combo box and label
-        final JComboBox<String> resolutionsBox = new JComboBox<String>(
+        final JComboBox<String> resolutionsBox = new JComboBox<>(
             resolutionsStrings.toArray(String[]::new)
         );
         final JLabel resolutionLabel = new JLabel(RESOLUTION_LABEL);
@@ -81,6 +83,7 @@ public class GameLauncherViewImpl implements GameLauncherView {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void display() {
         // calc and set starting frame size
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -104,7 +107,7 @@ public class GameLauncherViewImpl implements GameLauncherView {
             // set the player name and resolution
             this.controller.setPlayerName(name);
             this.controller.selectResolution(resolutionIndex);
-        } catch (final Exception e) {
+        } catch (final IllegalArgumentException e) {
             // show an error message
             JOptionPane.showMessageDialog(frame, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
             return;

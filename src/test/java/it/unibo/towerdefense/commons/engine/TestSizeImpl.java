@@ -11,7 +11,7 @@ class TestSizeImpl {
     private static final int WIDTH = 2;
     private static final int HEIGHT = 3;
 
-    private Size size = new SizeImpl(WIDTH, HEIGHT);
+    private final Size size = new SizeImpl(WIDTH, HEIGHT);
 
     /**
      * Test getWidth method.

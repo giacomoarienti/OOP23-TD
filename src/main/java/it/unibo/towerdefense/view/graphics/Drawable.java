@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.Position;
 import it.unibo.towerdefense.commons.engine.Size;
@@ -13,9 +14,9 @@ import it.unibo.towerdefense.commons.engine.Size;
  */
 public abstract class Drawable {
 
-    private LogicalPosition position;
+    private final LogicalPosition position;
+    private final Size size;
     private Pair<Double, Double> scale = Pair.of(1.0, 1.0);
-    private Size size;
 
     /**
      * Constructor from LogicalPosition and Size.
@@ -28,14 +29,21 @@ public abstract class Drawable {
     }
 
     /**
-     * Empty-constructor.
+     * Initializes its fields to empty values.
      */
-    public Drawable() { }
+    public Drawable() {
+        this.position = new LogicalPosition(0, 0);
+        this.size = Size.of(0, 0);
+    }
 
     /**
      * Returns the position of the drawable.
-     * @return the size of the object.
+     * @return the position of the object.
      */
+    @SuppressFBWarnings(
+        value = "ICAST",
+        justification = "Casting the result of integral division to double is intentional for scaling."
+    )
     public Position getPosition() {
         return Position.of(
             (int) (
