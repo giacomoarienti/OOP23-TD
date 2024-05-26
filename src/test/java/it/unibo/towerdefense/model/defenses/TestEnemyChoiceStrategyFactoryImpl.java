@@ -31,12 +31,15 @@ class TestEnemyChoiceStrategyFactoryImpl {
 
     /**creates a test target.
      * @param pos the position of the enemy
-     * WARNING : for the scope of these tests we only care about the position,other getters are not implemented.
+     * @param distance fake distance to give for testing.
+     * @return a dummy implemntation of Enemy for testing.
+     * WARNING : for the scope of these tests we only care about the position and distance,
+     * other getters are not implemented.
     */
-    private Enemy testEnemy(LogicalPosition pos, int distance) {
+    private Enemy testEnemy(final LogicalPosition pos, final int distance) {
         return new Enemy() {
             @Override
-            public void hurt(int amount) {
+            public void hurt(final int amount) {
 
             }
             @Override
@@ -159,7 +162,28 @@ class TestEnemyChoiceStrategyFactoryImpl {
         final LogicalPosition testPos4 = new LogicalPosition(1, -1);
         final LogicalPosition testPos5 = new LogicalPosition(13, -13);
         final LogicalPosition testPos6 = new LogicalPosition(15, 14);
-
+        /**create testDistances */
+        final int testDistance1 = 7;
+        final int testDistance2 = 6;
+        final int testDistance3 = 1;
+        final int testDistance4 = 1;
+        final int testDistance5 = 2;
+        final int testDistance6 = 5;
+        final int testDistance7 = 3;
+        final int testDistance8 = 1;
+        final int testDistance9 = 8;
+        final int testDistance10 = 8;
+        /**Create Test Enemies.*/
+        Enemy testEnemy1 = testEnemy(testPos1, testDistance1);
+        Enemy testEnemy2 = testEnemy(testPos2, testDistance2);
+        Enemy testEnemy3 = testEnemy(testPos3, testDistance3);
+        Enemy testEnemy4 = testEnemy(testPos4, testDistance4);
+        Enemy testEnemy5 = testEnemy(testPos1, testDistance5);
+        Enemy testEnemy6 = testEnemy(testPos2, testDistance6);
+        Enemy testEnemy7 = testEnemy(testPos3, testDistance7);
+        Enemy testEnemy8 = testEnemy(testPos4, testDistance8);
+        Enemy testEnemy9 = testEnemy(testPos5, testDistance9);
+        Enemy testEnemy10 = testEnemy(testPos6, testDistance10);
         /**create expected results */
         final Map<Integer, Integer> expectedResultTest1 = Map.of(0, TEST_DAMAGE);
         final Map<Integer, Integer> expectedResultTest2 = new HashMap<>();
@@ -169,22 +193,22 @@ class TestEnemyChoiceStrategyFactoryImpl {
         TEST_POSITION);
 
         /**Test 1:check closest target to custom point.*/
-        testTargets.add(testEnemy(testPos1, 7));
-        testTargets.add(testEnemy(testPos2, 6));
+        testTargets.add(testEnemy1);
+        testTargets.add(testEnemy2);
         Assertions.assertEquals(expectedResultTest1, strategy.execute(testTargets, TEST_DAMAGE));
         /**Test 2:check that targets in range aren't being selected.*/
         testTargets.clear();
-        testTargets.add(testEnemy(testPos3, 1));
-        testTargets.add(testEnemy(testPos4, 1));
+        testTargets.add(testEnemy3);
+        testTargets.add(testEnemy4);
         Assertions.assertEquals(expectedResultTest2, strategy.execute(testTargets, TEST_DAMAGE));
         /**Test 3:multiple targets,some selectable and some not.*/
         testTargets.clear();
-        testTargets.add(testEnemy(testPos1, 2));
-        testTargets.add(testEnemy(testPos2, 5));
-        testTargets.add(testEnemy(testPos3, 3));
-        testTargets.add(testEnemy(testPos4, 1));
-        testTargets.add(testEnemy(testPos5, 8));
-        testTargets.add(testEnemy(testPos6, 6));
+        testTargets.add(testEnemy5);
+        testTargets.add(testEnemy6);
+        testTargets.add(testEnemy7);
+        testTargets.add(testEnemy8);
+        testTargets.add(testEnemy9);
+        testTargets.add(testEnemy10);
         Assertions.assertEquals(expectedResultTest3, strategy.execute(testTargets, TEST_DAMAGE));
     }
 }

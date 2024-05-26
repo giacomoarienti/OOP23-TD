@@ -15,8 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * Implementation of the defenseFactory interface.
- */
+ *Implementation of the defenseFactory interface.
+*/
 public class DefenseFactoryImpl implements DefenseFactory {
 
     /**
