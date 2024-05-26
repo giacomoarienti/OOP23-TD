@@ -31,6 +31,7 @@ public final class Constants {
      * The list of available resolutions.
      */
     public static final List<Size> RESOLUTIONS = List.of(
+        new SizeImpl(3840, 2160),
         new SizeImpl(3440, 1440),
         new SizeImpl(2560, 1440),
         new SizeImpl(1920, 1080),
