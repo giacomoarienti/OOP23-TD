@@ -188,8 +188,8 @@ public class DefenseManagerImpl implements DefenseManager {
                     );
                     /**add attacks */
                     List<LogicalPosition> hitEnemies = new LinkedList<>();
-                    attackResult.entrySet().forEach(x->hitEnemies.add(availableTargets.get(x.getKey()).getPosition()));
-                    attacksOnLoop.put(def.getKey(),hitEnemies);
+                    attackResult.entrySet().forEach(x -> hitEnemies.add(availableTargets.get(x.getKey()).getPosition()));
+                    attacksOnLoop.put(def.getKey(), hitEnemies);
                 }
             }
         }
@@ -213,7 +213,7 @@ public class DefenseManagerImpl implements DefenseManager {
      * {@inheritDoc}
      */
     @Override
-    public void bind(ModelManager mm) {
+    public void bind(final ModelManager mm) {
         this.manager = mm;
     }
 
@@ -223,7 +223,7 @@ public class DefenseManagerImpl implements DefenseManager {
     @Override
     public List<DefenseDescription> getDefenses() {
         List<DefenseDescription> descs = new LinkedList<>();
-        for(int i = 0; i < this.defenses.size(); i++) {
+        for (int i = 0; i < this.defenses.size(); i++) {
             descs.add(getDescriptionFrom(this.defenses.get(i).getKey()));
         }
         attacksOnLoop.clear();
@@ -234,12 +234,11 @@ public class DefenseManagerImpl implements DefenseManager {
      * {@inheritDoc}
      */
     @Override
-    public void setSelectedDefense(LogicalPosition pos, boolean toSelect) {
-        Optional<MutablePair<Integer,Defense>> def = find(pos);
-        if(!def.isEmpty()) {
-            this.focusedDef = toSelect? Optional.of(def.get().getRight()) : Optional.empty();
-        }
-        else {
+    public void setSelectedDefense(final LogicalPosition pos, final boolean toSelect) {
+        Optional<MutablePair<Integer, Defense>> def = find(pos);
+        if (!def.isEmpty()) {
+            this.focusedDef = toSelect ? Optional.of(def.get().getRight()) : Optional.empty();
+        } else {
             this.focusedDef = Optional.empty();
         }
     }
