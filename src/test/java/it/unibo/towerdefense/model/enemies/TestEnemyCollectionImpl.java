@@ -28,10 +28,11 @@ class TestEnemyCollectionImpl {
     private RichEnemyType t;
     private RichEnemy spawned;
 
-    private class TestObserver implements Observer<Enemy> {
-        List<Enemy> notified = new LinkedList<>();
+    private final class TestObserver implements Observer<Enemy> {
+        private List<Enemy> notified = new LinkedList<>();
+
         @Override
-        public void notify(Enemy source) {
+        public void notify(final Enemy source) {
             this.notified.add(source);
         }
     }
@@ -47,7 +48,8 @@ class TestEnemyCollectionImpl {
     private void init() {
         tested = new EnemyCollectionImpl((pos, speed) -> Optional.empty());
         helper = new SimpleEnemyFactory();
-        t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100, 10000);
+        int val = 100;
+        t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, val, val, val * val, val * val);
         spawned = helper.spawn(t, STARTING_POSITION);
     }
 
@@ -98,7 +100,8 @@ class TestEnemyCollectionImpl {
      */
     @Test
     void testMove() {
-        Set<RichEnemy> spawned = IntStream.range(0, 100).mapToObj(i -> {
+        int end = 100;
+        Set<RichEnemy> spawned = IntStream.range(0, end).mapToObj(i -> {
             RichEnemy e = helper.spawn(t, STARTING_POSITION);
             tested.add(e);
             return e;

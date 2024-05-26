@@ -6,7 +6,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
@@ -28,10 +27,13 @@ class EnemiesImpl implements Enemies {
     /**
      * Contstructor for the class.
      *
-     * @param posFunction a function that takes as argument the current position of
-     *                    an enemy and how much it should adance and gives back an
-     *                    optional containing the new position or an empty optional
-     *                    if the enemy has reached the end of the map
+     * @param posFunction         a function that takes as argument the current
+     *                            position of
+     *                            an enemy and how much it should adance and gives
+     *                            back an
+     *                            optional containing the new position or an empty
+     *                            optional
+     *                            if the enemy has reached the end of the map
      * @param startingPosSupplier the supplier for the starting position of enemies
      */
     EnemiesImpl(final BiFunction<? super EnemyPosition, Integer, Optional<EnemyPosition>> posFunction,

@@ -24,7 +24,7 @@ interface WavePolicySupplier {
      * @param wave the wave about which information is asked
      * @return the number of enemies
      */
-    Integer getPower(Integer wave);
+    Long getPower(Integer wave);
 
     /**
      * Returns how many cycles pass between two spawns (counting the cycle in which

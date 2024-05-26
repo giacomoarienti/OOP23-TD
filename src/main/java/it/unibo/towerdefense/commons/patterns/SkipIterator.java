@@ -1,6 +1,9 @@
 package it.unibo.towerdefense.commons.patterns;
 
 import java.util.Optional;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Iterator;
 
 /**
@@ -20,6 +23,12 @@ public class SkipIterator<T> implements Iterator<Optional<T>> {
      * @param base the iterator to decorate
      * @param skip how many calls to next constitute a cycle (must be > 0)
      */
+    @SuppressFBWarnings(
+        value = "EI2",
+        justification = """
+            Base iterator is intentionally mutable (for instance in the case of
+            a lazily and randomly generated iterator) and supposedly safe to store.
+                """)
     public SkipIterator(final Iterator<T> base, final int skip) {
         if (skip < 0) {
             throw new IllegalArgumentException("skip must be > 0");

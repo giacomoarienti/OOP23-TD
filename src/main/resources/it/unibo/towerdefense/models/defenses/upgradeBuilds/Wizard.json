@@ -3,37 +3,37 @@
     {
         "level" : 2,
         "type" : "WIZARDTOWER",
-        "damage" : 8,
-        "speed" : 6,
-        "range" : 7,
-        "buildingCost" : 150,
+        "damage" : 25,
+        "speed" : 4,
+        "range" : 8000,
+        "buildingCost" : 130,
         "sellingValue" : 60
     },
     {
         "level" : 3,
         "type" : "WIZARDTOWER",
-        "damage" : 8,
-        "speed" : 7,
-        "range" : 8,
-        "buildingCost" : 200,
+        "damage" : 30,
+        "speed" : 4,
+        "range" : 8500,
+        "buildingCost" : 170,
         "sellingValue" : 105
     },
     {
         "level" : 4,
         "type" : "WIZARDTOWER",
-        "damage" : 12,
-        "speed" : 7,
-        "range" : 8,
-        "buildingCost" : 270,
+        "damage" : 40,
+        "speed" : 5,
+        "range" : 9000,
+        "buildingCost" : 210,
         "sellingValue" : 105
     },
     {
         "level" : 4,
         "type" : "WIZARDTOWER",
-        "damage" : 8,
-        "speed" : 8,
-        "range" : 9,
-        "buildingCost" : 270,
+        "damage" : 31,
+        "speed" : 4,
+        "range" : 10000,
+        "buildingCost" : 230,
         "sellingValue" : 105
     }
 ]

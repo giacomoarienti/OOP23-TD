@@ -6,8 +6,6 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.towerdefense.commons.patterns.SkipIterator;
-
 /**
  * Tests for SkipIterator.
  */

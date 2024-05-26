@@ -2,37 +2,37 @@
     {
         "level" : 2,
         "type" : "ARCHERTOWER",
-        "damage" : 70,
-        "speed" : 22,
-        "range" : 13000,
-        "buildingCost" : 130,
+        "damage" : 43,
+        "speed" : 6,
+        "range" : 10000,
+        "buildingCost" : 120,
         "sellingValue" : 50
     },
     {
         "level" : 3,
         "type" : "ARCHERTOWER",
-        "damage" : 85,
-        "speed" : 24,
-        "range" : 1300,
-        "buildingCost" : 180,
+        "damage" : 49,
+        "speed" : 7,
+        "range" : 11000,
+        "buildingCost" : 170,
         "sellingValue" : 75
     },
     {
         "level" : 4,
         "type" : "ARCHERTOWER",
-        "damage" : 110,
-        "speed" : 25,
-        "range" : 13000,
-        "buildingCost" : 240,
+        "damage" : 65,
+        "speed" : 10,
+        "range" : 11500,
+        "buildingCost" : 225,
         "sellingValue" : 110
     },
     {
         "level" : 4,
         "type" : "ARCHERTOWER",
-        "damage" : 100,
-        "speed" : 30,
-        "range" : 15000,
-        "buildingCost" : 240,
+        "damage" : 55,
+        "speed" : 7,
+        "range" : 14000,
+        "buildingCost" : 210,
         "sellingValue" : 110
     }
 ]

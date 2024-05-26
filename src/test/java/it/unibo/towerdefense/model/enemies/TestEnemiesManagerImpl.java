@@ -19,7 +19,7 @@ class TestEnemiesManagerImpl {
     /**
      * Simple testing ModelManager which always returns null.
      */
-    private class TestingModelManager implements ModelManager {
+    private final class TestingModelManager implements ModelManager {
         /**
          * {@inheritDoc}.
          */

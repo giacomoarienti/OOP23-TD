@@ -20,7 +20,7 @@ public class DefenseDescription {
     private DefenseType type;
     /**Position.*/
     private LogicalPosition position;
-    /**List of attacking targets */
+    /**List of attacking targets.*/
     private List<LogicalPosition> targets;
     /**range.*/
     private int range;
@@ -28,13 +28,19 @@ public class DefenseDescription {
     private boolean isFocused;
 
     /**simple constructor with all fields.
-     * @param description
-     * @param name
+     * @param damage
+     * @param speed
      * @param cost
+     * @param sell
      * @param level
+     * @param range
+     * @param type
+     * @param pos
+     * @param focused if the tower is being selected.
+     * @param targets if the tower has attacked this loop,this will show the position of the targets
     */
     public DefenseDescription(final int damage, final int speed, final int cost,
-    final int sell,final int level, int range, boolean focused,
+    final int sell, final int level, final int range, final boolean focused,
      final DefenseType type, final LogicalPosition pos, final List<LogicalPosition> targets) {
         this.damage = damage;
         this.speed = speed;
@@ -52,20 +58,20 @@ public class DefenseDescription {
      * @return the description.
     */
     public String getDescription() {
-        final String speed_prefix = "speed -> ";
-        final String range_prefix = "range -> ";
-        final String damage_prefix = "attack -> ";
-        final Map<DefenseType,String> mappedDescriptions = Map.of(
-            DefenseType.ARCHERTOWER,"This defense attacks the closest enemy in its range.",
-            DefenseType.BOMBTOWER,"Attacks an enemy in its range and deals area damage around it.",
-            DefenseType.WIZARDTOWER,"Attacks  multiple targets within its range.",
-            DefenseType.THUNDERINVOKER,"This building will shoot at the furthest enemy in the map,if out of his range"
+        final String speedPrefix = "speed -> ";
+        final String rangePrefix = "range -> ";
+        final String damagePrefix = "attack -> ";
+        final Map<DefenseType, String> mappedDescriptions = Map.of(
+            DefenseType.ARCHERTOWER, "This defense attacks the closest enemy in its range.",
+            DefenseType.BOMBTOWER, "Attacks an enemy in its range and deals area damage around it.",
+            DefenseType.WIZARDTOWER, "Attacks  multiple targets within its range.",
+            DefenseType.THUNDERINVOKER, "This building will shoot at the furthest enemy in the map,if out of his range"
         );
-        String result ="";
-        result+=(speed_prefix+this.speed+"\n");
-        result+=(range_prefix+this.getRange()+"\n");
-        result+=(damage_prefix+this.damage+"\n");
-        result+=mappedDescriptions.get(this.type);
+        String result = "";
+        result += (speedPrefix + this.speed + "\n");
+        result += (rangePrefix + this.getRange() + "\n");
+        result += (damagePrefix + this.damage + "\n");
+        result += mappedDescriptions.get(this.type);
         return result;
     }
 
@@ -73,13 +79,13 @@ public class DefenseDescription {
      * @return the name.
     */
     public String getName() {
-        final Map<DefenseType,String> mappedNames = Map.of(
+        final Map<DefenseType, String> mappedNames = Map.of(
             DefenseType.ARCHERTOWER, "Archer tower",
             DefenseType.BOMBTOWER, "Bomb tower",
             DefenseType.WIZARDTOWER, "Wizard tower",
             DefenseType.THUNDERINVOKER, "Thunder Invoker"
         );
-        return mappedNames.get(this.type)+"(lv. "+this.level+")";
+        return mappedNames.get(this.type) + " (lv. " + this.level + ")";
     }
 
     /**getter for cost.
@@ -125,14 +131,13 @@ public class DefenseDescription {
     }
 
     /**
-     *
-     * @return a List of positions being attacked
+     * @return a List of positions being attacked.
      */
     public List<LogicalPosition> getTargets() {
         return this.targets;
     }
 
-    /**Reuturns boolean that  */
+    /**@return boolean that indicates if the defense is selected in game.*/
     public boolean getIsFocused() {
         return this.isFocused;
     }

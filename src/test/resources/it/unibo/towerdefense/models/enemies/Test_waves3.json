@@ -1,22 +1,60 @@
 [
     {
         "wave" : 1,
-        "rate" : 2,
-        "powerlevel" : -5,
+        "power_increment" : 100000,
         "types" : [
             "IB",
             "IC"
         ]
     },
     {
+        "wave" : 2,
+        "power_increment" : 300000
+    },
+    {
         "wave" : 3,
-        "length" : 15,
         "types" : [
-            "IAL"
+            "IA",
+            "IIC"
+        ],
+        "rate" : 100
+    },
+    {
+        "wave" : 7,
+        "types" : [
+            "IIB",
+            "IIA"
         ]
     },
     {
-        "wave" : 4,
-        "rate" : 3
+        "wave" : 10,
+        "types" : [
+            "IIIA",
+            "IIIB",
+            "IIIC"
+        ],
+        "rate" : 80
+    },
+    {
+        "wave" : 15,
+        "types" : [
+            "IVA",
+            "IVB",
+            "IVC"
+        ],
+        "rate" : 60
+    },
+    {
+        "wave" : 20,
+        "types" : [
+            "VA",
+            "VB",
+            "VC"
+        ]
+    },
+    {
+        "wave" : 25,
+        "power_increment" : 400000,
+        "rate" : 30
     }
 ]

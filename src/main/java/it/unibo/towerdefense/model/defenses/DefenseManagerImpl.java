@@ -12,8 +12,6 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import it.unibo.towerdefense.commons.dtos.defenses.DefenseDescription;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
@@ -32,7 +30,7 @@ public class DefenseManagerImpl implements DefenseManager {
     /**for getting end of map and entities.*/
     private ModelManager manager;
     /**gets the attacks that occured in one loop.*/
-    private Map<Defense,List<LogicalPosition>> attacksOnLoop = new HashMap<>();
+    private Map<Defense, List<LogicalPosition>> attacksOnLoop = new HashMap<>();
     /**gets wich defense is being focused.*/
     private Optional<Defense> focusedDef = Optional.empty();
 
@@ -42,15 +40,15 @@ public class DefenseManagerImpl implements DefenseManager {
     public DefenseManagerImpl(final String jsonString) {
         this();
         JSONArray serializedDefenses = new JSONArray(jsonString);
-        for(Object def: serializedDefenses) {
-            this.defenses.add(MutablePair.of
-            (factory.defenseFromJsonSave(def.toString()), 0)
+        for (Object def: serializedDefenses) {
+            this.defenses.add(MutablePair.of(
+                factory.defenseFromJsonSave(def.toString()), 0)
             );
         }
     }
 
     /**Empty default constructor.*/
-    public DefenseManagerImpl () {
+    public DefenseManagerImpl() {
         this.defenses = new LinkedList<>();
     }
 
@@ -83,7 +81,7 @@ public class DefenseManagerImpl implements DefenseManager {
          focusedDef.isPresent() && focusedDef.get().equals(def),
          def.getType(),
          def.getPosition(),
-         attacksOnLoop.computeIfAbsent(def, x-> List.of()));
+         attacksOnLoop.computeIfAbsent(def, x -> List.of()));
     }
 
     /**gets the models of buildable defenses for given defense
@@ -116,22 +114,27 @@ public class DefenseManagerImpl implements DefenseManager {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /**Update method to hurt enemies.*/
     public void update() {
         updateMomentum();
         Set<? extends Enemy> enemies = manager.getEnemies().getEnemies();
         List<? extends Enemy> enumeratedEnemies = enemies.stream().toList();
-        Map<Integer,Integer> damage = attackEnemies(enumeratedEnemies);
+        Map<Integer, Integer> damage = attackEnemies(enumeratedEnemies);
         if (damage.size() != 0) {
-            for(Map.Entry<Integer,Integer> dam: damage.entrySet()) {
+            for (Map.Entry<Integer, Integer> dam: damage.entrySet()) {
                 enumeratedEnemies.get(dam.getKey()).hurt(dam.getValue());
             }
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Optional<Defense> getDefenseAt(LogicalPosition at) {
+    public Optional<Defense> getDefenseAt(final LogicalPosition at) {
         Optional<MutablePair<Integer, Defense>> def = find(at);
         return def.isEmpty() ? Optional.empty() : Optional.of(def.get().getValue());
     }
@@ -172,10 +175,13 @@ public class DefenseManagerImpl implements DefenseManager {
         return getModelsOfBuildables(position).stream().map(x -> getDescriptionFrom(x)).toList();
     }
 
-
+    /**Update method to hurt enemies.
+     * @param availableTargets the enemies to choose from.
+     * @return a map of index : damage attacks to execute.
+    */
     private Map<Integer, Integer> attackEnemies(final List<? extends Enemy> availableTargets) {
         Map<Integer, Integer> result = new HashMap<>();
-        for (Pair<Defense,Integer> def:defenses) {
+        for (Pair<Defense, Integer> def:defenses) {
             /**execute only if momentum is reached.*/
             if (def.getValue() >= DefenseFormulas.MOMENTUM_REQUIRED) {
                 Map<Integer, Integer> attackResult = def.getKey().getStrategy()
@@ -188,8 +194,8 @@ public class DefenseManagerImpl implements DefenseManager {
                     );
                     /**add attacks */
                     List<LogicalPosition> hitEnemies = new LinkedList<>();
-                    attackResult.entrySet().forEach(x->hitEnemies.add(availableTargets.get(x.getKey()).getPosition()));
-                    attacksOnLoop.put(def.getKey(),hitEnemies);
+                    attackResult.entrySet().forEach(x -> hitEnemies.add(availableTargets.get(x.getKey()).getPosition()));
+                    attacksOnLoop.put(def.getKey(), hitEnemies);
                 }
             }
         }
@@ -213,7 +219,7 @@ public class DefenseManagerImpl implements DefenseManager {
      * {@inheritDoc}
      */
     @Override
-    public void bind(ModelManager mm) {
+    public void bind(final ModelManager mm) {
         this.manager = mm;
     }
 
@@ -223,7 +229,7 @@ public class DefenseManagerImpl implements DefenseManager {
     @Override
     public List<DefenseDescription> getDefenses() {
         List<DefenseDescription> descs = new LinkedList<>();
-        for(int i = 0; i < this.defenses.size(); i++) {
+        for (int i = 0; i < this.defenses.size(); i++) {
             descs.add(getDescriptionFrom(this.defenses.get(i).getKey()));
         }
         attacksOnLoop.clear();
@@ -234,12 +240,11 @@ public class DefenseManagerImpl implements DefenseManager {
      * {@inheritDoc}
      */
     @Override
-    public void setSelectedDefense(LogicalPosition pos, boolean toSelect) {
-        Optional<MutablePair<Integer,Defense>> def = find(pos);
-        if(!def.isEmpty()) {
-            this.focusedDef = toSelect? Optional.of(def.get().getRight()) : Optional.empty();
-        }
-        else {
+    public void setSelectedDefense(final LogicalPosition pos, final boolean toSelect) {
+        Optional<MutablePair<Integer, Defense>> def = find(pos);
+        if (!def.isEmpty()) {
+            this.focusedDef = toSelect ? Optional.of(def.get().getRight()) : Optional.empty();
+        } else {
             this.focusedDef = Optional.empty();
         }
     }

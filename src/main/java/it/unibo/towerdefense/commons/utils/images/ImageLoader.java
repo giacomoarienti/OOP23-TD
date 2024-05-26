@@ -24,7 +24,7 @@ public class ImageLoader {
      * @param cellSize the side of a cell
      */
     public ImageLoader(final int cellSize) {
-        if(cellSize <= 0){
+        if (cellSize <= 0) {
             throw new IllegalArgumentException("Cell size must be > 0");
         }
         this.cellSize = cellSize;
@@ -33,7 +33,7 @@ public class ImageLoader {
     /**
      * Loads an image from the given path.
      *
-     * @param path the path from the java classpath to the file
+     * @param name the path from the java classpath to the file
      *             allowed formats are JPEG, PNG, BMP, WBMP, GIF
      * @param size the size in cells the image should have,
      *             i.e a size = 1 means that the longest side of
@@ -44,12 +44,8 @@ public class ImageLoader {
         if (size <= 0) {
             throw new IllegalArgumentException("size can't be <= 0");
         }
-        try {
-            InputStream image = ClassLoader.getSystemResourceAsStream(name);
-            BufferedImage baseImage = ImageIO.read(image);
-            return Scalr.resize(baseImage, (int)(cellSize * size));
-        } catch (Exception e) {
-            throw new IOException("Couldn't load image with name " + name, e);
-        }
+        InputStream image = ClassLoader.getSystemResourceAsStream(name);
+        BufferedImage baseImage = ImageIO.read(image);
+        return Scalr.resize(baseImage, (int) (cellSize * size));
     }
 }

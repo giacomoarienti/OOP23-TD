@@ -54,15 +54,16 @@ class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave> {
          */
         return new SkipWave(
                 r.ints(0, availableTypes.size())
-                    .mapToObj(i -> availableTypes.get(i))
-                    .takeWhile(new Predicate<RichEnemyType>() {
-                        private int power = 0;
-                        @Override
-                        public boolean test(RichEnemyType t) {
-                            power += t.getPowerLevel();
-                            return power <= wp.getPower(wave);
-                        }
-                    }).iterator(),
+                        .mapToObj(i -> availableTypes.get(i))
+                        .takeWhile(new Predicate<RichEnemyType>() {
+                            private long power = 0;
+
+                            @Override
+                            public boolean test(final RichEnemyType t) {
+                                power += t.getPowerLevel();
+                                return power <= wp.getPower(wave);
+                            }
+                        }).iterator(),
                 wp.getCyclesPerSpawn(wave));
     }
 
@@ -70,6 +71,12 @@ class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave> {
      * Class created to inherit both from SkipIterator and Wave.
      */
     private class SkipWave extends SkipIterator<RichEnemyType> implements Wave {
+        /**
+         * Constructor for the class.
+         *
+         * @param base the iterator to decorate
+         * @param skip how many calls to next() constitute a cycle
+         */
         SkipWave(final Iterator<RichEnemyType> base, final int skip) {
             super(base, skip);
         }

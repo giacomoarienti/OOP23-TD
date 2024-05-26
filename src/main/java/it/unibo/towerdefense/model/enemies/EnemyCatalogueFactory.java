@@ -30,9 +30,8 @@ class EnemyCatalogueFactory {
      * @param configFile name of the file from which to load configurations.
      */
     EnemyCatalogueFactory(final String configFile) {
-        final Triple<Double,
-            Map<EnemyArchetype, Double>,
-            Map<EnemyLevel, Integer>> configValues = loadConfig(configFile);
+        final Triple<Double, Map<EnemyArchetype, Double>, Map<EnemyLevel, Integer>> configValues = loadConfig(
+                configFile);
 
         checkConstraints(configValues);
 
@@ -46,9 +45,11 @@ class EnemyCatalogueFactory {
      *
      * @return the created EnemyCatalogue.
      */
-    EnemyCatalogue compile(){
+    EnemyCatalogue compile() {
         return new EnemyCatalogue() {
-            private final Set<RichEnemyType> types = EnemyType.getEnemyTypes().stream().map(et -> build(et)).collect(Collectors.toUnmodifiableSet());
+            private final Set<RichEnemyType> types = EnemyType.getEnemyTypes().stream().map(et -> build(et))
+                    .collect(Collectors.toUnmodifiableSet());
+
             /**
              * {@inheritDoc}
              */
@@ -56,6 +57,7 @@ class EnemyCatalogueFactory {
             public Set<RichEnemyType> getEnemyTypes() {
                 return getEnemyTypes(et -> true);
             }
+
             /**
              * {@inheritDoc}.
              */
@@ -65,7 +67,6 @@ class EnemyCatalogueFactory {
             }
         };
     }
-
 
     /**
      * Method which separates the loading logic from the rest of the class.
@@ -131,25 +132,24 @@ class EnemyCatalogueFactory {
             });
         } catch (Throwable t) {
             throw new RuntimeException(
-                "Configuration string for enemy catalogue is semantically incorrect.",
-                t);
+                    "Configuration string for enemy catalogue is semantically incorrect.",
+                    t);
         }
     }
 
     /**
-     * Builds an EnemyType of given Level and Archetype.
+     * Builds an implementation EnemyType from the given "high level" enemy type.
      *
-     * @param l the Level of the enemy, determines total stats
-     * @param t the Archetype of the enemy, determines stats rateo
-     * @return the built EnemyType
+     * @param enemyType the "high level" enemytype
+     * @return the built RichEnemyType
      */
     private RichEnemyType build(final EnemyType enemyType) {
         final EnemyLevel l = enemyType.level();
         final EnemyArchetype t = enemyType.type();
         final int powerLevel = powerlevels.get(l);
-        final int hp = (int)Math.sqrt(powerLevel / rateos.get(t));
-        final int speed = (int)(hp * rateos.get(t));
-        final int value = (int)(powerlevels.get(l) * valueFactor);
+        final int hp = (int) Math.sqrt(powerLevel / rateos.get(t));
+        final int speed = (int) (hp * rateos.get(t));
+        final int value = (int) (powerlevels.get(l) * valueFactor);
         /**
          * Anonymous class which implements a RichEnemyType.
          */
@@ -161,6 +161,7 @@ class EnemyCatalogueFactory {
             public EnemyLevel level() {
                 return l;
             }
+
             /**
              * {@inheritDoc}.
              */
@@ -168,6 +169,7 @@ class EnemyCatalogueFactory {
             public EnemyArchetype type() {
                 return t;
             }
+
             /**
              * {@inheritDoc}.
              */
@@ -175,6 +177,7 @@ class EnemyCatalogueFactory {
             int getMaxHP() {
                 return hp;
             }
+
             /**
              * {@inheritDoc}.
              */
@@ -182,6 +185,7 @@ class EnemyCatalogueFactory {
             int getSpeed() {
                 return speed;
             }
+
             /**
              * {@inheritDoc}.
              */
@@ -189,6 +193,7 @@ class EnemyCatalogueFactory {
             int getValue() {
                 return value;
             }
+
             /**
              * {@inheritDoc}.
              */

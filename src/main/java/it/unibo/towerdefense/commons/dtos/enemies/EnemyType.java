@@ -69,14 +69,14 @@ public abstract class EnemyType implements Comparable<EnemyType> {
      *
      * @return the corresponding EnemyLevel
      */
-    abstract public EnemyLevel level();
+    public abstract EnemyLevel level();
 
     /**
      * Getter for the archetype of this EnemyType.
      *
      * @return the corresponding EnemyArchetype
      */
-    abstract public EnemyArchetype type();
+    public abstract EnemyArchetype type();
 
     /**
      * Two enemy types are the same if they have same level and type.
@@ -100,10 +100,10 @@ public abstract class EnemyType implements Comparable<EnemyType> {
      * {@inheritDoc}.
      */
     @Override
-    public final int compareTo(EnemyType other){
-        if(this.level().equals(other.level())){
+    public final int compareTo(final EnemyType other) {
+        if (this.level().equals(other.level())) {
             return this.type().compareTo(other.type());
-        }else{
+        } else {
             return this.level().compareTo(other.level());
         }
     }
@@ -125,17 +125,17 @@ public abstract class EnemyType implements Comparable<EnemyType> {
     public static Set<EnemyType> getEnemyTypes() {
         return Arrays.stream(EnemyLevel.values())
                 .flatMap(l -> Arrays.stream(EnemyArchetype.values())
-                .map(t -> new EnemyType() {
-                    @Override
-                    public EnemyLevel level() {
-                        return l;
-                    }
+                        .map(t -> new EnemyType() {
+                            @Override
+                            public EnemyLevel level() {
+                                return l;
+                            }
 
-                    @Override
-                    public EnemyArchetype type() {
-                        return t;
-                    }
-                }))
+                            @Override
+                            public EnemyArchetype type() {
+                                return t;
+                            }
+                        }))
                 .collect(Collectors.toSet());
     }
 }

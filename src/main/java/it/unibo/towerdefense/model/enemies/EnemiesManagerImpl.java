@@ -44,13 +44,14 @@ public class EnemiesManagerImpl implements EnemiesManager {
             final MapManager map = mm.getMap();
             final GameManager game = mm.getGame();
 
-            posFunction.bind((pos, speed) -> convert(map.getNextPosition(LogicalPosition.copyOf(pos), speed), pos.getDistanceWalked() + speed));
+            posFunction.bind((pos, speed) -> convert(map.getNextPosition(LogicalPosition.copyOf(pos), speed),
+                    pos.getDistanceWalked() + speed));
             startingPosSupplier.bind(() -> convert(map.getSpawnPosition(), 0).get());
 
             enemies.addDeathObserver(e -> {
-                if(e.isDead()){
+                if (e.isDead()) {
                     game.addMoney(e.getValue());
-                }else{
+                } else {
                     game.decreaseLives();
                 }
                 if (!enemies.isWaveActive()) {
@@ -69,7 +70,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
      * which will be empty if pv's distance to end is 0, meaning the enemy has
      * reached the end.
      *
-     * @param pv the pathvector to convert
+     * @param pv       the pathvector to convert
      * @param distance the new distance from start
      * @return the corresponding Optional EnemyPosition
      */
@@ -118,14 +119,18 @@ public class EnemiesManagerImpl implements EnemiesManager {
 
     /**
      * Class for a BiFunction which can be defined after initialization.
+     *
+     * @param <A> the BiFunction's first argument's type
+     * @param <B> the BiFunction's second argument's type
+     * @param <O> the BiFunction's return value's type
      */
-    private class BindableBiFunction<A, B, O> implements BiFunction<A, B, O> {
+    private final class BindableBiFunction<A, B, O> implements BiFunction<A, B, O> {
         private Optional<BiFunction<A, B, O>> f;
 
         /**
          * Constructs the BiFunction in a non-binded state.
          *
-         * Calls to methods other than bind in this state will result in an
+         * Calls to apply in this state will result in an
          * IllegalStateException.
          */
         private BindableBiFunction() {
@@ -136,7 +141,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
          * {@inheritDoc}.
          */
         @Override
-        public O apply(A a, B b) {
+        public O apply(final A a, final B b) {
             if (f.isPresent()) {
                 return f.get().apply(a, b);
             } else {
@@ -151,7 +156,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
          *
          * @param f the function to bind
          */
-        private void bind(BiFunction<A, B, O> f) {
+        private void bind(final BiFunction<A, B, O> f) {
             if (this.f.isEmpty()) {
                 this.f = Optional.of(f);
             } else {
@@ -162,12 +167,17 @@ public class EnemiesManagerImpl implements EnemiesManager {
 
     /**
      * Class for a Supplier which can be defined after initialization.
+     *
+     * @param <O> the supplied value's type
      */
-    private class BindableSupplier<O> implements Supplier<O> {
+    private final class BindableSupplier<O> implements Supplier<O> {
         private Optional<Supplier<O>> s;
 
         /**
-         * C
+         * Constructs the Supplier in a non-binded state.
+         *
+         * Calls to get in this state will result in an
+         * IllegalStateException.
          */
         private BindableSupplier() {
             s = Optional.empty();
@@ -195,7 +205,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
          *
          * @param s the supplier to bind
          */
-        private void bind(Supplier<O> s) {
+        private void bind(final Supplier<O> s) {
             if (this.s.isEmpty()) {
                 this.s = Optional.of(s);
             } else {

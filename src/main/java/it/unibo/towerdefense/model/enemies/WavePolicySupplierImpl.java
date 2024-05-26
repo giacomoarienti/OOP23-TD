@@ -1,6 +1,8 @@
 package it.unibo.towerdefense.model.enemies;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -25,8 +27,9 @@ class WavePolicySupplierImpl implements WavePolicySupplier {
      * criteria can be specified independently.
      */
     private final SortedMap<Integer, Predicate<EnemyType>> predicates;
-    private final SortedMap<Integer, Integer> powers;
+    private final SortedMap<Integer, Integer> powerIncrements;
     private final SortedMap<Integer, Integer> rates;
+    private final Map<Integer, Long> memo;
 
     /**
      * The constructor for the class.
@@ -35,14 +38,16 @@ class WavePolicySupplierImpl implements WavePolicySupplier {
      */
     WavePolicySupplierImpl(final String configFile) {
         Triple<SortedMap<Integer, Predicate<EnemyType>>,
-            SortedMap<Integer, Integer>,
-            SortedMap<Integer, Integer>> configValues = loadConfig(configFile);
+               SortedMap<Integer, Integer>,
+               SortedMap<Integer, Integer>> configValues = loadConfig(
+                configFile);
 
         checkConstraints(configValues);
 
         this.predicates = configValues.getLeft();
-        this.powers = configValues.getMiddle();
+        this.powerIncrements = configValues.getMiddle();
         this.rates = configValues.getRight();
+        this.memo = new HashMap<>();
     }
 
     /**
@@ -52,15 +57,14 @@ class WavePolicySupplierImpl implements WavePolicySupplier {
      *
      * @param configString String containing configuration values.
      * @return a Triple containing the three sorted maps which represent the
-     *         information stored
-     *         in the file.
+     *         information stored in the file.
      */
     Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> loadConfig(
             final String configString) {
 
-        SortedMap<Integer, Predicate<EnemyType>> p = new TreeMap<>();
-        SortedMap<Integer, Integer> l = new TreeMap<>();
-        SortedMap<Integer, Integer> r = new TreeMap<>();
+        SortedMap<Integer, Predicate<EnemyType>> types = new TreeMap<>();
+        SortedMap<Integer, Integer> powerIncrements = new TreeMap<>();
+        SortedMap<Integer, Integer> rates = new TreeMap<>();
         try {
             JSONArray config = new JSONArray(configString);
             config.forEach(
@@ -68,18 +72,18 @@ class WavePolicySupplierImpl implements WavePolicySupplier {
                         assert o instanceof JSONObject;
                         JSONObject wave = (JSONObject) o;
                         int waveNumber = wave.getInt("wave");
-                        Optional.ofNullable(wave.optIntegerObject("power", null))
-                                .ifPresent((Integer i) -> l.put(waveNumber, i));
+                        Optional.ofNullable(wave.optIntegerObject("power_increment", null))
+                                .ifPresent((Integer i) -> powerIncrements.put(waveNumber, i));
                         Optional.ofNullable(wave.optIntegerObject("rate", null))
-                                .ifPresent((Integer i) -> r.put(waveNumber, i));
+                                .ifPresent((Integer i) -> rates.put(waveNumber, i));
                         Optional.ofNullable(wave.optJSONArray("types", null)).ifPresent(
                                 (JSONArray a) -> {
-                                    p.put(waveNumber,
+                                    types.put(waveNumber,
                                             translate(IntStream.range(0, a.length()).mapToObj(i -> a.getString(i))
                                                     .toList()));
                                 });
                     });
-            return Triple.of(p, l, r);
+            return Triple.of(types, powerIncrements, rates);
         } catch (Throwable t) {
             throw new RuntimeException("Failed to load waves configuration from given String", t);
         }
@@ -94,40 +98,49 @@ class WavePolicySupplierImpl implements WavePolicySupplier {
      * @param values the triple containing the configuration to check.
      */
     private void checkConstraints(
-            final Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> values) {
+            final Triple<SortedMap<Integer, Predicate<EnemyType>>,
+                         SortedMap<Integer, Integer>,
+                         SortedMap<Integer, Integer>> values) {
 
-        final SortedMap<Integer, Predicate<EnemyType>> p = values.getLeft();
-        final SortedMap<Integer, Integer> l = values.getMiddle();
-        final SortedMap<Integer, Integer> r = values.getRight();
+        final SortedMap<Integer, Predicate<EnemyType>> types = values.getLeft();
+        final SortedMap<Integer, Integer> powerIncrements = values.getMiddle();
+        final SortedMap<Integer, Integer> rates = values.getRight();
 
         try {
             /*
              * Wave 1 is mandatory.
              */
-            assert p.containsKey(1) && l.containsKey(1) && r.containsKey(1);
+            if (!(types.containsKey(1) && powerIncrements.containsKey(1) && rates.containsKey(1))) {
+                throw new RuntimeException("Wave 1 missing an element.");
+            }
 
             /*
-             * Powerlevels can't be < 0.
+             * Configurations for waves < 0 are not permitted.
              */
-            p.keySet().forEach(i -> {
-                assert i > 0;
-            });
+            if (!types.headMap(1).isEmpty() || !powerIncrements.headMap(1).isEmpty() || !rates.headMap(1).isEmpty()) {
+                throw new RuntimeException("Wave number can't be < 1");
+            }
 
             /*
-             * Cant have length <= 0.
+             * Wave 1 must have some available enemy type.
              */
-            l.entrySet().forEach(e -> {
-                assert e.getKey() > 0;
-                assert e.getValue() > 0;
-            });
+            if (!EnemyType.getEnemyTypes().stream().anyMatch(types.get(1))) {
+                throw new RuntimeException("Wave 1 has no available enemy type.");
+            }
+
+            /*
+             * Power increments can't be < 0.
+             */
+            if (powerIncrements.values().stream().anyMatch(i -> i < 0)) {
+                throw new RuntimeException("Power increments can't be < 0.");
+            }
 
             /*
              * Cant have rate <= 0.
              */
-            r.entrySet().forEach(e -> {
-                assert e.getKey() > 0;
-                assert e.getValue() > 0;
-            });
+            if (rates.values().stream().anyMatch(i -> i < 0)) {
+                throw new RuntimeException("Power increments can't be < 0.");
+            }
         } catch (Throwable t) {
             throw new RuntimeException("Values contained in configuration file for wave policies are not permitted.",
                     t);
@@ -165,9 +178,36 @@ class WavePolicySupplierImpl implements WavePolicySupplier {
      * {@inheritDoc}.
      */
     @Override
-    public Integer getPower(final Integer wave) {
+    public Long getPower(final Integer wave) {
         check(wave);
-        return powers.get(powers.headMap(wave + 1).lastKey());
+        int lastIncrementWave = powerIncrements.headMap(wave + 1).lastKey();
+        /*
+         * we only memorize the powers for each wave in which changes the increase rate
+         * and calculate the rest
+         */
+        return getPowerUpTo(lastIncrementWave)
+                + ((long) powerIncrements.get(lastIncrementWave) * (wave - lastIncrementWave + 1));
+    }
+
+    /**
+     * A memoized recursive function for calculating the power the wave before the
+     * one given should have.
+     *
+     * @param wave the wave of which to compute the power
+     * @return the computed power
+     */
+    private long getPowerUpTo(final int wave) {
+        if (!memo.containsKey(wave)) {
+            long power;
+            if (wave == 1) {
+                power = 0L;
+            } else {
+                int previous = powerIncrements.headMap(wave).lastKey();
+                power = getPowerUpTo(previous) + (powerIncrements.get(previous) * (wave - previous));
+            }
+            memo.put(wave, power);
+        }
+        return memo.get(wave);
     }
 
     /**

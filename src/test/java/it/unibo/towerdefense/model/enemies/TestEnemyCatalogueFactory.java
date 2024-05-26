@@ -26,7 +26,7 @@ class TestEnemyCatalogueFactory {
     /**
      * Common prefix for all test files.
      */
-    private final static String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
+    private static final String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
 
     /**
      * Tests wheter the class can successfully load a configuration from a
@@ -40,11 +40,11 @@ class TestEnemyCatalogueFactory {
         for (String s : goodFilenames) {
             String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertDoesNotThrow(() -> new EnemyCatalogueFactory(config));
-        };
+        }
         for (String s : evilFilenames) {
             String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertThrows(RuntimeException.class, () -> new EnemyCatalogueFactory(config));
-        };
+        }
     }
 
     /**
@@ -53,7 +53,7 @@ class TestEnemyCatalogueFactory {
     @Nested
     class NestedTestBlock {
 
-        private final static String TEST_FILE = "types.json";
+        private static final String TEST_FILE = "types.json";
         private EnemyCatalogue tested;
         private Set<EnemyType> types;
 
