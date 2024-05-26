@@ -209,6 +209,11 @@ public class MapManagerImpl implements MapManager {
                         return true;
                     }
 
+                    @Override
+                    public String getDescription() {
+                        return "Sell this defense.";
+                    }
+
                 });
             }
         }

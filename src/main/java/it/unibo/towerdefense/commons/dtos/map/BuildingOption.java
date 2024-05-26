@@ -22,4 +22,10 @@ public interface BuildingOption {
      * @return tru if it is available, false if not.
      */
     boolean isAvailable();
+
+    /**
+     * Description getter.
+     * @return the description of the defense.
+     */
+    String getDescription();
 }

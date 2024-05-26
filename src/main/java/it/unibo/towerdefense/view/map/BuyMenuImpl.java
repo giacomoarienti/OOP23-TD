@@ -37,6 +37,7 @@ public class BuyMenuImpl implements BuyMenu {
                 JButton b = new JButton(o.getText() + " " + o.getCost());
                 b.setEnabled(o.isAvailable());
                 b.addActionListener(e -> ob.notify(options.indexOf(o)));
+                b.setToolTipText(htmlEncode(o.getDescription()));
                 return b;
             })
             .forEach(b -> jp.add(b));
@@ -47,5 +48,13 @@ public class BuyMenuImpl implements BuyMenu {
 
     private static String getTitle(final String text) {
         return (text.equals("Sell") ? "Upgrades" : "Building") + " menu\n";
+    }
+
+    /**
+     * @return a html encoded string for the option tooltip.
+     * @param tooltip the original string.
+     */
+    private static String htmlEncode(String tooltip) {
+        return "<html>"+tooltip.replace("\n", "<br>")+"</html>";
     }
 }
