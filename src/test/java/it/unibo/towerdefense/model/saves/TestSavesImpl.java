@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Assertions;
  */
 @SuppressFBWarnings(
     value = "UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR",
-    justification = "Field is initialized in @BeforeEach method."
+    justification = "Field is initialized in setUp method."
 )
 class TestSavesImpl {
     private static final String TEST_PLAYER_NAME = "TEST";
