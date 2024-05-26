@@ -11,7 +11,7 @@ public final class DefenseImagePaths {
     private static final String DEFENSE_FOLDER = "defenses/";
     private static final String BULLET_FOLDER = "bullets/";
     private static final String EXTENSION = ".png";
-    private static Map<DefenseType, String> ImagesBaseNames =Map.of
+    private static final Map<DefenseType, String> imagesBaseNames =Map.of
     (DefenseType.ARCHERTOWER, "Archer",
     DefenseType.BOMBTOWER, "Bomb",
     DefenseType.WIZARDTOWER, "Wizard",
@@ -26,17 +26,16 @@ public final class DefenseImagePaths {
      * @param level level of defense.
      * @return path of the image for a given defense of type x level y.
      */
-    public static String buildDefensePath(DefenseType type, int level) {
-        return BASE_PATH + DEFENSE_FOLDER+ ImagesBaseNames.get(type) + level + EXTENSION;
+    public static String buildDefensePath(final DefenseType type, final int level) {
+        return BASE_PATH + DEFENSE_FOLDER + imagesBaseNames.get(type) + level + EXTENSION;
     }
 
     /**
      * @param type type of defense.
-     * @param level level of defense.
-     * @return path of the image for a given defense of type x level y.
+     * @return path of the bullet image for a given defense of type x.
      */
-    public static String buildBulletPath(DefenseType type) {
-        return BASE_PATH + BULLET_FOLDER +ImagesBaseNames.get(type) + EXTENSION;
+    public static String buildBulletPath(final DefenseType type) {
+        return BASE_PATH + BULLET_FOLDER + imagesBaseNames.get(type) + EXTENSION;
     }
 
     /**Private constructor.*/

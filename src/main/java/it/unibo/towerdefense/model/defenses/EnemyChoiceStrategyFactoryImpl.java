@@ -23,7 +23,6 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
      * @param mapValidTargets maps wich valid targets are going to be hit.
      * @param mapDamage maps the filtered entities for damage based on a passed integer.
      * @param basePosition the position used for checking validity of targets
-     * @param customPos saved if the strategies uses additional positions for calculations.
      */
     private EnemyChoiceStrategy genericModel(final BiPredicate<LogicalPosition, LogicalPosition> isTargetValid,
     final Function<Map<Integer, ? extends Enemy>, Map<Integer, ? extends Enemy>> mapValidTargets,
@@ -81,7 +80,8 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
             map -> map.entrySet()
             .stream()
             .sorted((p1, p2) ->
-                Double.compare(p1.getValue().getPosition().distanceTo(position), p2.getValue().getPosition().distanceTo(position)))
+                Double.compare(p1.getValue().getPosition().distanceTo(position),
+                               p2.getValue().getPosition().distanceTo(position)))
             .limit(maxTargets)
             .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),
             (damage, map) -> map.entrySet()
@@ -117,7 +117,7 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
         return genericModel((x1, x2) -> x1.distanceTo(x2) > range,
         map -> map.entrySet()
         .stream()
-        .sorted( (ent1, ent2) -> Long.compare(
+        .sorted((ent1, ent2) -> Long.compare(
             ent2.getValue().getPosition().getDistanceWalked(), ent1.getValue().getPosition().getDistanceWalked()))
         .limit(1)
         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue())),

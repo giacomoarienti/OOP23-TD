@@ -19,6 +19,7 @@ import it.unibo.towerdefense.view.graphics.EmptyCircleDrawable;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 import it.unibo.towerdefense.view.graphics.LineDrawable;
 
+/**Implementation of DefenseRenderer.*/
 public class DefenseRendererImpl implements DefenseRenderer {
 
     final private Renderer renderer;
@@ -26,9 +27,12 @@ public class DefenseRendererImpl implements DefenseRenderer {
     private Map<DefenseType,List<Image>> mappedDefenseImages;
     private Map<DefenseType,Image> mappedBulletsImages;
 
+    /**Constructor for this class.
+     * @param renderer used to submit images.
+    */
     public DefenseRendererImpl(Renderer renderer) {
         this.renderer = renderer;
-        attacks = new LinkedList<>();
+        this.attacks = new LinkedList<>();
         loadImages();
     }
 
@@ -45,15 +49,15 @@ public class DefenseRendererImpl implements DefenseRenderer {
     /**loads an image for a given defense description.
      * @param def the description to load.
     */
-    private void renderDefenses(DefenseDescription def) {
-           Image image = this.mappedDefenseImages.get(def.getType()).get(def.getLevel()-1);
+    private void renderDefenses(final DefenseDescription def) {
+           Image image = this.mappedDefenseImages.get(def.getType()).get(def.getLevel() - 1);
            renderer.submitToCanvas(new ImageDrawable(image, def.getPosition()));
-           if(def.getIsFocused()) {
+           if (def.getIsFocused()) {
                 renderer.submitToCanvas(new EmptyCircleDrawable(def.getPosition(), def.getRange(), Color.BLUE));
            }
     }
     /**Adds attacks to list.*/
-    private void addAttacks(DefenseDescription def) {
+    private void addAttacks(final DefenseDescription def) {
         def.getTargets().forEach(x ->
             attacks.add(new AttackAnimationImpl(def.getType()==DefenseType.BOMBTOWER,
             def.getPosition(), x , def.getType()))

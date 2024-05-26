@@ -23,7 +23,7 @@ public final class DefenseFormulas {
     }
 
     /**momentum is the mechanic that allows the game to understand if a defense is ready to attack.*/
-    public static final int MOMENTUM_REQUIRED = 1000;
+    public static final int MOMENTUM_REQUIRED = 600;
 
     /**Private constructor.*/
     private DefenseFormulas() {
