@@ -96,7 +96,7 @@ class TestEnemiesImpl {
         int wave = 1;
         long p = testingWPS.getPower(wave);
         tested.spawn(wave);
-        while (tested.getEnemies().stream().reduce(0, (i, u) -> i += u.getPowerLevel(), (i1, i2) -> i1 + i2) < p) {
+        while (tested.getEnemies().stream().reduce(0, (i, u) -> i + u.getPowerLevel(), (i1, i2) -> i1 + i2) < p) {
             Assertions.assertTrue(tested.isWaveActive());
             tested.update();
         }

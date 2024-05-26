@@ -2,6 +2,7 @@ package it.unibo.towerdefense.view.enemies;
 
 import java.util.stream.Stream;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.view.graphics.Renderer;
 
@@ -20,6 +21,10 @@ public class EnemyRendererImpl implements EnemyRenderer {
      * @param renderer the Renderer on which to render enemies and from which to
      *                 retrieve an ImageLoader.
      */
+    @SuppressFBWarnings(
+        value = "EI2",
+        justification = "Renderer is intentionally mutable and safe to store."
+    )
     public EnemyRendererImpl(final Renderer renderer) {
         this.renderer = renderer;
         this.graphics = new EnemyGraphicsImpl(renderer.getImageLoader());

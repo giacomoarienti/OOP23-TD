@@ -44,12 +44,8 @@ public class ImageLoader {
         if (size <= 0) {
             throw new IllegalArgumentException("size can't be <= 0");
         }
-        try {
-            InputStream image = ClassLoader.getSystemResourceAsStream(name);
-            BufferedImage baseImage = ImageIO.read(image);
-            return Scalr.resize(baseImage, (int) (cellSize * size));
-        } catch (Exception e) {
-            throw new IOException("Couldn't load image with name " + name, e);
-        }
+        InputStream image = ClassLoader.getSystemResourceAsStream(name);
+        BufferedImage baseImage = ImageIO.read(image);
+        return Scalr.resize(baseImage, (int) (cellSize * size));
     }
 }
