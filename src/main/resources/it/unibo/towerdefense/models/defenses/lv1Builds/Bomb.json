@@ -1,9 +1,9 @@
 {
     "level" : 1,
     "type" : "BOMBTOWER",
-    "damage" : 18,
-    "speed" : 5,
-    "range" : 11000,
-    "buildingCost" : 80,
+    "damage" : 21,
+    "speed" : 4,
+    "range" : 7500,
+    "buildingCost" : 85,
     "sellingValue" : 40
 }
