@@ -26,11 +26,11 @@ import it.unibo.towerdefense.model.game.GameManagerImpl;
 import it.unibo.towerdefense.model.game.GameStatus;
 import it.unibo.towerdefense.model.map.MapManager;
 import it.unibo.towerdefense.model.map.MapManagerImpl;
-import it.unibo.towerdefense.model.saving.Saving;
-import it.unibo.towerdefense.model.saving.SavingFieldsEnum;
-import it.unibo.towerdefense.model.saving.SavingImpl;
-import it.unibo.towerdefense.model.saving.SavingsImpl;
-import it.unibo.towerdefense.model.score.Score;
+import it.unibo.towerdefense.model.saves.Save;
+import it.unibo.towerdefense.model.saves.SaveFieldsEnum;
+import it.unibo.towerdefense.model.saves.SaveImpl;
+import it.unibo.towerdefense.model.saves.SavesImpl;
+import it.unibo.towerdefense.model.scoreboard.Score;
 import it.unibo.towerdefense.model.scoreboard.ScoreboardImpl;
 
 /**
@@ -43,7 +43,7 @@ public class ModelImpl implements ModelManager, Model {
     private EnemiesManager enemies;
     private GameManager game;
     private boolean initialized;
-    private Saving saving;
+    private Save save;
 
     /**
      * {@inheritDoc}
@@ -63,7 +63,7 @@ public class ModelImpl implements ModelManager, Model {
      * {@inheritDoc}
      */
     @Override
-    public void init(final Saving s) {
+    public void init(final Save s) {
         // init model managers
         map = new MapManagerImpl(s.getMapJson());
         defenses = new DefenseManagerImpl(s.getDefensesJson());
@@ -71,8 +71,8 @@ public class ModelImpl implements ModelManager, Model {
         game = new GameManagerImpl(
             GameDTO.fromJson(s.getGameJson())
         );
-        // save the saving
-        this.saving = s;
+        // save the save
+        this.save = s;
         // bind managers
         this.bindManagers();
     }
@@ -242,7 +242,7 @@ public class ModelImpl implements ModelManager, Model {
             final var scoreboard = new ScoreboardImpl();
             return scoreboard.saveScore(game.getPlayerName(), game.getWave());
         } catch (final IOException e) {
-           throw new UncheckedIOException("Error saving score", e);
+           throw new UncheckedIOException("Error save score", e);
         }
     }
 
@@ -251,28 +251,28 @@ public class ModelImpl implements ModelManager, Model {
      */
     @Override
     public void save() {
-        // create json saving map
+        // create json save map
         final var json = Map.of(
-            SavingFieldsEnum.GAME, game.toJSON(),
-            SavingFieldsEnum.MAP, map.toJSON(),
-            SavingFieldsEnum.DEFENSES, defenses.toJSON()
+            SaveFieldsEnum.GAME, game.toJSON(),
+            SaveFieldsEnum.MAP, map.toJSON(),
+            SaveFieldsEnum.DEFENSES, defenses.toJSON()
         );
-        if (Objects.isNull(saving)) {
-            // create saving
-            this.saving = new SavingImpl(json);
+        if (Objects.isNull(save)) {
+            // create save
+            this.save = new SaveImpl(json);
         } else {
-            // update saving
-            this.saving = new SavingImpl(
+            // update save
+            this.save = new SaveImpl(
                 json,
-                saving.getDate()
+                save.getDate()
             );
         }
-        // create savingloader
+        // create saveloader
         try {
-            final var savingLoader = new SavingsImpl(game.getPlayerName());
-            savingLoader.writeSaving(this.saving);
+            final var saveLoader = new SavesImpl(game.getPlayerName());
+            saveLoader.writeSave(this.save);
         } catch (final IOException e) {
-            throw new UncheckedIOException("Error saving game", e);
+            throw new UncheckedIOException("Error save game", e);
         }
     }
 

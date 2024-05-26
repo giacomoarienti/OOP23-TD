@@ -13,7 +13,7 @@ import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherController;
 import it.unibo.towerdefense.controller.menu.StartMenuController;
-import it.unibo.towerdefense.controller.savings.SavingsController;
+import it.unibo.towerdefense.controller.saves.SavesController;
 import it.unibo.towerdefense.model.game.GameStatus;
 
 /**
@@ -40,10 +40,10 @@ public interface View {
     void displayStartMenu(StartMenuController menuController);
 
     /**
-     * Display the saving selection view.
-     * @param savingsController the Controller of the SavingsView
+     * Display the save selection view.
+     * @param savesController the Controller of the SavesView
      */
-    void displaySavings(SavingsController savingsController);
+    void displaySaves(SavesController savesController);
 
     /**
      * Close the window if present.

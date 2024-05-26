@@ -1,9 +1,9 @@
-package it.unibo.towerdefense.model.saving;
+package it.unibo.towerdefense.model.saves;
 
 /**
- * Enum that contains the fields of a saving.
+ * Enum that contains the fields of a save.
  */
-public enum SavingFieldsEnum {
+public enum SaveFieldsEnum {
     /**
      * The game field.
      */
@@ -23,7 +23,7 @@ public enum SavingFieldsEnum {
      * Default constructor.
      * @param field the field
      */
-    SavingFieldsEnum(final String field) {
+    SaveFieldsEnum(final String field) {
         this.field = field;
     }
 

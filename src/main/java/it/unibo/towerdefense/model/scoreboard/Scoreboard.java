@@ -3,8 +3,6 @@ package it.unibo.towerdefense.model.scoreboard;
 import java.io.IOException;
 import java.util.List;
 
-import it.unibo.towerdefense.model.score.Score;
-
 /**
  * That defines the game's scoreboard that loads
  * and supplies an ordered set of Scores.

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import it.unibo.towerdefense.model.score.Score;
+import it.unibo.towerdefense.model.scoreboard.Score;
 import it.unibo.towerdefense.model.scoreboard.Scoreboard;
 
 /**

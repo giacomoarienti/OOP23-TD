@@ -19,10 +19,10 @@ import it.unibo.towerdefense.commons.engine.Size;
 import it.unibo.towerdefense.controller.gamelauncher.GameLauncherControllerImpl;
 import it.unibo.towerdefense.controller.gameloop.GameLoop;
 import it.unibo.towerdefense.controller.menu.StartMenuControllerImpl;
-import it.unibo.towerdefense.controller.savings.SavingsControllerImpl;
+import it.unibo.towerdefense.controller.saves.SavesControllerImpl;
 import it.unibo.towerdefense.controller.scoreboard.ScoreboardControllerImpl;
 import it.unibo.towerdefense.model.Model;
-import it.unibo.towerdefense.model.saving.Saving;
+import it.unibo.towerdefense.model.saves.Save;
 import it.unibo.towerdefense.view.View;
 
 /**
@@ -93,10 +93,10 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void start(final Saving saving) {
-        logger.info("start() with saving");
-        // init the model with saving
-        this.model.init(saving);
+    public void start(final Save save) {
+        logger.info("start() with save");
+        // init the model with save
+        this.model.init(save);
         this.afterStart();
         // close all open modals
         this.view.closeModals();
@@ -163,13 +163,13 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void displaySavings() {
-        final var savingsController = new SavingsControllerImpl(
+    public void displaySaves() {
+        final var savesController = new SavesControllerImpl(
             this.playerName,
             this.view,
             this::start
         );
-        savingsController.run();
+        savesController.run();
     }
 
     /**
