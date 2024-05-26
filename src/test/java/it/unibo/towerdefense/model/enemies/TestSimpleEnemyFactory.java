@@ -25,6 +25,7 @@ class TestSimpleEnemyFactory {
      * Initializes the class for testing.
      */
     @BeforeEach
+    @SuppressWarnings("checkstyle:magicnumber")
     private void init() {
         tested = new SimpleEnemyFactory();
         t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, 100, 100, 100, 10000);
@@ -48,7 +49,7 @@ class TestSimpleEnemyFactory {
      * Tests the enemy moves correctly.
      */
     @Test
-    void testMove(){
+    void testMove() {
         EnemyPosition newPos = new EnemyPosition(10, 0, Direction.E, 100);
         created.move(newPos);
         Assertions.assertEquals(newPos, created.getPosition());
@@ -71,14 +72,14 @@ class TestSimpleEnemyFactory {
     @Test
     void testDeath() {
         interface TestObserver<T> extends Observer<T> {
-            public boolean getFlag();
-        };
+            boolean getFlag();
+        }
 
         TestObserver<RichEnemy> o = new TestObserver<RichEnemy>() {
-            boolean flag = false;
+            private boolean flag = false;
 
             @Override
-            public void notify(RichEnemy source) {
+            public void notify(final RichEnemy source) {
                 if (source == created) {
                     flag = true;
                 }
@@ -96,6 +97,7 @@ class TestSimpleEnemyFactory {
         Assertions.assertTrue(o.getFlag());
         Assertions.assertTrue(created.isDead());
         Assertions.assertThrows(IllegalStateException.class, () -> created.hurt(1));
-        Assertions.assertThrows(IllegalStateException.class, () -> created.move(new EnemyPosition(10, 0, Direction.E, 100)));
+        Assertions.assertThrows(IllegalStateException.class,
+                () -> created.move(new EnemyPosition(10, 0, Direction.E, 100)));
     }
 }

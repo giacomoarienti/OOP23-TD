@@ -52,7 +52,7 @@ public class EnemyPosition extends LogicalPosition {
      *
      * @param dir the direction to set.
      */
-    public void setDir(Direction dir) {
+    public void setDir(final Direction dir) {
         this.dir = dir;
     }
 
@@ -70,7 +70,7 @@ public class EnemyPosition extends LogicalPosition {
      *
      * @param distance the distance to set
      */
-    public void setDistance(long distance) {
+    public void setDistance(final long distance) {
         this.distance = distance;
     }
 

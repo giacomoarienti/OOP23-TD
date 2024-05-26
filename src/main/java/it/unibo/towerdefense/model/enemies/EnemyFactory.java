@@ -9,7 +9,7 @@ interface EnemyFactory {
     /**
      * Spawns an Enemy with the specified type.
      *
-     * @param t the type of the Enemy to spawn
+     * @param t   the type of the Enemy to spawn
      * @param pos the spawn position of the new enemy
      * @return the spawned Enemy
      */

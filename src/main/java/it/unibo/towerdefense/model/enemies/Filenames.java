@@ -8,13 +8,19 @@ import java.nio.file.Paths;
  * need them.
  * Stored this way to access them from test classes.
  */
-final class Filenames {
+abstract class Filenames {
+    /**
+     * The folder containing all config files for this package.
+     */
     private static final String ROOT = "it/unibo/towerdefense/models/enemies/";
+    /**
+     * The name of the waves config file.
+     */
     private static final String WAVECONF = "waves.json";
+    /**
+     * The name of the types config file.
+     */
     private static final String TYPESCONF = "types.json";
-
-    private Filenames(){
-    }
 
     /**
      * Returns the path of the waves config file.
@@ -40,7 +46,7 @@ final class Filenames {
      * @param filename the logical path to the resource starting from classpath
      * @return the actual path on the filesystem to the desired resource
      */
-    private static Path getPath(String filename){
+    private static Path getPath(final String filename) {
         try {
             return Paths.get(ClassLoader.getSystemResource(filename).toURI());
         } catch (Throwable t) {

@@ -16,11 +16,13 @@ interface EnemyCatalogue {
     Set<RichEnemyType> getEnemyTypes();
 
     /**
-     * Returns a list of all RichEnemyTypes in the game for which the predicate tests
+     * Returns a list of all RichEnemyTypes in the game for which the predicate
+     * tests
      * true.
      *
      * @param test the predicate to test on all RichEnemyTypes
-     * @return a list of all RichEnemyTypes in the game for which the predicate tests
+     * @return a list of all RichEnemyTypes in the game for which the predicate
+     *         tests
      *         true
      */
     Set<RichEnemyType> getEnemyTypes(Predicate<? super RichEnemyType> test);

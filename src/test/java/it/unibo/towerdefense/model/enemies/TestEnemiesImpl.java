@@ -19,8 +19,8 @@ class TestEnemiesImpl {
     /**
      * Arbitrary starting position.
      */
-    private static final EnemyPosition STARTING_POSITION = new EnemyPosition(0, 0, Direction.E, 100);
-    private WavePolicySupplierImpl testing_wp;
+    private final static EnemyPosition STARTING_POSITION = new EnemyPosition(0, 0, Direction.E, 100);
+    private WavePolicySupplierImpl testingWPS;
     private EnemiesImpl tested;
     private int dead;
 
@@ -32,8 +32,9 @@ class TestEnemiesImpl {
      */
     @BeforeEach
     private void init() throws IOException {
-        testing_wp = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
-        tested = new EnemiesImpl((pos, speed) -> Optional.of(STARTING_POSITION.clone()), () -> STARTING_POSITION.clone());
+        testingWPS = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
+        tested = new EnemiesImpl((pos, speed) -> Optional.of(STARTING_POSITION.clone()),
+                () -> STARTING_POSITION.clone());
         dead = 0;
         tested.addDeathObserver(e -> dead += 1);
     }
@@ -93,15 +94,15 @@ class TestEnemiesImpl {
     @Test
     void testWaveEnd() {
         int wave = 1;
-        int p = testing_wp.getPower(wave);
+        int p = testingWPS.getPower(wave);
         tested.spawn(wave);
-        while(tested.getEnemies().stream().reduce(0, (i, u) -> i += u.getPowerLevel(), (i1, i2) -> i1+i2) < p ){
+        while (tested.getEnemies().stream().reduce(0, (i, u) -> i += u.getPowerLevel(), (i1, i2) -> i1 + i2) < p) {
             Assertions.assertTrue(tested.isWaveActive());
             tested.update();
         }
         Assertions.assertTrue(tested.isWaveActive()); // Enemies are still alive
         Assertions.assertThrows(RuntimeException.class, () -> tested.spawn(2));
-        tested.getEnemies().stream().forEach( e -> e.die());
+        tested.getEnemies().stream().forEach(e -> e.die());
         Assertions.assertTrue(tested.getEnemies().size() == 0);
         Assertions.assertFalse(tested.isWaveActive());
         Assertions.assertDoesNotThrow(() -> tested.spawn(2));

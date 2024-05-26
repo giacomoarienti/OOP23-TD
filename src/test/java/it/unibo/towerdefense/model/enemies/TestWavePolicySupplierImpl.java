@@ -19,7 +19,7 @@ import it.unibo.towerdefense.commons.utils.file.FileUtils;
  */
 class TestWavePolicySupplierImpl {
 
-    private final static String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
+    private static final String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
 
     /**
      * Tests the class can correctly load a configuration from a well formatted file
@@ -32,11 +32,11 @@ class TestWavePolicySupplierImpl {
         for (String s : goodFilenames) {
             String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertDoesNotThrow(() -> new WavePolicySupplierImpl(config));
-        };
+        }
         for (String s : evilFilenames) {
             String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertThrows(RuntimeException.class, () -> new WavePolicySupplierImpl(config));
-        };
+        }
     }
 
     /**
@@ -61,6 +61,7 @@ class TestWavePolicySupplierImpl {
          * Tests the method getCyclesPerSpawn works as intended.
          */
         @Test
+        @SuppressWarnings("checkstyle:MagicNumberCheck")
         void testGetCyclesPerSpawn() {
             Assertions.assertThrows(RuntimeException.class, () -> tested.getCyclesPerSpawn(0));
             Assertions.assertEquals(5, tested.getCyclesPerSpawn(1));
@@ -77,6 +78,7 @@ class TestWavePolicySupplierImpl {
          * Tests the method getPower works as intended.
          */
         @Test
+        @SuppressWarnings("checkstyle:MagicNumberCheck")
         void testGetPower() {
             Assertions.assertThrows(RuntimeException.class, () -> tested.getPower(0));
             Assertions.assertEquals(10000, tested.getPower(1));
@@ -90,6 +92,7 @@ class TestWavePolicySupplierImpl {
          * Tests the method getPredicate works as intended.
          */
         @Test
+        @SuppressWarnings("checkstyle:MagicNumberCheck")
         void testGetPredicate() {
             Assertions.assertThrows(RuntimeException.class, () -> tested.getPredicate(0));
             Assertions.assertTrue(tested.getPredicate(1).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.B)));
@@ -98,13 +101,18 @@ class TestWavePolicySupplierImpl {
 
             Assertions.assertFalse(tested.getPredicate(2).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A)));
 
-            Assertions.assertTrue(tested.getPredicate(200).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.B)));
-            Assertions.assertTrue(tested.getPredicate(200).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.C)));
+            Assertions
+                    .assertTrue(tested.getPredicate(200).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.B)));
+            Assertions
+                    .assertTrue(tested.getPredicate(200).test(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.C)));
 
-            Assertions.assertTrue(tested.getPredicate(10000).test(TestingEnemyType.build(EnemyLevel.IV, EnemyArchetype.A)));
-            Assertions.assertTrue(tested.getPredicate(3809).test(TestingEnemyType.build(EnemyLevel.IV, EnemyArchetype.B)));
+            Assertions.assertTrue(
+                    tested.getPredicate(10000).test(TestingEnemyType.build(EnemyLevel.IV, EnemyArchetype.A)));
+            Assertions.assertTrue(
+                    tested.getPredicate(3809).test(TestingEnemyType.build(EnemyLevel.IV, EnemyArchetype.B)));
 
-            Assertions.assertFalse(tested.getPredicate(2000).test(TestingEnemyType.build(EnemyLevel.II, EnemyArchetype.A)));
+            Assertions.assertFalse(
+                    tested.getPredicate(2000).test(TestingEnemyType.build(EnemyLevel.II, EnemyArchetype.A)));
         }
     }
 }

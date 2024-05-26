@@ -28,10 +28,11 @@ class TestEnemyCollectionImpl {
     private RichEnemyType t;
     private RichEnemy spawned;
 
-    private class TestObserver implements Observer<Enemy> {
-        List<Enemy> notified = new LinkedList<>();
+    private final class TestObserver implements Observer<Enemy> {
+        private List<Enemy> notified = new LinkedList<>();
+
         @Override
-        public void notify(Enemy source) {
+        public void notify(final Enemy source) {
             this.notified.add(source);
         }
     }
@@ -44,6 +45,7 @@ class TestEnemyCollectionImpl {
      * @see TestSimpleEnemyFactory
      */
     @BeforeEach
+    @SuppressWarnings("checkstyle:magicnumber")
     private void init() {
         tested = new EnemyCollectionImpl((pos, speed) -> Optional.empty());
         helper = new SimpleEnemyFactory();

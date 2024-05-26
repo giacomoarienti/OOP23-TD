@@ -5,7 +5,10 @@ package it.unibo.towerdefense.commons.dtos.enemies;
  */
 public interface EnemyInfo {
 
-    static final int HP_SCALE = 100;
+    /**
+     * Maximum value hp return value can have.
+     */
+    int HP_SCALE = 100;
 
     /**
      * Getter for the LogicalPosition of the Enemy.

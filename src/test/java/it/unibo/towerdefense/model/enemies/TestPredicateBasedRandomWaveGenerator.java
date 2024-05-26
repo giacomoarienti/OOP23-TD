@@ -17,8 +17,9 @@ import it.unibo.towerdefense.commons.utils.file.FileUtils;
  */
 class TestPredicateBasedRandomWaveGenerator {
 
-    private final static String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
-    private final static int N = 10000;
+    private static final String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
+    private static final int START = -5;
+    private static final int END = 10000;
     private PredicateBasedRandomWaveGenerator rwg;
     private WavePolicySupplierImpl wps;
     private EnemyCatalogue catalogue;
@@ -40,7 +41,7 @@ class TestPredicateBasedRandomWaveGenerator {
      */
     @Test
     void testWaves() {
-        for (int i = -5; i < N; i++) {
+        for (int i = START; i < END; i++) {
             testWave(i);
         }
     }
@@ -50,7 +51,7 @@ class TestPredicateBasedRandomWaveGenerator {
      *
      * @param wave number of the wave to test.
      */
-    private void testWave(int wave) {
+    private void testWave(final int wave) {
         if (wave < 1) {
             Assertions.assertThrows(RuntimeException.class, () -> rwg.apply(wave));
         } else {
@@ -76,7 +77,7 @@ class TestPredicateBasedRandomWaveGenerator {
                                         }
                                     }),
                             () -> "Was not right type");
-                    p+=current.get().getPowerLevel();
+                    p += current.get().getPowerLevel();
                 } else {
                     Assertions.assertTrue(generated.next().isEmpty(), () -> "Was present");
                 }

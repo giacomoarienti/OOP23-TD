@@ -94,7 +94,9 @@ class WavePolicySupplierImpl implements WavePolicySupplier {
      * @param values the triple containing the configuration to check.
      */
     private void checkConstraints(
-            final Triple<SortedMap<Integer, Predicate<EnemyType>>, SortedMap<Integer, Integer>, SortedMap<Integer, Integer>> values) {
+            final Triple<SortedMap<Integer, Predicate<EnemyType>>,
+                         SortedMap<Integer, Integer>,
+                         SortedMap<Integer, Integer>> values) {
 
         final SortedMap<Integer, Predicate<EnemyType>> p = values.getLeft();
         final SortedMap<Integer, Integer> l = values.getMiddle();

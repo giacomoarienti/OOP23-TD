@@ -18,7 +18,8 @@ public interface EnemiesManager extends Manager {
     /**
      * Starts a new wave if one is not currently active and no enemy is alive.
      *
-     * Will throw a RuntimeException if a wave is already active or any enemy is alive.
+     * Will throw a RuntimeException if a wave is already active or any enemy is
+     * alive.
      *
      * @param wave the number of the wave to start
      */

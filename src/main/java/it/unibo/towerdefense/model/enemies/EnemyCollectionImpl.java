@@ -61,7 +61,7 @@ class EnemyCollectionImpl implements EnemyCollection {
     /**
      * {@inheritDoc}.
      */
-    public void addDeathObserver(Observer<Enemy> o) {
+    public void addDeathObserver(final Observer<Enemy> o) {
         enemyDeathObservers.add(o);
     }
 

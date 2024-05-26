@@ -50,6 +50,7 @@ class SimpleEnemyFactory implements EnemyFactory {
          * Constructor for the class.
          *
          * @param t the type of the Enemy from which to retrieve hp and speed
+         * @param startingPos the starting position of the enemy
          */
         MinimalEnemy(final RichEnemyType t, final EnemyPosition startingPos) {
             deathObservers = new HashSet<>();
@@ -80,7 +81,7 @@ class SimpleEnemyFactory implements EnemyFactory {
          */
         @Override
         public int getHp() {
-            return (int)((((double)this.hp)/t.getMaxHP()) * EnemyInfo.HP_SCALE);
+            return (int) ((((double) this.hp) / t.getMaxHP()) * EnemyInfo.HP_SCALE);
         }
 
         /**
