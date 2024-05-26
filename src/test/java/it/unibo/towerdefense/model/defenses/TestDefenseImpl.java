@@ -9,6 +9,7 @@ import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.model.defenses.costants.DefenseMapKeys;
 
 import java.util.Set;
+import java.util.Optional;
 
 /**Tests for the implementation of Defense.*/
 public class TestDefenseImpl {
@@ -27,24 +28,25 @@ public class TestDefenseImpl {
 
         /**Test full constructor*/
         Defense result = new DefenseImpl(testType, testLevel, testDamage, testRange,
-        testSpeed, testBuildCost, testSellCost, testPosition, null, Set.of());
+        testSpeed, testBuildCost, testSellCost, Optional.of(testPosition), null, Set.of());
         Assertions.assertEquals(testLevel, result.getLevel());
         Assertions.assertEquals(testDamage, result.getDamage());
         Assertions.assertEquals(testSpeed, result.getAttackSpeed());
         Assertions.assertEquals(testBuildCost, result.getBuildingCost());
         Assertions.assertEquals(testSellCost, result.getSellingValue());
-        Assertions.assertEquals(testPosition, result.getPosition());
+        Assertions.assertEquals(testPosition, result.getPosition().get());
     }
 
     /**Test for setters functions.*/
     @Test
     void testSetters() {
         /**Test defense (we don't care about not settable values).*/
-        final Defense result = new DefenseImpl(DefenseType.ARCHERTOWER, 0, 0, 0, 0, 0, 0, null, null, Set.of());
+        final Defense result = new DefenseImpl(DefenseType.ARCHERTOWER, 0, 0, 0, 0, 0, 0, 
+        Optional.empty(), null, Set.of());
         /**Test setters */
         final LogicalPosition testPosition = new LogicalPosition(20, 20);
         result.setPosition(testPosition);
-        Assertions.assertEquals(testPosition, result.getPosition());
+        Assertions.assertEquals(testPosition, result.getPosition().get());
     }
 
     /**Test for json conversion (from defense to json).*/
@@ -60,7 +62,7 @@ public class TestDefenseImpl {
         final int testSellCost = 4;
         final LogicalPosition testPosition = new LogicalPosition(10, 10);
         Defense result = new DefenseImpl(testType, testLevel, testDamage, testRange,
-        testSpeed, testBuildCost, testSellCost, testPosition, null, Set.of());
+        testSpeed, testBuildCost, testSellCost, Optional.of(testPosition), null, Set.of());
         /**Create json object*/
         JSONObject jsonVersion = new JSONObject();
         jsonVersion.put(DefenseMapKeys.LEVEL, testLevel);
@@ -107,5 +109,5 @@ public class TestDefenseImpl {
         Assertions.assertEquals(result.getAttackSpeed(), testSpeed);
         Assertions.assertEquals(result.getBuildingCost(), testBuildCost);
         Assertions.assertEquals(result.getSellingValue(), testSellCost);
-        Assertions.assertEquals(result.getPosition(), testPosition);    }
+        Assertions.assertEquals(result.getPosition().get(), testPosition);    }
 }

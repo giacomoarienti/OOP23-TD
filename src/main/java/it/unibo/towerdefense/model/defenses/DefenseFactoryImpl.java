@@ -56,19 +56,19 @@ public class DefenseFactoryImpl implements DefenseFactory {
     private void setStrategyFor(final Defense def) {
         switch (def.getType()) {
             case ARCHERTOWER:
-                def.setStrategy(strategyFactory.closestTargets(1, def.getRange(), def.getPosition()));
+                def.setStrategy(strategyFactory.closestTargets(1, def.getRange(), def.getPosition().get()));
             break;
             case BOMBTOWER:
                 def.setStrategy(strategyFactory.closestTargetWithAreaDamage(DefenseFormulas.bombTowerDamageAreaFormula(def),
-                def.getRange(), def.getPosition()));
+                def.getRange(), def.getPosition().get()));
             break;
             case WIZARDTOWER:
                 def.setStrategy(strategyFactory.closestTargets(DefenseFormulas.wizaredTowerTargetsFormula(def),
-                def.getRange(), def.getPosition()));
+                def.getRange(), def.getPosition().get()));
             break;
             case THUNDERINVOKER:
                 def.setStrategy(strategyFactory.closestToEndMap(
-                def.getRange(), def.getPosition()));
+                def.getRange(), def.getPosition().get()));
             break;
             case NOTOWER:
             default:
@@ -83,7 +83,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
      */
     private void cloneNonSerializableDataInUpdates(final Defense defense) {
         for (Defense def : defense.getPossibleUpgrades()) {
-            def.setPosition(defense.getPosition());
+            def.setPosition(defense.getPosition().get());
             def.setStrategy(defense.getStrategy());
         }
     }
@@ -120,7 +120,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     @Override
     public Defense upgrade(final Defense current, final int upgradeIndex, final Optional<String> upgradesFileName)
     throws IOException {
-        LogicalPosition defPosition = current.getPosition();
+        LogicalPosition defPosition = current.getPosition().get();
         Defense upgradedVersion = current.getPossibleUpgrades().stream().toList().get(upgradeIndex);
         upgradedVersion.setPosition(defPosition);
         setStrategyFor(upgradedVersion);

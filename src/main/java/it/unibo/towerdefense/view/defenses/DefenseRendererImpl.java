@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.awt.Image;
 
@@ -26,7 +27,14 @@ public class DefenseRendererImpl implements DefenseRenderer {
     private Map<DefenseType, List<Image>> mappedDefenseImages;
     private Map<DefenseType, Image> mappedBulletsImages;
 
-    /**Constructor for this class.
+    /**suppressing a warning to pass the renderer without errors.*/
+    @SuppressFBWarnings(
+        value = "EI2",
+        justification = "Renderer is intentionally mutable and safe to store."
+    )
+
+    /**
+     * Constructor for this class.
      * @param renderer used to submit images.
     */
     public DefenseRendererImpl(final Renderer renderer) {
@@ -53,9 +61,9 @@ public class DefenseRendererImpl implements DefenseRenderer {
     */
     private void renderDefenses(final DefenseDescription def) {
            Image image = this.mappedDefenseImages.get(def.getType()).get(def.getLevel() - 1);
-           renderer.submitToCanvas(new ImageDrawable(image, def.getPosition()));
+           renderer.submitToCanvas(new ImageDrawable(image, def.getPosition().get()));
            if (def.getIsFocused()) {
-                renderer.submitToCanvas(new EmptyCircleDrawable(def.getPosition(), def.getRange(), Color.BLUE));
+                renderer.submitToCanvas(new EmptyCircleDrawable(def.getPosition().get(), def.getRange(), Color.BLUE));
            }
     }
     /**Adds attacks to list.
@@ -64,7 +72,7 @@ public class DefenseRendererImpl implements DefenseRenderer {
     private void addAttacks(final DefenseDescription def) {
         def.getTargets().forEach(x ->
             attacks.add(new AttackAnimationImpl(def.getType() == DefenseType.BOMBTOWER,
-            def.getPosition(), x, def.getType()))
+            def.getPosition().get(), x, def.getType()))
         );
     }
 

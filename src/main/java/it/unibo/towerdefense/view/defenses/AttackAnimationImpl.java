@@ -23,8 +23,8 @@ public class AttackAnimationImpl implements AttackAnimation {
     final LogicalPosition attacked, final DefenseType type) {
         this.timeToLive = INITIAL_TIME_TO_LIVE;
         this.isAreaBased = isAreaBased;
-        this.attacked = attacked;
-        this.attacker = attacker;
+        this.attacked = LogicalPosition.copyOf(attacked);
+        this.attacker = LogicalPosition.copyOf(attacker);
         this.type = type;
     }
 
@@ -49,7 +49,7 @@ public class AttackAnimationImpl implements AttackAnimation {
      */
     @Override
     public LogicalPosition getAttacker() {
-        return this.attacker;
+        return LogicalPosition.copyOf(this.attacker);
     }
 
     /**
@@ -57,7 +57,7 @@ public class AttackAnimationImpl implements AttackAnimation {
      */
     @Override
     public LogicalPosition getAttacked() {
-        return this.attacked;
+        return LogicalPosition.copyOf(this.attacked);
     }
 
     /**

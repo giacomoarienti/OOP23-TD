@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Assertions;
 class TestSavesImpl {
     private static final String TEST_PLAYER_NAME = "TEST";
     private static final String RESOURCES_ROOT =
-        "it/unibo/towerdefense/models/save/";
+        "it/unibo/towerdefense/models/saves/";
     private static final String SAVING_FILE =
         RESOURCES_ROOT + "test-save.json";
 

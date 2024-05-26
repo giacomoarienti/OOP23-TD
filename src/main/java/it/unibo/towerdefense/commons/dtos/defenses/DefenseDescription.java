@@ -3,6 +3,7 @@ package it.unibo.towerdefense.commons.dtos.defenses;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**Contains data that can be visualized in the build menu about defenses.*/
 public class DefenseDescription {
@@ -19,7 +20,7 @@ public class DefenseDescription {
     /**Type.*/
     private DefenseType type;
     /**Position.*/
-    private LogicalPosition position;
+    private Optional<LogicalPosition> position;
     /**List of attacking targets.*/
     private List<LogicalPosition> targets;
     /**range.*/
@@ -41,7 +42,7 @@ public class DefenseDescription {
     */
     public DefenseDescription(final int damage, final int speed, final int cost,
     final int sell, final int level, final int range, final boolean focused,
-     final DefenseType type, final LogicalPosition pos, final List<LogicalPosition> targets) {
+     final DefenseType type, final Optional<LogicalPosition> pos, final List<LogicalPosition> targets) {
         this.damage = damage;
         this.speed = speed;
         this.level = level;
@@ -49,7 +50,7 @@ public class DefenseDescription {
         this.type = type;
         this.sellValue = sell;
         this.position = pos;
-        this.targets = targets;
+        this.targets = List.copyOf(targets);
         this.range = range;
         this.isFocused = focused;
     }
@@ -119,7 +120,7 @@ public class DefenseDescription {
     /**getter for position.
      * @return the position.
     */
-    public LogicalPosition getPosition() {
+    public Optional<LogicalPosition> getPosition() {
         return this.position;
     }
 
@@ -134,7 +135,7 @@ public class DefenseDescription {
      * @return a List of positions being attacked.
      */
     public List<LogicalPosition> getTargets() {
-        return this.targets;
+        return List.copyOf(this.targets);
     }
 
     /**@return boolean that indicates if the defense is selected in game.*/
