@@ -80,7 +80,7 @@ public class EnemyPosition extends LogicalPosition {
      * Returns a copy of this position.
      */
     @Override
-    public EnemyPosition clone() {
+    public EnemyPosition copy() {
         return new EnemyPosition(this.getX(), this.getY(), this.getDir(), this.getDistanceWalked());
     }
 

@@ -54,7 +54,7 @@ class SimpleEnemyFactory implements EnemyFactory {
          */
         MinimalEnemy(final RichEnemyType t, final EnemyPosition startingPos) {
             deathObservers = new HashSet<>();
-            this.pos = startingPos.clone();
+            this.pos = startingPos.copy();
             this.t = t;
             this.hp = t.getMaxHP();
         }
@@ -103,7 +103,7 @@ class SimpleEnemyFactory implements EnemyFactory {
          */
         @Override
         public EnemyPosition getPosition() {
-            return this.pos.clone();
+            return this.pos.copy();
         }
 
         /**

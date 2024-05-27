@@ -4,7 +4,7 @@ package it.unibo.towerdefense.commons.engine;
  * A class which extends Position adding cell-based logic.
  * A cell is SCALING_FACTOR positions long.
  */
-public class LogicalPosition extends PositionImpl implements Cloneable {
+public class LogicalPosition extends PositionImpl {
 
     /**
      * 1/scalingFactor of a cell is the smallest variation registered
@@ -53,8 +53,7 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public LogicalPosition clone() {
+    public LogicalPosition copy() {
         return new LogicalPosition(this.getX(), this.getY());
     }
 
