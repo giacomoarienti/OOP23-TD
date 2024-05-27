@@ -143,8 +143,7 @@ public class GameMapImpl implements GameMap {
         getMap().forEach(c -> {
             if (c instanceof PathCell) {
                 jArrayPath.put(((PathCellImpl) c).toJSON());
-            }
-            else {
+            } else {
                 jArrayBuildable.put(((BuildableCellImpl) c).toJSON());
             }
         });

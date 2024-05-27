@@ -259,7 +259,7 @@ public class MapManagerImpl implements MapManager {
         return map.toJSON();
     }
 
-    private void defenseSelection(boolean isSelected) {
+    private void defenseSelection(final boolean isSelected) {
         defenses.setSelectedDefense(selected.getCenter(), isSelected);
     }
 

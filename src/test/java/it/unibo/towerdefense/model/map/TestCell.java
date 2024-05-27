@@ -6,18 +6,23 @@ import org.junit.jupiter.api.Test;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.engine.PositionImpl;
 
-public class TestCells {
+/**
+ * Class to test Cell methods.
+ */
+public class TestCell {
+
+    private static final int HALF_FACTOR = LogicalPosition.SCALING_FACTOR / 2;
 
     @Test
     void testGetCentre() {
-        LogicalPosition lp = new LogicalPosition(1800, 1800);
+        LogicalPosition lp = new LogicalPosition(HALF_FACTOR, HALF_FACTOR);
         Assertions.assertEquals(lp, new BuildableCellImpl(new PositionImpl(lp.getCellX(), lp.getCellY()), false).getCenter());
     }
 
     @Test
     void testInSideMidPoint() {
         for (MapDirection d : MapDirection.values()) {
-            PathCell pc = new PathCellImpl(new PositionImpl(10, 10), d, MapDirection.E, 1000);
+            PathCell pc = new PathCellImpl(new PositionImpl(3, 3), d, MapDirection.E, 1000);
             Assertions.assertTrue(pc.contains(pc.inSideMidpoint()));
         }
     }
