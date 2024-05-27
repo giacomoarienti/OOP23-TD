@@ -15,8 +15,8 @@ import it.unibo.towerdefense.commons.engine.LogicalPosition;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
 
 /**Test class for DefenseFactory.*/
-public class TestDefenseFactoryImpl {
-    private DefenseFactory factory = new DefenseFactoryImpl();
+class TestDefenseFactoryImpl {
+    private final DefenseFactory factory = new DefenseFactoryImpl();
 
     /**Files paths.*/
     private static final String ARCHER_TEST_PATH =
@@ -46,7 +46,7 @@ public class TestDefenseFactoryImpl {
         final LogicalPosition expectedPosition = new LogicalPosition(10, 10);
 
         /**Test getters using save file.*/
-        Defense tower = factory.defenseFromJsonSave(new JSONObject(FileUtils.readFile(ARCHER_TEST_PATH)).toString());
+        final Defense tower = factory.defenseFromJsonSave(new JSONObject(FileUtils.readFile(ARCHER_TEST_PATH)).toString());
         Assertions.assertEquals(expectedLevel, tower.getLevel());
         Assertions.assertEquals(expectedType, tower.getType());
         Assertions.assertEquals(expectedDamage, tower.getDamage());
@@ -54,7 +54,7 @@ public class TestDefenseFactoryImpl {
         Assertions.assertEquals(expectedRange, tower.getRange());
         Assertions.assertEquals(expectedBuildCost, tower.getBuildingCost());
         Assertions.assertEquals(expectedSellCost, tower.getSellingValue());
-        Assertions.assertEquals(expectedPosition, tower.getPosition());
+        Assertions.assertEquals(expectedPosition, tower.getPosition().get());
         Assertions.assertEquals(Set.of(), tower.getPossibleUpgrades());
     }
 
@@ -81,7 +81,7 @@ public class TestDefenseFactoryImpl {
         final LogicalPosition expectedPositionUp = new LogicalPosition(15, 15);
 
         /**Test getters using save file constructor.*/
-        Defense tower = factory.levelOneDefense(BOMB_TEST_PATH, expectedPosition, Optional.empty());
+        final Defense tower = factory.levelOneDefense(BOMB_TEST_PATH, expectedPosition, Optional.empty());
         Assertions.assertEquals(expectedLevel, tower.getLevel());
         Assertions.assertEquals(expectedType, tower.getType());
         Assertions.assertEquals(expectedDamage, tower.getDamage());
@@ -89,10 +89,10 @@ public class TestDefenseFactoryImpl {
         Assertions.assertEquals(expectedRange, tower.getRange());
         Assertions.assertEquals(expectedBuildCost, tower.getBuildingCost());
         Assertions.assertEquals(expectedSellCost, tower.getSellingValue());
-        Assertions.assertEquals(expectedPosition, tower.getPosition());
+        Assertions.assertEquals(expectedPosition, tower.getPosition().get());
         Assertions.assertEquals(1, tower.getPossibleUpgrades().size());
         /**Test upgrade.*/
-        Defense upgrade = tower.getPossibleUpgrades().stream().toList().get(0);
+        final Defense upgrade = tower.getPossibleUpgrades().stream().toList().get(0);
         Assertions.assertEquals(expectedLevelUp, upgrade.getLevel());
         Assertions.assertEquals(expectedTypeUp, upgrade.getType());
         Assertions.assertEquals(expectedDamageUp, upgrade.getDamage());
@@ -100,7 +100,7 @@ public class TestDefenseFactoryImpl {
         Assertions.assertEquals(expectedRangeUp, upgrade.getRange());
         Assertions.assertEquals(expectedBuildCostUp, upgrade.getBuildingCost());
         Assertions.assertEquals(expectedSellCostUp, upgrade.getSellingValue());
-        Assertions.assertEquals(expectedPositionUp, upgrade.getPosition());
+        Assertions.assertEquals(expectedPositionUp, upgrade.getPosition().get());
         Assertions.assertEquals(Set.of(), upgrade.getPossibleUpgrades());
 
 
@@ -123,8 +123,8 @@ public class TestDefenseFactoryImpl {
 
         /**Build upgrade.*/
         final LogicalPosition testPosition = new LogicalPosition(8, 5);
-        Defense baseDef = factory.levelOneDefense(WIZARD_TEST_PATH, testPosition, Optional.empty());
-        Defense up  = factory.upgrade(baseDef, 0, Optional.empty());
+        final Defense baseDef = factory.levelOneDefense(WIZARD_TEST_PATH, testPosition, Optional.empty());
+        final Defense up  = factory.upgrade(baseDef, 0, Optional.empty());
 
         /**Test getters.*/
         Assertions.assertEquals(expectedLevel, up.getLevel());

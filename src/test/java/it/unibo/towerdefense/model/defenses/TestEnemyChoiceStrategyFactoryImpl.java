@@ -97,7 +97,7 @@ class TestEnemyChoiceStrategyFactoryImpl {
         final Map<Integer, Integer> expectedResultTest4 =
         Map.of(0, TEST_DAMAGE, 3, TEST_DAMAGE, 4, TEST_DAMAGE, 6, TEST_DAMAGE, 7, TEST_DAMAGE);
 
-        EnemyChoiceStrategy strategy = factory.closestTargets(TEST_MAX_TARGETS, TEST_RANGE, TEST_POSITION);
+        final EnemyChoiceStrategy strategy = factory.closestTargets(TEST_MAX_TARGETS, TEST_RANGE, TEST_POSITION);
         /**Test 1: no target possible*/
         Assertions.assertEquals(strategy.execute(List.of(), TEST_DAMAGE), expectedResultTest1);
         /**Test 2: 1 target*/
@@ -136,7 +136,7 @@ class TestEnemyChoiceStrategyFactoryImpl {
         final Map<Integer, Integer> expectedResultTest4 = Map.of(1, TEST_DAMAGE,
         3, TEST_DAMAGE, 5, TEST_DAMAGE);
 
-        EnemyChoiceStrategy strategy = factory.closestTargetWithAreaDamage(TEST_AREA_RANGE, TEST_RANGE, TEST_POSITION);
+        final EnemyChoiceStrategy strategy = factory.closestTargetWithAreaDamage(TEST_AREA_RANGE, TEST_RANGE, TEST_POSITION);
         /**Test 1: no target possible*/
         Assertions.assertEquals(strategy.execute(List.of(), TEST_DAMAGE), expectedResultTest1);
         /**Test 2: 1 target*/
@@ -174,22 +174,22 @@ class TestEnemyChoiceStrategyFactoryImpl {
         final int testDistance9 = 8;
         final int testDistance10 = 8;
         /**Create Test Enemies.*/
-        Enemy testEnemy1 = testEnemy(testPos1, testDistance1);
-        Enemy testEnemy2 = testEnemy(testPos2, testDistance2);
-        Enemy testEnemy3 = testEnemy(testPos3, testDistance3);
-        Enemy testEnemy4 = testEnemy(testPos4, testDistance4);
-        Enemy testEnemy5 = testEnemy(testPos1, testDistance5);
-        Enemy testEnemy6 = testEnemy(testPos2, testDistance6);
-        Enemy testEnemy7 = testEnemy(testPos3, testDistance7);
-        Enemy testEnemy8 = testEnemy(testPos4, testDistance8);
-        Enemy testEnemy9 = testEnemy(testPos5, testDistance9);
-        Enemy testEnemy10 = testEnemy(testPos6, testDistance10);
+        final Enemy testEnemy1 = testEnemy(testPos1, testDistance1);
+        final Enemy testEnemy2 = testEnemy(testPos2, testDistance2);
+        final Enemy testEnemy3 = testEnemy(testPos3, testDistance3);
+        final Enemy testEnemy4 = testEnemy(testPos4, testDistance4);
+        final Enemy testEnemy5 = testEnemy(testPos1, testDistance5);
+        final Enemy testEnemy6 = testEnemy(testPos2, testDistance6);
+        final Enemy testEnemy7 = testEnemy(testPos3, testDistance7);
+        final Enemy testEnemy8 = testEnemy(testPos4, testDistance8);
+        final Enemy testEnemy9 = testEnemy(testPos5, testDistance9);
+        final Enemy testEnemy10 = testEnemy(testPos6, testDistance10);
         /**create expected results */
         final Map<Integer, Integer> expectedResultTest1 = Map.of(0, TEST_DAMAGE);
         final Map<Integer, Integer> expectedResultTest2 = new HashMap<>();
         final Map<Integer, Integer> expectedResultTest3 = Map.of(4, TEST_DAMAGE);
 
-        EnemyChoiceStrategy strategy = factory.closestToEndMap(TEST_AREA_RANGE,
+        final EnemyChoiceStrategy strategy = factory.closestToEndMap(TEST_AREA_RANGE,
         TEST_POSITION);
 
         /**Test 1:check closest target to custom point.*/
