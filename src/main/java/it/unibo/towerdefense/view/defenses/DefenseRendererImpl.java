@@ -33,6 +33,13 @@ public class DefenseRendererImpl implements DefenseRenderer {
     private final List<AttackAnimation> attacks;
     private Map<DefenseType, List<Image>> mappedDefenseImages;
     private Map<DefenseType, Image> mappedBulletsImages;
+    /**for drawing range.*/
+    private final Map<DefenseType, Color> matchColors = Map.of(
+        DefenseType.ARCHERTOWER, Color.BLUE,
+        DefenseType.BOMBTOWER, Color.BLUE,
+        DefenseType.WIZARDTOWER, Color.BLUE,
+        DefenseType.THUNDERINVOKER, Color.RED
+    );
 
      /**
      * Constructor for this class.
@@ -64,7 +71,8 @@ public class DefenseRendererImpl implements DefenseRenderer {
         final Image image = this.mappedDefenseImages.get(def.getType()).get(def.getLevel() - 1);
            renderer.submitToCanvas(new ImageDrawable(image, def.getPosition().get()));
            if (def.isFocused()) {
-                renderer.submitToCanvas(new EmptyCircleDrawable(def.getPosition().get(), def.getRange(), Color.BLUE));
+                renderer.submitToCanvas(new EmptyCircleDrawable(def.getPosition().get(), def.getRange(),
+                matchColors.get(def.getType())));
            }
     }
     /**Adds attacks to list.

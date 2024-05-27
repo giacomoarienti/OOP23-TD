@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.Optional;
 
 /**Tests for the implementation of Defense.*/
-public class TestDefenseImpl {
+class TestDefenseImpl {
     /**Test of constructors and get methods.*/
     @Test
     void testConstructorsAndGetters() {
@@ -27,7 +27,7 @@ public class TestDefenseImpl {
         final LogicalPosition testPosition = new LogicalPosition(10, 10);
 
         /**Test full constructor*/
-        Defense result = new DefenseImpl(testType, testLevel, testDamage, testRange,
+        final Defense result = new DefenseImpl(testType, testLevel, testDamage, testRange,
         testSpeed, testBuildCost, testSellCost, Optional.of(testPosition), null, Set.of());
         Assertions.assertEquals(testLevel, result.getLevel());
         Assertions.assertEquals(testDamage, result.getDamage());
@@ -61,10 +61,10 @@ public class TestDefenseImpl {
         final int testBuildCost = 12;
         final int testSellCost = 4;
         final LogicalPosition testPosition = new LogicalPosition(10, 10);
-        Defense result = new DefenseImpl(testType, testLevel, testDamage, testRange,
+        final Defense result = new DefenseImpl(testType, testLevel, testDamage, testRange,
         testSpeed, testBuildCost, testSellCost, Optional.of(testPosition), null, Set.of());
         /**Create json object*/
-        JSONObject jsonVersion = new JSONObject();
+        final JSONObject jsonVersion = new JSONObject();
         jsonVersion.put(DefenseMapKeys.LEVEL, testLevel);
         jsonVersion.put(DefenseMapKeys.DAMAGE, testDamage);
         jsonVersion.put(DefenseMapKeys.SPEED, testSpeed);
@@ -91,7 +91,7 @@ public class TestDefenseImpl {
         final int testRange = 5;
         final LogicalPosition testPosition = new LogicalPosition(10, 10);
         /**Create json object*/
-        JSONObject jsonVersion = new JSONObject();
+        final JSONObject jsonVersion = new JSONObject();
         jsonVersion.put(DefenseMapKeys.LEVEL, testLevel);
         jsonVersion.put(DefenseMapKeys.TYPE, testType);
         jsonVersion.put(DefenseMapKeys.DAMAGE, testDamage);
@@ -102,7 +102,7 @@ public class TestDefenseImpl {
         jsonVersion.put(DefenseMapKeys.UPGRADES, Set.of());
         jsonVersion.put(DefenseMapKeys.RANGE, testRange);
         /**Test */
-        Defense result = DefenseImpl.fromJson(jsonVersion.toString());
+        final Defense result = DefenseImpl.fromJson(jsonVersion.toString());
         /**Assertions.*/
         Assertions.assertEquals(result.getLevel(), testLevel);
         Assertions.assertEquals(result.getDamage(), testDamage);
