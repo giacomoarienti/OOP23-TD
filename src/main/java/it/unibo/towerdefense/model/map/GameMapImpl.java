@@ -39,7 +39,7 @@ public class GameMapImpl implements GameMap {
         this.size = size;
         map = new Cell[size.getWidth()][size.getHeight()];
         final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, pathDirection);
-        Position pos = generatePosition();
+        final Position pos = generatePosition();
         int distanceToEnd = 0;
         end = new PathCellImpl(pos, path.next(), pathDirection, distanceToEnd);
         PathCell newCell = end;

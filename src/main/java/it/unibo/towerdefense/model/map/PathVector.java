@@ -47,4 +47,4 @@ public class PathVector {
     public int distanceToEnd() {
         return distanceToEnd;
     }
-};
+}

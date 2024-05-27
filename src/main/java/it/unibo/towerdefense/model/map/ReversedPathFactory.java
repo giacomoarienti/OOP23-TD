@@ -42,7 +42,7 @@ public class ReversedPathFactory {
 
             private final Random random = new Random();
             private int n = random.nextInt(2) * 2;
-            private int counter = 0;
+            private int counter;
 
             @Override
             public MapDirection apply(final MapDirection d) {

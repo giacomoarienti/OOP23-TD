@@ -9,20 +9,20 @@ import it.unibo.towerdefense.commons.engine.PositionImpl;
 /**
  * Class to test Cell methods.
  */
-public class TestCell {
+class TestCell {
 
     private static final int HALF_FACTOR = LogicalPosition.SCALING_FACTOR / 2;
 
     @Test
     void testGetCentre() {
-        LogicalPosition lp = new LogicalPosition(HALF_FACTOR, HALF_FACTOR);
+        final LogicalPosition lp = new LogicalPosition(HALF_FACTOR, HALF_FACTOR);
         Assertions.assertEquals(lp, new BuildableCellImpl(new PositionImpl(lp.getCellX(), lp.getCellY()), false).getCenter());
     }
 
     @Test
     void testInSideMidPoint() {
-        for (MapDirection d : MapDirection.values()) {
-            PathCell pc = new PathCellImpl(new PositionImpl(3, 3), d, MapDirection.E, 1000);
+        for (final MapDirection d : MapDirection.values()) {
+            final PathCell pc = new PathCellImpl(new PositionImpl(3, 3), d, MapDirection.E, 1000);
             Assertions.assertTrue(pc.contains(pc.inSideMidpoint()));
         }
     }
