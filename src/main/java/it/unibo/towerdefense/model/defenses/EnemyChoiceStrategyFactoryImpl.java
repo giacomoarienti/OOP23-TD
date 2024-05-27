@@ -36,20 +36,20 @@ public class EnemyChoiceStrategyFactoryImpl implements EnemyChoiceStrategyFactor
             public Map<Integer, Integer> execute(final List<? extends Enemy> availableTargets,
             final int baseDamage) {
                 /**No need for calculations if list is empty.*/
-                if (availableTargets.size() == 0) {
+                if (availableTargets.isEmpty()) {
                     return Map.of();
                 }
                 /*map entities to list index.*/
-                Map<Integer, ? extends Enemy> mappedAvailableTargets = IntStream.range(0, availableTargets.size())
+                final Map<Integer, ? extends Enemy> mappedAvailableTargets = IntStream.range(0, availableTargets.size())
                         .boxed()
                         .collect(Collectors.toMap(i -> i, i -> availableTargets.get(i)));
                     /**get valid targets */
-                Map<Integer, ? extends Enemy> validTargets = mappedAvailableTargets.entrySet()
+                    final Map<Integer, ? extends Enemy> validTargets = mappedAvailableTargets.entrySet()
                         .stream()
                         .filter(x -> isTargetValid.test(x.getValue().getPosition(), basePosition))
                         .collect(Collectors.toMap(m -> m.getKey(), m -> m.getValue()));
                     /**get targets that are going to be hit and return mapped damage. */
-                Map<Integer, ? extends Enemy> finalTargets = mapValidTargets.apply(validTargets);
+                final Map<Integer, ? extends Enemy> finalTargets = mapValidTargets.apply(validTargets);
                 return mapDamage.apply(baseDamage, finalTargets);
             }
         };

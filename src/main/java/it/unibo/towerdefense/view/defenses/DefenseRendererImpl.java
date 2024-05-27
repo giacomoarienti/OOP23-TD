@@ -2,6 +2,7 @@ package it.unibo.towerdefense.view.defenses;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,24 +20,24 @@ import it.unibo.towerdefense.view.graphics.EmptyCircleDrawable;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
 import it.unibo.towerdefense.view.graphics.LineDrawable;
 
-/**Implementation of DefenseRenderer.*/
-public class DefenseRendererImpl implements DefenseRenderer {
-
-    private final Renderer renderer;
-    private List<AttackAnimation> attacks;
-    private Map<DefenseType, List<Image>> mappedDefenseImages;
-    private Map<DefenseType, Image> mappedBulletsImages;
-
     /**suppressing a warning to pass the renderer without errors.*/
     @SuppressFBWarnings(
         value = "EI2",
         justification = "Renderer is intentionally mutable and safe to store."
     )
 
-    /**
+/**Implementation of DefenseRenderer.*/
+public class DefenseRendererImpl implements DefenseRenderer {
+
+    private final Renderer renderer;
+    private final List<AttackAnimation> attacks;
+    private Map<DefenseType, List<Image>> mappedDefenseImages;
+    private Map<DefenseType, Image> mappedBulletsImages;
+
+     /**
      * Constructor for this class.
      * @param renderer used to submit images.
-    */
+     */
     public DefenseRendererImpl(final Renderer renderer) {
         this.renderer = renderer;
         this.attacks = new LinkedList<>();
@@ -60,9 +61,9 @@ public class DefenseRendererImpl implements DefenseRenderer {
      * @param def the description to load.
     */
     private void renderDefenses(final DefenseDescription def) {
-           Image image = this.mappedDefenseImages.get(def.getType()).get(def.getLevel() - 1);
+        final Image image = this.mappedDefenseImages.get(def.getType()).get(def.getLevel() - 1);
            renderer.submitToCanvas(new ImageDrawable(image, def.getPosition().get()));
-           if (def.getIsFocused()) {
+           if (def.isFocused()) {
                 renderer.submitToCanvas(new EmptyCircleDrawable(def.getPosition().get(), def.getRange(), Color.BLUE));
            }
     }
@@ -94,27 +95,26 @@ public class DefenseRendererImpl implements DefenseRenderer {
     private void loadImages() {
         this.mappedDefenseImages = new HashMap<>();
         this.mappedBulletsImages = new HashMap<>();
-        for (DefenseType defType : DefenseType.values()) {
+        for (final DefenseType defType : DefenseType.values()) {
             if (defType == DefenseType.NOTOWER) {
                 continue;
             }
             /**Load bullets.*/
             try {
-                Image bul = renderer.getImageLoader().loadImage(DefenseImagePaths.buildBulletPath(defType), 0.5);
+                final Image bul = renderer.getImageLoader().loadImage(DefenseImagePaths.buildBulletPath(defType), 0.5);
                 mappedBulletsImages.put(defType, bul);
             } catch (IOException e) {
-                throw new RuntimeException(e.getMessage());
+                throw  new UncheckedIOException(e);
             }
 
             /**Load defenses.*/
-            List<Image> images = new LinkedList<>();
+            final List<Image> images = new LinkedList<>();
             for (int i = 1; i <= 4; i++) {
                 try {
-                    System.out.println(defType);
-                    Image image = renderer.getImageLoader().loadImage(DefenseImagePaths.buildDefensePath(defType, i), 1);
+                    final Image image = renderer.getImageLoader().loadImage(DefenseImagePaths.buildDefensePath(defType, i), 1);
                     images.add(image);
                 } catch (IOException e) {
-                    throw new RuntimeException(e.getMessage());
+                    throw new UncheckedIOException(e);
                 }
             }
             mappedDefenseImages.put(defType, images);

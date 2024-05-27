@@ -22,7 +22,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     /**
      * an internal factory for the strategies.
      */
-    private EnemyChoiceStrategyFactory strategyFactory = new EnemyChoiceStrategyFactoryImpl();
+    private final EnemyChoiceStrategyFactory strategyFactory = new EnemyChoiceStrategyFactoryImpl();
 
     /**
      * Private method for retrieving the updates from a file.
@@ -35,12 +35,12 @@ public class DefenseFactoryImpl implements DefenseFactory {
     private Set<Defense> getDefensesOfLevel(final String filePath, final DefenseType type, final int level)
     throws IOException {
         /**Read file.*/
-        String fileContent = FileUtils.readFile(filePath);
-        JSONArray defenses = new JSONArray(fileContent);
-        Set<Defense> result = new HashSet<>();
+        final String fileContent = FileUtils.readFile(filePath);
+        final JSONArray defenses = new JSONArray(fileContent);
+        final Set<Defense> result = new HashSet<>();
         /**check for valid updates.*/
         for (int i = 0; i < defenses.length(); i++) {
-            JSONObject conv = defenses.getJSONObject(i);
+            final JSONObject conv = defenses.getJSONObject(i);
             if (conv.getInt(DefenseMapKeys.LEVEL) == level + 1
             && DefenseType.valueOf(conv.getString(DefenseMapKeys.TYPE)) == type) {
                 result.add(DefenseImpl.fromJson(conv.toString()));
@@ -82,7 +82,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
      * @param defense the defense to pass data to.
      */
     private void cloneNonSerializableDataInUpdates(final Defense defense) {
-        for (Defense def : defense.getPossibleUpgrades()) {
+        for (final Defense def : defense.getPossibleUpgrades()) {
             def.setPosition(defense.getPosition().get());
             def.setStrategy(defense.getStrategy());
         }
@@ -93,7 +93,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
      */
     @Override
     public Defense defenseFromJsonSave(final String jsonData) {
-        Defense result = Defense.fromJson(jsonData);
+        final Defense result = Defense.fromJson(jsonData);
         setStrategyFor(result);
         return result;
     }
@@ -104,7 +104,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     @Override
     public Defense levelOneDefense(final String statFile, final LogicalPosition buildPosition,
     final Optional<String> upgradesFileName) throws IOException {
-        Defense result = new DefenseImpl(statFile);
+        final Defense result = new DefenseImpl(statFile);
         result.setPosition(buildPosition);
         setStrategyFor(result);
         if (upgradesFileName.isPresent()) {
@@ -120,8 +120,8 @@ public class DefenseFactoryImpl implements DefenseFactory {
     @Override
     public Defense upgrade(final Defense current, final int upgradeIndex, final Optional<String> upgradesFileName)
     throws IOException {
-        LogicalPosition defPosition = current.getPosition().get();
-        Defense upgradedVersion = current.getPossibleUpgrades().stream().toList().get(upgradeIndex);
+        final LogicalPosition defPosition = current.getPosition().get();
+        final Defense upgradedVersion = current.getPossibleUpgrades().stream().toList().get(upgradeIndex);
         upgradedVersion.setPosition(defPosition);
         setStrategyFor(upgradedVersion);
         if (upgradesFileName.isPresent()) {

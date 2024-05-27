@@ -8,25 +8,25 @@ import java.util.Optional;
 /**Contains data that can be visualized in the build menu about defenses.*/
 public class DefenseDescription {
     /**Attack.*/
-    private int damage;
+    private final int damage;
     /**Speed.*/
-    private int speed;
+    private final int speed;
     /**Cost.*/
-    private int cost;
+    private final int cost;
     /**Sell value.*/
-    private int sellValue;
+    private final int sellValue;
     /**Level.*/
-    private int level;
+    private final int level;
     /**Type.*/
-    private DefenseType type;
+    private final DefenseType type;
     /**Position.*/
-    private Optional<LogicalPosition> position;
+    private final Optional<LogicalPosition> position;
     /**List of attacking targets.*/
-    private List<LogicalPosition> targets;
+    private final List<LogicalPosition> targets;
     /**range.*/
-    private int range;
+    private final int range;
     /**check if the defense has been selected.*/
-    private boolean isFocused;
+    private final boolean isFocused;
 
     /**simple constructor with all fields.
      * @param damage
@@ -69,10 +69,10 @@ public class DefenseDescription {
             DefenseType.THUNDERINVOKER, "This building will shoot at the furthest enemy in the map,if out of his range"
         );
         String result = "";
-        result += (speedPrefix + this.speed + "\n");
-        result += (rangePrefix + this.getRange() + "\n");
-        result += (damagePrefix + this.damage + "\n");
-        result += mappedDescriptions.get(this.type);
+        result = result.concat(speedPrefix + this.speed + "\n");
+        result = result.concat(rangePrefix + this.getRange() + "\n");
+        result = result.concat(damagePrefix + this.damage + "\n");
+        result = result.concat(mappedDescriptions.get(this.type));
         return result;
     }
 
@@ -139,7 +139,7 @@ public class DefenseDescription {
     }
 
     /**@return boolean that indicates if the defense is selected in game.*/
-    public boolean getIsFocused() {
+    public boolean isFocused() {
         return this.isFocused;
     }
 }
