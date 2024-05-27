@@ -38,7 +38,7 @@ class EnemyCollectionImpl implements EnemyCollection {
     public void move() {
         final List<RichEnemy> dead = enemies.parallelStream().filter(
                 e -> {
-                    Optional<EnemyPosition> next = posFunction.apply(e.getPosition(), e.getSpeed());
+                    final Optional<EnemyPosition> next = posFunction.apply(e.getPosition(), e.getSpeed());
                     if (next.isEmpty()) {
                         return true;
                     } else {
@@ -61,6 +61,7 @@ class EnemyCollectionImpl implements EnemyCollection {
     /**
      * {@inheritDoc}.
      */
+    @Override
     public void addDeathObserver(final Observer<Enemy> o) {
         enemyDeathObservers.add(o);
     }

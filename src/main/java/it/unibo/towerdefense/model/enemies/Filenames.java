@@ -2,13 +2,16 @@ package it.unibo.towerdefense.model.enemies;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.net.URISyntaxException;
 
 /**
- * Class containing the names of configuration files used by the classes which
- * need them.
+ * Utility class containing the names of configuration files used by the classes
+ * which need them.
  * Stored this way to access them from test classes.
  */
-abstract class Filenames {
+final class Filenames {
     /**
      * The folder containing all config files for this package.
      */
@@ -21,6 +24,12 @@ abstract class Filenames {
      * The name of the types config file.
      */
     private static final String TYPESCONF = "types.json";
+
+    /**
+     * This is a utility class.
+     */
+    private Filenames() {
+    }
 
     /**
      * Returns the path of the waves config file.
@@ -49,8 +58,8 @@ abstract class Filenames {
     private static Path getPath(final String filename) {
         try {
             return Paths.get(ClassLoader.getSystemResource(filename).toURI());
-        } catch (Throwable t) {
-            throw new RuntimeException("Could not find file " + filename);
+        } catch (URISyntaxException | IllegalArgumentException e) {
+            throw new UncheckedIOException(new IOException("Could not find file " + filename, e));
         }
     }
 }

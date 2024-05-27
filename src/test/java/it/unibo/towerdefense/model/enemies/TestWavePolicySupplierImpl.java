@@ -30,14 +30,14 @@ class TestWavePolicySupplierImpl {
      */
     @Test
     void testLoadConfig() throws URISyntaxException, IOException {
-        List<String> goodFilenames = List.of("waves.json");
-        List<String> evilFilenames = List.of("waves1.json", "waves2.json", "waves3.json", "waves4.json", "waves5.json");
-        for (String s : goodFilenames) {
-            String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
+        final List<String> goodFilenames = List.of("waves.json");
+        final List<String> evilFilenames = List.of("waves1.json", "waves2.json", "waves3.json", "waves4.json", "waves5.json");
+        for (final String s : goodFilenames) {
+            final String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertDoesNotThrow(() -> new WavePolicySupplierImpl(config));
         }
-        for (String s : evilFilenames) {
-            String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
+        for (final String s : evilFilenames) {
+            final String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertThrows(RuntimeException.class, () -> new WavePolicySupplierImpl(config));
         }
     }
@@ -48,10 +48,10 @@ class TestWavePolicySupplierImpl {
     @Nested
     class NestedTestBlock {
 
-        private static final long WAVE4 = 1000000L;
-        private static final long WAVE3 = 700000L;
-        private static final long WAVE2 = 400000L;
-        private static final long WAVE1 = 100000L;
+        private static final long WAVE4 = 1_000_000L;
+        private static final long WAVE3 = 700_000L;
+        private static final long WAVE2 = 400_000L;
+        private static final long WAVE1 = 100_000L;
         private static final int V3 = 100;
         private static final int K3 = 3;
         private static final int K2 = 2;
@@ -64,7 +64,7 @@ class TestWavePolicySupplierImpl {
          * Initializes the class for testing.
          */
         @BeforeEach
-        private void init() throws URISyntaxException, IOException {
+        void init() throws URISyntaxException, IOException {
             tested = new WavePolicySupplierImpl(
                     FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + TEST_FILE).toURI())));
         }
@@ -74,7 +74,7 @@ class TestWavePolicySupplierImpl {
          */
         @Test
         void testGetCyclesPerSpawn() {
-            Map<Integer, Integer> expected = Map.of(K1, V1, K2, V1, K3, V3);
+            final Map<Integer, Integer> expected = Map.of(K1, V1, K2, V1, K3, V3);
             Assertions.assertThrows(RuntimeException.class, () -> tested.getCyclesPerSpawn(0));
             Assertions.assertTrue(expected.entrySet().stream()
                     .allMatch(e -> e.getValue().equals(tested.getCyclesPerSpawn(e.getKey()))));
@@ -86,7 +86,7 @@ class TestWavePolicySupplierImpl {
         @Test
         @SuppressWarnings("checkstyle:magicnumbercheck")
         void testGetPower() {
-            List<Long> expectedPowers = List.of(WAVE1, WAVE2, WAVE3, WAVE4);
+            final List<Long> expectedPowers = List.of(WAVE1, WAVE2, WAVE3, WAVE4);
             Assertions.assertThrows(RuntimeException.class, () -> tested.getPower(0));
             for (int i = 1; i <= expectedPowers.size(); i++) {
                 Assertions.assertEquals(expectedPowers.get(i - 1), tested.getPower(i));
@@ -99,7 +99,7 @@ class TestWavePolicySupplierImpl {
         @Test
         void testGetPredicate() {
             Assertions.assertThrows(RuntimeException.class, () -> tested.getPredicate(0));
-            Map<Integer, Set<EnemyType>> expected = Map.of(1,
+            final Map<Integer, Set<EnemyType>> expected = Map.of(1,
                     Set.of(TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.B),
                             TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.C)),
                     3,

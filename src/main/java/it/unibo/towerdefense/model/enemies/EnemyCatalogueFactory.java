@@ -7,12 +7,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Triple;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.common.collect.ImmutableMap;
 
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
+import it.unibo.towerdefense.commons.exceptions.ConfigurationLoadingException;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 
 /**
@@ -79,29 +81,31 @@ class EnemyCatalogueFactory {
      */
     private Triple<Double, Map<EnemyArchetype, Double>, Map<EnemyLevel, Integer>> loadConfig(
             final String configString) {
-        final Double vf;
-        final Map<EnemyArchetype, Double> r = new HashMap<>();
-        final Map<EnemyLevel, Integer> pl = new HashMap<>();
         try {
-            JSONObject config = new JSONObject(configString);
-            vf = config.getDouble("vf");
+            final JSONObject config = new JSONObject(configString);
+
+            final Double vf = config.getDouble("vf");
+            final Map<EnemyArchetype, Double> r = new HashMap<>();
+            final Map<EnemyLevel, Integer> pl = new HashMap<>();
+
             config.getJSONArray("archetypes").forEach(
                     (Object o) -> {
                         assert o instanceof JSONObject;
-                        JSONObject level = (JSONObject) o;
+                        final JSONObject level = (JSONObject) o;
                         r.put(EnemyArchetype.valueOf(level.getString("archetype")), level.getDouble("rateo"));
                     });
             config.getJSONArray("levels").forEach(
                     (Object o) -> {
                         assert o instanceof JSONObject;
-                        JSONObject level = (JSONObject) o;
+                        final JSONObject level = (JSONObject) o;
                         pl.put(EnemyLevel.valueOf(level.getString("level")), level.getInt("powerlevel"));
                     });
 
             return Triple.of(vf, ImmutableMap.copyOf(r), ImmutableMap.copyOf(pl));
 
-        } catch (Throwable t) {
-            throw new RuntimeException("Configuration string for enemy catalogue is syntactically incorrect.", t);
+        } catch (JSONException e) {
+            throw new ConfigurationLoadingException(
+                    "Configuration string for enemy catalogue is syntactically incorrect.", e);
         }
     }
 
@@ -117,23 +121,24 @@ class EnemyCatalogueFactory {
             final Triple<Double, Map<EnemyArchetype, Double>, Map<EnemyLevel, Integer>> config) {
 
         final Double valueFactor = config.getLeft();
-        final Map<EnemyArchetype, Double> r = config.getMiddle();
-        final Map<EnemyLevel, Integer> pl = config.getRight();
+        if (valueFactor <= 0) {
+            throw new ConfigurationLoadingException("valueFactor must be > 0.");
+        }
 
-        try {
-            assert valueFactor > 0;
-            assert r.keySet().containsAll(Set.of(EnemyArchetype.values()));
-            r.values().forEach(i -> {
-                assert i > 0;
-            });
-            assert pl.keySet().containsAll(Set.of(EnemyLevel.values()));
-            pl.values().forEach(i -> {
-                assert i > 0;
-            });
-        } catch (Throwable t) {
-            throw new RuntimeException(
-                    "Configuration string for enemy catalogue is semantically incorrect.",
-                    t);
+        final Map<EnemyArchetype, Double> r = config.getMiddle();
+        if (!r.keySet().containsAll(Set.of(EnemyArchetype.values()))) {
+            throw new ConfigurationLoadingException("Rates not supplied for every archetype.");
+        }
+        if (!r.values().stream().allMatch(v -> v > 0)) {
+            throw new ConfigurationLoadingException("Rates must be > 0.");
+        }
+
+        final Map<EnemyLevel, Integer> pl = config.getRight();
+        if (!pl.keySet().containsAll(Set.of(EnemyLevel.values()))) {
+            throw new ConfigurationLoadingException("Power levels not supplied for every level.");
+        }
+        if (!pl.values().stream().allMatch(v -> v > 0)) {
+            throw new ConfigurationLoadingException("Power levels must be > 0.");
         }
     }
 

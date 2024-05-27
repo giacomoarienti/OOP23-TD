@@ -2,6 +2,7 @@ package it.unibo.towerdefense.view.enemies;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyArchetype;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType.EnemyLevel;
 import it.unibo.towerdefense.commons.engine.Direction;
+import it.unibo.towerdefense.commons.exceptions.ConfigurationLoadingException;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
 import it.unibo.towerdefense.commons.utils.images.ImageLoader;
 import it.unibo.towerdefense.view.graphics.ImageDrawable;
@@ -63,17 +65,17 @@ class EnemyGraphicsImpl implements EnemyGraphics {
                 .values().length];
         sizes = new Double[EnemyLevel.values().length][EnemyArchetype.values().length];
         try {
-            JSONObject sizesConfigVals = new JSONObject(
+            final JSONObject sizesConfigVals = new JSONObject(
                     FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + SIZES_FILE).toURI())));
             Arrays.stream(EnemyLevel.values())
                     .forEach(level -> Arrays.stream(EnemyArchetype.values())
                             .forEach(type -> sizes[level.ordinal()][type.ordinal()] = sizesConfigVals
                                     .getDouble(level.name()) * sizesConfigVals.getDouble(type.name())));
         } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(
-                    "Couldn't locate configuration file for enemy sizes with name: " + ROOT + SIZES_FILE, e);
+            throw new UncheckedIOException(new IOException(
+                    "Couldn't locate configuration file for enemy sizes with name: " + ROOT + SIZES_FILE, e));
         } catch (JSONException e) {
-            throw new RuntimeException("Configuration file for enemy sizes is ill-formatted.", e);
+            throw new ConfigurationLoadingException("Configuration file for enemy sizes is ill-formatted.", e);
         }
 
         EnemyType.getEnemyTypes().parallelStream().forEach(et -> {
@@ -84,19 +86,21 @@ class EnemyGraphicsImpl implements EnemyGraphics {
                             // letter].[extension]
                             ROOT + et.type().name() + d.name() + EXTENSION,
                             sizes[et.level().ordinal()][et.type().ordinal()]);
-                } catch (Exception e) {
-                    throw new RuntimeException("Failed to initialize the image for type " + et.toString()
-                            + " and direction " + d.toString(), e);
+                } catch (IOException e) {
+                    throw new UncheckedIOException(
+                            new IOException("Failed to initialize the image for type " + et.toString()
+                                    + " and direction " + d.toString(), e));
                 }
             });
         });
 
-        healthBars = new BufferedImage[(EnemyInfo.HP_SCALE / HP_INCREMENT) + 1];
+        healthBars = new BufferedImage[EnemyInfo.HP_SCALE / HP_INCREMENT + 1];
         IntStream.range(0, EnemyInfo.HP_SCALE + 1).filter(i -> i % HP_INCREMENT == 0).forEach(v -> {
             try {
-                healthBars[v / HP_INCREMENT] = loader.loadImage(ROOT + String.valueOf(v) + EXTENSION, HP_BAR_SCALE);
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to initialize the image for health value " + String.valueOf(v), e);
+                healthBars[v / HP_INCREMENT] = loader.loadImage(ROOT + v + EXTENSION, HP_BAR_SCALE);
+            } catch (IOException e) {
+                throw new UncheckedIOException(
+                        new IOException("Failed to initialize the image for health value " + v, e));
             }
         });
     }

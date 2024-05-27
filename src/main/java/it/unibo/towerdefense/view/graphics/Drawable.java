@@ -24,7 +24,7 @@ public abstract class Drawable {
      * @param size the size of the object
      */
     public Drawable(final LogicalPosition pos, final Size size) {
-        this.position = pos.clone();
+        this.position = pos.copy();
         this.size = size.copy();
     }
 

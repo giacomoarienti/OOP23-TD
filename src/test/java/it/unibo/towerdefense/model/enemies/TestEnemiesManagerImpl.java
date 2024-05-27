@@ -19,7 +19,7 @@ class TestEnemiesManagerImpl {
     /**
      * Simple testing ModelManager which always returns null.
      */
-    private final class TestingModelManager implements ModelManager {
+    private static final class TestingModelManager implements ModelManager {
         /**
          * {@inheritDoc}.
          */
@@ -59,7 +59,7 @@ class TestEnemiesManagerImpl {
      */
     @Test
     void testBind() {
-        var tested = new EnemiesManagerImpl();
+        final var tested = new EnemiesManagerImpl();
         Assertions.assertThrows(IllegalStateException.class, () -> tested.spawn(1));
         Assertions.assertThrows(IllegalStateException.class, () -> tested.getEnemies());
         Assertions.assertThrows(IllegalStateException.class, () -> tested.update());

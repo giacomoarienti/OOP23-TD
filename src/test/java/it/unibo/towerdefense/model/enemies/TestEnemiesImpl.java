@@ -31,10 +31,10 @@ class TestEnemiesImpl {
      * needed for testing EnemiesImpl.
      */
     @BeforeEach
-    private void init() throws IOException {
+    void init() throws IOException {
         testingWPS = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
-        tested = new EnemiesImpl((pos, speed) -> Optional.of(STARTING_POSITION.clone()),
-                () -> STARTING_POSITION.clone());
+        tested = new EnemiesImpl((pos, speed) -> Optional.of(STARTING_POSITION.copy()),
+                () -> STARTING_POSITION.copy());
         dead = 0;
         tested.addDeathObserver(e -> dead += 1);
     }
@@ -70,9 +70,9 @@ class TestEnemiesImpl {
     void testUpdate() {
         tested.spawn(1);
         tested.update();
-        Assertions.assertTrue(tested.getEnemies().size() == 1);
+        Assertions.assertEquals(1, tested.getEnemies().size());
         tested.update();
-        Assertions.assertTrue(tested.getEnemies().size() == 1);
+        Assertions.assertEquals(1, tested.getEnemies().size());
     }
 
     /**
@@ -82,9 +82,9 @@ class TestEnemiesImpl {
     void testDied() {
         tested.spawn(1);
         tested.update();
-        RichEnemy onlyEnemy = tested.getEnemies().stream().findAny().get();
+        final RichEnemy onlyEnemy = tested.getEnemies().stream().findAny().get();
         onlyEnemy.die();
-        Assertions.assertTrue(tested.getEnemies().size() == 0);
+        Assertions.assertEquals(0, tested.getEnemies().size());
         Assertions.assertEquals(1, dead);
     }
 
@@ -93,8 +93,8 @@ class TestEnemiesImpl {
      */
     @Test
     void testWaveEnd() {
-        int wave = 1;
-        long p = testingWPS.getPower(wave);
+        final int wave = 1;
+        final long p = testingWPS.getPower(wave);
         tested.spawn(wave);
         while (tested.getEnemies().stream().reduce(0, (i, u) -> i + u.getPowerLevel(), (i1, i2) -> i1 + i2) < p) {
             Assertions.assertTrue(tested.isWaveActive());
@@ -103,7 +103,7 @@ class TestEnemiesImpl {
         Assertions.assertTrue(tested.isWaveActive()); // Enemies are still alive
         Assertions.assertThrows(RuntimeException.class, () -> tested.spawn(2));
         tested.getEnemies().stream().forEach(e -> e.die());
-        Assertions.assertTrue(tested.getEnemies().size() == 0);
+        Assertions.assertEquals(0, tested.getEnemies().size());
         Assertions.assertFalse(tested.isWaveActive());
         Assertions.assertDoesNotThrow(() -> tested.spawn(2));
     }

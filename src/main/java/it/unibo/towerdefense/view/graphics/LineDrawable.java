@@ -26,8 +26,8 @@ public class LineDrawable extends Drawable {
      */
     public LineDrawable(final LogicalPosition from, final LogicalPosition to, final Color color) {
         super();
-        this.from = from.clone();
-        this.to = to.clone();
+        this.from = from.copy();
+        this.to = to.copy();
         this.color = color;
     }
 

@@ -23,16 +23,15 @@ class TestPredicateBasedRandomWaveGenerator {
     private static final int END = 100;
     private PredicateBasedRandomWaveGenerator rwg;
     private WavePolicySupplierImpl wps;
-    private EnemyCatalogue catalogue;
 
     /**
      * Initializes the classes needed for testing.
      */
     @BeforeEach
-    private void init() throws URISyntaxException, IOException {
+    void init() throws URISyntaxException, IOException {
         wps = new WavePolicySupplierImpl(
                 FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "waves.json").toURI())));
-        catalogue = new EnemyCatalogueFactory(
+        final EnemyCatalogue catalogue = new EnemyCatalogueFactory(
                 FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "types.json").toURI()))).compile();
         rwg = new PredicateBasedRandomWaveGenerator(wps, catalogue);
     }
@@ -54,14 +53,14 @@ class TestPredicateBasedRandomWaveGenerator {
         if (wave < 1) {
             Assertions.assertThrows(RuntimeException.class, () -> rwg.apply(wave));
         } else {
-            long power = wps.getPower(wave);
-            int rate = wps.getCyclesPerSpawn(wave);
-            Wave generated = rwg.apply(wave);
+            final long power = wps.getPower(wave);
+            final int rate = wps.getCyclesPerSpawn(wave);
+            final Wave generated = rwg.apply(wave);
             long p = 0;
             for (int i = 0; p < power && generated.hasNext(); i++) {
                 Assertions.assertTrue(generated.hasNext(), () -> "Didn't have next");
                 if (i % rate == 0) {
-                    Optional<RichEnemyType> current = generated.next();
+                    final Optional<RichEnemyType> current = generated.next();
                     Assertions.assertTrue(current.isPresent(), () -> "Was not present");
                     Assertions.assertTrue(
                             wps.getPredicate(wave)

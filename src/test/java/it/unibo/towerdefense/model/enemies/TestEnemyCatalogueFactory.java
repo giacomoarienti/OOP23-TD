@@ -35,14 +35,14 @@ class TestEnemyCatalogueFactory {
      */
     @Test
     void testFileRead() throws URISyntaxException, IOException {
-        List<String> goodFilenames = List.of("types.json");
-        List<String> evilFilenames = List.of("types1.json", "types2.json", "types3.json", "types4.json", "types5.json");
-        for (String s : goodFilenames) {
-            String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
+        final List<String> goodFilenames = List.of("types.json");
+        final List<String> evilFilenames = List.of("types1.json", "types2.json", "types3.json", "types4.json", "types5.json");
+        for (final String s : goodFilenames) {
+            final String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertDoesNotThrow(() -> new EnemyCatalogueFactory(config));
         }
-        for (String s : evilFilenames) {
-            String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
+        for (final String s : evilFilenames) {
+            final String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
             Assertions.assertThrows(RuntimeException.class, () -> new EnemyCatalogueFactory(config));
         }
     }
@@ -62,7 +62,7 @@ class TestEnemyCatalogueFactory {
          * the game.
          */
         @BeforeEach
-        private void init() throws URISyntaxException, IOException {
+        void init() throws URISyntaxException, IOException {
             tested = new EnemyCatalogueFactory(
                     FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + TEST_FILE).toURI()))).compile();
             types = EnemyType.getEnemyTypes();
@@ -81,11 +81,11 @@ class TestEnemyCatalogueFactory {
          */
         @Test
         void testGetEnemyTypes2() {
-            List<Predicate<EnemyType>> tests = List.of(
+            final List<Predicate<EnemyType>> tests = List.of(
                     et -> et.level() == EnemyLevel.I && et.type() == EnemyArchetype.A,
                     et -> et.level() == EnemyLevel.I && et.type() == EnemyArchetype.B,
-                    et -> (et.level() == EnemyLevel.II && et.type() == EnemyArchetype.B)
-                            || (et.level() == EnemyLevel.III && et.type() == EnemyArchetype.C));
+                    et -> et.level() == EnemyLevel.II && et.type() == EnemyArchetype.B
+                            || et.level() == EnemyLevel.III && et.type() == EnemyArchetype.C);
 
             tests.forEach(
                     t -> Assertions.assertTrue(

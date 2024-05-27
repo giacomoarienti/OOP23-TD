@@ -44,7 +44,7 @@ class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave> {
 
         final List<RichEnemyType> availableTypes = List.copyOf(ec.getEnemyTypes(wp.getPredicate(wave)));
         if (availableTypes.isEmpty()) {
-            throw new RuntimeException("No available types for wave " + wave);
+            throw new IllegalStateException("No available types for wave " + wave);
         }
 
         /*
@@ -56,7 +56,7 @@ class PredicateBasedRandomWaveGenerator implements Function<Integer, Wave> {
                 r.ints(0, availableTypes.size())
                         .mapToObj(i -> availableTypes.get(i))
                         .takeWhile(new Predicate<RichEnemyType>() {
-                            private long power = 0;
+                            private long power;
 
                             @Override
                             public boolean test(final RichEnemyType t) {

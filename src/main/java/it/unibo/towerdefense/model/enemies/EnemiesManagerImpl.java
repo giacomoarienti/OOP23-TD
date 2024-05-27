@@ -156,7 +156,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
          *
          * @param f the function to bind
          */
-        private void bind(final BiFunction<A, B, O> f) {
+        void bind(final BiFunction<A, B, O> f) {
             if (this.f.isEmpty()) {
                 this.f = Optional.of(f);
             } else {
@@ -205,7 +205,7 @@ public class EnemiesManagerImpl implements EnemiesManager {
          *
          * @param s the supplier to bind
          */
-        private void bind(final Supplier<O> s) {
+        void bind(final Supplier<O> s) {
             if (this.s.isEmpty()) {
                 this.s = Optional.of(s);
             } else {

@@ -7,7 +7,14 @@ import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 /**
  * Simple factory to build enemytypes for testing.
  */
-abstract class TestingEnemyType {
+final class TestingEnemyType {
+
+        /**
+         * This is a utility class.
+         */
+        private TestingEnemyType() {
+        }
+
         /**
          * Builds a RichEnemyType with the given characteristics.
          *

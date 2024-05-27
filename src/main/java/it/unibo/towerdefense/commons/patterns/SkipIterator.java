@@ -36,7 +36,7 @@ public class SkipIterator<T> implements Iterator<Optional<T>> {
         this.base = base;
         this.skip = skip;
         this.counter = -1;
-    };
+    }
 
     /**
      * {@inheritDoc}

@@ -2,11 +2,13 @@ package it.unibo.towerdefense.model.enemies;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Objects;
 
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyInfo;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyType;
 import it.unibo.towerdefense.commons.patterns.Observer;
+
 
 /**
  * {@inheritDoc}.
@@ -39,7 +41,7 @@ class SimpleEnemyFactory implements EnemyFactory {
          */
         private record EnemyInfoImpl(EnemyPosition pos, Integer hp, EnemyType type)
                 implements EnemyInfo {
-        };
+        }
 
         private final EnemyPosition pos;
         private final Set<Observer<? super RichEnemy>> deathObservers;
@@ -65,7 +67,7 @@ class SimpleEnemyFactory implements EnemyFactory {
         @Override
         public void hurt(final int amount) {
             if (amount < 0) {
-                throw new IllegalArgumentException("Tried to hurt an enemy by " + String.valueOf(amount));
+                throw new IllegalArgumentException("Tried to hurt an enemy by " + amount);
             } else if (isDead()) {
                 throw new IllegalStateException("Tried to hurt a dead enemy");
             } else {
@@ -89,10 +91,9 @@ class SimpleEnemyFactory implements EnemyFactory {
          */
         @Override
         public void move(final EnemyPosition newPos) {
+            Objects.requireNonNull(newPos);
             if (isDead()) {
                 throw new IllegalStateException("Tried to move a dead enemy");
-            } else if (newPos == null) {
-                throw new NullPointerException("newPos can't be null");
             } else {
                 pos.setTo(newPos);
             }

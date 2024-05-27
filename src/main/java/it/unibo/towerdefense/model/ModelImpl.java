@@ -152,6 +152,7 @@ public class ModelImpl implements ModelManager, Model {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Stream<EnemyInfo> getEnemiesDTOs() {
         return enemies.getEnemies().stream().map(e -> e.info());
     }

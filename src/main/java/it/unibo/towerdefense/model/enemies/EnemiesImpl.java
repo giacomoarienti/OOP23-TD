@@ -1,5 +1,6 @@
 package it.unibo.towerdefense.model.enemies;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -7,6 +8,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import it.unibo.towerdefense.commons.dtos.enemies.EnemyPosition;
+import it.unibo.towerdefense.commons.exceptions.ConfigurationLoadingException;
 import it.unibo.towerdefense.commons.patterns.Observer;
 import it.unibo.towerdefense.commons.utils.file.FileUtils;
 
@@ -41,24 +43,19 @@ class EnemiesImpl implements Enemies {
         this.startingPosSupplier = startingPosSupplier;
         this.enemies = new EnemyCollectionImpl(posFunction);
         this.factory = new SimpleEnemyFactory();
-        WavePolicySupplier wp;
-        EnemyCatalogue ec;
         try {
-            wp = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
-        } catch (Throwable t) {
-            throw new RuntimeException("Failed to load wave policy configuration from file.", t);
+            final WavePolicySupplier wp = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
+            final EnemyCatalogue ec = new EnemyCatalogueFactory(FileUtils.readFile(Filenames.typesConfig())).compile();
+            this.waveSupplier = new PredicateBasedRandomWaveGenerator(wp, ec);
+        } catch (IOException e) {
+            throw new ConfigurationLoadingException("Failed to load enemy-related configuration file.", e);
         }
-        try {
-            ec = new EnemyCatalogueFactory(FileUtils.readFile(Filenames.typesConfig())).compile();
-        } catch (Throwable t) {
-            throw new RuntimeException("Failed to load enemy types configuration from file.", t);
-        }
-        this.waveSupplier = new PredicateBasedRandomWaveGenerator(wp, ec);
     }
 
     /**
      * {@inheritDoc}.
      */
+    @Override
     public void addDeathObserver(final Observer<Enemy> o) {
         enemies.addDeathObserver(o);
     }
@@ -103,7 +100,7 @@ class EnemiesImpl implements Enemies {
         } else {
             current = Optional.of(waveSupplier.apply(wave));
             if (!current.get().hasNext()) {
-                throw new RuntimeException("A new wave cannot be empty.");
+                throw new IllegalStateException("A new wave cannot be empty.");
             }
         }
     }
@@ -114,7 +111,7 @@ class EnemiesImpl implements Enemies {
      * @param et the type of the enemy to spawn.
      */
     private void spawnEnemy(final RichEnemyType et) {
-        RichEnemy spawned = factory.spawn(et, startingPosSupplier.get());
+        final RichEnemy spawned = factory.spawn(et, startingPosSupplier.get());
         enemies.add(spawned);
     }
 }

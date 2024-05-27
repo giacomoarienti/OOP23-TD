@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for ImageLoader.
  */
-public class TestImageLoader {
+class TestImageLoader {
 
     private static final double RSCALE2 = 4.5567;
     private static final int RSIZE2 = 1030;
@@ -79,8 +79,8 @@ public class TestImageLoader {
      * @throws IOException if the image can't be loaded
      */
     private void testScaling(final String filename, final int size, final double scale) throws IOException {
-        ImageLoader loader = new ImageLoader(size);
-        BufferedImage test = loader.loadImage(filename, scale);
+        final ImageLoader loader = new ImageLoader(size);
+        final BufferedImage test = loader.loadImage(filename, scale);
         /*
          * Image can't be bigger than size*scale x size*scale
          */
@@ -89,7 +89,7 @@ public class TestImageLoader {
         /*
          * Longest side should be size * scale
          */
-        Assertions.assertTrue(Math.max(test.getWidth(), test.getHeight()) == (int) (size * scale));
+        Assertions.assertEquals((int) (size * scale), Math.max(test.getWidth(), test.getHeight()));
     }
 
     /**

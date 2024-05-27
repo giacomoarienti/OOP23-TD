@@ -28,8 +28,8 @@ class TestEnemyCollectionImpl {
     private RichEnemyType t;
     private RichEnemy spawned;
 
-    private final class TestObserver implements Observer<Enemy> {
-        private List<Enemy> notified = new LinkedList<>();
+    private static final class TestObserver implements Observer<Enemy> {
+        private final List<Enemy> notified = new LinkedList<>();
 
         @Override
         public void notify(final Enemy source) {
@@ -45,10 +45,10 @@ class TestEnemyCollectionImpl {
      * @see TestSimpleEnemyFactory
      */
     @BeforeEach
-    private void init() {
+    void init() {
         tested = new EnemyCollectionImpl((pos, speed) -> Optional.empty());
         helper = new SimpleEnemyFactory();
-        int val = 100;
+        final int val = 100;
         t = TestingEnemyType.build(EnemyLevel.I, EnemyArchetype.A, val, val, val * val, val * val);
         spawned = helper.spawn(t, STARTING_POSITION);
     }
@@ -79,11 +79,11 @@ class TestEnemyCollectionImpl {
      */
     @Test
     void testMultipleEnemies() {
-        int number = 100;
-        TestObserver to = new TestObserver();
+        final int number = 100;
+        final TestObserver to = new TestObserver();
         tested.addDeathObserver(to);
-        Set<RichEnemy> spawned = IntStream.range(0, number).mapToObj(i -> {
-            RichEnemy e = helper.spawn(t, STARTING_POSITION);
+        final Set<RichEnemy> spawned = IntStream.range(0, number).mapToObj(i -> {
+            final RichEnemy e = helper.spawn(t, STARTING_POSITION);
             tested.add(e);
             return e;
         }).collect(Collectors.toSet());
@@ -100,9 +100,9 @@ class TestEnemyCollectionImpl {
      */
     @Test
     void testMove() {
-        int end = 100;
-        Set<RichEnemy> spawned = IntStream.range(0, end).mapToObj(i -> {
-            RichEnemy e = helper.spawn(t, STARTING_POSITION);
+        final int end = 100;
+        final Set<RichEnemy> spawned = IntStream.range(0, end).mapToObj(i -> {
+            final RichEnemy e = helper.spawn(t, STARTING_POSITION);
             tested.add(e);
             return e;
         }).collect(Collectors.toSet());

@@ -53,6 +53,7 @@ public class LogicalPosition extends PositionImpl {
     /**
      * {@inheritDoc}
      */
+    @Override
     public LogicalPosition copy() {
         return new LogicalPosition(this.getX(), this.getY());
     }
