@@ -1,6 +1,7 @@
 package it.unibo.towerdefense.model.map;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -26,7 +27,7 @@ import it.unibo.towerdefense.model.game.GameManager;
 public class MapManagerImpl implements MapManager {
 
     private final GameMap map;
-    private BuildableCell selected = null;
+    private BuildableCell selected;
     private List<DefenseDescription> options;
     private DefenseManager defenses;
     private GameManager game;
@@ -37,11 +38,7 @@ public class MapManagerImpl implements MapManager {
      * @param size size of map in terms of game cells.
      */
     public MapManagerImpl(final Size size) {
-        try {
-            this.map = new GameMapImpl(size);
-        } catch (IllegalArgumentException e) {
-            throw e;
-        }
+        this.map = new GameMapImpl(size);
     }
 
     /**
@@ -87,7 +84,7 @@ public class MapManagerImpl implements MapManager {
      */
     @Override
     public void select(final Position position) {
-        Cell c = map.getCellAt(position);
+        final Cell c = map.getCellAt(position);
         if (c == null) {
             return;
         }
@@ -108,21 +105,20 @@ public class MapManagerImpl implements MapManager {
     @Override
     public PathVector getNextPosition(final LogicalPosition pos, final int distanceToMove) {
 
-        Position cellPos = new PositionImpl(pos.getCellX(), pos.getCellY());
-        Cell cell = map.getCellAt(cellPos);
-        if (cell == null || !(cell instanceof PathCell)) {
+        final Position cellPos = new PositionImpl(pos.getCellX(), pos.getCellY());
+        final Cell cell = map.getCellAt(cellPos);
+        if (!(cell instanceof PathCell)) {
             throw new IllegalArgumentException("position must belong to a PathCell");
         }
-        LogicalPosition tempPos = pos;
-        PathCell pCell = (PathCell) cell;
+        final PathCell pCell = (PathCell) cell;
+        int distanceToEnd = pCell.distanceToEnd() * LogicalPosition.SCALING_FACTOR;
         MapDirection dir = pCell.getInDirection();
         int remainingDistance = distanceToMove;
-        int distanceToEnd = pCell.distanceToEnd() * LogicalPosition.SCALING_FACTOR;
+        LogicalPosition tempPos = pos;
 
         for (int i = 2; i > 0; i--) {
 
-            int factor = LogicalPosition.SCALING_FACTOR / i;
-            int positionInCell = realModule(
+            final int positionInCell = realModule(
                 pos.getX() * dir.horizontal() + pos.getY() * dir.vertical(),
                 LogicalPosition.SCALING_FACTOR / 2 * i
             );
@@ -132,8 +128,9 @@ public class MapManagerImpl implements MapManager {
             if (distanceToEnd < distanceToMove) {
                 return new PathVector(getEndPosition(), map.getEndCell().getOutDirection().asDirection(), 0);
             }
+            final int factor = LogicalPosition.SCALING_FACTOR / i;
             if (positionInCell < factor) {
-                int distanceToTravel = factor - positionInCell;
+                final int distanceToTravel = factor - positionInCell;
                 if (remainingDistance <= distanceToTravel) {
                     tempPos = addDistance(tempPos, dir, remainingDistance);
                     return new PathVector(tempPos, dir.asDirection(), distanceToEnd - remainingDistance);
@@ -157,18 +154,17 @@ public class MapManagerImpl implements MapManager {
         if (optionNumber > options.size() - 1) {
             game.addMoney(defenses.disassembleDefense(selected.getCenter()));
         } else {
-            var choice = options.get(optionNumber);
+            final var choice = options.get(optionNumber);
             if (!game.purchase(choice.getCost())) {
                 throw new IllegalArgumentException("Not enough money!");
             }
             try {
                 defenses.buildDefense(optionNumber, selected.getCenter());
                 defenseSelection(true);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
             }
         }
-
     }
 
     /**
@@ -176,10 +172,10 @@ public class MapManagerImpl implements MapManager {
      */
     @Override
     public List<BuildingOption> getBuildingOptions() {
-        List<BuildingOption> l = new ArrayList<>();
+        final List<BuildingOption> l = new ArrayList<>();
 
         if (updateBuildingOption()) {
-            var optDef = defenses.getDefenseAt(selected.getCenter());
+            final var optDef = defenses.getDefenseAt(selected.getCenter());
             options.stream().forEach(dd ->
                 l.add(new BuildingOptionImpl(dd, game.isPurchasable(dd.getCost()))));
             if (optDef.isPresent()) {
@@ -259,7 +255,7 @@ public class MapManagerImpl implements MapManager {
         return map.toJSON();
     }
 
-    private void defenseSelection(boolean isSelected) {
+    private void defenseSelection(final boolean isSelected) {
         defenses.setSelectedDefense(selected.getCenter(), isSelected);
     }
 

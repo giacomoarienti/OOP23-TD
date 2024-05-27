@@ -195,7 +195,7 @@ public class DefenseImpl implements Defense {
      */
     @Override
     public String toJSON() {
-        JSONObject parser = new JSONObject();
+        final JSONObject parser = new JSONObject();
         /**Add basic data.*/
         parser.put(DefenseMapKeys.LEVEL, this.level);
         parser.put(DefenseMapKeys.DAMAGE, this.damage);
@@ -210,7 +210,7 @@ public class DefenseImpl implements Defense {
         parser.put(DefenseMapKeys.TYPE, this.type);
 
         /**Handle updates.*/
-        JSONArray upgrades = new JSONArray();
+        final JSONArray upgrades = new JSONArray();
         this.upgrades.forEach(u -> upgrades.put(u.toJSON()));
         parser.put(DefenseMapKeys.UPGRADES, upgrades);
         return parser.toString();
@@ -221,9 +221,9 @@ public class DefenseImpl implements Defense {
      * @return a defense from a json string, strategy is to be set.
      */
     public static Defense fromJson(final String jsonData) {
-        JSONObject json = new JSONObject(jsonData);
+        final JSONObject json = new JSONObject(jsonData);
         /**Obtain upgrades.*/
-        Set<Defense> upgrades = new HashSet<>();
+        final Set<Defense> upgrades = new HashSet<>();
 
         /**add upgrades if they exist.*/
         if (json.has(DefenseMapKeys.UPGRADES)) {
@@ -233,7 +233,7 @@ public class DefenseImpl implements Defense {
         }
 
         /**Obtain  position,if it exists*/
-        Optional<LogicalPosition> position =
+        final Optional<LogicalPosition> position =
         json.has(DefenseMapKeys.POSITION) ? Optional.of(LogicalPosition.fromJson(json.getString(DefenseMapKeys.POSITION)))
         : Optional.empty();
 

@@ -8,9 +8,9 @@ public class AttackAnimationImpl implements AttackAnimation {
 
     /**private fields.*/
     private int timeToLive;
-    private boolean isAreaBased;
-    private LogicalPosition attacker, attacked;
-    private DefenseType type;
+    private final  boolean isAreaBased;
+    private final  LogicalPosition attacker, attacked;
+    private final  DefenseType type;
     private static final int INITIAL_TIME_TO_LIVE = 35;
 
     /**Constructor.

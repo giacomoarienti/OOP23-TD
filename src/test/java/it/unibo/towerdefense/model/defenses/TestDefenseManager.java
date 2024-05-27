@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
 /**class for testing defense controller.*/
-public class TestDefenseManager {
+class TestDefenseManager {
 
     private DefenseManager manager;
 
@@ -21,18 +21,18 @@ public class TestDefenseManager {
 
     /**Test for "buildDefense" method.*/
     @Test
-    public void testBuildDefense() throws IOException {
-        LogicalPosition testPos1 = new LogicalPosition(0, 0);
-        LogicalPosition testPos2 = new LogicalPosition(2, 2);
+    void testBuildDefense() throws IOException {
+        final LogicalPosition testPos1 = new LogicalPosition(0, 0);
+        final LogicalPosition testPos2 = new LogicalPosition(2, 2);
         manager.buildDefense(0, testPos1);
         manager.buildDefense(1, testPos2);
     }
     /**Test for "toJson" method.*/
     @Test
-    public void testToJson() throws IOException {
-        LogicalPosition testPos1 = new LogicalPosition(0, 0);
-        LogicalPosition testPos2 = new LogicalPosition(2, 2);
-        LogicalPosition testPos3 = new LogicalPosition(10, 10);
+    void testToJson() throws IOException {
+        final LogicalPosition testPos1 = new LogicalPosition(0, 0);
+        final LogicalPosition testPos2 = new LogicalPosition(2, 2);
+        final LogicalPosition testPos3 = new LogicalPosition(10, 10);
         /**Nothing must throw exceptions.*/
         manager.buildDefense(0, testPos1);
         manager.buildDefense(1, testPos2);
@@ -42,7 +42,7 @@ public class TestDefenseManager {
 
     /**Test for "toJson" method.*/
     @Test
-    public void testDisassembleDefense() throws IOException {
+    void testDisassembleDefense() throws IOException {
         /**expected sell value and position.*/
         final LogicalPosition pos = new LogicalPosition(0, 0);
         /**Build and scrap.*/

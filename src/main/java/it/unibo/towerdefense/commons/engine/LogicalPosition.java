@@ -95,7 +95,9 @@ public class LogicalPosition extends PositionImpl implements Cloneable {
     }
 
     /**
-     * overload for fromJson method.
+     * Overload for fromJson method.
+     * @param jsonData JSON string.
+     * @return the Logical Position.
      */
     public static LogicalPosition fromJson(final String jsonData) {
         final Position result = Position.fromJson(jsonData);

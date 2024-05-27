@@ -4,6 +4,10 @@ import it.unibo.towerdefense.model.defenses.Defense;
 
 /**A collection of formulas to calculate some parameters for the defense strategies.*/
 public final class DefenseFormulas {
+
+    /**momentum is the mechanic that allows the game to understand if a defense is ready to attack.*/
+    public static final int MOMENTUM_REQUIRED = 600;
+
     /**formula for how many targets a wizard tower can hit.
      * @return the number of targets the tower must attack.
      * @param tower the defense used for the formula.
@@ -21,9 +25,6 @@ public final class DefenseFormulas {
     public static int bombTowerDamageAreaFormula(final Defense tower) {
         return tower.getRange() / 2 + tower.getLevel() - 1;
     }
-
-    /**momentum is the mechanic that allows the game to understand if a defense is ready to attack.*/
-    public static final int MOMENTUM_REQUIRED = 600;
 
     /**Private constructor.*/
     private DefenseFormulas() {

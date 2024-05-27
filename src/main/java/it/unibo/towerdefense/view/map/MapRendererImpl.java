@@ -7,6 +7,8 @@ import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Rotation;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import it.unibo.towerdefense.commons.dtos.map.CellInfo;
 import it.unibo.towerdefense.commons.engine.Direction;
@@ -29,11 +31,11 @@ public class MapRendererImpl implements MapRenderer {
      * @param imLo Object to load images from files.
      */
     public MapRendererImpl(final ImageLoader imLo) {
-        for (int i = 0; i < NAMES.size(); i++) {
+        for (final String name: NAMES) {
             try {
-            images.add(imLo.loadImage(ROOT + NAMES.get(i) + EXTENSION, 1.0));
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to initialize the image for type " + NAMES.get(i), e);
+                images.add(imLo.loadImage(ROOT + name + EXTENSION, 1.0));
+            } catch (IOException e) {
+                throw new UncheckedIOException("Failed to initialize the image for type " + name, e);
             }
         }
     }

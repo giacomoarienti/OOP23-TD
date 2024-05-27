@@ -24,13 +24,13 @@ import it.unibo.towerdefense.model.enemies.Enemy;
 public class DefenseManagerImpl implements DefenseManager {
 
     /**Defense builder.*/
-    private DefenseFactory factory = new DefenseFactoryImpl();
+    private final DefenseFactory factory = new DefenseFactoryImpl();
     /**All current existing defenses with their respective cooldown.*/
     private List<Pair<Defense, Integer>> defenses;
     /**for getting end of map and entities.*/
     private ModelManager manager;
     /**gets the attacks that occured in one loop.*/
-    private Map<Defense, List<LogicalPosition>> attacksOnLoop = new HashMap<>();
+    private final Map<Defense, List<LogicalPosition>> attacksOnLoop = new HashMap<>();
     /**gets wich defense is being focused.*/
     private Optional<Defense> focusedDef = Optional.empty();
 
@@ -39,8 +39,8 @@ public class DefenseManagerImpl implements DefenseManager {
     */
     public DefenseManagerImpl(final String jsonString) {
         this();
-        JSONArray serializedDefenses = new JSONArray(jsonString);
-        for (Object def: serializedDefenses) {
+        final JSONArray serializedDefenses = new JSONArray(jsonString);
+        for (final Object def: serializedDefenses) {
             this.defenses.add(MutablePair.of(
                 factory.defenseFromJsonSave(def.toString()), 0)
             );
@@ -90,7 +90,7 @@ public class DefenseManagerImpl implements DefenseManager {
      * @param buildPosition the current model to check.
     */
     private List<Defense> getModelsOfBuildables(final LogicalPosition buildPosition) throws IOException {
-        Optional<MutablePair<Integer, Defense>> currentDef = find(buildPosition);
+       final Optional<MutablePair<Integer, Defense>> currentDef = find(buildPosition);
         if (currentDef.isEmpty()) {
             return List.of(
                 factory.levelOneDefense(DefenseMapFilePaths.ARCHER_TOWER_LV1, buildPosition,
@@ -108,8 +108,8 @@ public class DefenseManagerImpl implements DefenseManager {
 
     /**updates momentum on every defense.*/
     private void updateMomentum() {
-        for (Pair<Defense, Integer> def : this.defenses) {
-            int speed = def.getKey().getAttackSpeed();
+        for (final Pair<Defense, Integer> def : this.defenses) {
+            final int speed = def.getKey().getAttackSpeed();
             def.setValue(Math.min(def.getValue() + speed, DefenseFormulas.MOMENTUM_REQUIRED));
         }
     }
@@ -120,11 +120,11 @@ public class DefenseManagerImpl implements DefenseManager {
     @Override
     public void update() {
         updateMomentum();
-        Set<? extends Enemy> enemies = manager.getEnemies().getEnemies();
-        List<? extends Enemy> enumeratedEnemies = enemies.stream().toList();
-        Map<Integer, Integer> damage = attackEnemies(enumeratedEnemies);
-        if (damage.size() != 0) {
-            for (Map.Entry<Integer, Integer> dam: damage.entrySet()) {
+        final Set<? extends Enemy> enemies = manager.getEnemies().getEnemies();
+        final List<? extends Enemy> enumeratedEnemies = enemies.stream().toList();
+        final Map<Integer, Integer> damage = attackEnemies(enumeratedEnemies);
+        if (!damage.isEmpty()) {
+            for (final Map.Entry<Integer, Integer> dam: damage.entrySet()) {
                 enumeratedEnemies.get(dam.getKey()).hurt(dam.getValue());
             }
         }
@@ -135,7 +135,7 @@ public class DefenseManagerImpl implements DefenseManager {
      */
     @Override
     public Optional<Defense> getDefenseAt(final LogicalPosition at) {
-        Optional<MutablePair<Integer, Defense>> def = find(at);
+        final Optional<MutablePair<Integer, Defense>> def = find(at);
         return def.isEmpty() ? Optional.empty() : Optional.of(def.get().getValue());
     }
 
@@ -144,8 +144,8 @@ public class DefenseManagerImpl implements DefenseManager {
      */
     @Override
     public void buildDefense(final int choice, final LogicalPosition position) throws IOException {
-        List<Defense> buildables = getModelsOfBuildables(position);
-        Optional<MutablePair<Integer, Defense>> upgradable = find(position);
+        final List<Defense> buildables = getModelsOfBuildables(position);
+        final Optional<MutablePair<Integer, Defense>> upgradable = find(position);
 
         if (upgradable.isEmpty()) {
             defenses.add(MutablePair.of(buildables.get(choice), 0));
@@ -161,8 +161,8 @@ public class DefenseManagerImpl implements DefenseManager {
      */
     @Override
     public int disassembleDefense(final LogicalPosition position) {
-        Optional<MutablePair<Integer, Defense>> toDelete = find(position);
-        int returnValue = toDelete.get().getValue().getSellingValue();
+        final Optional<MutablePair<Integer, Defense>> toDelete = find(position);
+        final int returnValue = toDelete.get().getValue().getSellingValue();
         defenses.remove(toDelete.get().getKey().intValue());
         return returnValue;
     }
@@ -180,20 +180,20 @@ public class DefenseManagerImpl implements DefenseManager {
      * @return a map of index : damage attacks to execute.
     */
     private Map<Integer, Integer> attackEnemies(final List<? extends Enemy> availableTargets) {
-        Map<Integer, Integer> result = new HashMap<>();
-        for (Pair<Defense, Integer> def:defenses) {
+        final Map<Integer, Integer> result = new HashMap<>();
+        for (final Pair<Defense, Integer> def:defenses) {
             /**execute only if momentum is reached.*/
             if (def.getValue() >= DefenseFormulas.MOMENTUM_REQUIRED) {
-                Map<Integer, Integer> attackResult = def.getKey().getStrategy()
+                final Map<Integer, Integer> attackResult = def.getKey().getStrategy()
                 .execute(availableTargets, def.getKey().getDamage());
                 /**merge map with result.*/
-                if (attackResult.size() > 0) {
+                if (!attackResult.isEmpty()) {
                     def.setValue(0); /**reset only if there was an actual action.*/
                     attackResult.entrySet().stream().forEach(x ->
                         result.merge(x.getKey(), x.getValue(), Integer::sum)
                     );
                     /**add attacks */
-                    List<LogicalPosition> hitEnemies = new LinkedList<>();
+                    final List<LogicalPosition> hitEnemies = new LinkedList<>();
                     attackResult.entrySet().forEach(x -> hitEnemies.add(availableTargets.get(x.getKey()).getPosition()));
                     attacksOnLoop.put(def.getKey(), hitEnemies);
                 }
@@ -207,9 +207,9 @@ public class DefenseManagerImpl implements DefenseManager {
      */
     @Override
     public String toJSON() {
-        JSONArray result = new JSONArray();
-        for (Pair<Defense, Integer> def : this.defenses) {
-            Defense d = def.getLeft();
+        final JSONArray result = new JSONArray();
+        for (final Pair<Defense, Integer> def : this.defenses) {
+            final Defense d = def.getLeft();
             result.put(new JSONObject(d.toJSON()));
         }
         return result.toString();
@@ -228,7 +228,7 @@ public class DefenseManagerImpl implements DefenseManager {
      */
     @Override
     public List<DefenseDescription> getDefenses() {
-        List<DefenseDescription> descs = new LinkedList<>();
+        final List<DefenseDescription> descs = new LinkedList<>();
         for (int i = 0; i < this.defenses.size(); i++) {
             descs.add(getDescriptionFrom(this.defenses.get(i).getKey()));
         }
@@ -241,7 +241,7 @@ public class DefenseManagerImpl implements DefenseManager {
      */
     @Override
     public void setSelectedDefense(final LogicalPosition pos, final boolean toSelect) {
-        Optional<MutablePair<Integer, Defense>> def = find(pos);
+        final Optional<MutablePair<Integer, Defense>> def = find(pos);
         if (!def.isEmpty()) {
             this.focusedDef = toSelect ? Optional.of(def.get().getRight()) : Optional.empty();
         } else {
