@@ -12,7 +12,13 @@ plugins {
      * The runnable jar will be found in build/libs/projectname-all.jar
      */
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("org.danilopianini.gradle-java-qa") version "1.26.0"
+    id("org.danilopianini.gradle-java-qa") version "1.52.0"
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17)) //pmd compatibilty
+    }
 }
 
 repositories { // Where to search for dependencies
