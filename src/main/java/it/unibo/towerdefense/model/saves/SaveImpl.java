@@ -178,6 +178,6 @@ public class SaveImpl implements Save {
     }
 
     private String getFormattedDate() {
-        return new SimpleDateFormat(DATE_FORMAT).format(this.date);
+        return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(this.date);
     }
 }
