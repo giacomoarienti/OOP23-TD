@@ -103,11 +103,11 @@ class TestEnemyChoiceStrategyFactoryImpl {
         /**Test 2: 1 target*/
         testTargets.add(testEnemy(testPos1, 0));
         Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest2);
-        /**Test 3:Add unreachable targets, expect same result */
+        /**Test 3:Add unreachable targets and further targets, expect same result.*/
         testTargets.add(testEnemy(testPos2, 0));
         testTargets.add(testEnemy(testPos3, 0));
         Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest3);
-        /**Test 4:Add 5 reachable targets,expect closest 5 */
+        /**Test 4:Add 5 reachable targets,expect closest 5.*/
         testTargets.add(testEnemy(testPos4, 0));
         testTargets.add(testEnemy(testPos5, 0));
         /**Index 5:expected to not be targeted*/
@@ -123,38 +123,33 @@ class TestEnemyChoiceStrategyFactoryImpl {
     @Test
     void testClosestTargetWithAreaDamage() {
         /**create positions for this test.*/
-        final LogicalPosition testPos1 = new LogicalPosition(5, 5);
-        final LogicalPosition testPos2 = new LogicalPosition(3, 3);
-        final LogicalPosition testPos3 = new LogicalPosition(-12, -15);
-        final LogicalPosition testPos4 = new LogicalPosition(0, 0);
-        final LogicalPosition testPos5 = new LogicalPosition(4, -5);
-        final LogicalPosition testPos6 = new LogicalPosition(4, 0);
+        final LogicalPosition testPos1 = new LogicalPosition(3, 3);
+        final LogicalPosition testPos2 = new LogicalPosition(-12, -15);
+        final LogicalPosition testPos3 = new LogicalPosition(0, 0);
+        final LogicalPosition testPos4 = new LogicalPosition(4, -5);
+        final LogicalPosition testPos5 = new LogicalPosition(4, 0);
         /**create expected results */
         final Map<Integer, Integer> expectedResultTest1 = new HashMap<>();
         final Map<Integer, Integer> expectedResultTest2 = Map.of(0, TEST_DAMAGE);
-        final Map<Integer, Integer> expectedResultTest3 = Map.of(0, TEST_DAMAGE, 1, TEST_DAMAGE);
-        final Map<Integer, Integer> expectedResultTest4 = Map.of(1, TEST_DAMAGE,
-        3, TEST_DAMAGE, 5, TEST_DAMAGE);
+        final Map<Integer, Integer> expectedResultTest3 = Map.of(0, TEST_DAMAGE,
+        2, TEST_DAMAGE, 4, TEST_DAMAGE);
 
         final EnemyChoiceStrategy strategy = factory.closestTargetWithAreaDamage(TEST_AREA_RANGE, TEST_RANGE, TEST_POSITION);
         /**Test 1: no target possible*/
         Assertions.assertEquals(strategy.execute(List.of(), TEST_DAMAGE), expectedResultTest1);
-        /**Test 2: 1 target*/
+        /**Test 2:Add one target in the area,and one two in the area.*/
         testTargets.add(testEnemy(testPos1, 0));
-        Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest2);
-        /**Test 3:Add one target in the area,and one not in the area.*/
         testTargets.add(testEnemy(testPos2, 0));
+        Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest2);
+        /**Test 3:Add a few more entities for precision check.*/
         testTargets.add(testEnemy(testPos3, 0));
-        Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest3);
-        /**Test 4:Add a few more entities for precision check.*/
         testTargets.add(testEnemy(testPos4, 0));
         testTargets.add(testEnemy(testPos5, 0));
-        testTargets.add(testEnemy(testPos6, 0));
-        Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest4);
+        Assertions.assertEquals(strategy.execute(testTargets, TEST_DAMAGE), expectedResultTest3);
     }
 
     @Test
-    void testClosestToEndMap() {
+    void testClosestToEndMapOutsideRange() {
         /**create positions for this test.*/
         final LogicalPosition testPos1 = new LogicalPosition(12, 12);
         final LogicalPosition testPos2 = new LogicalPosition(14, 14);

@@ -32,6 +32,21 @@ class TestDefenseFactoryImpl {
 
     }
 
+    /**Asserts 2 defenses are equals.
+     * @param def1
+     * @param def2
+    */
+    private void assertDefensesAreEqual(final Defense def1, final Defense def2) {
+        Assertions.assertEquals(def2.getLevel(), def1.getLevel());
+        Assertions.assertEquals(def2.getType(), def1.getType());
+        Assertions.assertEquals(def2.getDamage(), def1.getDamage());
+        Assertions.assertEquals(def2.getAttackSpeed(), def1.getAttackSpeed());
+        Assertions.assertEquals(def2.getRange(), def1.getRange());
+        Assertions.assertEquals(def2.getBuildingCost(), def1.getBuildingCost());
+        Assertions.assertEquals(def2.getSellingValue(), def1.getSellingValue());
+        Assertions.assertEquals(def2.getPosition().get(), def1.getPosition().get());
+    }
+
     /**Test building from save file.*/
     @Test
     void testFromSaveFile() throws IOException {
@@ -47,14 +62,11 @@ class TestDefenseFactoryImpl {
 
         /**Test getters using save file.*/
         final Defense tower = factory.defenseFromJsonSave(new JSONObject(FileUtils.readFile(ARCHER_TEST_PATH)).toString());
-        Assertions.assertEquals(expectedLevel, tower.getLevel());
-        Assertions.assertEquals(expectedType, tower.getType());
-        Assertions.assertEquals(expectedDamage, tower.getDamage());
-        Assertions.assertEquals(expectedSpeed, tower.getAttackSpeed());
-        Assertions.assertEquals(expectedRange, tower.getRange());
-        Assertions.assertEquals(expectedBuildCost, tower.getBuildingCost());
-        Assertions.assertEquals(expectedSellCost, tower.getSellingValue());
-        Assertions.assertEquals(expectedPosition, tower.getPosition().get());
+        final Defense expectedDefense = new DefenseImpl(expectedType, expectedLevel,
+        expectedDamage, expectedRange, expectedSpeed, expectedBuildCost, expectedSellCost,
+        Optional.of(expectedPosition), null, tower.getPossibleUpgrades());
+
+        assertDefensesAreEqual(expectedDefense, tower);
         Assertions.assertEquals(Set.of(), tower.getPossibleUpgrades());
     }
 
@@ -82,25 +94,19 @@ class TestDefenseFactoryImpl {
 
         /**Test getters using save file constructor.*/
         final Defense tower = factory.levelOneDefense(BOMB_TEST_PATH, expectedPosition, Optional.empty());
-        Assertions.assertEquals(expectedLevel, tower.getLevel());
-        Assertions.assertEquals(expectedType, tower.getType());
-        Assertions.assertEquals(expectedDamage, tower.getDamage());
-        Assertions.assertEquals(expectedSpeed, tower.getAttackSpeed());
-        Assertions.assertEquals(expectedRange, tower.getRange());
-        Assertions.assertEquals(expectedBuildCost, tower.getBuildingCost());
-        Assertions.assertEquals(expectedSellCost, tower.getSellingValue());
-        Assertions.assertEquals(expectedPosition, tower.getPosition().get());
+        final Defense expectedDefense = new DefenseImpl(expectedType, expectedLevel,
+        expectedDamage, expectedRange, expectedSpeed, expectedBuildCost, expectedSellCost,
+        Optional.of(expectedPosition), null, tower.getPossibleUpgrades());
+
+        assertDefensesAreEqual(tower, expectedDefense);
         Assertions.assertEquals(1, tower.getPossibleUpgrades().size());
         /**Test upgrade.*/
         final Defense upgrade = tower.getPossibleUpgrades().stream().toList().get(0);
-        Assertions.assertEquals(expectedLevelUp, upgrade.getLevel());
-        Assertions.assertEquals(expectedTypeUp, upgrade.getType());
-        Assertions.assertEquals(expectedDamageUp, upgrade.getDamage());
-        Assertions.assertEquals(expectedSpeedUp, upgrade.getAttackSpeed());
-        Assertions.assertEquals(expectedRangeUp, upgrade.getRange());
-        Assertions.assertEquals(expectedBuildCostUp, upgrade.getBuildingCost());
-        Assertions.assertEquals(expectedSellCostUp, upgrade.getSellingValue());
-        Assertions.assertEquals(expectedPositionUp, upgrade.getPosition().get());
+        final Defense expectedUpgrade = new DefenseImpl(expectedTypeUp, expectedLevelUp,
+        expectedDamageUp, expectedRangeUp, expectedSpeedUp, expectedBuildCostUp, expectedSellCostUp,
+        Optional.of(expectedPositionUp), null, tower.getPossibleUpgrades());
+
+        assertDefensesAreEqual(expectedUpgrade, upgrade);
         Assertions.assertEquals(Set.of(), upgrade.getPossibleUpgrades());
 
 

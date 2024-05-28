@@ -13,6 +13,8 @@ import java.util.Optional;
 
 /**Tests for the implementation of Defense.*/
 class TestDefenseImpl {
+
+
     /**Test of constructors and get methods.*/
     @Test
     void testConstructorsAndGetters() {
