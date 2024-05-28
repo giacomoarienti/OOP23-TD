@@ -40,14 +40,14 @@ public class ReversedPathFactory {
     public Iterator<MapDirection> generate(final Size size, final MapDirection direction) {
         return Stream.iterate(opposite(direction), new UnaryOperator<MapDirection>() {
 
-            private final Random random = new Random();
-            private int n = random.nextInt(2) * 2;
+            private static final Random RANDOM = new Random();
+            private int n = RANDOM.nextInt(2) * 2;
             private int counter;
 
             @Override
             public MapDirection apply(final MapDirection d) {
                 if (counter
-                < random.nextInt(Math.abs(direction.horizontal() * size.getHeight() + direction.vertical() * size.getWidth())
+                < RANDOM.nextInt(Math.abs(direction.horizontal() * size.getHeight() + direction.vertical() * size.getWidth())
                 / (d == opposite(direction) ? 3 : 2)
                 )) {
                     counter++;

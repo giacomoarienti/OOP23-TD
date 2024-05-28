@@ -21,6 +21,7 @@ public class GameMapImpl implements GameMap {
     private final Size size;
     private final PathCell spawn;
     private final PathCell end;
+    private static final Random RANDOM = new Random();
     private static final int OBSTACLE_RATE = 10;
     private static final int MAX_X_SIZE = 100;
     private static final int MAX_Y_SIZE = 100;
@@ -34,8 +35,7 @@ public class GameMapImpl implements GameMap {
         if (size.getHeight() > MAX_Y_SIZE || size.getWidth() > MAX_X_SIZE) {
             throw new IllegalArgumentException("Max dimension allowed are: " + MAX_X_SIZE + ", " + MAX_Y_SIZE);
         }
-        final Random random = new Random();
-        final MapDirection pathDirection = MapDirection.values()[random.nextInt(4)];
+        final MapDirection pathDirection = MapDirection.values()[RANDOM.nextInt(4)];
         this.size = size;
         map = new Cell[size.getWidth()][size.getHeight()];
         final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, pathDirection);
@@ -56,7 +56,7 @@ public class GameMapImpl implements GameMap {
         for (int i = 0; i < size.getWidth(); i++) {
             for (int j = 0; j < size.getHeight(); j++) {
                 if (map[i][j] == null) {
-                    map[i][j] = new BuildableCellImpl(new PositionImpl(i, j), random.nextInt(OBSTACLE_RATE) != 0);
+                    map[i][j] = new BuildableCellImpl(new PositionImpl(i, j), RANDOM.nextInt(OBSTACLE_RATE) != 0);
                 }
             }
         }
