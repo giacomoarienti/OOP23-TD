@@ -91,6 +91,10 @@ public class ModelImpl implements ModelManager, Model {
     /**
      * {@inheritDoc}
      */
+    @SuppressFBWarnings(
+        value = "EI",
+        justification = "Safe to return internal representation of DefenseManager"
+    )
     @Override
     public DefenseManager getDefenses() {
         if (Objects.isNull(defenses)) {
@@ -116,7 +120,7 @@ public class ModelImpl implements ModelManager, Model {
     @Override
     @SuppressFBWarnings(
         value = "EI",
-        justification = "Safe to return internal representation of game"
+        justification = "Safe to return internal representation of GameManager"
     )
     public GameManager getGame() {
         if (Objects.isNull(game)) {
