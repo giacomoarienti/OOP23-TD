@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    if: contains(github.repository, 'sample-gradle-project') && !github.event.repository.fork
+    if: contains(github.repository, 'tower-defense') && !github.event.repository.fork
     strategy:
       matrix:
         os: [ windows-2022, macos-12, ubuntu-22.04 ]
