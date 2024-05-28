@@ -21,11 +21,9 @@ public class GameMapImpl implements GameMap {
     private final Size size;
     private final PathCell spawn;
     private final PathCell end;
-    private final Random random = new Random();
     private static final int OBSTACLE_RATE = 10;
     private static final int MAX_X_SIZE = 100;
     private static final int MAX_Y_SIZE = 100;
-    private final MapDirection pathDirection = MapDirection.values()[random.nextInt(4)];
     private Cell[][] map;
 
     /**
@@ -36,10 +34,12 @@ public class GameMapImpl implements GameMap {
         if (size.getHeight() > MAX_Y_SIZE || size.getWidth() > MAX_X_SIZE) {
             throw new IllegalArgumentException("Max dimension allowed are: " + MAX_X_SIZE + ", " + MAX_Y_SIZE);
         }
+        final Random random = new Random();
+        final MapDirection pathDirection = MapDirection.values()[random.nextInt(4)];
         this.size = size;
         map = new Cell[size.getWidth()][size.getHeight()];
         final Iterator<MapDirection> path = new ReversedPathFactory().generate(size, pathDirection);
-        final Position pos = generatePosition();
+        final Position pos = generatePosition(pathDirection);
         int distanceToEnd = 0;
         end = new PathCellImpl(pos, path.next(), pathDirection, distanceToEnd);
         PathCell newCell = end;
@@ -152,10 +152,10 @@ public class GameMapImpl implements GameMap {
         return jObj.toString();
     }
 
-    private Position generatePosition() {
+    private Position generatePosition(final MapDirection dir) {
         return new PositionImpl(
-            f(size.getWidth(), pathDirection.horizontal()),
-            f(size.getHeight(), pathDirection.vertical()));
+            f(size.getWidth(), dir.horizontal()),
+            f(size.getHeight(), dir.vertical()));
     }
 
     private static int f(final int dimension, final int verser) {

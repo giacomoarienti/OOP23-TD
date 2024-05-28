@@ -1,5 +1,7 @@
 package it.unibo.towerdefense.model.map;
 
+import com.google.common.base.Objects;
+
 import it.unibo.towerdefense.commons.engine.Direction;
 import it.unibo.towerdefense.commons.engine.LogicalPosition;
 
@@ -46,5 +48,27 @@ public class PathVector {
      */
     public int distanceToEnd() {
         return distanceToEnd;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object o) {
+        if (o instanceof PathVector) {
+            final PathVector p = (PathVector) o;
+            return p.direction() == this.direction()
+                && p.position().equals(this.position())
+                && p.distanceToEnd() == this.distanceToEnd();
+        }
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(position(), direction(), distanceToEnd());
     }
 }
