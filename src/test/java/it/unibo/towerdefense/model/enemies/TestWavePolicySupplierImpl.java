@@ -30,7 +30,8 @@ class TestWavePolicySupplierImpl {
     @Test
     void testLoadConfig() throws URISyntaxException, IOException {
         final List<String> goodFilenames = List.of("waves.json");
-        final List<String> evilFilenames = List.of("waves1.json", "waves2.json", "waves3.json", "waves4.json", "waves5.json");
+        final List<String> evilFilenames = List.of("waves1.json", "waves2.json", "waves3.json", "waves4.json",
+                "waves5.json");
         for (final String s : goodFilenames) {
             final String config = FileUtils.readFile(ROOT + s);
             Assertions.assertDoesNotThrow(() -> new WavePolicySupplierImpl(config));
