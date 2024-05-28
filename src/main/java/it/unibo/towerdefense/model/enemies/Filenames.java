@@ -9,7 +9,7 @@ final class Filenames {
     /**
      * The folder containing all config files for this package.
      */
-    private static final String ROOT = "src/main/resources/it/unibo/towerdefense/models/enemies/";
+    private static final String ROOT = "it/unibo/towerdefense/models/enemies/";
     /**
      * The name of the waves config file.
      */

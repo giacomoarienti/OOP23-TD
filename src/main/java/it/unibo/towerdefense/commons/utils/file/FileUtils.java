@@ -8,6 +8,12 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.io.InputStreamReader;
+import java.io.InputStream;
+import java.util.Objects;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 
 import it.unibo.towerdefense.commons.Constants;
 
@@ -64,6 +70,19 @@ public final class FileUtils {
      */
     public static String readFile(final Path path) throws IOException {
         return Files.readString(path, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Read the content of an InputStream which should contain a chars encoded as UTF_8.
+     *
+     * @param inputStream the input stream
+     * @throws IOException if the file cannot be read
+     * @return the content of the file
+     */
+    public static String readFile(final InputStream inputStream) throws IOException {
+        Objects.requireNonNull(inputStream);
+        return CharStreams.toString(
+            new InputStreamReader(inputStream, Charsets.UTF_8));
     }
 
     /**

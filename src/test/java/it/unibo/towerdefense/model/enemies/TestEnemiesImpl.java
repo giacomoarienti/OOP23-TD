@@ -32,7 +32,8 @@ class TestEnemiesImpl {
      */
     @BeforeEach
     void init() throws IOException {
-        testingWPS = new WavePolicySupplierImpl(FileUtils.readFile(Filenames.wavesConfig()));
+        testingWPS = new WavePolicySupplierImpl(
+                FileUtils.readFile(ClassLoader.getSystemResourceAsStream(Filenames.wavesConfig())));
         tested = new EnemiesImpl((pos, speed) -> Optional.of(STARTING_POSITION.copy()),
                 () -> STARTING_POSITION.copy());
         dead = 0;

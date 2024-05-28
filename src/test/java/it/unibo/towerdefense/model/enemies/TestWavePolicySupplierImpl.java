@@ -21,7 +21,7 @@ import it.unibo.towerdefense.commons.utils.file.FileUtils;
  */
 class TestWavePolicySupplierImpl {
 
-    private static final String ROOT = "src/test/resources/it/unibo/towerdefense/models/enemies/Test_";
+    private static final String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
 
     /**
      * Tests the class can correctly load a configuration from a well formatted file
@@ -33,11 +33,11 @@ class TestWavePolicySupplierImpl {
         final List<String> evilFilenames = List.of("waves1.json", "waves2.json", "waves3.json", "waves4.json",
                 "waves5.json");
         for (final String s : goodFilenames) {
-            final String config = FileUtils.readFile(ROOT + s);
+            final String config = FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + s));
             Assertions.assertDoesNotThrow(() -> new WavePolicySupplierImpl(config));
         }
         for (final String s : evilFilenames) {
-            final String config = FileUtils.readFile(ROOT + s);
+            final String config = FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + s));
             Assertions.assertThrows(RuntimeException.class, () -> new WavePolicySupplierImpl(config));
         }
     }
@@ -66,7 +66,7 @@ class TestWavePolicySupplierImpl {
         @BeforeEach
         void init() throws URISyntaxException, IOException {
             tested = new WavePolicySupplierImpl(
-                    FileUtils.readFile(ROOT + TEST_FILE));
+                    FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + TEST_FILE)));
         }
 
         /**
