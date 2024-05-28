@@ -20,7 +20,7 @@ import it.unibo.towerdefense.model.ModelManager;
  */
 public class GameManagerImpl implements GameManager {
 
-    private static final int START_LIVES = 100;
+    private static final int START_LIVES = 10;
     private static final int START_MONEY = 500;
     private static final int START_WAVE = 1;
     private static final int PLAYING_GAME_SPEED = 1;
