@@ -1,11 +1,5 @@
 package it.unibo.towerdefense.model.enemies;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.net.URISyntaxException;
-
 /**
  * Utility class containing the names of configuration files used by the classes
  * which need them.
@@ -15,7 +9,7 @@ final class Filenames {
     /**
      * The folder containing all config files for this package.
      */
-    private static final String ROOT = "it/unibo/towerdefense/models/enemies/";
+    private static final String ROOT = "src/main/resources/it/unibo/towerdefense/models/enemies/";
     /**
      * The name of the waves config file.
      */
@@ -36,8 +30,8 @@ final class Filenames {
      *
      * @return the path of the waves config file.
      */
-    static Path wavesConfig() {
-        return getPath(ROOT + WAVECONF);
+    static String wavesConfig() {
+        return ROOT + WAVECONF;
     }
 
     /**
@@ -45,21 +39,7 @@ final class Filenames {
      *
      * @return the path of the types config file.
      */
-    static Path typesConfig() {
-        return getPath(ROOT + TYPESCONF);
-    }
-
-    /**
-     * Returns the path of the resource with name filename.
-     *
-     * @param filename the logical path to the resource starting from classpath
-     * @return the actual path on the filesystem to the desired resource
-     */
-    private static Path getPath(final String filename) {
-        try {
-            return Paths.get(ClassLoader.getSystemResource(filename).toURI());
-        } catch (URISyntaxException | IllegalArgumentException e) {
-            throw new UncheckedIOException(new IOException("Could not find file " + filename, e));
-        }
+    static String typesConfig() {
+        return ROOT + TYPESCONF;
     }
 }

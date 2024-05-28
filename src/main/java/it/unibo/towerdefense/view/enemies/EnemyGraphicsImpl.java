@@ -3,8 +3,6 @@ package it.unibo.towerdefense.view.enemies;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -66,12 +64,12 @@ class EnemyGraphicsImpl implements EnemyGraphics {
         sizes = new Double[EnemyLevel.values().length][EnemyArchetype.values().length];
         try {
             final JSONObject sizesConfigVals = new JSONObject(
-                    FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + SIZES_FILE).toURI())));
+                    FileUtils.readFile(ROOT + SIZES_FILE));
             Arrays.stream(EnemyLevel.values())
                     .forEach(level -> Arrays.stream(EnemyArchetype.values())
                             .forEach(type -> sizes[level.ordinal()][type.ordinal()] = sizesConfigVals
                                     .getDouble(level.name()) * sizesConfigVals.getDouble(type.name())));
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             throw new UncheckedIOException(new IOException(
                     "Couldn't locate configuration file for enemy sizes with name: " + ROOT + SIZES_FILE, e));
         } catch (JSONException e) {

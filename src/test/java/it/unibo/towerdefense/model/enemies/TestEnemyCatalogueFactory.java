@@ -2,7 +2,6 @@ package it.unibo.towerdefense.model.enemies;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.List;
@@ -26,7 +25,7 @@ class TestEnemyCatalogueFactory {
     /**
      * Common prefix for all test files.
      */
-    private static final String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
+    private static final String ROOT = "src/test/resources/it/unibo/towerdefense/models/enemies/Test_";
 
     /**
      * Tests wheter the class can successfully load a configuration from a
@@ -38,11 +37,11 @@ class TestEnemyCatalogueFactory {
         final List<String> goodFilenames = List.of("types.json");
         final List<String> evilFilenames = List.of("types1.json", "types2.json", "types3.json", "types4.json", "types5.json");
         for (final String s : goodFilenames) {
-            final String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
+            final String config = FileUtils.readFile(ROOT+s);
             Assertions.assertDoesNotThrow(() -> new EnemyCatalogueFactory(config));
         }
         for (final String s : evilFilenames) {
-            final String config = FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + s).toURI()));
+            final String config = FileUtils.readFile(ROOT+s);
             Assertions.assertThrows(RuntimeException.class, () -> new EnemyCatalogueFactory(config));
         }
     }
@@ -64,7 +63,7 @@ class TestEnemyCatalogueFactory {
         @BeforeEach
         void init() throws URISyntaxException, IOException {
             tested = new EnemyCatalogueFactory(
-                    FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + TEST_FILE).toURI()))).compile();
+                    FileUtils.readFile(ROOT+TEST_FILE)).compile();
             types = EnemyType.getEnemyTypes();
         }
 

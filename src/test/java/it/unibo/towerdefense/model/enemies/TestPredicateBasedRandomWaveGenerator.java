@@ -2,7 +2,6 @@ package it.unibo.towerdefense.model.enemies;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -18,7 +17,7 @@ import it.unibo.towerdefense.commons.utils.file.FileUtils;
  */
 class TestPredicateBasedRandomWaveGenerator {
 
-    private static final String ROOT = "it/unibo/towerdefense/models/enemies/Test_";
+    private static final String ROOT = "src/test/resources/it/unibo/towerdefense/models/enemies/Test_";
     private static final int START = -5;
     private static final int END = 100;
     private PredicateBasedRandomWaveGenerator rwg;
@@ -30,9 +29,9 @@ class TestPredicateBasedRandomWaveGenerator {
     @BeforeEach
     void init() throws URISyntaxException, IOException {
         wps = new WavePolicySupplierImpl(
-                FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "waves.json").toURI())));
+                FileUtils.readFile(ROOT + "waves.json"));
         final EnemyCatalogue catalogue = new EnemyCatalogueFactory(
-                FileUtils.readFile(Paths.get(ClassLoader.getSystemResource(ROOT + "types.json").toURI()))).compile();
+                FileUtils.readFile(ROOT + "types.json")).compile();
         rwg = new PredicateBasedRandomWaveGenerator(wps, catalogue);
     }
 
