@@ -152,7 +152,7 @@ public class DefenseManagerImpl implements DefenseManager {
         } else {
             defenses.set(upgradable.get().getKey(),
             MutablePair.of(new DefenseImpl(factory.upgrade(upgradable.get().getValue(), choice,
-            Optional.of(DefenseMapFilePaths.pathFromType(buildables.get(choice).getType())))), 0));
+            Optional.of(DefenseMapFilePaths.upgradePathFromType(buildables.get(choice).getType())))), 0));
         }
     }
 
