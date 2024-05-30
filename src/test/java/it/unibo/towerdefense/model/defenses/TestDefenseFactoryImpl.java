@@ -1,7 +1,6 @@
 package it.unibo.towerdefense.model.defenses;
 
 import java.io.IOException;
-import java.nio.file.NoSuchFileException;
 import java.util.Set;
 import java.util.Optional;
 
@@ -19,12 +18,10 @@ class TestDefenseFactoryImpl {
     private final DefenseFactory factory = new DefenseFactoryImpl();
 
     /**Files paths.*/
-    private static final String ARCHER_TEST_PATH =
-    "src/test/resources/it/unibo/towerdefense/models/defenses/Archer/TestArcherTower.json";
-    private static final String BOMB_TEST_PATH =
-    "src/test/resources/it/unibo/towerdefense/models/defenses/Bomb/TestBombTower.json";
-    private static final String WIZARD_TEST_PATH =
-    "src/test/resources/it/unibo/towerdefense/models/defenses/Wizard/TestWizardTower.json";
+    private static final String ROOT  = "it/unibo/towerdefense/models/defenses/";
+    private static final String ARCHER_TEST_PATH = ROOT + "Archer/TestArcherTower.json";
+    private static final String BOMB_TEST_PATH = ROOT +  "Bomb/TestBombTower.json";
+    private static final String WIZARD_TEST_PATH =  ROOT + "Wizard/TestWizardTower.json";
 
     @BeforeEach
     /**set up some collections.*/
@@ -61,7 +58,7 @@ class TestDefenseFactoryImpl {
         final LogicalPosition expectedPosition = new LogicalPosition(10, 10);
 
         /**Test getters using save file.*/
-        final Defense tower = factory.defenseFromJsonSave(new JSONObject(FileUtils.readFile(ARCHER_TEST_PATH)).toString());
+        final Defense tower = factory.defenseFromJsonSave(new JSONObject(FileUtils.readResource(ARCHER_TEST_PATH)).toString());
         final Defense expectedDefense = new DefenseImpl(expectedType, expectedLevel,
         expectedDamage, expectedRange, expectedSpeed, expectedBuildCost, expectedSellCost,
         Optional.of(expectedPosition), null, tower.getPossibleUpgrades());
@@ -111,7 +108,7 @@ class TestDefenseFactoryImpl {
 
 
         /**Test exception thrown.*/
-        Assertions.assertThrowsExactly(NoSuchFileException.class, () ->
+        Assertions.assertThrowsExactly(IOException.class, () ->
         factory.levelOneDefense("src/unexistent", null, Optional.empty()));
     }
 

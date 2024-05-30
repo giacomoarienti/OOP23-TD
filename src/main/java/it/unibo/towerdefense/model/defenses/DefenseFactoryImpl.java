@@ -35,7 +35,7 @@ public class DefenseFactoryImpl implements DefenseFactory {
     private Set<Defense> getDefensesOfLevel(final String filePath, final DefenseType type, final int level)
     throws IOException {
         /**Read file.*/
-        final String fileContent = FileUtils.readFile(filePath);
+        final String fileContent = FileUtils.readResource(filePath);
         final JSONArray defenses = new JSONArray(fileContent);
         final Set<Defense> result = new HashSet<>();
         /**check for valid updates.*/

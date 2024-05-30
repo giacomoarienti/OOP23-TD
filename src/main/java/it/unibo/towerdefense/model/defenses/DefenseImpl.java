@@ -83,7 +83,7 @@ public class DefenseImpl implements Defense {
      * @throws IOexception if it fails to read the file.
      */
     public DefenseImpl(final String filePath) throws IOException {
-        this(fromJson(FileUtils.readFile(filePath)));
+        this(fromJson(FileUtils.readResource(filePath)));
     }
 
     /**
