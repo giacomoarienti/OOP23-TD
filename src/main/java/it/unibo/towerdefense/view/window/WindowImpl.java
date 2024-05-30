@@ -174,16 +174,34 @@ public class WindowImpl implements Window {
         final String title,
         final ModalContent content
     ) {
-        this.hideAllModals();
-        final Modal modal = new ModalImpl(
-            this.frame,
-            title,
-            content,
-            this::removeModal
+        this.addModal(
+            new ModalImpl(
+                this.frame,
+                title,
+                content,
+                this::removeModal
+            )
         );
-        this.addModal(modal);
-        modal.display();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void displayExitModal(
+        final String title,
+        final ModalContent content
+    ) {
+        this.addModal(
+            new ModalImpl(
+                this.frame,
+                title,
+                content,
+                (m) -> this.close()
+            )
+        );
+    }
+
 
     /**
      * {@inheritDoc}
@@ -279,7 +297,12 @@ public class WindowImpl implements Window {
     }
 
     private void addModal(final Modal modal) {
+        // hide all modals
+        this.hideAllModals();
+        // add the new modal
         this.openModals.add(modal);
+        // show the new modal
+        modal.display();
     }
 
     private void removeModal(final Modal modal) {

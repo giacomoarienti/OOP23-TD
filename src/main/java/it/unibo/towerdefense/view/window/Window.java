@@ -52,6 +52,14 @@ public interface Window {
     void displayModal(String title, ModalContent content);
 
     /**
+     * Display a modal window.
+     * The current window will be closed when the modal is closed.
+     * @param title the title of the modal
+     * @param content the content of the modal
+     */
+    void displayExitModal(String title, ModalContent content);
+
+    /**
      * Updates the contents of the game panel.
      * @param panel the content to display
      */

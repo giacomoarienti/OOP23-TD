@@ -213,7 +213,7 @@ public class ViewImpl implements View {
      */
     @Override
     public void displayGameOver(final ScoreDTO dto) {
-        this.window.displayModal("Game Over", new GameOverViewImpl(dto));
+        this.window.displayExitModal("Game Over", new GameOverViewImpl(dto));
     }
 
     /**

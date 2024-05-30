@@ -24,7 +24,8 @@ public class GameRendererImpl implements GameRenderer {
 
     private static final String RESUME_LABEL = "Resume";
     private static final String PAUSE_LABEL = "Pause";
-    private static final String QUIT_LABEL = "Save & Quit";
+    private static final String QUIT_LABEL = "Quit";
+    private static final String SAVE_QUIT_LABEL = "Save & Quit";
 
     @SuppressFBWarnings(
         value = "EI2",
@@ -74,7 +75,7 @@ public class GameRendererImpl implements GameRenderer {
         // add stop resume and quit buttons
         final var pauseButton = new JButton(PAUSE_LABEL);
         final var resumeButton = new JButton(RESUME_LABEL);
-        final var quitButton = new JButton(QUIT_LABEL);
+        final var quitButton = new JButton(SAVE_QUIT_LABEL);
         // set callbacks
         pauseButton.addActionListener(e -> this.notifyObservers(ControlAction.PAUSE));
         resumeButton.addActionListener(e -> this.notifyObservers(ControlAction.RESUME));
@@ -90,6 +91,7 @@ public class GameRendererImpl implements GameRenderer {
             case GAME_OVER -> {
                 pauseButton.setEnabled(false);
                 resumeButton.setEnabled(false);
+                quitButton.setText(QUIT_LABEL);
             }
             default -> {
                 throw new IllegalArgumentException("Invalid game status");
