@@ -7,7 +7,7 @@ import it.unibo.towerdefense.commons.dtos.defenses.DefenseType;
 /**creates paths for the images of defenses.*/
 public final class DefenseImagePaths {
 
-    private static final String BASE_PATH = "it/unibo/towerdefense/view/";
+    private static final String BASE_PATH = "it/unibo/towerdefense/view/defenses/";
     private static final String DEFENSE_FOLDER = "defenses/";
     private static final String BULLET_FOLDER = "bullets/";
     private static final String EXTENSION = ".png";
