@@ -1,4 +1,12 @@
-# Sample Gradle Project
+# Tower-Defense
 
-This is a repository that can be used as a base to develop an OOP project.
-The tools seen in the lab are pre-integrated in the build file.
+## Contributors
+- Giacomo Arienti giacomo.arienti2@studio.unibo.it
+- Giacomo Boschi giacomo.boschi7@studio.unibo.it
+- Davide Fiocchi davide.fiocchi2@studio.unibo.it
+- Pietro Pasini pietro.pasini4@studio.unibo.it
+
+## How to run
+`java -jar tower-defense-all.jar`
+
+Select a nickname and your desired resolution, you can control the game with your mouse.
