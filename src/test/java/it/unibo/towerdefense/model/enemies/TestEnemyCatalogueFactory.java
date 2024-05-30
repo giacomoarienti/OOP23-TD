@@ -38,11 +38,11 @@ class TestEnemyCatalogueFactory {
         final List<String> evilFilenames = List.of("types1.json", "types2.json", "types3.json", "types4.json",
                 "types5.json");
         for (final String s : goodFilenames) {
-            final String config = FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + s));
+            final String config = FileUtils.readResource(ROOT + s);
             Assertions.assertDoesNotThrow(() -> new EnemyCatalogueFactory(config));
         }
         for (final String s : evilFilenames) {
-            final String config = FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + s));
+            final String config = FileUtils.readResource(ROOT + s);
             Assertions.assertThrows(RuntimeException.class, () -> new EnemyCatalogueFactory(config));
         }
     }
@@ -64,7 +64,7 @@ class TestEnemyCatalogueFactory {
         @BeforeEach
         void init() throws URISyntaxException, IOException {
             tested = new EnemyCatalogueFactory(
-                    FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + TEST_FILE))).compile();
+                    FileUtils.readResource(ROOT + TEST_FILE)).compile();
             types = EnemyType.getEnemyTypes();
         }
 

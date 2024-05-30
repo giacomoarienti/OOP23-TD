@@ -29,9 +29,9 @@ class TestPredicateBasedRandomWaveGenerator {
     @BeforeEach
     void init() throws URISyntaxException, IOException {
         wps = new WavePolicySupplierImpl(
-                FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + "waves.json")));
+                FileUtils.readResource(ROOT + "waves.json"));
         final EnemyCatalogue catalogue = new EnemyCatalogueFactory(
-                FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + "types.json"))).compile();
+                FileUtils.readResource(ROOT + "types.json")).compile();
         rwg = new PredicateBasedRandomWaveGenerator(wps, catalogue);
     }
 

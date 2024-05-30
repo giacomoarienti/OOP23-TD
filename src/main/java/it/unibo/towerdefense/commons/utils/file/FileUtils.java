@@ -24,6 +24,7 @@ public final class FileUtils {
 
     /**
      * Creates the folder for the game.
+     * 
      * @throws IOException if the folder cannot be created
      */
     public static void createGameFolder() throws IOException {
@@ -32,6 +33,7 @@ public final class FileUtils {
 
     /**
      * Create a folder at the specified path.
+     * 
      * @param folderPath the path of the folder to create
      * @throws IOException if the folder cannot be created
      */
@@ -53,6 +55,7 @@ public final class FileUtils {
 
     /**
      * Read the content of a file.
+     * 
      * @param file the path string of the file to read
      * @throws IOException if the file cannot be read
      * @return the content of the file
@@ -64,6 +67,7 @@ public final class FileUtils {
 
     /**
      * Read the content of a file.
+     * 
      * @param path the path of the file to read
      * @throws IOException if the file cannot be read
      * @return the content of the file
@@ -73,20 +77,39 @@ public final class FileUtils {
     }
 
     /**
-     * Read the content of an InputStream which should contain a chars encoded as UTF_8.
+     * Read the content of the resource with given name, which should contain chars
+     * encoded as UTF_8.
+     *
+     * @param resourceName the name of the resource to read
+     * @return the content as a String
+     * @throws IOException if the resource cannot be found or read
+     */
+    public static String readResource(final String resourceName) throws IOException {
+        Objects.requireNonNull(resourceName);
+        final InputStream resource = ClassLoader.getSystemResourceAsStream(resourceName);
+        if (resource == null) {
+            throw new IOException("Couldn't locate resource with name: " + resourceName);
+        }
+        return readInputStream(resource);
+    }
+
+    /**
+     * Read the content of an InputStream which should contain chars encoded as
+     * UTF_8.
      *
      * @param inputStream the input stream
      * @throws IOException if the file cannot be read
      * @return the content of the file
      */
-    public static String readFile(final InputStream inputStream) throws IOException {
+    public static String readInputStream(final InputStream inputStream) throws IOException {
         Objects.requireNonNull(inputStream);
         return CharStreams.toString(
-            new InputStreamReader(inputStream, Charsets.UTF_8));
+                new InputStreamReader(inputStream, Charsets.UTF_8));
     }
 
     /**
      * Read the content of a file without throwing exceptions.
+     * 
      * @param path the path of the file to read
      * @return the content of the file, optional empty if the file cannot be read
      */
@@ -100,8 +123,9 @@ public final class FileUtils {
 
     /**
      * Write content to a file.
+     * 
      * @param filePath the path of the file to write
-     * @param content the content to write
+     * @param content  the content to write
      * @throws IOException if the file cannot be written
      */
     public static void writeFile(final String filePath, final String content) throws IOException {
@@ -112,6 +136,7 @@ public final class FileUtils {
 
     /**
      * Create a file if it does not exist.
+     * 
      * @param filePath the path of the file to create
      * @throws IOException if the file cannot be created
      */

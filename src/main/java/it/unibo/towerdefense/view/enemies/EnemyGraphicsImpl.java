@@ -64,7 +64,7 @@ class EnemyGraphicsImpl implements EnemyGraphics {
         sizes = new Double[EnemyLevel.values().length][EnemyArchetype.values().length];
         try {
             final JSONObject sizesConfigVals = new JSONObject(
-                    FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + SIZES_FILE)));
+                    FileUtils.readResource(ROOT + SIZES_FILE));
             Arrays.stream(EnemyLevel.values())
                     .forEach(level -> Arrays.stream(EnemyArchetype.values())
                             .forEach(type -> sizes[level.ordinal()][type.ordinal()] = sizesConfigVals

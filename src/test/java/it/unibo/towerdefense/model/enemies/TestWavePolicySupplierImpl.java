@@ -33,11 +33,11 @@ class TestWavePolicySupplierImpl {
         final List<String> evilFilenames = List.of("waves1.json", "waves2.json", "waves3.json", "waves4.json",
                 "waves5.json");
         for (final String s : goodFilenames) {
-            final String config = FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + s));
+            final String config = FileUtils.readResource(ROOT + s);
             Assertions.assertDoesNotThrow(() -> new WavePolicySupplierImpl(config));
         }
         for (final String s : evilFilenames) {
-            final String config = FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + s));
+            final String config = FileUtils.readResource(ROOT + s);
             Assertions.assertThrows(RuntimeException.class, () -> new WavePolicySupplierImpl(config));
         }
     }
@@ -66,7 +66,7 @@ class TestWavePolicySupplierImpl {
         @BeforeEach
         void init() throws URISyntaxException, IOException {
             tested = new WavePolicySupplierImpl(
-                    FileUtils.readFile(ClassLoader.getSystemResourceAsStream(ROOT + TEST_FILE)));
+                    FileUtils.readResource(ROOT + TEST_FILE));
         }
 
         /**

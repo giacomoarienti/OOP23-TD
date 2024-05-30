@@ -45,9 +45,9 @@ class EnemiesImpl implements Enemies {
         this.factory = new SimpleEnemyFactory();
         try {
             final WavePolicySupplier wp = new WavePolicySupplierImpl(
-                FileUtils.readFile(ClassLoader.getSystemResourceAsStream(Filenames.wavesConfig())));
+                FileUtils.readResource(Filenames.wavesConfig()));
             final EnemyCatalogue ec = new EnemyCatalogueFactory(
-                FileUtils.readFile(ClassLoader.getSystemResourceAsStream(Filenames.typesConfig()))).compile();
+                FileUtils.readResource(Filenames.typesConfig())).compile();
             this.waveSupplier = new PredicateBasedRandomWaveGenerator(wp, ec);
         } catch (IOException e) {
             throw new ConfigurationLoadingException("Failed to load enemy-related configuration file.", e);
