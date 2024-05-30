@@ -41,6 +41,14 @@ public class DefenseRendererImpl implements DefenseRenderer {
         DefenseType.THUNDERINVOKER, Color.RED
     );
 
+    /**for understanding if animations are area based.*/
+    private final Map<DefenseType, Boolean> matchAreaBased = Map.of(
+        DefenseType.ARCHERTOWER, false,
+        DefenseType.BOMBTOWER, true,
+        DefenseType.WIZARDTOWER, false,
+        DefenseType.THUNDERINVOKER, false
+    );
+
      /**
      * Constructor for this class.
      * @param renderer used to submit images.
@@ -79,10 +87,16 @@ public class DefenseRendererImpl implements DefenseRenderer {
      * @param def the description to take attacks from.
     */
     private void addAttacks(final DefenseDescription def) {
-        def.getTargets().forEach(x ->
-            attacks.add(new AttackAnimationImpl(def.getType() == DefenseType.BOMBTOWER,
-            def.getPosition().get(), x, def.getType()))
-        );
+        if (!matchAreaBased.get(def.getType())) {
+                def.getTargets().forEach(x ->
+                attacks.add(new AttackAnimationImpl(matchAreaBased.get(def.getType()),
+                def.getPosition().get(), x, def.getType()))
+            );
+        } else if (!def.getTargets().isEmpty()) {
+            attacks.add(new AttackAnimationImpl(matchAreaBased.get(def.getType()),
+            def.getPosition().get(), def.getTargets().get(0), def.getType()));
+        }
+
     }
 
     /**renders bullets in game.*/
@@ -109,7 +123,9 @@ public class DefenseRendererImpl implements DefenseRenderer {
             }
             /**Load bullets.*/
             try {
-                final Image bul = renderer.getImageLoader().loadImage(DefenseImagePaths.buildBulletPath(defType), 0.5);
+                final int areaBasedSize = 1;
+                final Image bul = renderer.getImageLoader().loadImage(DefenseImagePaths.buildBulletPath(defType),
+                matchAreaBased.get(defType) ? areaBasedSize : 0.5);
                 mappedBulletsImages.put(defType, bul);
             } catch (IOException e) {
                 throw  new UncheckedIOException(e);
