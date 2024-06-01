@@ -12,9 +12,9 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Assertions;
 
 /**
- * Test class for the GameImpl class.
+ * Test class for the GameManager class.
  */
-class TestGameImpl {
+class TestGameManagerImpl {
 
     private static final String PLAYER_NAME = "TestPlayer";
     private static final int INVALID_MONEY_AMOUNT = -1;
