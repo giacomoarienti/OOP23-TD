@@ -238,6 +238,10 @@ public class ControllerImpl implements Controller {
     }
 
     private void handleGameOver() {
+        // if already stopped, return
+        if (this.loopTerminated) {
+            return;
+        }
         // stop game
         this.stop();
         // save score

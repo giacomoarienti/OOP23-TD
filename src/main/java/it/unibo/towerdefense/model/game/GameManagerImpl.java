@@ -276,7 +276,12 @@ public class GameManagerImpl implements GameManager {
     public void bind(final ModelManager mm) {
         // bind waveHandler to spawn enemies
         this.waveHandler.bind(
-            (wave) -> mm.getEnemies().spawn(wave)
+            (wave) ->  {
+                // if game is not over, start a new wave
+                if (!this.isGameOver()) {
+                    mm.getEnemies().spawn(wave);
+                }
+            }
         );
     }
 
