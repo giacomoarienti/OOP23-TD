@@ -58,11 +58,6 @@ application {
     mainClass.set("it.unibo.towerdefense.TowerDefense")
 }
 
-tasks.named<JavaExec>("run") {
-    // This forces the program to ignore OS scaling
-    jvmArgs("-Dsun.java2d.uiScale=1")
-}
-
 tasks.test {
     useJUnitPlatform()
     testLogging {
