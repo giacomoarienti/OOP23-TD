@@ -286,7 +286,7 @@ public class ControllerImpl implements Controller {
         // handle quit
         if (action.equals(ControlAction.QUIT)) {
             // if is still playing save before exiting
-            if (model.isPlaying()) {
+            if (!model.isGameOver()) {
                 this.saveAndExit();
             } else {
                 this.exit();
